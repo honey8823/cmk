@@ -58,6 +58,39 @@ class Common
         echo '捕捉した例外: ',  $e->getMessage(), "\n";
     }
 
+    public function getSession($key_list = array())
+    {
+    	@session_start();
+    	if (count($key_list) > 0)
+    	{
+    		$return_list = array();
+    		foreach ($key_list as $v)
+    		{
+    			if (isset($_SESSION[$v]))
+    			{
+    				$return_list[$v] = $_SESSION[$v];
+    			}
+    		}
+    		return $return_list;
+    	}
+    	else
+    	{
+    		return isset($_SESSION) ? $_SESSION : array();
+    	}
+    }
+
+    public function setSession($key, $params = array())
+    {
+    	@session_start();
+    	$_SESSION[$key] = $params;
+    }
+
+    public function delSession()
+    {
+    	@session_start();
+    	$_SESSION = array();
+    	session_destroy();
+    }
 }
 
 

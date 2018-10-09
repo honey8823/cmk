@@ -19,7 +19,7 @@
         <!-- search form (Optional) -->
         <form action="#" method="get" class="navbar-form">
           <div class="input-group">
-            <input type="text" name="q" class="form-control" placeholder="検索（ユニット名など）">
+            <input type="text" name="q" class="form-control" placeholder="検索">
             <span class="input-group-btn">
               <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i></button>
             </span>

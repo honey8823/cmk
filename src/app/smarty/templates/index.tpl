@@ -5,86 +5,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>{$smarty.const.SITE_NAME_FULL}</title>
   {include file='common/adminlte_css.tpl'}
-
-  <style>
-    .box-child{
-        margin-left: 10px;
-    }
-    .box-header-icon{
-        color: gray;
-    }
-
-    hr.recipe{
-        margin-top: 5px;
-        margin-bottom: 5px;
-    }
-
-    .recipe-menu{
-        margin: 10px;
-        letter-spacing: 5px;
-    }
-    .recipe-menu .normal{
-        float: left;
-    }
-    .recipe-menu .report{
-        float: right;
-    }
-
-
-
-.menu-tooltip {
-position: relative;
-display: inline-block;
-cursor: pointer;
-}
-.menu-tooltip .menu-tooltiptext {
-position: absolute;
-z-index: 1;
-bottom: 110%;
-visibility: hidden;
-width: auto;
-white-space: nowrap;
-padding: 0.3em 0.5em;
-transition: opacity 1s;
-text-align: center;
-opacity: 0;
-color: #ffffff;
-border-radius: 6px;
-letter-spacing: 0px;
-}
-.normal .menu-tooltip .menu-tooltiptext {
-left: -10px;
-background-color: #666666;
-}
-.report .menu-tooltip .menu-tooltiptext {
-right: -10px;
-background-color: #999999;
-}
-.menu-tooltip .menu-tooltiptext::after {
-position: absolute;
-top: 100%;
-margin-left: -5px;
-content: ' ';
-border: 5px solid transparent;
-
-}
-.normal .menu-tooltip .menu-tooltiptext::after {
-left: 15px;
-border-top-color: #666666;
-}
-.report .menu-tooltip .menu-tooltiptext::after {
-right: 15px;
-border-top-color: #999999;
-}
-.menu-tooltip:hover .menu-tooltiptext {
-visibility: visible;
-opacity: 1;
-}
-
-
-  </style>
-
-
+  <link rel="stylesheet" href="/css/common.css">
 </head>
 
 <body class="hold-transition skin-blue sidebar-mini">
@@ -94,8 +15,8 @@ opacity: 1;
   {include file='common/sidebar.tpl'}
 
   <!-- Main content start -->
-
   <div class="content-wrapper">
+    <!-- ///////////////////////////////////////////////////// -->
 
     <!-- Content Header (Page header) -->
     <section class="content-header">
@@ -104,16 +25,22 @@ opacity: 1;
 
     <!-- Main content -->
     <section class="content container-fluid">
-
-
-test
-
-
+      <div class="callout callout-info">
+        <h4>Notice</h4>
+        <p>
+          とりあえず作ってみたα版です。<br>
+          ご自由にご利用いただいて構いませんが、開発中のためデータの整合性は保証しません。<br>
+          実装するかもしれない機能は<a href="//github.com/honey8823/cmk/labels/実装するかも" target="_blank">こちら</a>。<br>
+          現在確認している不具合は<a href="//github.com/honey8823/cmk/labels/不具合" target="_blank">こちら</a>。<br>
+          上記以外の不具合やご要望は<a href="//twitter.com/smtk_tks/" target="_blank">こちら</a>までリプライorDMください。<br>
+          また、あくまで個人の趣味で作っているサイトですので対応しきれない場合はご了承ください。
+        </p>
+      </div>
 
     </section>
 
+    <!-- ///////////////////////////////////////////////////// -->
   </div>
-
   <!-- Main content end -->
 
   {include file='common/footer.tpl'}
@@ -124,11 +51,7 @@ test
 <!-- JS start -->
 {include file='common/adminlte_js.tpl'}
 <script src="/js/common.js"></script>
-
-<script>
-
-
-</script>
+<script src="/js/sidebar.js"></script>
 <!-- JS end -->
 </body>
 </html>

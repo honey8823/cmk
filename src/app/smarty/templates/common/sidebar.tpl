@@ -2,65 +2,63 @@
 
   <aside class="main-sidebar">
     <section class="sidebar">
-
       <!-- Sidebar user panel (optional) -->
-      <div class="user-panel">
+      <div class="user-panel logged-in">
         <div class="pull-left image">
           <img src="/js/adminlte_2.4.5/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
         </div>
         <div class="pull-left info">
           <p>テストユーザ</p>
-          <i class="fa fa-star" aria-hidden="true"></i>&nbsp;10
         </div>
       </div>
 
       <!-- Sidebar Menu -->
-      <ul class="sidebar-menu" data-widget="tree">
+      <ul class="sidebar-menu logged-in" data-widget="tree">
         <li>
           <a href="#">
-            <i class="fa fa-plus-circle" aria-hidden="true"></i> <span>レシピ登録</span>
+            <i class="fa fa-plus-circle" aria-hidden="true"></i> <span>キャラクター登録</span>
           </a>
         </li>
         <li>
           <a href="#">
-            <i class="fa fa-file-text" aria-hidden="true"></i> <span>レシピ管理</span>
+            <i class="fa fa-file-text" aria-hidden="true"></i> <span>キャラクター管理</span>
           </a>
         </li>
         <li>
-          <a href="#">
-            <i class="fa fa-star" aria-hidden="true"></i> <span>お気に入りレシピ</span>
+          <a href="#" data-toggle="modal" data-target="#modal-setUser" onclick="setUserForm();">
+            <i class="fa fa-user-circle" aria-hidden="true"></i> <span>アカウント管理</span>
           </a>
         </li>
         <li>
-          <a href="#">
-            <i class="fa fa-user-circle" aria-hidden="true"></i> <span>プロフィール管理</span>
-          </a>
-        </li>
-        <li>
-          <a href="#">
+          <a href="#" onclick="logout()";>
             <i class="fa fa-sign-out" aria-hidden="true"></i> <span>ログアウト</span>
           </a>
         </li>
       </ul>
-
-    </section>
-    <section>
-
-              <button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal-regist">
-                会員登録
-              </button>
-              <button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal-login">
-                ログイン
-              </button>
-
+      <ul class="sidebar-menu logged-out" data-widget="tree">
+        <li>
+          <a href="#">
+            <i class="fa fa-question-circle" aria-hidden="true"></i> <span>このサイトについて</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" data-toggle="modal" data-target="#modal-login">
+            <i class="fa fa-sign-in" aria-hidden="true"></i> <span>ログイン</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" data-toggle="modal" data-target="#modal-addUser">
+            <i class="fa fa-user-plus" aria-hidden="true"></i> <span>新規登録</span>
+          </a>
+        </li>
+      </ul>
     </section>
   </aside>
 
   <!-- Left side column end -->
 
-
   <!-- 新規登録modal -->
-  <div class="modal fade" id="modal-regist">
+  <div class="modal fade" id="modal-addUser">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
@@ -70,29 +68,21 @@
         </div>
         <div class="modal-body">
           <div>
-            <label>希望のログインID(256文字まで)</label>
+            <label>希望のログインID(4～32文字、半角の英数と一部記号のみ使用可)</label>
             <input type="text" name="login_id" class="form-login_id">
-            <p>メールアドレスをご入力いただいた場合、重要なお知らせをお送りする可能性があります。</p>
           </div>
           <div>
             <label>パスワード(4～32文字、半角の英数と一部記号のみ使用可)</label>
-            <input type="text" name="password" class="form-password">
+            <input type="password" name="password" class="form-password">
           </div>
           <div>
-            <label>パスワード(確認用)</label>
-            <input type="text" name="password_c" class="form-password_c">
+            <label>パスワード(もう一度)</label>
+            <input type="password" name="password_c" class="form-password_c">
           </div>
-        </div>
-        <div>
-          <p>ログインIDについて</p>
-          <p>
-            ログインIDはお好きな文字列をご登録いただけます。<br>
-            メールアドレスを登録いただいた場合、「パスワードを忘れた際の通知」「重要なお知らせ」をお送りいたします。
-          </p>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default pull-left" data-dismiss="modal">キャンセル</button>
-          <button type="button" class="btn btn-primary" onclick="regist();">会員登録</button>
+          <button type="button" class="btn btn-primary" onclick="addUser();">会員登録</button>
         </div>
       </div>
     </div>
@@ -114,12 +104,64 @@
           </div>
           <div>
             <label>パスワード</label>
-            <input type="text" name="password" class="form-password">
+            <input type="password" name="password" class="form-password">
           </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default pull-left" data-dismiss="modal">キャンセル</button>
           <button type="button" class="btn btn-primary" onclick="login();">ログイン</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- アカウント管理modal -->
+  <div class="modal fade" id="modal-setUser">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">アカウント管理</h4>
+        </div>
+        <div class="modal-body">
+          <div>
+            <label>ログインID（公開 / 必須）</label>
+            <input type="text" name="login_id" class="form-login_id">
+          </div>
+          <div>
+            <label>ユーザー名（公開）</label>
+            <input type="text" name="mail_name" class="form-name">
+          </div>
+          <div>
+            <label>Twitter ID（公開）</label>
+            <input type="text" name="mail_address" class="form-twitter_id">
+          </div>
+          <div>
+            <label>メールアドレス（非公開）</label>
+            <input type="text" name="mail_address" class="form-mail_address">
+          </div>
+          <div>
+            <label>パスワード（非公開 / 変更する場合のみ）</label>
+            <input type="password" name="password" class="form-password">
+          </div>
+          <div>
+            <label>パスワード（非公開 / 変更する場合のみもう一度）</label>
+            <input type="password" name="password_c" class="form-password_c">
+          </div>
+          <div>
+            ※メールアドレスをご入力いただいた場合は以下の対応が可能になります。
+            <ul>
+              <li>このサイトに関する重要なお知らせ</li>
+              <li>パスワードを忘れた場合の照会</li>
+              <li>退会後のデータ復旧</li>
+            </ul>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default pull-left" data-dismiss="modal">キャンセル</button>
+          <button type="button" class="btn btn-warning" onclick="delUser();">退会</button>
+          <button type="button" class="btn btn-primary" onclick="setUser();">変更</button>
         </div>
       </div>
     </div>
