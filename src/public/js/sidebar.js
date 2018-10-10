@@ -12,6 +12,7 @@ function switchSidebar(){
     result.done(function(){
     	if (result.return_value == true) {
     		// ログイン済み
+    		setUserData();
     		$(".logged-out").hide();
     		$(".logged-in").show();
     	}
@@ -43,6 +44,24 @@ function setUserForm(){
     		$("#modal-setUser").find(".form-mail_address").val(result.return_value['user']['mail_address']);
     		$("#modal-setUser").find(".form-password").val("");
     		$("#modal-setUser").find(".form-password_c").val("");
+    		return true;
+    	}
+    });
+}
+
+/*
+ * 会員情報をHTMLにセット
+ */
+function setUserData(){
+	var result = ajaxPost("user", "getSession", ["user"]);
+    result.done(function(){
+    	if (result.return_value['user']['id'] == undefined){
+    		// エラーがある場合
+    		return false;
+    	}
+    	else {
+    		// 正常な場合
+    		$(".textdata-user-name").text(result.return_value['user']['name']);
     		return true;
     	}
     });
@@ -131,6 +150,7 @@ function setUser(){
     	}
     	else {
     		// 正常な場合
+    		setUserData();
     		$('#modal-setUser').modal('hide');
     		return true;
     	}

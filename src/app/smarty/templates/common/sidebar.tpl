@@ -5,20 +5,16 @@
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel logged-in">
         <div class="pull-left image">
-          <img src="/js/adminlte_2.4.5/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+          <img src="/img/icon_noimage.png" class="img-circle" alt="User Image">
         </div>
         <div class="pull-left info">
-          <p>テストユーザ</p>
+          <p class="textdata-user-name"></p>
+          <p><i class="fa fa-bell-o fa-fw" aria-hidden="true"></i><span>0</span></p>
         </div>
       </div>
 
       <!-- Sidebar Menu -->
       <ul class="sidebar-menu logged-in" data-widget="tree">
-        <li>
-          <a href="#">
-            <i class="fa fa-plus-circle" aria-hidden="true"></i> <span>キャラクター登録</span>
-          </a>
-        </li>
         <li>
           <a href="#">
             <i class="fa fa-file-text" aria-hidden="true"></i> <span>キャラクター管理</span>
@@ -152,7 +148,6 @@
           <div>
             ※メールアドレスをご入力いただいた場合は以下の対応が可能になります。
             <ul>
-              <li>このサイトに関する重要なお知らせ</li>
               <li>パスワードを忘れた場合の照会</li>
               <li>退会後のデータ復旧</li>
             </ul>

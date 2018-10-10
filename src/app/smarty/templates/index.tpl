@@ -26,17 +26,29 @@
     <!-- Main content -->
     <section class="content container-fluid">
       <div class="callout callout-info">
-        <h4>Notice</h4>
+        <h4>なにこれ</h4>
+        <p>
+          説明
+        </p>
+        <h4>募集中</h4>
+        <ul>
+          <li>サイト名</li>
+          <li>デザインできる方(モックアップまで)</li>
+        </ul>
+      </div>
+      <div class="callout callout-warning">
+        <h4>ご注意</h4>
         <p>
           とりあえず作ってみたα版です。<br>
           ご自由にご利用いただいて構いませんが、開発中のためデータの整合性は保証しません。<br>
+          （β版へ移行する際は極力維持するよう努めます）<br>
           実装するかもしれない機能は<a href="//github.com/honey8823/cmk/labels/実装するかも" target="_blank">こちら</a>。<br>
           現在確認している不具合は<a href="//github.com/honey8823/cmk/labels/不具合" target="_blank">こちら</a>。<br>
           上記以外の不具合やご要望は<a href="//twitter.com/smtk_tks/" target="_blank">こちら</a>までリプライorDMください。<br>
-          また、あくまで個人の趣味で作っているサイトですので対応しきれない場合はご了承ください。
+          ただしあくまで個人の趣味で作っているサイトですので対応しきれない場合はご了承ください。<br>
+          当方デザイナーではなくプログラマーなので、見た目が二の次になっているのもご了承ください…。
         </p>
       </div>
-
     </section>
 
     <!-- ///////////////////////////////////////////////////// -->
