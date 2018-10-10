@@ -16,7 +16,7 @@
       <!-- Sidebar Menu -->
       <ul class="sidebar-menu logged-in" data-widget="tree">
         <li>
-          <a href="#">
+          <a href="/user/list.php">
             <i class="fa fa-file-text" aria-hidden="true"></i> <span>キャラクター管理</span>
           </a>
         </li>

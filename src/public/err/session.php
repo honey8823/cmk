@@ -1,18 +1,18 @@
 <?php
 // 必ず指定 //////////////////////////
-require_once("../app/initialize.php");
+require_once("../../app/initialize.php");
 //////////////////////////////////////
 
 // --------------
 // テンプレート名
 // --------------
-$template_name = "index";
+$template_name = "error";
 
 // --------------------
 // コントローラ読み込み
 // --------------------
-// $rc = new RecipeController();
-// $rc->init();
+$uc = new UserController();
+$uc->init();
 
 // ----------------------------------
 // テンプレートに表示するデータの取得
@@ -20,9 +20,10 @@ $template_name = "index";
 // ----------------------------------
 $smarty_param = array();
 
-// // 新着
-// $param = array('sort_mode' => "new");
-// $smarty_param['new_recipe_list'] = $rc->get($param);
+$uc->logout();
+
+$smarty_param['error_title'] = "ログイン期限が切れています";
+$smarty_param['error_message'] = "再度ログインを行ってください。";
 
 // 必ず指定 //////////////////////////////
 // Smartyデバッグ用

@@ -30,7 +30,12 @@ function switchSidebar(){
 function setUserForm(){
 	var result = ajaxPost("user", "getSession", ["user"]);
     result.done(function(){
-    	if (result.return_value['user']['id'] == undefined){
+    	if (result.return_value['error_redirect'] !== undefined && result.return_value['error_redirect'] != ""){
+    		// エラーページへリダイレクト
+    		location.href = "/err/" + result.return_value['error_redirect'] + ".php";
+    		return false;
+    	}
+    	else if (result.return_value['user']['id'] == undefined){
     		// エラーがある場合
     		alertMsg(["会員情報の取得に失敗しました。再度ログインしてください。"]);
     		logout();
@@ -55,8 +60,15 @@ function setUserForm(){
 function setUserData(){
 	var result = ajaxPost("user", "getSession", ["user"]);
     result.done(function(){
-    	if (result.return_value['user']['id'] == undefined){
-    		// エラーがある場合
+    	if (result.return_value['error_redirect'] !== undefined && result.return_value['error_redirect'] != ""){
+    		// エラーページへリダイレクト
+    		location.href = "/err/" + result.return_value['error_redirect'] + ".php";
+    		return false;
+    	}
+    	else if (result.return_value['user']['id'] == undefined){
+    		// 情報が取得できない場合
+    		alertMsg(["会員情報の取得に失敗しました。再度ログインしてください。"]);
+    		logout();
     		return false;
     	}
     	else {
@@ -143,6 +155,11 @@ function setUser(){
 
 	var result = ajaxPost("user", "set", params);
     result.done(function(){
+    	if (result.return_value['error_redirect'] !== undefined && result.return_value['error_redirect'] != ""){
+    		// エラーページへリダイレクト
+    		location.href = "/err/" + result.return_value['error_redirect'] + ".php";
+    		return false;
+    	}
     	if (result.return_value['error_message_list'] !== undefined){
     		// エラーがある場合
     		alertMsg(result.return_value['error_message_list']);

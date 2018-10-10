@@ -4,6 +4,8 @@ class Common
     protected $dsn = null;
     protected $pdo = null;
 
+    protected $last_insert_id = null;
+
     public function init()
     {
         // db
@@ -38,6 +40,12 @@ class Common
     	}
 
     	return $ret;
+    }
+
+    public function getLastInsertId()
+    {
+    	$res = $this->query("SELECT LAST_INSERT_ID() AS `last_insert_id` ");
+    	return $res[0]['last_insert_id'];
     }
 
     public function getConfig($name, $key)
@@ -75,7 +83,7 @@ class Common
     	}
     	else
     	{
-    		return isset($_SESSION) ? $_SESSION : array();
+    		return isset($_SESSION) ? $_SESSION : array('error_redirect' => "session");
     	}
     }
 
@@ -90,6 +98,20 @@ class Common
     	@session_start();
     	$_SESSION = array();
     	session_destroy();
+    }
+
+    public function getLoginId()
+    {
+    	// ユーザIDをセッションから取得
+    	$session_list = $this->getSession(array("user"));
+    	if (isset($session_list['user']['id']) && preg_match("/^[0-9]+$/", $session_list['user']['id']))
+    	{
+    		return $session_list['user']['id'];
+    	}
+    	else
+    	{
+    		return false;
+    	}
     }
 }
 

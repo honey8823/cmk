@@ -1,13 +1,36 @@
-.logged-in{
+/* テーブル内リンクをセル全体に広げる */
+table a {
+    display: block;
+}
+
+/* **************************************** */
+
+/* ログイン・ログアウト */
+.logged-in{ /* ログイン状態 */
     display: none;
 }
-.logged-out{
+.logged-out{ /* ログアウト状態 */
     display: none;
+}
+
+/* タグ */
+.label.tag-base{ /* タグ：基本 */
+	color: #FFFFFF;
+	margin: 0 5px;
+}
+.label.tag-selectable{ /* 選択が可能なタグ */
+	cursor: pointer;
+}
+.label.tag-series{ /* シリーズタグ */
+	background-color: #53B44A;
+}
+.label.tag-notselected{ /* 未選択タグ */
+	background-color: #CCCCCC;
 }
 
 
 /* **************************************** */
-
+/* **************************************** */
 
     .box-child{
         margin-left: 10px;

@@ -1,18 +1,22 @@
 <?php
 // 必ず指定 //////////////////////////
-require_once("../app/initialize.php");
+require_once("../../app/initialize.php");
 //////////////////////////////////////
 
 // --------------
 // テンプレート名
 // --------------
-$template_name = "index";
+$template_name = "user/list";
 
 // --------------------
 // コントローラ読み込み
 // --------------------
-// $rc = new RecipeController();
-// $rc->init();
+
+$uc = new UserController();
+$uc->init();
+
+$tc = new TagController();
+$tc->init();
 
 // ----------------------------------
 // テンプレートに表示するデータの取得
@@ -20,9 +24,16 @@ $template_name = "index";
 // ----------------------------------
 $smarty_param = array();
 
-// // 新着
-// $param = array('sort_mode' => "new");
-// $smarty_param['new_recipe_list'] = $rc->get($param);
+if ($uc->getLoginId() === false)
+{
+	header("Location: /err/session.php");
+	exit();
+}
+
+// シリーズ一覧
+$tag_catgory_list = $tc->getConfig("tag_category", "key");
+$tag_series_list = $tc->table(array('category_list' => array($tag_catgory_list['series']['value'])));
+$smarty_param['series_list'] = $tag_series_list;
 
 // 必ず指定 //////////////////////////////
 // Smartyデバッグ用

@@ -26,18 +26,9 @@ const config = array(
 		"type"    => "mysql",
 	),
 
-	// twitter oauth
-	'twitter_oauth' => array(
-		'api_key'      => "uiawgD3A3nuQvRkk3SnLg",
-		'api_secret'   => "DYW4PYLT7hZJgsUbQVFyBqnxr0KRzPL3KHyPNglCc",
-		'callback_url' => "",
-	),
-
-	// シリーズ
-	'series' => array(
-		'1' => array('name' => "(無印)"  , 'name_short' => "-"),
-		'2' => array('name' => "2020"    , 'name_short' => "2020"),
-		'3' => array('name' => "2020-Ⅱ" , 'name_short' => "2021"),
-		'4' => array('name' => "Ⅲ"      , 'name_short' => "3"),
+	// タグカテゴリ
+	'tag_category' => array(
+		array('value' => 1, 'key' => "series"),
+		array('value' => 2, 'key' => "test"),
 	),
 );

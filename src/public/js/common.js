@@ -17,7 +17,7 @@ function ajaxPost(c, a, params){
 		async  : true,
 		success: function(data)
 		{
-console.log(data);
+console.log("【ajaxPost】", data);
 			if(data.indexOf("<html") != -1)
 			{ // システムエラー
 		        deferred.return_value = false;

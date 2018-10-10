@@ -1,13 +1,26 @@
 <?php
-class UserController extends Common
+class TagController extends Common
 {
-	public function get($param_list = array())
+	public function table($param_list = array())
 	{
-		//$sort_mode = $param_list['sort_mode'];
-
 		try
 		{
+			// 引数
+			$category_list = isset($param_list['category_list']) ? $param_list['category_list'] : array();
 
+			$arg_list = array();
+			$sql  = "SELECT   `id`, `category`, `name`, `name_short` ";
+			$sql .= "FROM     `tag` ";
+			$sql .= "WHERE    1=1 ";
+			if (count($category_list) > 0)
+			{
+				$sql .= "AND  `category` IN (" . implode(",", array_fill(0, count($category_list), "?")) . ") ";
+				$arg_list = array_merge($arg_list, $category_list);
+			}
+			$sql .= "ORDER BY `category` ASC, `sort` ASC ";
+			$tag_list = $this->query($sql, $arg_list);
+
+			return $tag_list;
 
 		}
 		catch (Exception $e)
@@ -78,10 +91,8 @@ class UserController extends Common
 			$arg_list[] = $password;
 			$this->query($sql, $arg_list);
 
-			// 戻り値
-			$return_list = array(
-				'login_id' => $login_id,
-			);
+			$return_list = array($login_id, $password, $password_c);
+
 			return $return_list;
 		}
 		catch (Exception $e)
@@ -199,7 +210,6 @@ class UserController extends Common
 			);
 			$this->setSession("user", $user_list);
 
-			// 戻り値
 			return $user_list;
 		}
 		catch (Exception $e)
