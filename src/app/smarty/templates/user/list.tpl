@@ -44,20 +44,20 @@
               ※キャラクター登録に関するガイドラインはこちら
             </small>
           </div>
-          <div class="box">
+          <div id="list-character" class="box">
             <div class="box-body no-padding">
-              <table class="table table-hover">
-                <tr>
-                  <td><a href="#">チェルシー</a></td>
-                  <td><span class="label tag-base tag-series">2020</span><span class="label tag-base tag-series">2021</span></td>
-                  <td>公開</td>
-                </tr>
-                <tr>
-                  <td><a href="#">モモメノ</a></td>
-                  <td><span class="label tag-base tag-series">無印</span></td>
-                  <td>非公開</td>
+              <table class="table table-hover table-character">
+                <!-- テーブルテンプレート -->
+                <tr class="character_list template-for-copy">
+                  <td class="td-name"><a href="/user/edit.php?" class="character_id"><span class="character_name"></span></a></td>
+                  <td class="td-tag"><span class="template-for-copy label tag-base"></span></td>
+                  <td class="td-is_private"><span class="character_is_private_0">公開</span><span class="character_is_private_1">非公開</span></td>
                 </tr>
               </table>
+            </div>
+            <div class="box-body no-padding">
+              <button type="button" class="btn btn-default btn-block btn-more disabled" onclick="tableCharacterForPrivate();">もっとみる</button>
+              <input type="hidden" class="offset" value="0">
             </div>
           </div>
         </div>
@@ -111,6 +111,14 @@
 <script src="/js/common.js"></script>
 <script src="/js/sidebar.js"></script>
 <script src="/js/character.js"></script>
+<script>
+// 読み込み完了時の処理
+$(function(){
+	// データ読み込み
+	$("#list-character").find("input.offset").val(0);
+	tableCharacterForPrivate();
+});
+</script>
 <!-- JS end -->
 </body>
 </html>

@@ -104,9 +104,12 @@ class UserController extends Common
 			$password     = trim($param_list['password']);
 			$password_c   = trim($param_list['password_c']);
 
-			// IDをセッションから取得
-			$session_list = $this->getSession(array("user"));
-			$id = $session_list['user']['id'];
+			// ユーザID
+			$id  = $this->getLoginId();
+			if ($id === false)
+			{
+				return array('error_redirect' => "session");
+			}
 
 			// バリデート
 			$err_list = array();

@@ -11,8 +11,8 @@ $template_name = "index";
 // --------------------
 // コントローラ読み込み
 // --------------------
-// $rc = new RecipeController();
-// $rc->init();
+// $cc = new CharacterController();
+// $cc->init();
 
 // ----------------------------------
 // テンプレートに表示するデータの取得
@@ -22,7 +22,7 @@ $smarty_param = array();
 
 // // 新着
 // $param = array('sort_mode' => "new");
-// $smarty_param['new_recipe_list'] = $rc->get($param);
+// $smarty_param['new_character_list'] = $rc->get($param);
 
 // 必ず指定 //////////////////////////////
 // Smartyデバッグ用

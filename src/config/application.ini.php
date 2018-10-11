@@ -6,15 +6,12 @@ define("PATH_PUBLIC"    , realpath(PATH_ROOT . "/public")         . "/");
 define("PATH_TEMPLATE"  , realpath(PATH_ROOT . "/app/smarty")     . "/");
 define("PATH_LIBS"      , realpath(PATH_ROOT . "/app/libs")       . "/");
 
-define("SITE_NAME_FULL" , "7drg");
-define("SITE_NAME_SHORT", "7D");
+define("SITE_NAME_FULL" , "うちのこまとめ");
+define("SITE_NAME_SHORT", "うま");
 
 define("DOMAIN", $_SERVER['SERVER_NAME']);
 
 const config = array(
-
-	//site
-	'site_name' => "7th dragon",
 
 	// database
 	'db' => array(
@@ -28,7 +25,7 @@ const config = array(
 
 	// タグカテゴリ
 	'tag_category' => array(
-		array('value' => 1, 'key' => "series"),
-		array('value' => 2, 'key' => "test"),
+		array('value' => 1, 'key' => "series", 'name' => "シリーズ"),
+		array('value' => 2, 'key' => "test"  , 'name' => "テストカテゴリ"),
 	),
 );

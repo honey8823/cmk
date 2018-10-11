@@ -113,6 +113,16 @@ class Common
     		return false;
     	}
     }
+
+	public function setArrayKey($l, $k)
+	{
+		$res = array();
+		foreach ($l as $v)
+		{
+			$res[$v[$k]] = $v;
+		}
+		return $res;
+	}
 }
 
 

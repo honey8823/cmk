@@ -6,7 +6,7 @@ require_once("../../app/initialize.php");
 // --------------
 // テンプレート名
 // --------------
-$template_name = "user/list";
+$template_name = "user/edit";
 
 // --------------------
 // コントローラ読み込み
