@@ -21,6 +21,11 @@
           </a>
         </li>
         <li>
+          <a href="/user/stage.php">
+            <i class="fa fa-file-text" aria-hidden="true"></i> <span>ステージ管理</span>
+          </a>
+        </li>
+        <li>
           <a href="#" data-toggle="modal" data-target="#modal-setUser" onclick="setUserForm();">
             <i class="fa fa-user-circle" aria-hidden="true"></i> <span>アカウント管理</span>
           </a>

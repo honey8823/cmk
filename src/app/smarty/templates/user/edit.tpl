@@ -39,7 +39,11 @@
             </div>
             <div class="box-body">
               <div>
-                <label>キャラクター名（一覧などで表示：普段の呼び名を推奨）</label>
+                <label>キャラクター名</label>
+                <span class="menu-tooltip">
+                  <i class="fa fa-question-circle fa-fw" aria-hidden="true"></i>
+                  <span class="menu-tooltiptext">{$config.tooltip.character_name}</span>
+                </span>
                 <input type="text" name="name" class="form-name">
               </div>
               <div>
@@ -49,7 +53,11 @@
               {/foreach}
               </div>
               <div>
-                <label>非公開にする（プロフィール編集後の公開を推奨）</label>
+                <label>非公開にする</label>
+                <span class="menu-tooltip">
+                  <i class="fa fa-question-circle fa-fw" aria-hidden="true"></i>
+                  <span class="menu-tooltiptext">{$config.tooltip.is_private}</span>
+                </span>
                 <input type="checkbox" name="is_private" class="form-is_private" checked>
               </div>
             </div>
@@ -67,14 +75,7 @@
                 <h3 class="box-title">ステージ</h3>
                 <span class="menu-tooltip">
                   <i class="fa fa-question-circle fa-fw" aria-hidden="true"></i>
-                  <span class="menu-tooltiptext">
-                    ステージとは、一連の設定・ストーリーをまとめた単位です。<br>
-                    お好みの分け方でご使用ください。<br>
-                    例）<br>
-                    「正史とパラレルワールド」<br>
-                    「ハッピーエンド版とバッドエンド版」<br>
-                    「2020と2021」など
-                  </span>
+                  <span class="menu-tooltiptext">{$config.tooltip.stage}</span>
                 </span>
               </div>
             </div>
