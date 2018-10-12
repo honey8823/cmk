@@ -6,7 +6,7 @@ require_once("../../../app/initialize.php");
 // --------------
 // テンプレート名
 // --------------
-$template_name = "user/character/edit";
+$template_name = "user/stage/edit";
 
 // --------------------
 // コントローラ読み込み
@@ -18,6 +18,9 @@ $uc->init();
 $tc = new TagController();
 $tc->init();
 
+$sc = new StageController();
+$sc->init();
+
 // ----------------------------------
 // テンプレートに表示するデータの取得
 // その他必要な処理
@@ -25,12 +28,15 @@ $tc->init();
 $smarty_param = array();
 
 // 未ログインの場合はエラー
-$user_id = $uc->getLoginId();
-if ($user_id === false)
+if ($uc->getLoginId() === false)
 {
 	header("Location: /err/session.php");
 	exit();
 }
+
+// ステージ
+$id = $_GET['id'];
+$smarty_param['stage'] = $sc->get(array('id' => $id))['stage'];
 
 // シリーズタグ一覧
 $tag_catgory_list = $tc->getConfig("tag_category", "key");
@@ -38,7 +44,7 @@ $smarty_param['series_list'] = $tc->table(array('category_list' => array($tag_ca
 
 // 必ず指定 //////////////////////////////
 // Smartyデバッグ用
-//$smarty->debugging = true;
+// $smarty->debugging = true;
 
 // config
 $smarty_param['config'] = config;

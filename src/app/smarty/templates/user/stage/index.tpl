@@ -72,7 +72,7 @@
         </div>
         <div class="modal-body">
           <div>
-            <label>ステージ名</label>
+            <label>ステージ名</label><small>※必須</small>
             <input type="text" name="name" class="form-name">
           </div>
           <div>

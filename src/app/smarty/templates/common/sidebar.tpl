@@ -9,12 +9,13 @@
         </div>
         <div class="pull-left info">
           <p class="textdata-user-name"></p>
-          <p><i class="fa fa-bell-o fa-fw" aria-hidden="true"></i><span>0</span></p>
+          <p><a href="/user/notifications/"><i class="fa fa-bell-o fa-fw" aria-hidden="true"></i><span>0</span></a></p>
         </div>
       </div>
 
       <!-- Sidebar Menu -->
       <ul class="sidebar-menu logged-in" data-widget="tree">
+        <li class="header">自分のまとめを管理する</li>
         <li>
           <a href="/user/stage/">
             <i class="fa fa-file-text" aria-hidden="true"></i> <span>ステージ管理</span>
@@ -25,6 +26,18 @@
             <i class="fa fa-file-text" aria-hidden="true"></i> <span>キャラクター管理</span>
           </a>
         </li>
+        <li class="header">他人のまとめを見る</li>
+        <li>
+          <a href="#">
+            <i class="fa fa-file-text" aria-hidden="true"></i> <span>フォロー</span><small>＜β版実装＞</small>
+          </a>
+        </li>
+        <li>
+          <a href="#">
+            <i class="fa fa-file-text" aria-hidden="true"></i> <span>お気に入り</span><small>＜β版実装＞</small>
+          </a>
+        </li>
+        <li class="header">アカウント</li>
         <li>
           <a href="#" data-toggle="modal" data-target="#modal-setUser" onclick="setUserForm();">
             <i class="fa fa-user-circle" aria-hidden="true"></i> <span>アカウント情報</span>
@@ -140,6 +153,10 @@
           </div>
           <div>
             <label>メールアドレス（非公開）</label>
+            <span class="menu-tooltip">
+              <i class="fa fa-question-circle fa-fw" aria-hidden="true"></i>
+              <span class="menu-tooltiptext">{$config.tooltip.mail_address}</span>
+            </span>
             <input type="text" name="mail_address" class="form-mail_address">
           </div>
           <div>
@@ -149,13 +166,6 @@
           <div>
             <label>パスワード（非公開 / 変更する場合のみもう一度）</label>
             <input type="password" name="password_c" class="form-password_c">
-          </div>
-          <div>
-            ※メールアドレスをご入力いただいた場合は以下の対応が可能になります。
-            <ul>
-              <li>パスワードを忘れた場合の照会</li>
-              <li>退会後のデータ復旧</li>
-            </ul>
           </div>
         </div>
         <div class="modal-footer">

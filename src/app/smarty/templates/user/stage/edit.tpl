@@ -20,10 +20,10 @@
 
     <!-- Content Header (Page header) -->
     <section class="content-header">
-      <!-- <h1>キャラクター管理</h1> -->
+      <!-- <h1>ステージ管理</h1> -->
       <ol class="breadcrumb">
         <li><a href="/">トップ</a></li>
-        <li><a href="/user/character/">キャラクター管理</a></li>
+        <li><a href="/user/stage/">ステージ管理</a></li>
         <li class="active">編集</li>
       </ol>
     </section>
@@ -39,35 +39,35 @@
             </div>
             <div class="box-body">
               <div>
-                <label>キャラクター名</label>
-                <span class="menu-tooltip">
-                  <i class="fa fa-question-circle fa-fw" aria-hidden="true"></i>
-                  <span class="menu-tooltiptext">{$config.tooltip.character_name}</span>
-                </span>
-                <input type="text" name="name" class="form-name">
+                <label>ステージ名</label><small>※必須</small>
+                <input type="text" name="name" class="form-name" value="{$stage.name}">
               </div>
               <div>
-                <label>登場シリーズ（複数選択可）</label>
+                <label>説明文</label>
+                <span class="menu-tooltip">
+                  <i class="fa fa-question-circle fa-fw" aria-hidden="true"></i>
+                  <span class="menu-tooltiptext">{$config.tooltip.stage_remarks}</span>
+                </span>
+                <textarea class="form-control form-remarks" rows="3" name="remarks">{$stage.remarks}</textarea>
+              </div>
+              <div>
+                <label>関連するシリーズ（複数選択可）</label>
               {foreach from=$series_list key=k item=series}
+              {if isset($stage.tag_list) && is_array($stage.tag_list) && in_array($series.id, array_column($stage.tag_list, 'id'))}
+                <span class="label tag-base tag-series tag-selectable" value="{$series.id}">{$series.name}</span>
+              {else}
                 <span class="label tag-base tag-series tag-notselected tag-selectable" value="{$series.id}">{$series.name}</span>
+              {/if}
               {/foreach}
               </div>
-              <div>
-                <label>非公開にする</label>
-                <span class="menu-tooltip">
-                  <i class="fa fa-question-circle fa-fw" aria-hidden="true"></i>
-                  <span class="menu-tooltiptext">{$config.tooltip.is_private}</span>
-                </span>
-                <input type="checkbox" name="is_private" class="form-is_private" checked>
-              </div>
             </div>
             <div class="box-body">
-              <button type="button" class="btn btn-default" onclick="setStage();">公開する<small>(現在非公開です)</small></button>
-              <button type="button" class="btn btn-default" onclick="setStage();">非公開にする<small>(現在公開中です)</small></button>
-              <button type="button" class="btn btn-primary pull-right" onclick="setCharacter();">更新する</button>
+              <button type="button" class="btn btn-primary{if $stage.is_private == 1} hidden{else}{/if}" onclick="setStagePublic();">公開する<small>(現在非公開です)</small></button>
+              <button type="button" class="btn btn-primary{if $stage.is_private != 1} hidden{else}{/if}" onclick="setStagePrivate();">非公開にする<small>(現在公開中です)</small></button>
             </div>
             <div class="box-body">
-              <button type="button" class="btn btn-warning pull-right">このキャラクターを削除</button>
+              <button type="button" class="btn btn-warning pull-right">このステージを削除</button>
+              <button type="button" class="btn btn-primary pull-right" onclick="setStage();">更新する</button>
             </div>
           </div>
         </div>
@@ -76,7 +76,7 @@
           <div class="nav-tabs-custom">
             <ul class="nav nav-tabs">
               <li class="active"><a href="#tab-content-timeline" data-toggle="tab" aria-expanded="true">タイムライン</a></li>
-              <li class=""><a href="#tab-content-stage" data-toggle="tab" aria-expanded="false">ステージ</a></li>
+              <li class=""><a href="#tab-content-character" data-toggle="tab" aria-expanded="false">キャラクター</a></li>
             </ul>
             <div class="tab-content">
               <div class="tab-pane active" id="tab-content-timeline">
@@ -85,10 +85,10 @@
                   <li>timeline2</li>
                 </ul>
               </div>
-              <div class="tab-pane" id="tab-content-stage">
+              <div class="tab-pane" id="tab-content-character">
                 <ul>
-                  <li>stage1</li>
-                  <li>stage2</li>
+                  <li>character1</li>
+                  <li>character2</li>
                 </ul>
               </div>
             </div>
