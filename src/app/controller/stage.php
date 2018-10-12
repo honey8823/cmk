@@ -1,0 +1,157 @@
+<?php
+class StageController extends Common
+{
+	public function tableForPrivate($param_list = array())
+	{
+		try
+		{
+			// ユーザID
+			// ログイン状態でない場合はエラー
+			$user_id    = $this->getLoginId();
+			if ($user_id === false)
+			{
+				return array('error_redirect' => "session");
+			}
+
+			$return_list = array();
+
+			// 取得（ステージ）
+			$sql  = "SELECT   `id`, `name`, `sort`, `is_private` ";
+			$sql .= "FROM     `stage` ";
+			$sql .= "WHERE    `user_id` = ? ";
+			$arg_list[] = $user_id;
+			$sql .= "AND      `is_delete` <> 1 ";
+			$sql .= "ORDER BY `sort` ASC ";
+			$stage_list = $this->query($sql, $arg_list);
+
+			// 取得（タグ）・整形
+			if (count($stage_list) > 0)
+			{
+				$stage_list = $this->setArrayKey($stage_list, "id");
+
+				$arg_list = array();
+				$sql  = "SELECT    `stage_tag`.`stage_id` ";
+				$sql .= "         ,`tag`.`id` ";
+				$sql .= "         ,`tag`.`category` ";
+				$sql .= "         ,`tag`.`name` ";
+				$sql .= "         ,`tag`.`name_short` ";
+				$sql .= "FROM      `stage_tag` ";
+				$sql .= "INNER JOIN `tag` ";
+				$sql .= "  ON       `stage_tag`.`tag_id` = `tag`.`id` ";
+				$sql .= "WHERE      `stage_tag`.`stage_id` IN (" . implode(",", array_fill(0, count($stage_list), "?")) . ") ";
+				$sql .= "ORDER BY   `stage_tag`.`stage_id` DESC ";
+				$sql .= "          ,`tag`.`category` ASC ";
+				$sql .= "          ,`tag`.`sort` ASC ";
+				foreach ($stage_list as $v)
+				{
+					$arg_list[] = $v['id'];
+				}
+				$tag_list = $this->query($sql, $arg_list);
+
+				if (count($tag_list) > 0)
+				{
+					$category_list = $this->getConfig("tag_category", "value");
+					foreach ($tag_list as $v)
+					{
+						$stage_list[$v['stage_id']]['tag_list'][] = array(
+							'id'            => $v['id'],
+							'category'      => $v['category'],
+							'category_key'  => $category_list[$v['category']]['key'],
+							'category_name' => $category_list[$v['category']]['name'],
+							'name'          => $v['name'],
+							'name_short'    => $v['name_short'],
+						);
+					}
+				}
+
+				// 配列のキーをリセット
+				$stage_list = array_values($stage_list);
+			}
+
+			// 戻り値
+			$return_list['stage_list'] = $stage_list;
+			return $return_list;
+		}
+		catch (Exception $e)
+		{
+			// todo::エラー処理
+		}
+	}
+
+	public function add($param_list = array())
+	{
+		try
+		{
+			// ユーザID
+			$user_id    = $this->getLoginId();
+			if ($user_id === false)
+			{
+				return array('error_redirect' => "session");
+			}
+
+			// 引数
+			$name       = trim($param_list['name']);
+			$remarks    = trim($param_list['remarks']);
+			$tag_list   = $param_list['tag_list'];
+
+			// バリデート
+			$err_list = array();
+			if (strlen($name) == 0)
+			{
+				$err_list[] = "ステージ名を入力してください。";
+			}
+			elseif (strlen($name) > 16)
+			{
+				$err_list[] = "ステージ名は16文字以内で入力してください。";
+			}
+			if (strlen($remarks) > 300)
+			{
+				$err_list[] = "説明文は300文字以内で入力してください。";
+			}
+			if (count($err_list) > 0)
+			{
+				return array('error_message_list' => $err_list);
+			}
+
+			// 登録
+			$arg_list = array();
+			$sql  = "INSERT INTO `stage` (`user_id`, `name`, `remarks`) ";
+			$sql .= "VALUES              (?        ,?      , ?        ) ";
+			$arg_list[] = $user_id;
+			$arg_list[] = $name;
+			$arg_list[] = $remarks == "" ? null : $remarks;
+			$this->query($sql, $arg_list);
+			$stage_id = $this->getLastInsertId();
+
+			// タグ登録
+			$tag_list = array_filter($tag_list, function($v){return(preg_match("/^[0-9]+$/", $v));});
+			if (count($tag_list) > 0)
+			{
+				$arg_list = array();
+				$sql  = "INSERT INTO `stage_tag` (`stage_id`, `tag_id`) ";
+				$sql .= "VALUES " . implode(",", array_fill(0, count($tag_list), "(?, ?)"));
+				foreach ($tag_list as $v)
+				{
+					$arg_list[] = $stage_id;
+					$arg_list[] = $v;
+				}
+				$this->query($sql, $arg_list);
+			}
+
+			// 戻り値
+			$return_list = array(
+				'stage_id'   => $stage_id,
+				'name'       => $name,
+				'remarks'    => $remarks,
+				'tag_list'   => $tag_list,
+			);
+			return $return_list;
+		}
+		catch (Exception $e)
+		{
+			// todo::エラー処理
+		}
+
+
+	}
+}

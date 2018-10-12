@@ -1,8 +1,3 @@
-// タグ選択/選択解除
-$(".label.tag-series.tag-selectable").on("click", function(){
-	$(this).toggleClass("tag-notselected");
-});
-
 /*
  * 一覧取得
  */

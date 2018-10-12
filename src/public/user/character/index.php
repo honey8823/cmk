@@ -41,6 +41,9 @@ $smarty_param['series_list'] = $tag_series_list;
 // Smartyデバッグ用
 //$smarty->debugging = true;
 
+// config
+$smarty_param['config'] = config;
+
 // Smartyテンプレート呼び出し
 foreach ($smarty_param as $key => $val)
 {

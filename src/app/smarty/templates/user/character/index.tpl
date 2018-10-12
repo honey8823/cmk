@@ -31,18 +31,15 @@
     <section class="content">
       <div class="row">
         <div class="col-md-6">
-          <div>
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-addCharacter">キャラクターを追加</button>
-          </div>
-          <div>
-            <small>
-              ※タグの表記についてはこちら
-            </small>
-          </div>
-          <div>
-            <small>
-              ※キャラクター登録に関するガイドラインはこちら
-            </small>
+          <div class="box-body">
+            <div class="pull-right">
+              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-addCharacter">キャラクターを追加</button>
+            </div>
+            <div>
+              <small>
+                ※使い方やガイドラインなど、総合ヘルプはこちら
+              </small>
+            </div>
           </div>
           <div id="list-character" class="box">
             <div class="box-body no-padding">

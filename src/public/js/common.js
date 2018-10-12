@@ -1,3 +1,8 @@
+// タグ選択/選択解除
+$(".label.tag-selectable").on("click", function(){
+	$(this).toggleClass("tag-notselected");
+});
+
 /*
  * メッセージのアラート
  */

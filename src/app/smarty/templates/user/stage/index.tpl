@@ -31,23 +31,26 @@
     <section class="content">
       <div class="row">
         <div class="col-md-6">
-          <div>
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-addCharacter">ステージを追加</button>
+          <div class="box-body">
+            <div class="pull-right">
+              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-addStage">ステージを追加</button>
+            </div>
+            <div>
+              <small>
+                ※使い方やガイドラインなど、総合ヘルプはこちら
+              </small>
+            </div>
           </div>
-          <div id="list-character" class="box">
+          <div id="list-stage" class="box">
             <div class="box-body no-padding">
-              <table class="table table-hover table-character">
+              <table class="table table-hover table-stage">
                 <!-- テーブルテンプレート -->
-                <tr class="character_list template-for-copy">
-                  <td class="td-name"><a href="/user/edit.php?" class="character_id"><span class="character_name"></span></a></td>
+                <tr class="stage_list template-for-copy">
+                  <td class="td-name"><a href="/user/stage/edit.php?" class="stage_id"><span class="stage_name"></span></a></td>
                   <td class="td-tag"><span class="template-for-copy label tag-base"></span></td>
-                  <td class="td-is_private"><span class="character_is_private_0">公開</span><span class="character_is_private_1">非公開</span></td>
+                  <td class="td-is_private"><span class="stage_is_private_0">公開</span><span class="stage_is_private_1">非公開</span></td>
                 </tr>
               </table>
-            </div>
-            <div class="box-body no-padding">
-              <button type="button" class="btn btn-default btn-block btn-more disabled" onclick="tableCharacterForPrivate();">もっとみる</button>
-              <input type="hidden" class="offset" value="0">
             </div>
           </div>
         </div>
@@ -57,35 +60,39 @@
   </div>
   <!-- Main content end -->
 
-  <!-- キャラ登録modal -->
-  <div class="modal fade" id="modal-addCharacter">
+  <!-- ステージ登録modal -->
+  <div class="modal fade" id="modal-addStage">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span></button>
-          <h4 class="modal-title">キャラクター登録</h4>
-          <small>詳細なプロフィールは登録後の編集となります。</small>
+          <h4 class="modal-title">ステージ登録</h4>
+          <small>登録直後は非公開設定になっています。編集後に公開するようにしてください。</small>
         </div>
         <div class="modal-body">
           <div>
-            <label>キャラクター名（一覧などで表示：普段の呼び名を推奨）</label>
+            <label>ステージ名</label>
             <input type="text" name="name" class="form-name">
           </div>
           <div>
-            <label>登場シリーズ（複数選択可）</label>
+            <label>説明文</label>
+            <span class="menu-tooltip">
+              <i class="fa fa-question-circle fa-fw" aria-hidden="true"></i>
+              <span class="menu-tooltiptext">{$config.tooltip.stage_remarks}</span>
+            </span>
+            <textarea class="form-control form-remarks" rows="3" name="remarks"></textarea>
+          </div>
+          <div>
+            <label>関連するシリーズ（複数選択可）</label>
           {foreach from=$series_list key=k item=series}
             <span class="label tag-base tag-series tag-notselected tag-selectable" value="{$series.id}">{$series.name}</span>
           {/foreach}
           </div>
-          <div>
-            <label>非公開にする（プロフィール編集後の公開を推奨）</label>
-            <input type="checkbox" name="is_private" class="form-is_private" checked>
-          </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default pull-left" data-dismiss="modal">キャンセル</button>
-          <button type="button" class="btn btn-primary" onclick="addCharacter();">登録</button>
+          <button type="button" class="btn btn-primary" onclick="addStage();">登録</button>
         </div>
       </div>
     </div>
@@ -100,13 +107,13 @@
 {include file='common/adminlte_js.tpl'}
 <script src="/js/common.js"></script>
 <script src="/js/sidebar.js"></script>
-<script src="/js/character.js"></script>
+<script src="/js/stage.js"></script>
 <script>
 // 読み込み完了時の処理
 $(function(){
 	// データ読み込み
-	$("#list-character").find("input.offset").val(0);
-	tableCharacterForPrivate();
+	$("#list-stage").find("input.offset").val(0);
+	tableStageForPrivate();
 });
 </script>
 <!-- JS end -->
