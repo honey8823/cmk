@@ -1,7 +1,7 @@
 <?php
 class CharacterController extends Common
 {
-	public function tableForPrivate($param_list = array())
+	public function table($param_list = array())
 	{
 		try
 		{
@@ -45,42 +45,34 @@ class CharacterController extends Common
 				$return_list['is_more'] = 0;
 			}
 
-			// 取得（タグ）・整形
+			// 取得（ステージ）・整形
 			if (count($character_list) > 0)
 			{
 				$character_list = $this->setArrayKey($character_list, "id");
 
 				$arg_list = array();
-				$sql  = "SELECT    `character_tag`.`character_id` ";
-				$sql .= "         ,`tag`.`id` ";
-				$sql .= "         ,`tag`.`category` ";
-				$sql .= "         ,`tag`.`name` ";
-				$sql .= "         ,`tag`.`name_short` ";
-				$sql .= "FROM      `character_tag` ";
-				$sql .= "INNER JOIN `tag` ";
-				$sql .= "  ON       `character_tag`.`tag_id` = `tag`.`id` ";
-				$sql .= "WHERE      `character_tag`.`character_id` IN (" . implode(",", array_fill(0, count($character_list), "?")) . ") ";
-				$sql .= "ORDER BY   `character_tag`.`character_id` DESC ";
-				$sql .= "          ,`tag`.`category` ASC ";
-				$sql .= "          ,`tag`.`sort` ASC ";
+				$sql  = "SELECT     `character_stage`.`character_id` ";
+				$sql .= "          ,`stage`.`id` ";
+				$sql .= "          ,`stage`.`name` ";
+				$sql .= "FROM       `character_stage` ";
+				$sql .= "INNER JOIN `stage` ";
+				$sql .= "  ON       `character_stage`.`stage_id` = `stage`.`id` ";
+				$sql .= "WHERE      `character_stage`.`character_id` IN (" . implode(",", array_fill(0, count($character_list), "?")) . ") ";
+				$sql .= "ORDER BY   `character_stage`.`character_id` DESC ";
+				$sql .= "          ,`stage`.`sort` ASC ";
 				foreach ($character_list as $v)
 				{
 					$arg_list[] = $v['id'];
 				}
-				$tag_list = $this->query($sql, $arg_list);
+				$stage_list = $this->query($sql, $arg_list);
 
-				if (count($tag_list) > 0)
+				if (count($stage_list) > 0)
 				{
-					$category_list = $this->getConfig("tag_category", "value");
-					foreach ($tag_list as $v)
+					foreach ($stage_list as $v)
 					{
-						$character_list[$v['character_id']]['tag_list'][] = array(
-							'id'            => $v['id'],
-							'category'      => $v['category'],
-							'category_key'  => $category_list[$v['category']]['key'],
-							'category_name' => $category_list[$v['category']]['name'],
-							'name'          => $v['name'],
-							'name_short'    => $v['name_short'],
+						$character_list[$v['character_id']]['stage_list'][] = array(
+							'id'   => $v['id'],
+							'name' => $v['name'],
 						);
 					}
 				}
@@ -101,6 +93,71 @@ class CharacterController extends Common
 
 	}
 
+	public function get($param_list = array())
+	{
+		try
+		{
+			// ユーザID
+			// ログイン状態でない場合はエラー
+			$user_id = $this->getLoginId();
+			if ($user_id === false)
+			{
+				return array('error_redirect' => "session");
+			}
+
+			// 引数
+			$id = trim($param_list['id']);
+
+			$return_list = array();
+
+			// 取得（キャラクター）
+			$arg_list = array();
+			$sql  = "SELECT   `id`, `name`, `is_private` ";
+			$sql .= "FROM     `character` ";
+			$sql .= "WHERE    `id` = ? ";
+			$arg_list[] = $id;
+			$sql .= "AND      `user_id` = ? ";
+			$arg_list[] = $user_id;
+			$sql .= "AND      `is_delete` <> 1 ";
+			$character_list = $this->query($sql, $arg_list);
+
+			if(count($character_list) != 1)
+			{
+				return array('error_redirect' => "notfound");
+			}
+
+			// 取得（ステージ）・整形
+			$sql  = "SELECT     `stage`.`id` ";
+			$sql .= "          ,`stage`.`name` ";
+			$sql .= "FROM       `character_stage` ";
+			$sql .= "INNER JOIN `stage` ";
+			$sql .= "  ON       `character_stage`.`stage_id` = `stage`.`id` ";
+			$sql .= "WHERE      `character_stage`.`character_id` = ? ";
+			$sql .= "ORDER BY   `stage`.`sort` ASC ";
+                        $arg_list = array($id);
+			$stage_list = $this->query($sql, $arg_list);
+
+			if (count($stage_list) > 0)
+			{
+				foreach ($stage_list as $v)
+				{
+					$character_list[0]['stage_list'][] = array(
+						'id'            => $v['id'],
+						'name'          => $v['name'],
+					);
+				}
+			}
+
+			// 戻り値
+			$return_list['character'] = $character_list[0];
+			return $return_list;
+		}
+		catch (Exception $e)
+		{
+			// todo::エラー処理
+		}
+	}
+
 	public function add($param_list = array())
 	{
 		try
@@ -114,8 +171,7 @@ class CharacterController extends Common
 
 			// 引数
 			$name       = trim($param_list['name']);
-			$is_private = trim($param_list['is_private']) == 1 ? 1 : 0;
-			$tag_list   = $param_list['tag_list'];
+			$stage_list = $param_list['stage_list'];
 
 			// バリデート
 			$err_list = array();
@@ -134,22 +190,21 @@ class CharacterController extends Common
 
 			// 登録
 			$arg_list = array();
-			$sql  = "INSERT INTO `character` (`user_id`, `name`, `is_private`) ";
-			$sql .= "VALUES                  (?        ,?      , ?         ) ";
+			$sql  = "INSERT INTO `character` (`user_id`, `name`) ";
+			$sql .= "VALUES                  (?        ,?      ) ";
 			$arg_list[] = $user_id;
 			$arg_list[] = $name;
-			$arg_list[] = $is_private;
 			$this->query($sql, $arg_list);
 			$character_id = $this->getLastInsertId();
 
-			// タグ登録
-			$tag_list = array_filter($tag_list, function($v){return(preg_match("/^[0-9]+$/", $v));});
-			if (count($tag_list) > 0)
+			// ステージ登録
+			$stage_list = array_filter($stage_list, function($v){return(preg_match("/^[0-9]+$/", $v));});
+			if (count($stage_list) > 0)
 			{
 				$arg_list = array();
-				$sql  = "INSERT INTO `character_tag` (`character_id`, `tag_id`) ";
-				$sql .= "VALUES " . implode(",", array_fill(0, count($tag_list), "(?, ?)"));
-				foreach ($tag_list as $v)
+				$sql  = "INSERT INTO `character_stage` (`character_id`, `stage_id`) ";
+				$sql .= "VALUES " . implode(",", array_fill(0, count($stage_list), "(?, ?)"));
+				foreach ($stage_list as $v)
 				{
 					$arg_list[] = $character_id;
 					$arg_list[] = $v;
@@ -161,8 +216,7 @@ class CharacterController extends Common
 			$return_list = array(
 				'character_id' => $character_id,
 				'name'         => $name,
-				'is_private'   => $is_private,
-				'tag_list'     => $tag_list,
+				'stage_list'   => $stage_list,
 			);
 			return $return_list;
 		}
@@ -170,7 +224,5 @@ class CharacterController extends Common
 		{
 			// todo::エラー処理
 		}
-
-
 	}
 }

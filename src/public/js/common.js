@@ -3,6 +3,16 @@ $(".label.tag-selectable").on("click", function(){
 	$(this).toggleClass("tag-notselected");
 });
 
+// ステージ選択/選択解除
+$(".badge.stage-selectable").on("click", function(){
+	$(this).toggleClass("stage-notselected");
+});
+
+// キャラクター選択/選択解除
+$(".badge.character-selectable").on("click", function(){
+	$(this).toggleClass("character-notselected");
+});
+
 /*
  * メッセージのアラート
  */

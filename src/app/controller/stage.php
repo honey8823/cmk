@@ -1,7 +1,7 @@
 <?php
 class StageController extends Common
 {
-	public function tableForPrivate($param_list = array())
+	public function table($param_list = array())
 	{
 		try
 		{

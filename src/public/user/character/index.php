@@ -15,8 +15,8 @@ $template_name = "user/character/index";
 $uc = new UserController();
 $uc->init();
 
-$tc = new TagController();
-$tc->init();
+$sc = new StageController();
+$sc->init();
 
 // ----------------------------------
 // テンプレートに表示するデータの取得
@@ -31,9 +31,8 @@ if ($uc->getLoginId() === false)
 	exit();
 }
 
-// シリーズタグ一覧
-$tag_catgory_list = $tc->getConfig("tag_category", "key");
-$smarty_param['series_list'] = $tc->table(array('category_list' => array($tag_catgory_list['series']['value'])));
+// ステージ一覧
+$smarty_param['stage_list'] = $sc->table()['stage_list'];
 
 // 必ず指定 //////////////////////////////
 // Smartyデバッグ用

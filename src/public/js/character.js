@@ -1,7 +1,7 @@
 /*
  * 一覧取得
  */
-function tableCharacterForPrivate(){
+function tableCharacter(){
 
 	var limit = 20; // 1回あたりの件数
 
@@ -18,7 +18,7 @@ function tableCharacterForPrivate(){
 			'limit'       : limit,
 			'offset'      : offset,
 		};
-	var result = ajaxPost("character", "tableForPrivate", params);
+	var result = ajaxPost("character", "table", params);
     result.done(function(){
     	if (result.return_value['error_redirect'] !== undefined && result.return_value['error_redirect'] != ""){
     		// エラーページへリダイレクト
@@ -60,14 +60,13 @@ function tableCharacterForPrivate(){
  */
 function addCharacter(){
 
-	var tag = [];
-	$("#modal-addCharacter").find(".label.tag-series.tag-selectable:not(.tag-notselected)").each(function(i, e){
-		tag.push($(e).attr("value"));
+	var stage = [];
+	$("#modal-addCharacter").find(".badge.stage-selectable:not(.stage-notselected)").each(function(i, e){
+		stage.push($(e).attr("value"));
 	});
 	var params = {
 			'name'       : $("#modal-addCharacter").find(".form-name").val(),
-			'is_private' : $("#modal-addCharacter").find(".form-is_private").prop("checked") == true ? 1 : 0,
-			'tag_list'   : tag,
+			'stage_list' : stage,
 		};
 	var result = ajaxPost("character", "add", params);
     result.done(function(){
@@ -83,11 +82,9 @@ function addCharacter(){
     	}
     	else {
     		// 正常な場合
-    		alert("キャラクター登録が完了しました。");
     		$('#modal-addCharacter').modal('hide');
     		$("#modal-addCharacter").find("input").val("");
-    		$("#modal-addCharacter").find(".label.tag-series.tag-selectable:not(.tag-notselected)").addClass("tag-notselected");
-    		$("#modal-addCharacter").find(".form-is_private").prop("checked", true);
+    		$("#modal-addCharacter").find(".badge.stage-selectable:not(.stage-notselected)").addClass("stage-notselected");
     		location.reload();
     		return true;
     	}
@@ -113,17 +110,16 @@ function drawCharacterList(dat){
 	var params = {id: dat.id};
 	$(obj).find(".character_id").attr("href", $(obj).find(".character_id").attr("href") + $.param(params));
 
-	// タグ
-	$(dat.tag_list).each(function(i_tag, e_tag){
-		var obj_tag_base = $(obj).find(".td-tag > .tag-base.template-for-copy")[0];
-		var obj_tag = $(obj_tag_base).clone().appendTo($(obj_tag_base).parent());
+	// ステージ
+	$(dat.stage_list).each(function(i, e){
+		var obj_stage_base = $(obj).find(".td-stage > .stage.template-for-copy")[0];
+		var obj_stage = $(obj_stage_base).clone().appendTo($(obj_stage_base).parent());
 
-		// タグ略称
-		obj_tag.addClass("tag-" + e_tag.category_key);
-		obj_tag.text(e_tag.name_short);
+		// ステージ名
+		obj_stage.text(e.name);
 
 		// テンプレート用クラスを外す
-		obj_tag.removeClass("template-for-copy");
+		obj_stage.removeClass("template-for-copy");
 	});
 
 	// 公開/非公開

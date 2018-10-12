@@ -1,9 +1,9 @@
 /*
  * 一覧取得
  */
-function tableStageForPrivate(){
+function tableStage(){
 	var params = {};
-	var result = ajaxPost("stage", "tableForPrivate", params);
+	var result = ajaxPost("stage", "table", params);
     result.done(function(){
     	if (result.return_value['error_redirect'] !== undefined && result.return_value['error_redirect'] != ""){
     		// エラーページへリダイレクト
@@ -30,7 +30,7 @@ function tableStageForPrivate(){
 }
 
 /*
- * ステージ登録処理
+ * 登録
  */
 function addStage(){
 	var tag = [];
@@ -56,7 +56,6 @@ function addStage(){
     	}
     	else {
     		// 正常な場合
-    		alert("ステージ登録が完了しました。");
     		$('#modal-addStage').modal('hide');
     		$("#modal-addStage").find("input").val("");
     		$("#modal-addStage").find("textarea").text("");
@@ -68,7 +67,7 @@ function addStage(){
 }
 
 /*
- * ステージ更新処理
+ * 更新
  */
 function setStage(){
 	var tag = [];
@@ -101,6 +100,9 @@ function setStage(){
     });
 }
 
+/*
+ * 更新（公開/非公開）
+ */
 function setStageIsPrivate(is_private){
 	var params = {
 			'id'         : $("#area-setStage").find(".form-id").val(),
@@ -126,6 +128,9 @@ function setStageIsPrivate(is_private){
     });
 }
 
+/*
+ * 削除
+ */
 function delStage(){
     if (!confirm("本当にこのステージを削除してよろしいですか？\n（このステージに属するキャラクターやエピソードは削除されません）")){
         return false;
@@ -153,6 +158,9 @@ function delStage(){
     });
 }
 
+/*
+ * local::一覧描画
+ */
 function drawStageList(dat){
 	// 行をコピー
 	var obj_base = $("#list-stage").find(".stage_list.template-for-copy")[0];

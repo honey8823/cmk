@@ -47,7 +47,7 @@
                 <!-- テーブルテンプレート -->
                 <tr class="character_list template-for-copy">
                   <td class="td-name"><a href="/user/character/edit.php?" class="character_id"><span class="character_name"></span></a></td>
-                  <td class="td-tag"><span class="template-for-copy label tag-base"></span></td>
+                  <td class="td-stage"><span class="template-for-copy badge stage"></span></td>
                   <td class="td-is_private"><span class="character_is_private_0">公開</span><span class="character_is_private_1">非公開</span></td>
                 </tr>
               </table>
@@ -76,18 +76,18 @@
         </div>
         <div class="modal-body">
           <div>
-            <label>キャラクター名（一覧などで表示：普段の呼び名を推奨）</label>
+            <label>キャラクター名</label>
+            <span class="menu-tooltip">
+              <i class="fa fa-question-circle fa-fw" aria-hidden="true"></i>
+              <span class="menu-tooltiptext">{$config.tooltip.character_name}</span>
+            </span>
             <input type="text" name="name" class="form-name">
           </div>
           <div>
-            <label>登場シリーズ（複数選択可）</label>
-          {foreach from=$series_list key=k item=series}
-            <span class="label tag-base tag-series tag-notselected tag-selectable" value="{$series.id}">{$series.name}</span>
+            <label>属するステージ（複数選択可）</label>
+          {foreach from=$stage_list key=k item=stage}
+            <span class="badge stage stage-notselected stage-selectable" value="{$stage.id}">{$stage.name}</span>
           {/foreach}
-          </div>
-          <div>
-            <label>非公開にする（プロフィール編集後の公開を推奨）</label>
-            <input type="checkbox" name="is_private" class="form-is_private" checked>
           </div>
         </div>
         <div class="modal-footer">
@@ -113,7 +113,7 @@
 $(function(){
 	// データ読み込み
 	$("#list-character").find("input.offset").val(0);
-	tableCharacterForPrivate();
+	tableCharacter();
 });
 </script>
 <!-- JS end -->

@@ -113,7 +113,7 @@
 $(function(){
 	// データ読み込み
 	$("#list-stage").find("input.offset").val(0);
-	tableStageForPrivate();
+	tableStage();
 });
 </script>
 <!-- JS end -->
