@@ -20,7 +20,7 @@
 
     <!-- Content Header (Page header) -->
     <section class="content-header">
-      <!-- <h1>ステージ管理</h1> -->
+      <h1>ステージ管理</h1>
       <ol class="breadcrumb">
         <li><a href="/">トップ</a></li>
         <li class="active">ステージ管理</li>

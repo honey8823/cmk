@@ -153,7 +153,6 @@ class StageController extends Common
 		}
 	}
 
-
 	public function add($param_list = array())
 	{
 		try
@@ -255,10 +254,10 @@ class StageController extends Common
 			}
 			else
 			{
-				$sql  = "SELECT `id` FROM `stage` WHERE `id` = ? AND `user_id` = ? AND `is_delete` <> 0 ";
+				$sql  = "SELECT `id` FROM `stage` WHERE `id` = ? AND `user_id` = ? AND `is_delete` <> 1 ";
 				$arg_list = array($id, $user_id);
 				$r = $this->query($sql, $arg_list);
-				if (count($this->query($sql, $arg_list)) != 1)
+				if (count($r) != 1)
 				{
 					$err_list[] = "存在しないデータです。最初からやり直してください。";
 					return array('error_message_list' => $err_list);
@@ -306,7 +305,7 @@ class StageController extends Common
 				$sql .= "VALUES " . implode(",", array_fill(0, count($tag_list), "(?, ?)"));
 				foreach ($tag_list as $v)
 				{
-					$arg_list[] = $stage_id;
+					$arg_list[] = $id;
 					$arg_list[] = $v;
 				}
 				$this->query($sql, $arg_list);
@@ -314,10 +313,127 @@ class StageController extends Common
 
 			// 戻り値
 			$return_list = array(
-				'stage_id'   => $stage_id,
+				'stage_id'   => $id,
 				'name'       => $name,
 				'remarks'    => $remarks,
 				'tag_list'   => $tag_list,
+			);
+			return $return_list;
+		}
+		catch (Exception $e)
+		{
+			// todo::エラー処理
+		}
+	}
+
+	public function setIsPrivate($param_list = array())
+	{
+		try
+		{
+			// ユーザID
+			$user_id    = $this->getLoginId();
+			if ($user_id === false)
+			{
+				return array('error_redirect' => "session");
+			}
+
+			// 引数
+			$id         = trim($param_list['id']);
+			$is_private = trim($param_list['is_private']) == "0" ? "0" : "1";
+
+			// バリデート
+			$err_list = array();
+			if (!preg_match("/^[0-9]+$/", $id))
+			{
+				$err_list[] = "存在しないデータです。最初からやり直してください。";
+				return array('error_message_list' => $err_list);
+			}
+			else
+			{
+				$sql  = "SELECT `id` FROM `stage` WHERE `id` = ? AND `user_id` = ? AND `is_delete` <> 1 ";
+				$arg_list = array($id, $user_id);
+				$r = $this->query($sql, $arg_list);
+				if (count($r) != 1)
+				{
+					$err_list[] = "存在しないデータです。最初からやり直してください。";
+					return array('error_message_list' => $err_list);
+				}
+			}
+			if (count($err_list) > 0)
+			{
+				return array('error_message_list' => $err_list);
+			}
+
+			// 更新
+			$arg_list = array();
+			$sql  = "UPDATE `stage` ";
+			$sql .= "SET    `is_private` = ? ";
+			$sql .= "WHERE  `id` = ? ";
+			$arg_list[] = $is_private;
+			$arg_list[] = $id;
+			$this->query($sql, $arg_list);
+
+			// 戻り値
+			$return_list = array(
+				'id'         => $id,
+				'is_private' => $is_private,
+			);
+			return $return_list;
+		}
+		catch (Exception $e)
+		{
+			// todo::エラー処理
+		}
+	}
+
+	public function del($param_list = array())
+	{
+		try
+		{
+			// ユーザID
+			$user_id    = $this->getLoginId();
+			if ($user_id === false)
+			{
+				return array('error_redirect' => "session");
+			}
+
+			// 引数
+			$id         = trim($param_list['id']);
+
+			// バリデート
+			$err_list = array();
+			if (!preg_match("/^[0-9]+$/", $id))
+			{
+				$err_list[] = "存在しないデータです。最初からやり直してください。";
+				return array('error_message_list' => $err_list);
+			}
+			else
+			{
+				$sql  = "SELECT `id` FROM `stage` WHERE `id` = ? AND `user_id` = ? AND `is_delete` <> 1 ";
+				$arg_list = array($id, $user_id);
+				$r = $this->query($sql, $arg_list);
+				if (count($r) != 1)
+				{
+					$err_list[] = "存在しないデータです。最初からやり直してください。";
+					return array('error_message_list' => $err_list);
+				}
+			}
+			if (count($err_list) > 0)
+			{
+				return array('error_message_list' => $err_list);
+			}
+
+			// 更新
+			$arg_list = array();
+			$sql  = "UPDATE `stage` ";
+			$sql .= "SET    `is_delete` = 1 ";
+			$sql .= "WHERE  `id` = ? ";
+			$arg_list[] = $id;
+			$this->query($sql, $arg_list);
+
+			// 戻り値
+			$return_list = array(
+				'id'         => $id,
 			);
 			return $return_list;
 		}

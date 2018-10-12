@@ -30,12 +30,11 @@ function tableStageForPrivate(){
 }
 
 /*
- * キャラクター登録処理
+ * ステージ登録処理
  */
 function addStage(){
-
 	var tag = [];
-	$("#modal-addStage").find(".label.tag-series.tag-selectable:not(.tag-notselected)").each(function(i, e){
+	$("#modal-addStage").find(".label.tag-selectable:not(.tag-notselected)").each(function(i, e){
 		tag.push($(e).attr("value"));
 	});
 	var params = {
@@ -69,10 +68,89 @@ function addStage(){
 }
 
 /*
- * キャラクター更新処理
+ * ステージ更新処理
  */
 function setStage(){
-	location.reload();
+	var tag = [];
+	$("#area-setStage").find(".label.tag-selectable:not(.tag-notselected)").each(function(i, e){
+		tag.push($(e).attr("value"));
+	});
+	var params = {
+			'id'         : $("#area-setStage").find(".form-id").val(),
+			'name'       : $("#area-setStage").find(".form-name").val(),
+			'remarks'    : $("#area-setStage").find(".form-remarks").val(),
+			'tag_list'   : tag,
+		};
+	var result = ajaxPost("stage", "set", params);
+    result.done(function(){
+    	if (result.return_value['error_redirect'] !== undefined && result.return_value['error_redirect'] != ""){
+    		// エラーページへリダイレクト
+    		location.href = "/err/" + result.return_value['error_redirect'] + ".php";
+    		return false;
+    	}
+    	else if (result.return_value['error_message_list'] !== undefined){
+    		// エラーがある場合
+    		alertMsg(result.return_value['error_message_list']);
+    		return false;
+    	}
+    	else {
+    		// 正常な場合
+    		location.reload();
+    		return true;
+    	}
+    });
+}
+
+function setStageIsPrivate(is_private){
+	var params = {
+			'id'         : $("#area-setStage").find(".form-id").val(),
+			'is_private' : is_private,
+		};
+	var result = ajaxPost("stage", "setIsPrivate", params);
+    result.done(function(){
+    	if (result.return_value['error_redirect'] !== undefined && result.return_value['error_redirect'] != ""){
+    		// エラーページへリダイレクト
+    		location.href = "/err/" + result.return_value['error_redirect'] + ".php";
+    		return false;
+    	}
+    	else if (result.return_value['error_message_list'] !== undefined){
+    		// エラーがある場合
+    		alertMsg(result.return_value['error_message_list']);
+    		return false;
+    	}
+    	else {
+    		// 正常な場合
+    		location.reload();
+    		return true;
+    	}
+    });
+}
+
+function delStage(){
+    if (!confirm("本当にこのステージを削除してよろしいですか？\n（このステージに属するキャラクターやエピソードは削除されません）")){
+        return false;
+    }
+	var params = {
+			'id' : $("#area-setStage").find(".form-id").val(),
+		};
+	var result = ajaxPost("stage", "del", params);
+    result.done(function(){
+    	if (result.return_value['error_redirect'] !== undefined && result.return_value['error_redirect'] != ""){
+    		// エラーページへリダイレクト
+    		location.href = "/err/" + result.return_value['error_redirect'] + ".php";
+    		return false;
+    	}
+    	else if (result.return_value['error_message_list'] !== undefined){
+    		// エラーがある場合
+    		alertMsg(result.return_value['error_message_list']);
+    		return false;
+    	}
+    	else {
+    		// 正常な場合
+    		location.href = "/user/stage/";
+    		return true;
+    	}
+    });
 }
 
 function drawStageList(dat){

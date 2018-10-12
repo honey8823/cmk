@@ -20,7 +20,7 @@
 
     <!-- Content Header (Page header) -->
     <section class="content-header">
-      <!-- <h1>ステージ管理</h1> -->
+      <h1>ステージ管理</h1>
       <ol class="breadcrumb">
         <li><a href="/">トップ</a></li>
         <li><a href="/user/stage/">ステージ管理</a></li>
@@ -37,7 +37,8 @@
             <div class="box-header">
               <h3 class="box-title">基本情報</h3>
             </div>
-            <div class="box-body">
+            <div class="box-body" id="area-setStage">
+              <input type="hidden" class="form-id" value="{$stage.id}">
               <div>
                 <label>ステージ名</label><small>※必須</small>
                 <input type="text" name="name" class="form-name" value="{$stage.name}">
@@ -62,11 +63,11 @@
               </div>
             </div>
             <div class="box-body">
-              <button type="button" class="btn btn-primary{if $stage.is_private == 1} hidden{else}{/if}" onclick="setStagePublic();">公開する<small>(現在非公開です)</small></button>
-              <button type="button" class="btn btn-primary{if $stage.is_private != 1} hidden{else}{/if}" onclick="setStagePrivate();">非公開にする<small>(現在公開中です)</small></button>
+              <button type="button" class="btn btn-primary{if $stage.is_private != 1} hidden{else}{/if}" onclick="setStageIsPrivate(0);">公開する<small>(現在非公開です)</small></button>
+              <button type="button" class="btn btn-primary{if $stage.is_private == 1} hidden{else}{/if}" onclick="setStageIsPrivate(1);">非公開にする<small>(現在公開中です)</small></button>
             </div>
             <div class="box-body">
-              <button type="button" class="btn btn-warning pull-right">このステージを削除</button>
+              <button type="button" class="btn btn-warning pull-right" onclick="delStage();">このステージを削除</button>
               <button type="button" class="btn btn-primary pull-right" onclick="setStage();">更新する</button>
             </div>
           </div>
@@ -110,7 +111,7 @@
 {include file='common/adminlte_js.tpl'}
 <script src="/js/common.js"></script>
 <script src="/js/sidebar.js"></script>
-<script src="/js/character.js"></script>
+<script src="/js/stage.js"></script>
 <!-- JS end -->
 </body>
 </html>
