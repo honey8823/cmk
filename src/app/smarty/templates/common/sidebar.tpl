@@ -16,18 +16,18 @@
       <!-- Sidebar Menu -->
       <ul class="sidebar-menu logged-in" data-widget="tree">
         <li>
-          <a href="/user/list.php">
-            <i class="fa fa-file-text" aria-hidden="true"></i> <span>キャラクター管理</span>
-          </a>
-        </li>
-        <li>
-          <a href="/user/stage.php">
+          <a href="/user/stage/">
             <i class="fa fa-file-text" aria-hidden="true"></i> <span>ステージ管理</span>
           </a>
         </li>
         <li>
+          <a href="/user/character/">
+            <i class="fa fa-file-text" aria-hidden="true"></i> <span>キャラクター管理</span>
+          </a>
+        </li>
+        <li>
           <a href="#" data-toggle="modal" data-target="#modal-setUser" onclick="setUserForm();">
-            <i class="fa fa-user-circle" aria-hidden="true"></i> <span>アカウント管理</span>
+            <i class="fa fa-user-circle" aria-hidden="true"></i> <span>アカウント情報</span>
           </a>
         </li>
         <li>

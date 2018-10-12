@@ -23,7 +23,7 @@
       <!-- <h1>キャラクター管理</h1> -->
       <ol class="breadcrumb">
         <li><a href="/">トップ</a></li>
-        <li><a href="/user/list.php">キャラクター管理</a></li>
+        <li><a href="/user/character/">キャラクター管理</a></li>
         <li class="active">編集</li>
       </ol>
     </section>

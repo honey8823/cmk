@@ -49,7 +49,7 @@
               <table class="table table-hover table-character">
                 <!-- テーブルテンプレート -->
                 <tr class="character_list template-for-copy">
-                  <td class="td-name"><a href="/user/edit.php?" class="character_id"><span class="character_name"></span></a></td>
+                  <td class="td-name"><a href="/user/character/edit.php?" class="character_id"><span class="character_name"></span></a></td>
                   <td class="td-tag"><span class="template-for-copy label tag-base"></span></td>
                   <td class="td-is_private"><span class="character_is_private_0">公開</span><span class="character_is_private_1">非公開</span></td>
                 </tr>

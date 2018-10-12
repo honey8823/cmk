@@ -108,10 +108,12 @@ function login(){
  * ログアウト処理
  */
 function logout(){
-	var result = ajaxPost("user", "logout", []);
-    result.done(function(){
-    	switchSidebar();
-    });
+	if (confirm("ログアウトしてよろしいですか？")){
+		var result = ajaxPost("user", "logout", []);
+	    result.done(function(){
+	    	switchSidebar();
+	    });
+	}
 }
 
 /*
