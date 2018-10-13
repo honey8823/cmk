@@ -81,12 +81,80 @@
             </ul>
             <div class="tab-content">
               <div class="tab-pane active" id="tab-content-timeline">
-                <ul>
-                  <li>timeline1</li>
-                  <li>timeline2</li>
-                </ul>
+                <button type="button" class="btn btn-primary btn-block">このステージのタイムラインにエピソードを追加する</button>
+
+                
+                
+                
+                
+                
+<ul class="timeline timeline-stage">
+            <!-- timeline time label -->
+            <li class="time-label">
+                  <span class="bg-red">
+                    ドラゴン襲来前
+                  </span>
+            </li>
+
+            <li>
+              <i class="fa fa-arrow-right bg-blue"></i>
+              <div class="timeline-item">
+                <h3 class="timeline-header no-border">aaaとbbbが出会ったときの話のメモ</h3>
+                <div class="timeline-body">
+                  aaaとbbbは元々同じ中学校だったがなんとかかんとか... 
+                  <p><small><a href="#">全文を表示</a></small></p>
+                </div>
+              </div>
+            </li>
+
+            <li>
+              <i class="fa fa-arrow-right bg-blue"></i>
+              <div class="timeline-item">
+                <h3 class="timeline-header no-border">ムラクモ選抜試験直前のおはなし</h3>
+                <div class="timeline-body">
+                  <a href="#">http://twitter.com/...</a>
+                </div>
+                <div class="timeline-body">
+                  twitterに上げた漫画です。<br>
+                  補足として、aaaとbbbは幼馴染だったので二人で組み、cccが合流する形になっています。
+                </div>
+              </div>
+            </li>
+
+            <li class="time-label">
+                  <span class="bg-red">
+                    ～2020の3章
+                  </span>
+            </li>
+
+                        <li>
+              <i class="fa fa-arrow-right bg-blue"></i>
+              <div class="timeline-item">
+                <h3 class="timeline-header no-border">dddが13班に加入</h3>
+              </div>
+            </li>
+            
+            <li>
+              <i class="fa fa-arrow-right bg-blue"></i>
+              <div class="timeline-item">
+                <h3 class="timeline-header no-border">ここでルート分岐</h3>
+                <div class="timeline-body">
+                  bbbが失踪するパターン・メタルぽんぽこの代わりにaaaがなんやかんやで犠牲になるパターン
+                </div>
+              </div>
+            </li>
+
+          </ul>
+                
+                
+                
+                
+                
+                
+                
               </div>
               <div class="tab-pane" id="tab-content-character">
+                <button type="button" class="btn btn-primary btn-block">作成済みのキャラクターをこのステージに割り当てる</button>
                 <ul>
                 {foreach from=$stage.character_list key=k item=character}
                   <li><a href="/user/character/edit.php?id={$character.id}">{$character.name}</a></li>

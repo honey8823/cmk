@@ -29,6 +29,13 @@ const config = array(
 		array('value' => 2, 'key' => "test"  , 'name' => "テストカテゴリ"),
 	),
 
+	// エピソードカテゴリ
+	'episode_category' => array(
+		array('value' => 1, 'key' => "event"    , 'name' => "できごと"),
+		array('value' => 2, 'key' => "relation" , 'name' => "キャラクター同士の関係について"),
+		array('value' => 3, 'key' => "profile"  , 'name' => "キャラクタープロフィールの変化"),
+	),
+    
 	// ツールチップ
 	'tooltip' => array(
 		/* ユーザー情報系 */

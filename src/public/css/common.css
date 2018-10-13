@@ -21,7 +21,7 @@
 	background-color: #CCCCCC;
 }
 
-/* ステージ */
+/* バッジ：ステージ */
 .badge.stage{/* ステージ：基本 */
 	background-color: #B44A53;
 	color: #FFFFFF;
@@ -36,7 +36,7 @@
 	background-color: #CCCCCC;
 }
 
-/* キャラクター */
+/* バッジ：キャラクター */
 .badge.character{/* キャラクター：基本 */
 	background-color: #4A53B4;
 	color: #FFFFFF;
@@ -51,6 +51,10 @@
 	background-color: #CCCCCC;
 }
 
+/* ステージ画面用タイムライン */
+.timeline.timeline-stage{
+    margin: 30px 0 30px 0;
+}
 /* **************************************** */
 
 

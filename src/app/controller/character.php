@@ -59,6 +59,7 @@ class CharacterController extends Common
 				$sql .= "INNER JOIN `stage` ";
 				$sql .= "  ON       `character_stage`.`stage_id` = `stage`.`id` ";
 				$sql .= "WHERE      `character_stage`.`character_id` IN (" . implode(",", array_fill(0, count($character_list), "?")) . ") ";
+                                $sql .= "AND        `stage`.`is_delete` <> 1 ";
 				$sql .= "ORDER BY   `character_stage`.`character_id` DESC ";
 				$sql .= "          ,`stage`.`sort` ASC ";
 				foreach ($character_list as $v)
@@ -134,6 +135,7 @@ class CharacterController extends Common
 			$sql .= "INNER JOIN `stage` ";
 			$sql .= "  ON       `character_stage`.`stage_id` = `stage`.`id` ";
 			$sql .= "WHERE      `character_stage`.`character_id` = ? ";
+                        $sql .= "AND        `stage`.`is_delete` <> 1 ";
 			$sql .= "ORDER BY   `stage`.`sort` ASC ";
                         $arg_list = array($id);
 			$stage_list = $this->query($sql, $arg_list);

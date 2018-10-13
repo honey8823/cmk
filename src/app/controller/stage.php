@@ -149,6 +149,7 @@ class StageController extends Common
 			$sql .= "INNER JOIN `character` ";
 			$sql .= "  ON       `character_stage`.`character_id` = `character`.`id` ";
 			$sql .= "WHERE      `character_stage`.`stage_id` = ? ";
+                        $sql .= "AND        `character`.`is_delete` <> 1 ";
 			$sql .= "ORDER BY   `character_stage`.`sort` ASC ";
 			$arg_list = array($id);
 			$character_list = $this->query($sql, $arg_list);
