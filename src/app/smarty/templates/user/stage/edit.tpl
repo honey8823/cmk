@@ -81,7 +81,7 @@
             </ul>
             <div class="tab-content">
               <div class="tab-pane active" id="tab-content-timeline">
-                <button type="button" class="btn btn-primary btn-block">このステージのタイムラインにエピソードを追加する</button>
+                <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#modal-addEpisode">このステージのタイムラインにエピソードを追加する</button>
 
                 
                 
@@ -171,6 +171,8 @@
   </div>
   <!-- Main content end -->
 
+  {include file='common/episode_add_modal.tpl'}
+  
   {include file='common/footer.tpl'}
 
 </div>
