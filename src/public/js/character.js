@@ -3,7 +3,7 @@
  */
 function tableCharacter(){
 
-	var limit = 20; // 1回あたりの件数
+	var limit = 50; // 1回あたりの件数
 
 	var offset = $("#list-character").find("input.offset").val();
 	if (offset == ""){

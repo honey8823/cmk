@@ -53,7 +53,7 @@
               </table>
             </div>
             <div class="box-body no-padding">
-              <button type="button" class="btn btn-default btn-block btn-more disabled" onclick="tableCharacterForPrivate();">もっとみる</button>
+              <button type="button" class="btn btn-default btn-block btn-more disabled" onclick="tableCharacter();">もっとみる</button>
               <input type="hidden" class="offset" value="0">
             </div>
           </div>
