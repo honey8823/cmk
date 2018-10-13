@@ -106,7 +106,6 @@ class StageController extends Common
 			$arg_list[] = $user_id;
 			$sql .= "AND      `is_delete` <> 1 ";
 			$stage_list = $this->query($sql, $arg_list);
-
 			if(count($stage_list) != 1)
 			{
 				return array('error_redirect' => "notfound");
@@ -126,7 +125,6 @@ class StageController extends Common
 			$sql .= "          ,`tag`.`sort` ASC ";
 			$arg_list = array($id);
 			$tag_list = $this->query($sql, $arg_list);
-
 			if (count($tag_list) > 0)
 			{
 				$category_list = $this->getConfig("tag_category", "value");
@@ -142,7 +140,30 @@ class StageController extends Common
 					);
 				}
 			}
-
+                        
+                        // 取得（キャラクター）・整形
+			$arg_list = array();
+			$sql  = "SELECT     `character`.`id` ";
+			$sql .= "          ,`character`.`name` ";
+			$sql .= "FROM       `character_stage` ";
+			$sql .= "INNER JOIN `character` ";
+			$sql .= "  ON       `character_stage`.`character_id` = `character`.`id` ";
+			$sql .= "WHERE      `character_stage`.`stage_id` = ? ";
+			$sql .= "ORDER BY   `character_stage`.`sort` ASC ";
+			$arg_list = array($id);
+			$character_list = $this->query($sql, $arg_list);
+                        $stage_list[0]['character_list'] = array();
+			if (count($character_list) > 0)
+			{
+				foreach ($character_list as $v)
+				{
+					$stage_list[0]['character_list'][] = array(
+						'id'    => $v['id'],
+						'name'  => $v['name'],
+					);
+				}
+			}
+                        
 			// 戻り値
 			$return_list['stage'] = $stage_list[0];
 			return $return_list;
@@ -167,7 +188,7 @@ class StageController extends Common
 			// 引数
 			$name     = trim($param_list['name']);
 			$remarks  = trim($param_list['remarks']);
-			$tag_list = $param_list['tag_list'];
+			$tag_list = isset($param_list['tag_list']) && is_array($param_list['tag_list']) ? $param_list['tag_list'] : array();
 
 			// バリデート
 			$err_list = array();
@@ -243,7 +264,7 @@ class StageController extends Common
 			$id       = trim($param_list['id']);
 			$name     = trim($param_list['name']);
 			$remarks  = trim($param_list['remarks']);
-			$tag_list = $param_list['tag_list'];
+                        $tag_list = isset($param_list['tag_list']) && is_array($param_list['tag_list']) ? $param_list['tag_list'] : array();
 
 			// バリデート
 			$err_list = array();

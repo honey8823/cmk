@@ -39,6 +39,13 @@ if ($user_id === false)
 $id = $_GET['id'];
 $smarty_param['character'] = $cc->get(array('id' => $id))['character'];
 
+// ステージが存在しない場合は一覧にリダイレクト
+if (!isset($smarty_param['character']['id']))
+{
+	header("Location: /user/character/");
+	exit();
+}
+
 // ステージ一覧
 $smarty_param['stage_list'] = $sc->table()['stage_list'];
 

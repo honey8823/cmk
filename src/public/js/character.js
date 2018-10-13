@@ -56,7 +56,7 @@ function tableCharacter(){
 }
 
 /*
- * キャラクター登録処理
+ * 登録
  */
 function addCharacter(){
 
@@ -92,12 +92,100 @@ function addCharacter(){
 }
 
 /*
- * キャラクター更新処理
+ * 更新
  */
 function setCharacter(){
-	location.reload();
+	var stage = [];
+	$("#area-setCharacter").find(".badge.stage-selectable:not(.stage-notselected)").each(function(i, e){
+		stage.push($(e).attr("value"));
+	});
+	var params = {
+			'id'         : $("#area-setCharacter").find(".form-id").val(),
+			'name'       : $("#area-setCharacter").find(".form-name").val(),
+			'stage_list' : stage,
+		};
+	var result = ajaxPost("character", "set", params);
+    result.done(function(){
+    	if (result.return_value['error_redirect'] !== undefined && result.return_value['error_redirect'] != ""){
+    		// エラーページへリダイレクト
+    		location.href = "/err/" + result.return_value['error_redirect'] + ".php";
+    		return false;
+    	}
+    	else if (result.return_value['error_message_list'] !== undefined){
+    		// エラーがある場合
+    		alertMsg(result.return_value['error_message_list']);
+    		return false;
+    	}
+    	else {
+    		// 正常な場合
+    		location.reload();
+    		return true;
+    	}
+    });
 }
 
+
+/*
+ * 更新（公開/非公開）
+ */
+function setCharacterIsPrivate(is_private){
+	var params = {
+			'id'         : $("#area-setCharacter").find(".form-id").val(),
+			'is_private' : is_private,
+		};
+	var result = ajaxPost("character", "setIsPrivate", params);
+    result.done(function(){
+    	if (result.return_value['error_redirect'] !== undefined && result.return_value['error_redirect'] != ""){
+    		// エラーページへリダイレクト
+    		location.href = "/err/" + result.return_value['error_redirect'] + ".php";
+    		return false;
+    	}
+    	else if (result.return_value['error_message_list'] !== undefined){
+    		// エラーがある場合
+    		alertMsg(result.return_value['error_message_list']);
+    		return false;
+    	}
+    	else {
+    		// 正常な場合
+    		location.reload();
+    		return true;
+    	}
+    });
+}
+
+/*
+ * 削除
+ */
+function delCharacter(){
+    if (!confirm("本当にこのキャラクターを削除してよろしいですか？\n（このキャラクターに属するエピソードは削除されません）")){
+        return false;
+    }
+	var params = {
+			'id' : $("#area-setCharacter").find(".form-id").val(),
+		};
+	var result = ajaxPost("character", "del", params);
+    result.done(function(){
+    	if (result.return_value['error_redirect'] !== undefined && result.return_value['error_redirect'] != ""){
+    		// エラーページへリダイレクト
+    		location.href = "/err/" + result.return_value['error_redirect'] + ".php";
+    		return false;
+    	}
+    	else if (result.return_value['error_message_list'] !== undefined){
+    		// エラーがある場合
+    		alertMsg(result.return_value['error_message_list']);
+    		return false;
+    	}
+    	else {
+    		// 正常な場合
+    		location.href = "/user/character/";
+    		return true;
+    	}
+    });
+}
+
+/*
+ * local::一覧描画
+ */
 function drawCharacterList(dat){
 	// 行をコピー
 	var obj_base = $("#list-character").find(".character_list.template-for-copy")[0];

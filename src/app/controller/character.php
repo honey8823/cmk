@@ -28,6 +28,7 @@ class CharacterController extends Common
 			$sql .= "FROM     `character` ";
 			$sql .= "WHERE    `user_id` = ? ";
 			$arg_list[] = $user_id;
+                        $sql .= "AND      `is_delete` <> 1 ";
 			$sql .= "ORDER BY `" . $sort_column . "` " . $sort_order . " ";
 			$sql .= "LIMIT    " . $offset . ", " . ($limit + 1) . " ";
 			$character_list = $this->query($sql, $arg_list);
@@ -136,7 +137,7 @@ class CharacterController extends Common
 			$sql .= "ORDER BY   `stage`.`sort` ASC ";
                         $arg_list = array($id);
 			$stage_list = $this->query($sql, $arg_list);
-
+                        $character_list[0]['stage_list'] = array();
 			if (count($stage_list) > 0)
 			{
 				foreach ($stage_list as $v)
@@ -171,7 +172,7 @@ class CharacterController extends Common
 
 			// 引数
 			$name       = trim($param_list['name']);
-			$stage_list = $param_list['stage_list'];
+                        $stage_list = isset($param_list['stage_list']) && is_array($param_list['stage_list']) ? $param_list['stage_list'] : array();
 
 			// バリデート
 			$err_list = array();
@@ -195,7 +196,7 @@ class CharacterController extends Common
 			$arg_list[] = $user_id;
 			$arg_list[] = $name;
 			$this->query($sql, $arg_list);
-			$character_id = $this->getLastInsertId();
+			$id = $this->getLastInsertId();
 
 			// ステージ登録
 			$stage_list = array_filter($stage_list, function($v){return(preg_match("/^[0-9]+$/", $v));});
@@ -206,7 +207,7 @@ class CharacterController extends Common
 				$sql .= "VALUES " . implode(",", array_fill(0, count($stage_list), "(?, ?)"));
 				foreach ($stage_list as $v)
 				{
-					$arg_list[] = $character_id;
+					$arg_list[] = $id;
 					$arg_list[] = $v;
 				}
 				$this->query($sql, $arg_list);
@@ -214,9 +215,216 @@ class CharacterController extends Common
 
 			// 戻り値
 			$return_list = array(
-				'character_id' => $character_id,
-				'name'         => $name,
-				'stage_list'   => $stage_list,
+				'id'         => $id,
+				'name'       => $name,
+				'stage_list' => $stage_list,
+			);
+			return $return_list;
+		}
+		catch (Exception $e)
+		{
+			// todo::エラー処理
+		}
+	}
+        	
+        public function set($param_list = array())
+	{
+		try
+		{
+			// ユーザID
+			$user_id = $this->getLoginId();
+			if ($user_id === false)
+			{
+				return array('error_redirect' => "session");
+			}
+
+			// 引数
+                        $id         = trim($param_list['id']);
+			$name       = trim($param_list['name']);
+                        $stage_list = isset($param_list['stage_list']) && is_array($param_list['stage_list']) ? $param_list['stage_list'] : array();
+
+			// バリデート
+			$err_list = array();
+			if (!preg_match("/^[0-9]+$/", $id))
+			{
+				$err_list[] = "存在しないデータです。最初からやり直してください。";
+				return array('error_message_list' => $err_list);
+			}
+			else
+			{
+				$sql  = "SELECT `id` FROM `character` WHERE `id` = ? AND `user_id` = ? AND `is_delete` <> 1 ";
+				$arg_list = array($id, $user_id);
+				$r = $this->query($sql, $arg_list);
+				if (count($r) != 1)
+				{
+					$err_list[] = "存在しないデータです。最初からやり直してください。";
+					return array('error_message_list' => $err_list);
+				}
+			}
+                        if (strlen($name) == 0)
+			{
+				$err_list[] = "キャラクター名を入力してください。";
+			}
+			elseif (strlen($name) > 64)
+			{
+				$err_list[] = "キャラクター名は64文字以内で入力してください。";
+			}
+			if (count($err_list) > 0)
+			{
+				return array('error_message_list' => $err_list);
+			}
+
+                        // 更新
+			$arg_list = array();
+			$sql  = "UPDATE `character` ";
+			$sql .= "SET    `name`    = ? ";
+			$sql .= "WHERE  `id`      = ? ";
+			$arg_list[] = $name;
+			$arg_list[] = $id;
+			$this->query($sql, $arg_list);
+
+			// ステージ登録
+			// 一度全削除して再登録
+			$sql  = "DELETE FROM `character_stage` ";
+			$sql .= "WHERE `character_id` = ? ";
+			$arg_list = array($id);
+			$this->query($sql, $arg_list);
+			$stage_list = array_filter($stage_list, function($v){return(preg_match("/^[0-9]+$/", $v));});
+			if (count($stage_list) > 0)
+			{
+				$arg_list = array();
+				$sql  = "INSERT INTO `character_stage` (`character_id`, `stage_id`) ";
+				$sql .= "VALUES " . implode(",", array_fill(0, count($stage_list), "(?, ?)"));
+				foreach ($stage_list as $v)
+				{
+					$arg_list[] = $id;
+					$arg_list[] = $v;
+				}
+				$this->query($sql, $arg_list);
+			}
+
+			// 戻り値
+			$return_list = array(
+				'id'         => $id,
+				'name'       => $name,
+				'stage_list' => $stage_list,
+			);
+			return $return_list;
+		}
+		catch (Exception $e)
+		{
+			// todo::エラー処理
+		}
+	}
+
+	public function setIsPrivate($param_list = array())
+	{
+		try
+		{
+			// ユーザID
+			$user_id    = $this->getLoginId();
+			if ($user_id === false)
+			{
+				return array('error_redirect' => "session");
+			}
+
+			// 引数
+			$id         = trim($param_list['id']);
+			$is_private = trim($param_list['is_private']) == "0" ? "0" : "1";
+
+			// バリデート
+			$err_list = array();
+			if (!preg_match("/^[0-9]+$/", $id))
+			{
+				$err_list[] = "存在しないデータです。最初からやり直してください。";
+				return array('error_message_list' => $err_list);
+			}
+			else
+			{
+				$sql  = "SELECT `id` FROM `character` WHERE `id` = ? AND `user_id` = ? AND `is_delete` <> 1 ";
+				$arg_list = array($id, $user_id);
+				$r = $this->query($sql, $arg_list);
+				if (count($r) != 1)
+				{
+					$err_list[] = "存在しないデータです。最初からやり直してください。";
+					return array('error_message_list' => $err_list);
+				}
+			}
+			if (count($err_list) > 0)
+			{
+				return array('error_message_list' => $err_list);
+			}
+
+			// 更新
+			$arg_list = array();
+			$sql  = "UPDATE `character` ";
+			$sql .= "SET    `is_private` = ? ";
+			$sql .= "WHERE  `id` = ? ";
+			$arg_list[] = $is_private;
+			$arg_list[] = $id;
+			$this->query($sql, $arg_list);
+
+			// 戻り値
+			$return_list = array(
+				'id'         => $id,
+				'is_private' => $is_private,
+			);
+			return $return_list;
+		}
+		catch (Exception $e)
+		{
+			// todo::エラー処理
+		}
+	}
+
+	public function del($param_list = array())
+	{
+		try
+		{
+			// ユーザID
+			$user_id    = $this->getLoginId();
+			if ($user_id === false)
+			{
+				return array('error_redirect' => "session");
+			}
+
+			// 引数
+			$id         = trim($param_list['id']);
+
+			// バリデート
+			$err_list = array();
+			if (!preg_match("/^[0-9]+$/", $id))
+			{
+				$err_list[] = "存在しないデータです。最初からやり直してください。";
+				return array('error_message_list' => $err_list);
+			}
+			else
+			{
+				$sql  = "SELECT `id` FROM `character` WHERE `id` = ? AND `user_id` = ? AND `is_delete` <> 1 ";
+				$arg_list = array($id, $user_id);
+				$r = $this->query($sql, $arg_list);
+				if (count($r) != 1)
+				{
+					$err_list[] = "存在しないデータです。最初からやり直してください。";
+					return array('error_message_list' => $err_list);
+				}
+			}
+			if (count($err_list) > 0)
+			{
+				return array('error_message_list' => $err_list);
+			}
+
+			// 更新
+			$arg_list = array();
+			$sql  = "UPDATE `character` ";
+			$sql .= "SET    `is_delete` = 1 ";
+			$sql .= "WHERE  `id` = ? ";
+			$arg_list[] = $id;
+			$this->query($sql, $arg_list);
+
+			// 戻り値
+			$return_list = array(
+				'id'         => $id,
 			);
 			return $return_list;
 		}

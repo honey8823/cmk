@@ -88,8 +88,9 @@
               </div>
               <div class="tab-pane" id="tab-content-character">
                 <ul>
-                  <li>character1</li>
-                  <li>character2</li>
+                {foreach from=$stage.character_list key=k item=character}
+                  <li><a href="/user/character/edit.php?id={$character.id}">{$character.name}</a></li>
+                {/foreach}
                 </ul>
               </div>
             </div>

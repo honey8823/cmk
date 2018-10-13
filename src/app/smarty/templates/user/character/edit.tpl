@@ -37,7 +37,8 @@
             <div class="box-header">
               <h3 class="box-title">基本情報</h3>
             </div>
-            <div class="box-body">
+            <div class="box-body" id="area-setCharacter">
+              <input type="hidden" class="form-id" value="{$character.id}">
               <div>
                 <label>キャラクター名</label>
                 <span class="menu-tooltip">
@@ -63,7 +64,7 @@
               <button type="button" class="btn btn-primary{if $character.is_private == 1} hidden{else}{/if}" onclick="setCharacterIsPrivate(1);">非公開にする<small>(現在公開中です)</small></button>
             </div>
             <div class="box-body">
-              <button type="button" class="btn btn-warning pull-right">このキャラクターを削除</button>
+              <button type="button" class="btn btn-warning pull-right" onclick="delCharacter()">このキャラクターを削除</button>
               <button type="button" class="btn btn-primary pull-right" onclick="setCharacter();">更新する</button>
             </div>
           </div>
@@ -84,8 +85,9 @@
               </div>
               <div class="tab-pane" id="tab-content-stage">
                 <ul>
-                  <li>stage1</li>
-                  <li>stage2</li>
+              {foreach from=$character.stage_list key=k item=stage}
+                <li><a href="/user/stage/edit.php?id={$stage.id}">{$stage.name}</a></li>
+              {/foreach}
                 </ul>
               </div>
             </div>

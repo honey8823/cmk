@@ -38,6 +38,13 @@ if ($uc->getLoginId() === false)
 $id = $_GET['id'];
 $smarty_param['stage'] = $sc->get(array('id' => $id))['stage'];
 
+// ステージが存在しない場合は一覧にリダイレクト
+if (!isset($smarty_param['stage']['id']))
+{
+	header("Location: /user/stage/");
+	exit();
+}
+
 // シリーズタグ一覧
 $tag_catgory_list = $tc->getConfig("tag_category", "key");
 $smarty_param['series_list'] = $tc->table(array('category_list' => array($tag_catgory_list['series']['value'])));

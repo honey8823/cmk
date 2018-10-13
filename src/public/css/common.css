@@ -26,7 +26,7 @@
 	background-color: #B44A53;
 	color: #FFFFFF;
         font-size: 0.75em;
-	margin: 0 3px;
+	margin: 3px;
         padding: 7px;
 }
 .badge.stage-selectable{ /* 選択が可能なステージ */
@@ -41,7 +41,7 @@
 	background-color: #4A53B4;
 	color: #FFFFFF;
         font-size: 0.75em;
-	margin: 0 3px;
+	margin: 3px;
         padding: 7px;
 }
 .badge.character-selectable{ /* 選択が可能なキャラクター */
