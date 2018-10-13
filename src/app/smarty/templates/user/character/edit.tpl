@@ -49,11 +49,11 @@
               </div>
               <div>
                 <label>属するステージ（複数選択可）</label>
-              {foreach from=$stage_list key=k item=stage}
-              {if isset($character.stage_list) && is_array($character.stage_list) && in_array($stage.id, array_column($character.stage_list, 'id'))}
-                <span class="badge stage stage-selectable" value="{$stage.id}">{$stage.name}</span>
+              {foreach from=$stage_list key=k item=v_stage}
+              {if isset($character.stage_list) && is_array($character.stage_list) && in_array($v_stage.id, array_column($character.stage_list, 'id'))}
+                <span class="badge stage stage-selectable" value="{$v_stage.id}">{$v_stage.name}</span>
               {else}
-                <span class="badge stage stage-notselected stage-selectable" value="{$stage.id}">{$stage.name}</span>
+                <span class="badge stage stage-notselected stage-selectable" value="{$v_stage.id}">{$v_stage.name}</span>
               {/if}
               {/foreach}
               </div>
@@ -85,8 +85,8 @@
               </div>
               <div class="tab-pane" id="tab-content-stage">
                 <ul>
-              {foreach from=$character.stage_list key=k item=stage}
-                <li><a href="/user/stage/edit.php?id={$stage.id}">{$stage.name}</a></li>
+              {foreach from=$character.stage_list key=k item=v_stage}
+                <li><a href="/user/stage/edit.php?id={$v_stage.id}">{$v_stage.name}</a></li>
               {/foreach}
                 </ul>
               </div>

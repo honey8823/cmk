@@ -53,11 +53,11 @@
               </div>
               <div>
                 <label>関連するシリーズ（複数選択可）</label>
-              {foreach from=$series_list key=k item=series}
-              {if isset($stage.tag_list) && is_array($stage.tag_list) && in_array($series.id, array_column($stage.tag_list, 'id'))}
-                <span class="label tag-base tag-series tag-selectable" value="{$series.id}">{$series.name}</span>
+              {foreach from=$series_list key=k item=v_series}
+              {if isset($stage.tag_list) && is_array($stage.tag_list) && in_array($v_series.id, array_column($stage.tag_list, 'id'))}
+                <span class="label tag-base tag-series tag-selectable" value="{$v_series.id}">{$v_series.name}</span>
               {else}
-                <span class="label tag-base tag-series tag-notselected tag-selectable" value="{$series.id}">{$series.name}</span>
+                <span class="label tag-base tag-series tag-notselected tag-selectable" value="{$v_series.id}">{$v_series.name}</span>
               {/if}
               {/foreach}
               </div>
@@ -156,8 +156,8 @@
               <div class="tab-pane" id="tab-content-character">
                 <button type="button" class="btn btn-primary btn-block">作成済みのキャラクターをこのステージに割り当てる</button>
                 <ul>
-                {foreach from=$stage.character_list key=k item=character}
-                  <li><a href="/user/character/edit.php?id={$character.id}">{$character.name}</a></li>
+                {foreach from=$stage.character_list key=k item=v_character}
+                  <li><a href="/user/character/edit.php?id={$v_character.id}">{$v_character.name}</a></li>
                 {/foreach}
                 </ul>
               </div>
@@ -183,6 +183,7 @@
 <script src="/js/common.js"></script>
 <script src="/js/sidebar.js"></script>
 <script src="/js/stage.js"></script>
+<script src="/js/episode.js"></script>
 <!-- JS end -->
 </body>
 </html>

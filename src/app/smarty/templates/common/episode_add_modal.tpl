@@ -8,6 +8,11 @@
           <h4 class="modal-title">エピソード登録</h4>
         </div>
         <div class="modal-body">
+        {if isset($stage.id)}
+          <input type="hidden" name="stage_id" class="form-stage_id" value="{$stage.id}">
+        {else}
+          // todo::ステージ選択のセレクトボックス
+        {/if}
           <div>
             <label>ラベルにする</label>
             <span class="menu-tooltip">
@@ -16,21 +21,21 @@
             </span>
             <input type="checkbox" name="is_label" class="form-is_label">
           </div>
-          <div>
+          <div class="not_use_for_label">
             <label>カテゴリ</label>
             <span class="menu-tooltip">
               <i class="fa fa-question-circle fa-fw" aria-hidden="true"></i>
               <span class="menu-tooltiptext">{$config.tooltip.episode_category}</span>
             </span>
-          {foreach from=$config.episode_category key=k item=category}
-            <input type="radio" name="category" class="form-category" value="{$category.value}"{if $category.value == 1} checked{/if}>{$category.name}
+          {foreach from=$config.episode_category key=k item=v_category}
+            <input type="radio" name="category" class="form-category" value="{$v_category.value}"{if $v_category.value == 1} checked{/if}>{$v_category.name}
           {/foreach}
           </div>
           <div>
             <label>タイトル</label>
             <input type="text" name="title" class="form-title">
           </div>
-          <div>
+          <div class="not_use_for_label">
             <label>外部サイトURL</label>
             <span class="menu-tooltip">
               <i class="fa fa-question-circle fa-fw" aria-hidden="true"></i>
@@ -38,7 +43,7 @@
             </span>
             <input type="text" name="url" class="form-url">
           </div>
-          <div>
+          <div class="not_use_for_label">
             <label>フリーテキスト</label>
             <span class="menu-tooltip">
               <i class="fa fa-question-circle fa-fw" aria-hidden="true"></i>
@@ -46,7 +51,7 @@
             </span>
             <textarea class="form-control form-free_text" rows="3" name="free_text"></textarea>
           </div>
-          <div>
+          <div class="not_use_for_label">
             <label>R18</label>
             <span class="menu-tooltip">
               <i class="fa fa-question-circle fa-fw" aria-hidden="true"></i>
@@ -54,11 +59,21 @@
             </span>
             <input type="checkbox" name="is_r18" class="form-is_r18">
           </div>
+          <div class="not_use_for_label">
+            <label>このエピソードに関連するキャラクターを設定する</label>
+            <span class="menu-tooltip">
+              <i class="fa fa-question-circle fa-fw" aria-hidden="true"></i>
+              <span class="menu-tooltiptext">{$config.tooltip.episode_character}</span>
+            </span>
+          {foreach from=$stage.character_list key=k item=v_character}
+            <span class="badge character character-selectable character-notselected">{$v_character.name}</span>
+          {/foreach}
+          </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default pull-left" data-dismiss="modal">キャンセル</button>
-          <button type="button" class="btn btn-primary" onclick="addStage();">登録（公開する）</button>
-          <button type="button" class="btn btn-primary" onclick="addStage();">登録（非公開）</button>
+          <button type="button" class="btn btn-primary" onclick="addEpisode(0);">登録（公開する）</button>
+          <button type="button" class="btn btn-primary" onclick="addEpisode(1);">登録（非公開）</button>
         </div>
       </div>
     </div>
