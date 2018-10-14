@@ -24,7 +24,7 @@ function alertMsg(msg_list){
  * ajax通信
  */
 function ajaxPost(c, a, params){
-console.log("【ajaxPost:param】", params);
+console.log("【ajaxPost:param(" + c + "/" + a + ")】", params);
 	var deferred = new $.Deferred();
 	$.ajax({
 		type   : 'POST',
@@ -33,7 +33,7 @@ console.log("【ajaxPost:param】", params);
 		async  : true,
 		success: function(data)
 		{
-console.log("【ajaxPost:result】", data);
+console.log("【ajaxPost:result(" + c + "/" + a + ")】", data);
 			if(data.indexOf("<html") != -1)
 			{ // システムエラー
 		        deferred.return_value = false;

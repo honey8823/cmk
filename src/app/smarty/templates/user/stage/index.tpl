@@ -112,7 +112,6 @@
 // 読み込み完了時の処理
 $(function(){
 	// データ読み込み
-	$("#list-stage").find("input.offset").val(0);
 	tableStage();
 });
 </script>

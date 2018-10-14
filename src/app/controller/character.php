@@ -28,7 +28,7 @@ class CharacterController extends Common
 			$sql .= "FROM     `character` ";
 			$sql .= "WHERE    `user_id` = ? ";
 			$arg_list[] = $user_id;
-                        $sql .= "AND      `is_delete` <> 1 ";
+			$sql .= "AND      `is_delete` <> 1 ";
 			$sql .= "ORDER BY `" . $sort_column . "` " . $sort_order . " ";
 			$sql .= "LIMIT    " . $offset . ", " . ($limit + 1) . " ";
 			$character_list = $this->query($sql, $arg_list);

@@ -82,11 +82,44 @@
             <div class="tab-content">
               <div class="tab-pane active" id="tab-content-timeline">
                 <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#modal-addEpisode">このステージのタイムラインにエピソードを追加する</button>
+                <ul class="timeline template-for-copy" id="timeline_for_stage_template">
+                  <li class="time-label timeline-label template-for-copy"><span class="bg-red timeline-title"></span></li>
+                  <li class="timeline-content template-for-copy">
+                    <i class="fa fa-arrow-right bg-blue"></i>
+                    <div class="timeline-item">
+                      <h3 class="timeline-header timeline-title no-border"></h3>
+                      <div class="timeline-body">
+                        <p class="timeline-url"><a href="" target="_blank"></a></p>
+                        <p class="timeline-free_text"></p>
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+                <ul class="timeline timeline-stage" id="timeline_for_stage">
 
-                
-                
-                
-                
+                  
+{**********************
+                  {foreach from=$episode_list key=k item=v_episode}
+                {if $v_episode.is_label == 1}
+                  <li class="time-label"><span class="bg-red">{$v_episode.title}</span></li>
+                {else}
+                  <li>
+                    {if $v_episode.category == 2}<i class="fa fa-arrow-right bg-green"></i>
+                    {elseif $v_episode.category == 3}<i class="fa fa-arrow-right bg-red"></i>
+                    {else}<i class="fa fa-arrow-right bg-blue"></i>{/if}
+                    <div class="timeline-item">
+                      <h3 class="timeline-header no-border">{$v_episode.title}</h3>
+                      <div class="timeline-body">
+                        {if $v_episode.url != ""}<a href="{$v_episode.url}" target="_blank">{$v_episode.url}</a>{/if}
+                        {$v_episode.free_text}
+                      </div>
+                    </div>
+                  </li>
+                {/if}
+                {/foreach}
+**********************}
+                </ul>
+
                 
 <ul class="timeline timeline-stage">
             <!-- timeline time label -->
@@ -113,8 +146,6 @@
                 <h3 class="timeline-header no-border">ムラクモ選抜試験直前のおはなし</h3>
                 <div class="timeline-body">
                   <a href="#">http://twitter.com/...</a>
-                </div>
-                <div class="timeline-body">
                   twitterに上げた漫画です。<br>
                   補足として、aaaとbbbは幼馴染だったので二人で組み、cccが合流する形になっています。
                 </div>
@@ -184,6 +215,18 @@
 <script src="/js/sidebar.js"></script>
 <script src="/js/stage.js"></script>
 <script src="/js/episode.js"></script>
+
+<script>
+// 読み込み完了時の処理
+$(function(){
+	// データ読み込み
+	var param = {
+		stage_id     : {$stage.id},
+        character_id : "",
+	}
+	timeline(param);
+});
+</script>
 <!-- JS end -->
 </body>
 </html>

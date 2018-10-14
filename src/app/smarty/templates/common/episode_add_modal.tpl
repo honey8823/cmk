@@ -66,7 +66,7 @@
               <span class="menu-tooltiptext">{$config.tooltip.episode_character}</span>
             </span>
           {foreach from=$stage.character_list key=k item=v_character}
-            <span class="badge character character-selectable character-notselected">{$v_character.name}</span>
+            <span class="badge character character-selectable character-notselected" value="{$v_character.id}">{$v_character.name}</span>
           {/foreach}
           </div>
         </div>

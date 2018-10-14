@@ -79,6 +79,103 @@ class EpisodeController extends Common
 		}
 	}
 
+	public function timeline($param_list = array())
+	{
+		try
+		{
+			// ユーザID
+			// ログイン状態でない場合はエラー
+			$user_id = $this->getLoginId();
+			if ($user_id === false)
+			{
+				return array('error_redirect' => "session");
+			}
+
+			// 引数
+			$stage_id     = isset($param_list['stage_id'])     ? trim($param_list['stage_id'])     : "";
+			$character_id = isset($param_list['character_id']) ? trim($param_list['character_id']) : "";
+
+			$return_list = array();
+
+			// 取得（エピソード）
+			$arg_list = array();
+			$sql  = "SELECT     `episode`.`id` ";
+			$sql .= "          ,`episode`.`stage_id` ";
+			$sql .= "          ,`stage`.`name` ";
+			$sql .= "          ,`episode`.`is_label` ";
+			$sql .= "          ,`episode`.`category` ";
+			$sql .= "          ,`episode`.`title` ";
+			$sql .= "          ,`episode`.`url` ";
+			$sql .= "          ,`episode`.`free_text` ";
+			$sql .= "          ,`episode`.`is_r18` ";
+			$sql .= "          ,`episode`.`is_private` ";
+			$sql .= "FROM       `episode` ";
+			$sql .= "INNER JOIN `stage` ON  `episode`.`stage_id` = `stage`.`id` ";
+			$sql .= "                   AND `stage`.`user_id` = ? ";
+			$sql .= "                   AND `stage`.`is_delete` <> 1 ";
+			$arg_list[] = $user_id;
+			$sql .= "WHERE      `episode`.`is_delete` <> 1 ";
+			if ($stage_id != "")
+			{
+				$sql .= "AND `episode`.`stage_id` = ? ";
+				$arg_list[] = $stage_id;
+			}
+			if ($character_id != "")
+			{
+				$sql .= "AND `episode`.`id` IN (SELECT `episode_id` FROM `episode_character` WHERE `character_id` = ?) ";
+				$arg_list[] = $character_id;
+			}
+			$sql .= "ORDER BY `episode`.`sort` = 0 ASC ";
+			$sql .= "        ,`episode`.`sort` ASC ";
+			$sql .= "        ,`episode`.`id` ASC ";
+			$episode_list = $this->query($sql, $arg_list);
+
+			// 取得（関連キャラクター）・整形
+			if (count($episode_list) > 0)
+			{
+				$episode_list = $this->setArrayKey($episode_list, "id");
+
+				$arg_list = array();
+				$sql  = "SELECT    `episode_character`.`episode_id` ";
+				$sql .= "         ,`character`.`id` ";
+				$sql .= "         ,`character`.`name` ";
+				$sql .= "FROM      `episode_character` ";
+				$sql .= "INNER JOIN `character` ON  `episode_character`.`character_id` = `character`.`id` ";
+				$sql .= "                       AND `character`.`is_delete` <> 1 ";
+				$sql .= "WHERE      `episode_character`.`episode_id` IN (" . implode(",", array_fill(0, count($episode_list), "?")) . ") ";
+				$sql .= "ORDER BY   `episode_character`.`episode_id` ASC ";
+				$sql .= "          ,`character`.`sort` ASC ";
+				foreach ($episode_list as $v)
+				{
+					$arg_list[] = $v['id'];
+				}
+				$character_list = $this->query($sql, $arg_list);
+
+				if (count($character_list) > 0)
+				{
+					foreach ($character_list as $v)
+					{
+						$episode_list[$v['episode_id']]['character_list'][] = array(
+							'id'   => $v['id'],
+							'name' => $v['name'],
+						);
+					}
+				}
+
+				// 配列のキーをリセット
+				$episode_list = array_values($episode_list);
+			}
+
+			// 戻り値
+			$return_list['episode_list'] = $episode_list;
+			return $return_list;
+		}
+		catch (Exception $e)
+		{
+			// todo::エラー処理
+		}
+	}
+	
 	public function get($param_list = array())
 	{
 		try
@@ -140,8 +237,8 @@ class EpisodeController extends Common
 					);
 				}
 			}
-                        
-                        // 取得（キャラクター）・整形
+
+			// 取得（キャラクター）・整形
 			$arg_list = array();
 			$sql  = "SELECT     `character`.`id` ";
 			$sql .= "          ,`character`.`name` ";
@@ -149,11 +246,11 @@ class EpisodeController extends Common
 			$sql .= "INNER JOIN `character` ";
 			$sql .= "  ON       `character_stage`.`character_id` = `character`.`id` ";
 			$sql .= "WHERE      `character_stage`.`stage_id` = ? ";
-                        $sql .= "AND        `character`.`is_delete` <> 1 ";
+			$sql .= "AND        `character`.`is_delete` <> 1 ";
 			$sql .= "ORDER BY   `character_stage`.`sort` ASC ";
 			$arg_list = array($id);
 			$character_list = $this->query($sql, $arg_list);
-                        $stage_list[0]['character_list'] = array();
+			$stage_list[0]['character_list'] = array();
 			if (count($character_list) > 0)
 			{
 				foreach ($character_list as $v)
@@ -164,7 +261,7 @@ class EpisodeController extends Common
 					);
 				}
 			}
-                        
+
 			// 戻り値
 			$return_list['stage'] = $stage_list[0];
 			return $return_list;
@@ -187,16 +284,16 @@ class EpisodeController extends Common
 			}
 
 			// 引数
-                        $stage_id     = trim($param_list['stage_id']);
-                        $is_label     = trim($param_list['is_label']);
-                        $category     = trim($param_list['category']);
-                        $title        = trim($param_list['title']);
-                        $url          = trim($param_list['url']);
-                        $free_text    = trim($param_list['free_text']);
-                        $is_r18       = trim($param_list['is_r18']);
-                        $is_private   = trim($param_list['is_private']);
-//			$tag_list = isset($param_list['tag_list']) && is_array($param_list['tag_list']) ? $param_list['tag_list'] : array();
-                        
+			$stage_id       = trim($param_list['stage_id']);
+			$is_label       = trim($param_list['is_label']);
+			$category       = trim($param_list['category']);
+			$title          = trim($param_list['title']);
+			$url            = trim($param_list['url']);
+			$free_text      = trim($param_list['free_text']);
+			$is_r18         = trim($param_list['is_r18']);
+			$is_private     = trim($param_list['is_private']);
+			$character_list = isset($param_list['character_list']) && is_array($param_list['character_list']) ? $param_list['character_list'] : array();
+
 			// バリデート
 			$err_list = array();
 			if (!preg_match("/^[0-9]+$/", $stage_id))
@@ -219,7 +316,7 @@ class EpisodeController extends Common
 			{
 				$err_list[] = "ラベルとして登録する場合、タイトルは必須です。";
 			}
-                        if (mb_strlen($title) == 0 || mb_strlen($url) == 0 || mb_strlen($free_text) == 0)
+			if (mb_strlen($title) == 0 && mb_strlen($url) == 0 && mb_strlen($free_text) == 0)
 			{
 				$err_list[] = "タイトル・URL・フリーテキストのいずれか一つは必須です。";
 			}
@@ -227,18 +324,21 @@ class EpisodeController extends Common
 			{
 				$err_list[] = "タイトルは32文字以内で入力してください。";
 			}
-                        if ($url != "" && !strpos($url, "http://") === 0 && !strpos($url, "https://") === 0 && !strpos($url, "//") === 0)
-                        {
-				$err_list[] = "URLは、「http://」「https://」「//」のいずれかから開始してください。";
-                        }
-                        if (mb_strlen($url) > 256)
-                        {
+			if ($url != "")
+			{
+				if (!(strpos($url, "http://") === 0 || strpos($url, "https://") === 0 || strpos($url, "//") === 0))
+				{
+					$err_list[] = "URLは、「http://」「https://」「//」のいずれかから開始してください。";
+				}
+			}
+			if (mb_strlen($url) > 256)
+			{
 				$err_list[] = "URLは256文字以内で入力してください。";
-                        }
-                        if (mb_strlen($free_text) > 10000)
-                        {
+			}
+			if (mb_strlen($free_text) > 10000)
+			{
 				$err_list[] = "フリーテキストは10,000文字以内で入力してください。";
-                        }
+			}
 			if (count($err_list) > 0)
 			{
 				return array('error_message_list' => $err_list);
@@ -250,29 +350,29 @@ class EpisodeController extends Common
 			$sql .= "VALUES                (?         , ?         , ?         , ?      , ?    , ?          ,  ?      ,  ?          ) ";
 			$arg_list[] = $stage_id;
 			$arg_list[] = $is_label   == 1  ? 1 : 0;
-                        $arg_list[] = $category   == "" ? 0 : $category;
-                        $arg_list[] = $title      == "" ? null : $title;
-                        $arg_list[] = $url        == "" ? null : $url;
-                        $arg_list[] = $free_text  == "" ? null : $free_text;
-                        $arg_list[] = $is_r18     == 1  ? 1 : 0;
-                        $arg_list[] = $is_private == 0  ? 0 : 1;
+			$arg_list[] = $category   == "" ? 0 : $category;
+			$arg_list[] = $title      == "" ? null : $title;
+			$arg_list[] = $url        == "" ? null : $url;
+			$arg_list[] = $free_text  == "" ? null : $free_text;
+			$arg_list[] = $is_r18     == 1  ? 1 : 0;
+			$arg_list[] = $is_private == 0  ? 0 : 1;
 			$this->query($sql, $arg_list);
 			$episode_id = $this->getLastInsertId();
 
-//			// タグ登録
-//			$tag_list = array_filter($tag_list, function($v){return(preg_match("/^[0-9]+$/", $v));});
-//			if (count($tag_list) > 0)
-//			{
-//				$arg_list = array();
-//				$sql  = "INSERT INTO `stage_tag` (`stage_id`, `tag_id`) ";
-//				$sql .= "VALUES " . implode(",", array_fill(0, count($tag_list), "(?, ?)"));
-//				foreach ($tag_list as $v)
-//				{
-//					$arg_list[] = $stage_id;
-//					$arg_list[] = $v;
-//				}
-//				$this->query($sql, $arg_list);
-//			}
+			// キャラクター登録
+			$character_list = array_filter($character_list, function($v){return(preg_match("/^[0-9]+$/", $v));});
+			if (count($character_list) > 0)
+			{
+				$arg_list = array();
+				$sql  = "INSERT INTO `episode_character` (`episode_id`, `character_id`) ";
+				$sql .= "VALUES " . implode(",", array_fill(0, count($character_list), "(?, ?)"));
+				foreach ($character_list as $v)
+				{
+					$arg_list[] = $stage_id;
+					$arg_list[] = $v;
+				}
+				$this->query($sql, $arg_list);
+			}
 
 			// 戻り値
 			$return_list = array(
@@ -304,7 +404,7 @@ class EpisodeController extends Common
 			$id       = trim($param_list['id']);
 			$name     = trim($param_list['name']);
 			$remarks  = trim($param_list['remarks']);
-                        $tag_list = isset($param_list['tag_list']) && is_array($param_list['tag_list']) ? $param_list['tag_list'] : array();
+			$tag_list = isset($param_list['tag_list']) && is_array($param_list['tag_list']) ? $param_list['tag_list'] : array();
 
 			// バリデート
 			$err_list = array();
