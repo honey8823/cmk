@@ -132,7 +132,7 @@ function setStageIsPrivate(is_private){
  * 削除
  */
 function delStage(){
-    if (!confirm("本当にこのステージを削除してよろしいですか？\n（このステージに属するキャラクターやエピソードは削除されません）")){
+    if (!confirm("本当にこのステージを削除してよろしいですか？\nこのステージに登録されているエピソードも削除されます。\n（このステージに属するキャラクターは削除されません）")){
         return false;
     }
 	var params = {

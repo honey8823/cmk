@@ -35,11 +35,13 @@
             <div class="pull-right">
               <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-addCharacter">キャラクターを追加</button>
             </div>
+<!--
             <div>
               <small>
                 ※使い方やガイドラインなど、総合ヘルプはこちら
               </small>
             </div>
+-->
           </div>
           <div id="list-character" class="box">
             <div class="box-body no-padding">
@@ -48,7 +50,9 @@
                 <tr class="character_list template-for-copy">
                   <td class="td-name"><a href="/user/character/edit.php?" class="character_id"><span class="character_name"></span></a></td>
                   <td class="td-stage"><span class="template-for-copy badge stage"></span></td>
+<!--
                   <td class="td-is_private"><span class="character_is_private_0">公開</span><span class="character_is_private_1">非公開</span></td>
+-->
                 </tr>
               </table>
             </div>
@@ -72,7 +76,9 @@
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span></button>
           <h4 class="modal-title">キャラクター登録</h4>
+<!--
           <small>詳細なプロフィールは登録後の編集となります。</small>
+-->
         </div>
         <div class="modal-body">
           <div>

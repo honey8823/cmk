@@ -37,7 +37,7 @@
             </div>
             <div>
               <small>
-                ※使い方やガイドラインなど、総合ヘルプはこちら
+                <!-- ※使い方やガイドラインなど、総合ヘルプはこちら -->
               </small>
             </div>
           </div>
@@ -48,7 +48,9 @@
                 <tr class="stage_list template-for-copy">
                   <td class="td-name"><a href="/user/stage/edit.php?" class="stage_id"><span class="stage_name"></span></a></td>
                   <td class="td-tag"><span class="template-for-copy label tag-base"></span></td>
+<!--
                   <td class="td-is_private"><span class="stage_is_private_0">公開</span><span class="stage_is_private_1">非公開</span></td>
+-->
                 </tr>
               </table>
             </div>
@@ -68,7 +70,7 @@
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span></button>
           <h4 class="modal-title">ステージ登録</h4>
-          <small>登録直後は非公開設定になっています。編集後に公開するようにしてください。</small>
+{***          <small>登録直後は非公開設定になっています。編集後に公開するようにしてください。</small>***}
         </div>
         <div class="modal-body">
           <div>

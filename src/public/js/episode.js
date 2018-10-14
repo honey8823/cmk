@@ -1,3 +1,4 @@
+// ラベルかどうかでフォームの表示切替
 $("#modal-addEpisode").find(".form-is_label").on("click", function(){
 	if ($(this).prop('checked')){
 		$("#modal-addEpisode").find(".not_use_for_label").hide();
@@ -5,6 +6,40 @@ $("#modal-addEpisode").find(".form-is_label").on("click", function(){
 	else{
 		$("#modal-addEpisode").find(".not_use_for_label").show();
 	}
+});
+
+// ドラッグ＆ドロップでソート可能にする
+$(function() {
+    $(".timeline-stage.sortable").sortable({
+        update: function(){
+			var ids = [];
+			$("#timeline_for_stage").find("li").each(function(i, e){
+				ids.push($(e).data("id"));
+			});
+			var params = {
+				id_list : ids,
+			};
+			
+			var result = ajaxPost("episode", "setSort", params);
+			result.done(function(){
+				if (result.return_value['error_redirect'] !== undefined && result.return_value['error_redirect'] != ""){
+					// エラーページへリダイレクト
+					location.href = "/err/" + result.return_value['error_redirect'] + ".php";
+					return false;
+				}
+				else if (result.return_value['error_message_list'] !== undefined){
+					// エラーがある場合
+					alertMsg(result.return_value['error_message_list']);
+					return false;
+				}
+				else {
+					// 正常な場合
+					// 何もしない
+					return true;
+				}
+			});
+		}
+    });
 });
 
 /*
@@ -80,7 +115,7 @@ function addEpisode(is_private){
 //    		$("#modal-addEpisode").find("input").val("");
 //    		$("#modal-addEpisode").find("textarea").text("");
 //    		$("#modal-addEpisode").find(".label.tag-series.tag-selectable:not(.tag-notselected)").addClass("tag-notselected");
-//    		location.reload();
+    		location.reload();
 			return true;
 		}
 	});
@@ -89,76 +124,53 @@ function addEpisode(is_private){
 /*
  * 更新
  */
-function setStage(){
-	var tag = [];
-	$("#area-setStage").find(".label.tag-selectable:not(.tag-notselected)").each(function(i, e){
-		tag.push($(e).attr("value"));
+function setEpisode(is_private){
+	var character = [];
+	$("#modal-setEpisode").find(".badge.character-selectable:not(.character-notselected)").each(function(i, e){
+		character.push($(e).attr("value"));
 	});
 	var params = {
-			'id'         : $("#area-setStage").find(".form-id").val(),
-			'name'       : $("#area-setStage").find(".form-name").val(),
-			'remarks'    : $("#area-setStage").find(".form-remarks").val(),
-			'tag_list'   : tag,
+			'id'             : $("#modal-setEpisode").find(".form-id").val(),
+			'category'       : $("#modal-setEpisode").find(".form-category:checked").val(),
+			'title'          : $("#modal-setEpisode").find(".form-title").val(),
+			'url'            : $("#modal-setEpisode").find(".form-url").val(),
+			'free_text'      : $("#modal-setEpisode").find(".form-free_text").val(),
+			'is_r18'         : $("#modal-setEpisode").find(".form-is_r18").prop("checked") ? "1" : "0",
+			'is_private'     : is_private,
+			'character_list' : character,
 		};
-	var result = ajaxPost("stage", "set", params);
-    result.done(function(){
-    	if (result.return_value['error_redirect'] !== undefined && result.return_value['error_redirect'] != ""){
-    		// エラーページへリダイレクト
-    		location.href = "/err/" + result.return_value['error_redirect'] + ".php";
-    		return false;
-    	}
-    	else if (result.return_value['error_message_list'] !== undefined){
-    		// エラーがある場合
-    		alertMsg(result.return_value['error_message_list']);
-    		return false;
-    	}
-    	else {
-    		// 正常な場合
+	var result = ajaxPost("episode", "set", params);
+	result.done(function(){
+		if (result.return_value['error_redirect'] !== undefined && result.return_value['error_redirect'] != ""){
+			// エラーページへリダイレクト
+			location.href = "/err/" + result.return_value['error_redirect'] + ".php";
+			return false;
+		}
+		else if (result.return_value['error_message_list'] !== undefined){
+			// エラーがある場合
+			alertMsg(result.return_value['error_message_list']);
+			return false;
+		}
+		else {
+			// 正常な場合
+			$('#modal-setEpisode').modal('hide');
     		location.reload();
-    		return true;
-    	}
-    });
-}
-
-/*
- * 更新（公開/非公開）
- */
-function setStageIsPrivate(is_private){
-	var params = {
-			'id'         : $("#area-setStage").find(".form-id").val(),
-			'is_private' : is_private,
-		};
-	var result = ajaxPost("stage", "setIsPrivate", params);
-    result.done(function(){
-    	if (result.return_value['error_redirect'] !== undefined && result.return_value['error_redirect'] != ""){
-    		// エラーページへリダイレクト
-    		location.href = "/err/" + result.return_value['error_redirect'] + ".php";
-    		return false;
-    	}
-    	else if (result.return_value['error_message_list'] !== undefined){
-    		// エラーがある場合
-    		alertMsg(result.return_value['error_message_list']);
-    		return false;
-    	}
-    	else {
-    		// 正常な場合
-    		location.reload();
-    		return true;
-    	}
-    });
+			return true;
+		}
+	});
 }
 
 /*
  * 削除
  */
-function delStage(){
-    if (!confirm("本当にこのステージを削除してよろしいですか？\n（このステージに属するキャラクターやエピソードは削除されません）")){
+function delEpisode(){
+    if (!confirm("本当にこのエピソードを削除してよろしいですか？")){
         return false;
     }
 	var params = {
-			'id' : $("#area-setStage").find(".form-id").val(),
+			'id' : $("#modal-setEpisode").find(".form-id").val(),
 		};
-	var result = ajaxPost("stage", "del", params);
+	var result = ajaxPost("episode", "del", params);
     result.done(function(){
     	if (result.return_value['error_redirect'] !== undefined && result.return_value['error_redirect'] != ""){
     		// エラーページへリダイレクト
@@ -172,7 +184,8 @@ function delStage(){
     	}
     	else {
     		// 正常な場合
-    		location.href = "/user/stage/";
+			$('#modal-setEpisode').modal('hide');
+    		location.reload();
     		return true;
     	}
     });
@@ -189,6 +202,7 @@ function drawEpisodeList(dat){
 		var obj = $(obj_base).clone().appendTo($("#timeline_for_stage"));
 		
 		// データ貼り付け
+		$(obj).data("id", dat.id);
 		$(obj).find(".timeline-title").text(dat.title);
 		$(obj).find(".timeline-label").removeClass("template-for-copy");
 	}
@@ -198,6 +212,7 @@ function drawEpisodeList(dat){
 		var obj = $(obj_base).clone().appendTo($("#timeline_for_stage"));
 		
 		// データ貼り付け
+		$(obj).data("id", dat.id);
 		$(obj).find(".timeline-title").text(dat.title);
 		$(obj).find(".timeline-url > a").attr("href", dat.url);
 		$(obj).find(".timeline-url > a").text(dat.url);
@@ -229,3 +244,66 @@ function drawEpisodeList(dat){
 	// テンプレート用クラスを外す
 	obj.removeClass("template-for-copy");
 }
+
+/*
+ * エピソード更新フォームに値をセット
+ */
+//$(".timeline-editable").on("click", function(){
+//	console.log( $(this).data("id") );
+//	return true;
+//});
+$(document).on("click", "li.timeline-editable", function(){
+	var id = $(this).data("id");
+
+	var result = ajaxPost("episode", "get", {id: id});
+    result.done(function(){
+    	if (result.return_value['error_redirect'] !== undefined && result.return_value['error_redirect'] != ""){
+    		// エラーページへリダイレクト
+    		location.href = "/err/" + result.return_value['error_redirect'] + ".php";
+    		return false;
+    	}
+    	else if (result.return_value['episode']['id'] == undefined){
+    		// エラーがある場合
+    		alertMsg(["データの取得に失敗しました。お手数ですが最初からやり直してください。"]);
+    		logout();
+    		return false;
+    	}
+    	else {
+    		// 正常な場合
+			$("#modal-setEpisode").find(".form-id").val(result.return_value['episode']['id']);
+			$("#modal-setEpisode").find(".form-is_label").val(result.return_value['episode']['is_label']);
+			$("#modal-setEpisode").find(".form-title").val(result.return_value['episode']['title']);
+			$("#modal-setEpisode").find(".character-selectable").addClass("character-notselected");
+			if (result.return_value['episode']['is_private'] == 1){
+				$(".is_public").hide();
+				$(".is_private").show();
+			}
+			else{
+				$(".is_private").hide();
+				$(".is_public").show();
+			}
+			
+			if (result.return_value['episode']['is_label'] == 1){
+				$(".not_use_for_label").hide();
+				$("#modal-setEpisode").find(".form-category").val([""]);
+				$("#modal-setEpisode").find(".form-url").val("");
+				$("#modal-setEpisode").find(".form-free_text").val("");
+				$("#modal-setEpisode").find(".form-is_private").prop("checked", false);
+				$("#modal-setEpisode").find(".form-is_r18").prop("checked", false);
+			}
+			else{
+				$(".not_use_for_label").show();
+				$("#modal-setEpisode").find(".form-category").val([result.return_value['episode']['category']]);
+				$("#modal-setEpisode").find(".form-url").val(result.return_value['episode']['url']);
+				$("#modal-setEpisode").find(".form-free_text").val(result.return_value['episode']['free_text']);
+				$("#modal-setEpisode").find(".form-is_private").prop("checked", result.return_value['episode']['is_private'] == "1" ? true : false);
+				$("#modal-setEpisode").find(".form-is_r18").prop("checked", result.return_value['episode']['is_r18'] == "1" ? true : false);
+
+				$(result.return_value['episode']['character_list']).each(function(i, e){
+					$("#modal-setEpisode").find(".character-selectable[value='" + e.id + "']").removeClass("character-notselected");
+				});
+			}
+    		return true;
+		}
+    });
+});

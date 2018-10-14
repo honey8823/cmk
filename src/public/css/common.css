@@ -53,10 +53,12 @@
 
 /* ステージ画面用タイムライン */
 .timeline.timeline-stage{
-    margin: 30px 0 30px 0;
+	margin: 30px 0 30px 0;
 }
+.timeline-editable{
+	cursor: pointer;
+} 
 /* **************************************** */
-
 
 /* テーブル内リンクをセル全体に広げる */
 table a {
@@ -66,6 +68,11 @@ table a {
 /* コピー用テンプレート（非表示にする） */
 .template-for-copy{
 	display: none;
+}
+
+/* ボタンの右寄せ */
+.button-layout-right{
+	text-align: right;
 }
 
 /* ツールチップ */

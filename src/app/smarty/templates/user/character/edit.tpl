@@ -58,14 +58,15 @@
               {/foreach}
               </div>
             </div>
-
+<!--
             <div class="box-body">
               <button type="button" class="btn btn-primary{if $character.is_private != 1} hidden{else}{/if}" onclick="setCharacterIsPrivate(0);">公開する<small>(現在非公開です)</small></button>
               <button type="button" class="btn btn-primary{if $character.is_private == 1} hidden{else}{/if}" onclick="setCharacterIsPrivate(1);">非公開にする<small>(現在公開中です)</small></button>
             </div>
-            <div class="box-body">
-              <button type="button" class="btn btn-warning pull-right" onclick="delCharacter()">このキャラクターを削除</button>
-              <button type="button" class="btn btn-primary pull-right" onclick="setCharacter();">更新する</button>
+-->
+            <div class="box-body button-layout-right">
+              <button type="button" class="btn btn-warning" onclick="delCharacter()">このキャラクターを削除</button>
+              <button type="button" class="btn btn-primary" onclick="setCharacter();">更新する</button>
             </div>
           </div>
         </div>
@@ -74,22 +75,41 @@
           <div class="nav-tabs-custom">
             <ul class="nav nav-tabs">
               <li class="active"><a href="#tab-content-timeline" data-toggle="tab" aria-expanded="true">タイムライン</a></li>
+<!--
               <li class=""><a href="#tab-content-stage" data-toggle="tab" aria-expanded="false">ステージ</a></li>
+-->
             </ul>
             <div class="tab-content">
               <div class="tab-pane active" id="tab-content-timeline">
-                <ul>
-                  <li>timeline1</li>
-                  <li>timeline2</li>
+<!--
+                <button type="button" class="btn btn-primary pull-right">このキャラクターにエピソードを追加する</button>
+-->
+                <ul class="timeline template-for-copy" id="timeline_for_stage_template">
+                  <li class="time-label timeline-editable timeline-label template-for-copy" data-id="" data-toggle="modal" data-target="#modal-setEpisode"><span class="bg-red timeline-title"></span></li>
+                  <li class="timeline-content timeline-editable template-for-copy" data-id="" data-toggle="modal" data-target="#modal-setEpisode">
+                    <i class="fa fa-arrow-right bg-blue"></i>
+                    <div class="timeline-item">
+                      <h3 class="timeline-header timeline-title no-border"></h3>
+                      <div class="timeline-body">
+                        <p class="timeline-url"><a href="" target="_blank"></a></p>
+                        <p class="timeline-free_text"></p>
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+                <ul class="timeline timeline-stage" id="timeline_for_stage">
                 </ul>
               </div>
+<!--
               <div class="tab-pane" id="tab-content-stage">
+                <button type="button" class="btn btn-primary pull-right">このキャラクターにエピソードを追加する</button>
                 <ul>
               {foreach from=$character.stage_list key=k item=v_stage}
                 <li><a href="/user/stage/edit.php?id={$v_stage.id}">{$v_stage.name}</a></li>
               {/foreach}
                 </ul>
               </div>
+-->
             </div>
           </div>
         </div>
@@ -110,6 +130,18 @@
 <script src="/js/common.js"></script>
 <script src="/js/sidebar.js"></script>
 <script src="/js/character.js"></script>
+<script src="/js/episode.js"></script>
+<script>
+// 読み込み完了時の処理
+$(function(){
+	// データ読み込み
+	var param = {
+		stage_id     : "",
+        character_id : {$character.id},
+	}
+	timeline(param);
+});
+</script>
 <!-- JS end -->
 </body>
 </html>

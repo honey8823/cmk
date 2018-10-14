@@ -1,26 +1,18 @@
-  <!-- エピソード登録modal -->
-  <div class="modal fade" id="modal-addEpisode">
+  <!-- エピソード更新modal -->
+  <div class="modal fade" id="modal-setEpisode">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span></button>
-          <h4 class="modal-title">エピソード登録</h4>
+          <h4 class="modal-title">エピソード更新</h4>
         </div>
         <div class="modal-body">
-        {if isset($stage.id)}
-          <input type="hidden" name="stage_id" class="form-stage_id" value="{$stage.id}">
-        {else}
+          <input type="hidden" name="id" class="form-id" value="">
+          <input type="hidden" name="is_label" class="form-is_label" value="">
+{***
           // todo::ステージ選択のセレクトボックス
-        {/if}
-          <div>
-            <label>ラベルにする</label>
-            <span class="menu-tooltip">
-              <i class="fa fa-question-circle fa-fw" aria-hidden="true"></i>
-              <span class="menu-tooltiptext">{$config.tooltip.episode_is_label}</span>
-            </span>
-            <input type="checkbox" name="is_label" class="form-is_label">
-          </div>
+***}
           <div class="not_use_for_label">
             <label>カテゴリ</label>
             <span class="menu-tooltip">
@@ -28,7 +20,7 @@
               <span class="menu-tooltiptext">{$config.tooltip.episode_category}</span>
             </span>
           {foreach from=$config.episode_category key=k item=v_category}
-            <input type="radio" name="category" class="form-category" value="{$v_category.value}"{if $v_category.value == 1} checked{/if}>{$v_category.name}
+            <input type="radio" name="category" class="form-category" value="{$v_category.value}">{$v_category.name}
           {/foreach}
           </div>
           <div>
@@ -72,11 +64,13 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default pull-left" data-dismiss="modal">キャンセル</button>
-          <button type="button" class="btn btn-primary" onclick="addEpisode(1);">登録</button>
- <!--
-          <button type="button" class="btn btn-primary" onclick="addEpisode(0);">登録（公開する）</button>
-          <button type="button" class="btn btn-primary" onclick="addEpisode(1);">登録（非公開）</button>
- -->
+          <button type="button" class="btn btn-warning" onclick="delEpisode();">このエピソードを削除</button>
+          <button type="button" class="btn btn-primary" onclick="setEpisode(1);">登録</button>
+<!--
+          <button type="button" class="btn btn-primary" onclick="setEpisode(0);">登録（公開する）</button>
+          <button type="button" class="btn btn-primary" onclick="setEpisode(1);">登録（非公開）</button>
+          <div style="text-align: right;">※現在は <u><span class="is_public">公開中</span><span class="is_private">非公開</span></u> です。</div>
+-->
         </div>
       </div>
     </div>

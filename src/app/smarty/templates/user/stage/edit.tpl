@@ -62,13 +62,15 @@
               {/foreach}
               </div>
             </div>
+<!--
             <div class="box-body">
               <button type="button" class="btn btn-primary{if $stage.is_private != 1} hidden{else}{/if}" onclick="setStageIsPrivate(0);">公開する<small>(現在非公開です)</small></button>
               <button type="button" class="btn btn-primary{if $stage.is_private == 1} hidden{else}{/if}" onclick="setStageIsPrivate(1);">非公開にする<small>(現在公開中です)</small></button>
             </div>
-            <div class="box-body">
-              <button type="button" class="btn btn-warning pull-right" onclick="delStage();">このステージを削除</button>
-              <button type="button" class="btn btn-primary pull-right" onclick="setStage();">更新する</button>
+-->
+            <div class="box-body button-layout-right">
+              <button type="button" class="btn btn-warning" onclick="delStage();">このステージを削除</button>
+              <button type="button" class="btn btn-primary" onclick="setStage();">更新する</button>
             </div>
           </div>
         </div>
@@ -82,9 +84,10 @@
             <div class="tab-content">
               <div class="tab-pane active" id="tab-content-timeline">
                 <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#modal-addEpisode">このステージのタイムラインにエピソードを追加する</button>
+                <div><small>登録後のエピソードはドラッグ＆ドロップで並べ替えることができます。</small></div>
                 <ul class="timeline template-for-copy" id="timeline_for_stage_template">
-                  <li class="time-label timeline-label template-for-copy"><span class="bg-red timeline-title"></span></li>
-                  <li class="timeline-content template-for-copy">
+                  <li class="time-label timeline-editable timeline-label template-for-copy" data-id="" data-toggle="modal" data-target="#modal-setEpisode"><span class="bg-red timeline-title"></span></li>
+                  <li class="timeline-content timeline-editable template-for-copy" data-id="" data-toggle="modal" data-target="#modal-setEpisode">
                     <i class="fa fa-arrow-right bg-blue"></i>
                     <div class="timeline-item">
                       <h3 class="timeline-header timeline-title no-border"></h3>
@@ -95,97 +98,12 @@
                     </div>
                   </li>
                 </ul>
-                <ul class="timeline timeline-stage" id="timeline_for_stage">
-
-                  
-{**********************
-                  {foreach from=$episode_list key=k item=v_episode}
-                {if $v_episode.is_label == 1}
-                  <li class="time-label"><span class="bg-red">{$v_episode.title}</span></li>
-                {else}
-                  <li>
-                    {if $v_episode.category == 2}<i class="fa fa-arrow-right bg-green"></i>
-                    {elseif $v_episode.category == 3}<i class="fa fa-arrow-right bg-red"></i>
-                    {else}<i class="fa fa-arrow-right bg-blue"></i>{/if}
-                    <div class="timeline-item">
-                      <h3 class="timeline-header no-border">{$v_episode.title}</h3>
-                      <div class="timeline-body">
-                        {if $v_episode.url != ""}<a href="{$v_episode.url}" target="_blank">{$v_episode.url}</a>{/if}
-                        {$v_episode.free_text}
-                      </div>
-                    </div>
-                  </li>
-                {/if}
-                {/foreach}
-**********************}
+                <ul class="timeline timeline-stage sortable" id="timeline_for_stage">
                 </ul>
-
-                
-<ul class="timeline timeline-stage">
-            <!-- timeline time label -->
-            <li class="time-label">
-                  <span class="bg-red">
-                    ドラゴン襲来前
-                  </span>
-            </li>
-
-            <li>
-              <i class="fa fa-arrow-right bg-blue"></i>
-              <div class="timeline-item">
-                <h3 class="timeline-header no-border">aaaとbbbが出会ったときの話のメモ</h3>
-                <div class="timeline-body">
-                  aaaとbbbは元々同じ中学校だったがなんとかかんとか... 
-                  <p><small><a href="#">全文を表示</a></small></p>
-                </div>
-              </div>
-            </li>
-
-            <li>
-              <i class="fa fa-arrow-right bg-blue"></i>
-              <div class="timeline-item">
-                <h3 class="timeline-header no-border">ムラクモ選抜試験直前のおはなし</h3>
-                <div class="timeline-body">
-                  <a href="#">http://twitter.com/...</a>
-                  twitterに上げた漫画です。<br>
-                  補足として、aaaとbbbは幼馴染だったので二人で組み、cccが合流する形になっています。
-                </div>
-              </div>
-            </li>
-
-            <li class="time-label">
-                  <span class="bg-red">
-                    ～2020の3章
-                  </span>
-            </li>
-
-                        <li>
-              <i class="fa fa-arrow-right bg-blue"></i>
-              <div class="timeline-item">
-                <h3 class="timeline-header no-border">dddが13班に加入</h3>
-              </div>
-            </li>
-            
-            <li>
-              <i class="fa fa-arrow-right bg-blue"></i>
-              <div class="timeline-item">
-                <h3 class="timeline-header no-border">ここでルート分岐</h3>
-                <div class="timeline-body">
-                  bbbが失踪するパターン・メタルぽんぽこの代わりにaaaがなんやかんやで犠牲になるパターン
-                </div>
-              </div>
-            </li>
-
-          </ul>
-                
-                
-                
-                
-                
-                
-                
               </div>
               <div class="tab-pane" id="tab-content-character">
-                <button type="button" class="btn btn-primary btn-block">作成済みのキャラクターをこのステージに割り当てる</button>
+                <button type="button" class="btn btn-primary btn-block disabled">作成済みのキャラクターをこのステージに割り当てる</button>
+                <div><small>今後、ステージに含まれるキャラクターを変更しやすいよう機能を追加する予定です。</small></div>
                 <ul>
                 {foreach from=$stage.character_list key=k item=v_character}
                   <li><a href="/user/character/edit.php?id={$v_character.id}">{$v_character.name}</a></li>
@@ -203,6 +121,7 @@
   <!-- Main content end -->
 
   {include file='common/episode_add_modal.tpl'}
+  {include file='common/episode_set_modal.tpl'}
   
   {include file='common/footer.tpl'}
 
@@ -215,7 +134,6 @@
 <script src="/js/sidebar.js"></script>
 <script src="/js/stage.js"></script>
 <script src="/js/episode.js"></script>
-
 <script>
 // 読み込み完了時の処理
 $(function(){
