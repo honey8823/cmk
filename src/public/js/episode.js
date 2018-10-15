@@ -211,12 +211,17 @@ function drawEpisodeList(dat){
 		var obj_base = $("#timeline_for_stage_template").find(".timeline-content")[0];
 		var obj = $(obj_base).clone().appendTo($("#timeline_for_stage"));
 
+		if (dat.free_text != undefined && dat.free_text != ""){
+			console.log(dat.free_text);
+			dat.free_text = dat.free_text.replace(/\r?\n/g, '<br>');
+		}
+
 		// データ貼り付け
 		$(obj).data("id", dat.id);
 		$(obj).find(".timeline-title").text(dat.title);
 		$(obj).find(".timeline-url > a").attr("href", dat.url);
 		$(obj).find(".timeline-url > a").text(dat.url);
-		$(obj).find(".timeline-free_text").html(dat.free_text.replace(/\r?\n/g, '<br>'));
+		$(obj).find(".timeline-free_text").html(dat.free_text);
 		$(obj).find(".timeline-content").removeClass("template-for-copy");
 	}
 
