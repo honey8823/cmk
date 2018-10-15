@@ -19,7 +19,7 @@ $(function() {
 			var params = {
 				id_list : ids,
 			};
-			
+
 			var result = ajaxPost("episode", "setSort", params);
 			result.done(function(){
 				if (result.return_value['error_redirect'] !== undefined && result.return_value['error_redirect'] != ""){
@@ -51,7 +51,7 @@ function timeline(params){
 		//todo:: パラメータ未定義の場合
 		var params = {};
 	}
-	
+
 	var result = ajaxPost("episode", "timeline", params);
 	result.done(function(){
     	if (result.return_value['error_redirect'] !== undefined && result.return_value['error_redirect'] != ""){
@@ -195,12 +195,12 @@ function delEpisode(){
  * local::一覧描画
  */
 function drawEpisodeList(dat){
-	
+
 	if (dat.is_label == 1){
 		// 行をコピー
 		var obj_base = $("#timeline_for_stage_template").find(".timeline-label")[0];
 		var obj = $(obj_base).clone().appendTo($("#timeline_for_stage"));
-		
+
 		// データ貼り付け
 		$(obj).data("id", dat.id);
 		$(obj).find(".timeline-title").text(dat.title);
@@ -210,13 +210,13 @@ function drawEpisodeList(dat){
 		// 行をコピー
 		var obj_base = $("#timeline_for_stage_template").find(".timeline-content")[0];
 		var obj = $(obj_base).clone().appendTo($("#timeline_for_stage"));
-		
+
 		// データ貼り付け
 		$(obj).data("id", dat.id);
 		$(obj).find(".timeline-title").text(dat.title);
 		$(obj).find(".timeline-url > a").attr("href", dat.url);
 		$(obj).find(".timeline-url > a").text(dat.url);
-		$(obj).find(".timeline-free_text").text(dat.free_text);
+		$(obj).find(".timeline-free_text").html(dat.free_text.replace(/\r?\n/g, '<br>'));
 		$(obj).find(".timeline-content").removeClass("template-for-copy");
 	}
 
@@ -282,7 +282,7 @@ $(document).on("click", "li.timeline-editable", function(){
 				$(".is_private").hide();
 				$(".is_public").show();
 			}
-			
+
 			if (result.return_value['episode']['is_label'] == 1){
 				$(".not_use_for_label").hide();
 				$("#modal-setEpisode").find(".form-category").val([""]);
