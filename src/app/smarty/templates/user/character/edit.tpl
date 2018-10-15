@@ -91,8 +91,10 @@
                     <div class="timeline-item">
                       <h3 class="timeline-header timeline-title no-border"></h3>
                       <div class="timeline-body">
-                        <p class="timeline-url"><a href="" target="_blank"></a></p>
-                        <p class="timeline-free_text"></p>
+                        <small>
+                          <p class="timeline-free_text"></p>
+                          <p class="timeline-url"><a href="" target="_blank"></a></p>
+                        </small>
                       </div>
                     </div>
                   </li>
