@@ -176,7 +176,7 @@ class EpisodeController extends Common
 			// todo::エラー処理
 		}
 	}
-	
+
 	public function get($param_list = array())
 	{
 		try
@@ -531,8 +531,7 @@ class EpisodeController extends Common
 			// todo::エラー処理
 		}
 	}
-	
-	
+
 	public function setIsPrivate($param_list = array())
 	{
 		try

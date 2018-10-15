@@ -33,15 +33,9 @@
         <div class="col-md-6">
           <div id="list-stage" class="box">
             <div class="box-body no-padding">
-              <table class="table table-hover table-stage">
+              <table class="table table-hover">
                 <tr>
                   <td>通知はありません<small>（β版実装）</small></td>
-                </tr>
-                <!-- テーブルテンプレート -->
-                <tr class="stage_list template-for-copy">
-                  <td class="td-name"><a href="/user/stage/edit.php?" class="stage_id"><span class="stage_name"></span></a></td>
-                  <td class="td-tag"><span class="template-for-copy label tag-base"></span></td>
-                  <td class="td-is_private"><span class="stage_is_private_0">公開</span><span class="stage_is_private_1">非公開</span></td>
                 </tr>
               </table>
             </div>

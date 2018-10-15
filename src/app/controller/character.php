@@ -6,8 +6,8 @@ class CharacterController extends Common
 		try
 		{
 			// 引数
-			$sort_column = isset($param_list['sort_column']) ? trim($param_list['sort_column']) : "id";
-			$sort_order  = isset($param_list['sort_order'])  ? trim($param_list['sort_order'])  : "desc";
+			$sort_column = isset($param_list['sort_column']) ? trim($param_list['sort_column']) : "";
+			$sort_order  = isset($param_list['sort_order'])  ? trim($param_list['sort_order'])  : "";
 			$limit       = isset($param_list['limit'])       ? trim($param_list['limit'])       : "20";
 			$offset      = isset($param_list['offset'])      ? trim($param_list['offset'])      : "0";
 
@@ -29,7 +29,15 @@ class CharacterController extends Common
 			$sql .= "WHERE    `user_id` = ? ";
 			$arg_list[] = $user_id;
 			$sql .= "AND      `is_delete` <> 1 ";
-			$sql .= "ORDER BY `" . $sort_column . "` " . $sort_order . " ";
+			if ($sort_column == "")
+			{
+				$sql .= "ORDER BY `sort` = 0 ASC ";
+				$sql .= "        ,`sort` ASC ";
+			}
+			else
+			{
+				$sql .= "ORDER BY `" . $sort_column . "` " . $sort_order . " ";
+			}
 			$sql .= "LIMIT    " . $offset . ", " . ($limit + 1) . " ";
 			$character_list = $this->query($sql, $arg_list);
 
@@ -228,8 +236,8 @@ class CharacterController extends Common
 			// todo::エラー処理
 		}
 	}
-        	
-        public function set($param_list = array())
+
+	public function set($param_list = array())
 	{
 		try
 		{
@@ -371,6 +379,45 @@ class CharacterController extends Common
 				'id'         => $id,
 				'is_private' => $is_private,
 			);
+			return $return_list;
+		}
+		catch (Exception $e)
+		{
+			// todo::エラー処理
+		}
+	}
+
+	public function setSort($param_list = array())
+	{
+		try
+		{
+			// ユーザID
+			$user_id    = $this->getLoginId();
+			if ($user_id === false)
+			{
+				return array('error_redirect' => "session");
+			}
+
+			// 引数
+			$id_list = isset($param_list['id_list']) && is_array($param_list['id_list']) ? $param_list['id_list'] : array();
+
+			// 更新
+			$sql  = "UPDATE `character` ";
+			$sql .= "SET    `sort` = ? ";
+			$sql .= "WHERE  `id` = ? ";
+			$sql .= "AND    `user_id` = ? ";
+			foreach ($id_list as $sort => $id)
+			{
+				$arg_list = array(
+					$sort + 1,
+					$id,
+					$user_id,
+				);
+				$this->query($sql, $arg_list);
+			}
+
+			// 戻り値
+			$return_list = array($id_list);
 			return $return_list;
 		}
 		catch (Exception $e)

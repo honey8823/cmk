@@ -1,3 +1,37 @@
+// ドラッグ＆ドロップでソート可能にする
+$(function() {
+    $(".ul-character.sortable").sortable({
+        update: function(){
+			var ids = [];
+			$(".ul-character > li:not(.template-for-copy)").each(function(i, e){
+				ids.push($(e).data("id"));
+			});
+			var params = {
+				id_list : ids,
+			};
+
+			var result = ajaxPost("character", "setSort", params);
+			result.done(function(){
+				if (result.return_value['error_redirect'] !== undefined && result.return_value['error_redirect'] != ""){
+					// エラーページへリダイレクト
+					location.href = "/err/" + result.return_value['error_redirect'] + ".php";
+					return false;
+				}
+				else if (result.return_value['error_message_list'] !== undefined){
+					// エラーがある場合
+					alertMsg(result.return_value['error_message_list']);
+					return false;
+				}
+				else {
+					// 正常な場合
+					// 何もしない
+					return true;
+				}
+			});
+		}
+    });
+});
+
 /*
  * 一覧取得
  */
@@ -13,8 +47,8 @@ function tableCharacter(){
 	}
 
 	var params = {
-			'sort_column' : "id",
-			'sort_order'  : "desc",
+			'sort_column' : "",
+			'sort_order'  : "",
 			'limit'       : limit,
 			'offset'      : offset,
 		};
@@ -191,6 +225,9 @@ function drawCharacterList(dat){
 	var obj_base = $("#list-character").find(".character_list.template-for-copy")[0];
 	var obj = $(obj_base).clone().appendTo($(obj_base).parent());
 
+	// キャラクターID
+	$(obj).data("id", dat.id);
+
 	// キャラクター名
 	$(obj).find(".character_name").text(dat.name);
 
@@ -200,7 +237,7 @@ function drawCharacterList(dat){
 
 	// ステージ
 	$(dat.stage_list).each(function(i, e){
-		var obj_stage_base = $(obj).find(".td-stage > .stage.template-for-copy")[0];
+		var obj_stage_base = $(obj).find(".stage > .stage.template-for-copy")[0];
 		var obj_stage = $(obj_stage_base).clone().appendTo($(obj_stage_base).parent());
 
 		// ステージ名

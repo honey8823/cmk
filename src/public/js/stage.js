@@ -1,3 +1,37 @@
+// ドラッグ＆ドロップでソート可能にする
+$(function() {
+    $(".ul-stage.sortable").sortable({
+        update: function(){
+			var ids = [];
+			$(".ul-stage > li:not(.template-for-copy)").each(function(i, e){
+				ids.push($(e).data("id"));
+			});
+			var params = {
+				id_list : ids,
+			};
+
+			var result = ajaxPost("stage", "setSort", params);
+			result.done(function(){
+				if (result.return_value['error_redirect'] !== undefined && result.return_value['error_redirect'] != ""){
+					// エラーページへリダイレクト
+					location.href = "/err/" + result.return_value['error_redirect'] + ".php";
+					return false;
+				}
+				else if (result.return_value['error_message_list'] !== undefined){
+					// エラーがある場合
+					alertMsg(result.return_value['error_message_list']);
+					return false;
+				}
+				else {
+					// 正常な場合
+					// 何もしない
+					return true;
+				}
+			});
+		}
+    });
+});
+
 /*
  * 一覧取得
  */
@@ -166,7 +200,10 @@ function drawStageList(dat){
 	var obj_base = $("#list-stage").find(".stage_list.template-for-copy")[0];
 	var obj = $(obj_base).clone().appendTo($(obj_base).parent());
 
-	// キャラクター名
+	// ステージID
+	$(obj).data("id", dat.id);
+
+	// ステージ名
 	$(obj).find(".stage_name").text(dat.name);
 
 	// リンク先
@@ -175,7 +212,7 @@ function drawStageList(dat){
 
 	// タグ
 	$(dat.tag_list).each(function(i_tag, e_tag){
-		var obj_tag_base = $(obj).find(".td-tag > .tag-base.template-for-copy")[0];
+		var obj_tag_base = $(obj).find(".tag > .tag-base.template-for-copy")[0];
 		var obj_tag = $(obj_tag_base).clone().appendTo($(obj_tag_base).parent());
 
 		// タグ略称

@@ -16,6 +16,7 @@
       </a>
 
       <div class="navbar-custom-menu">
+{***
         <!-- search form (Optional) -->
         <form action="#" method="get" class="navbar-form">
           <div class="input-group">
@@ -26,6 +27,7 @@
           </div>
         </form>
         <!-- /.search form -->
+***}
       </div>
 
     </nav>

@@ -122,7 +122,7 @@
 
   {include file='common/episode_add_modal.tpl'}
   {include file='common/episode_set_modal.tpl'}
-  
+
   {include file='common/footer.tpl'}
 
 </div>
@@ -130,6 +130,7 @@
 
 <!-- JS start -->
 {include file='common/adminlte_js.tpl'}
+<script src="/js/lib/jquery.ui.touch-punch.min.js"></script>
 <script src="/js/common.js"></script>
 <script src="/js/sidebar.js"></script>
 <script src="/js/stage.js"></script>

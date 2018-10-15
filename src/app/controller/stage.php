@@ -140,7 +140,7 @@ class StageController extends Common
 					);
 				}
 			}
-                        
+
                         // 取得（キャラクター）・整形
 			$arg_list = array();
 			$sql  = "SELECT     `character`.`id` ";
@@ -164,7 +164,7 @@ class StageController extends Common
 					);
 				}
 			}
-                        
+
 			// 戻り値
 			$return_list['stage'] = $stage_list[0];
 			return $return_list;
@@ -400,6 +400,45 @@ class StageController extends Common
 				'id'         => $id,
 				'is_private' => $is_private,
 			);
+			return $return_list;
+		}
+		catch (Exception $e)
+		{
+			// todo::エラー処理
+		}
+	}
+
+	public function setSort($param_list = array())
+	{
+		try
+		{
+			// ユーザID
+			$user_id    = $this->getLoginId();
+			if ($user_id === false)
+			{
+				return array('error_redirect' => "session");
+			}
+
+			// 引数
+			$id_list = isset($param_list['id_list']) && is_array($param_list['id_list']) ? $param_list['id_list'] : array();
+
+			// 更新
+			$sql  = "UPDATE `stage` ";
+			$sql .= "SET    `sort` = ? ";
+			$sql .= "WHERE  `id` = ? ";
+			$sql .= "AND    `user_id` = ? ";
+			foreach ($id_list as $sort => $id)
+			{
+				$arg_list = array(
+					$sort + 1,
+					$id,
+					$user_id,
+				);
+				$this->query($sql, $arg_list);
+			}
+
+			// 戻り値
+			$return_list = array($id_list);
 			return $return_list;
 		}
 		catch (Exception $e)

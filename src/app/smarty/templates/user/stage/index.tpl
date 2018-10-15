@@ -43,16 +43,15 @@
           </div>
           <div id="list-stage" class="box">
             <div class="box-body no-padding">
-              <table class="table table-hover table-stage">
-                <!-- テーブルテンプレート -->
-                <tr class="stage_list template-for-copy">
-                  <td class="td-name"><a href="/user/stage/edit.php?" class="stage_id"><span class="stage_name"></span></a></td>
-                  <td class="td-tag"><span class="template-for-copy label tag-base"></span></td>
-<!--
-                  <td class="td-is_private"><span class="stage_is_private_0">公開</span><span class="stage_is_private_1">非公開</span></td>
--->
-                </tr>
-              </table>
+
+              <ul class="ul-stage sortable">
+                <li class="stage_list template-for-copy" data-id="">
+                  <span class="is_private"><span class="stage_is_private_0"><i class="fa fa-unlock fa-fw"></i></span><span class="stage_is_private_1"><i class="fa fa-lock fa-fw"></i></span></span>
+                  <span class="name"><a href="/user/stage/edit.php?" class="stage_id"><span class="stage_name"></span></a></span>
+                  <span class="tag"><span class="template-for-copy label tag-base"></span></span>
+                </li>
+              </ul>
+
             </div>
           </div>
         </div>
@@ -107,6 +106,7 @@
 
 <!-- JS start -->
 {include file='common/adminlte_js.tpl'}
+<script src="/js/lib/jquery.ui.touch-punch.min.js"></script>
 <script src="/js/common.js"></script>
 <script src="/js/sidebar.js"></script>
 <script src="/js/stage.js"></script>

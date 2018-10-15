@@ -45,16 +45,15 @@
           </div>
           <div id="list-character" class="box">
             <div class="box-body no-padding">
-              <table class="table table-hover table-character">
-                <!-- テーブルテンプレート -->
-                <tr class="character_list template-for-copy">
-                  <td class="td-name"><a href="/user/character/edit.php?" class="character_id"><span class="character_name"></span></a></td>
-                  <td class="td-stage"><span class="template-for-copy badge stage"></span></td>
-<!--
-                  <td class="td-is_private"><span class="character_is_private_0">公開</span><span class="character_is_private_1">非公開</span></td>
--->
-                </tr>
-              </table>
+
+              <ul class="ul-character sortable">
+                <li class="character_list template-for-copy" data-id="">
+                  <span class="is_private"><span class="character_is_private_0"><i class="fa fa-unlock fa-fw"></i></span><span class="character_is_private_1"><i class="fa fa-lock fa-fw"></i></span></span>
+                  <span class="name"><a href="/user/character/edit.php?" class="character_id"><span class="character_name"></span></a></span>
+                  <span class="stage"><span class="template-for-copy badge stage"></span></span>
+                </li>
+              </ul>
+
             </div>
             <div class="box-body no-padding">
               <button type="button" class="btn btn-default btn-block btn-more disabled" onclick="tableCharacter();">もっとみる</button>
@@ -110,6 +109,7 @@
 <!-- ./wrapper -->
 
 <!-- JS start -->
+<script src="/js/lib/jquery.ui.touch-punch.min.js"></script>
 {include file='common/adminlte_js.tpl'}
 <script src="/js/common.js"></script>
 <script src="/js/sidebar.js"></script>

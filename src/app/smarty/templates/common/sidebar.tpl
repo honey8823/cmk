@@ -37,7 +37,12 @@
             <i class="fa fa-file-text" aria-hidden="true"></i> <span>お気に入り</span><small>＜β版実装＞</small>
           </a>
         </li>
-        <li class="header">アカウント</li>
+        <li class="header">アカウント・その他</li>
+        <li>
+          <a href="/help.php">
+            <i class="fa fa-question-circle" aria-hidden="true"></i> <span>ヘルプ</span>
+          </a>
+        </li>
         <li>
           <a href="#" data-toggle="modal" data-target="#modal-setUser" onclick="setUserForm();">
             <i class="fa fa-user-circle" aria-hidden="true"></i> <span>アカウント情報</span>
@@ -51,8 +56,8 @@
       </ul>
       <ul class="sidebar-menu logged-out" data-widget="tree">
         <li>
-          <a href="#">
-            <i class="fa fa-question-circle" aria-hidden="true"></i> <span>このサイトについて</span>
+          <a href="/help.php">
+            <i class="fa fa-question-circle" aria-hidden="true"></i> <span>ヘルプ</span>
           </a>
         </li>
         <li>
