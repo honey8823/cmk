@@ -7,7 +7,7 @@ class StageController extends Common
 		{
 			// ユーザID
 			// ログイン状態でない場合はエラー
-			$user_id    = $this->getLoginId();
+			$user_id = $this->getLoginId();
 			if ($user_id === false)
 			{
 				return array('error_redirect' => "session");
@@ -141,7 +141,7 @@ class StageController extends Common
 				}
 			}
 
-                        // 取得（キャラクター）・整形
+			// 取得（キャラクター）・整形
 			$arg_list = array();
 			$sql  = "SELECT     `character`.`id` ";
 			$sql .= "          ,`character`.`name` ";
@@ -149,11 +149,11 @@ class StageController extends Common
 			$sql .= "INNER JOIN `character` ";
 			$sql .= "  ON       `character_stage`.`character_id` = `character`.`id` ";
 			$sql .= "WHERE      `character_stage`.`stage_id` = ? ";
-                        $sql .= "AND        `character`.`is_delete` <> 1 ";
+			$sql .= "AND        `character`.`is_delete` <> 1 ";
 			$sql .= "ORDER BY   `character_stage`.`sort` ASC ";
 			$arg_list = array($id);
 			$character_list = $this->query($sql, $arg_list);
-                        $stage_list[0]['character_list'] = array();
+			$stage_list[0]['character_list'] = array();
 			if (count($character_list) > 0)
 			{
 				foreach ($character_list as $v)
@@ -255,7 +255,7 @@ class StageController extends Common
 		try
 		{
 			// ユーザID
-			$user_id    = $this->getLoginId();
+			$user_id = $this->getLoginId();
 			if ($user_id === false)
 			{
 				return array('error_redirect' => "session");
@@ -265,7 +265,7 @@ class StageController extends Common
 			$id       = trim($param_list['id']);
 			$name     = trim($param_list['name']);
 			$remarks  = trim($param_list['remarks']);
-                        $tag_list = isset($param_list['tag_list']) && is_array($param_list['tag_list']) ? $param_list['tag_list'] : array();
+			$tag_list = isset($param_list['tag_list']) && is_array($param_list['tag_list']) ? $param_list['tag_list'] : array();
 
 			// バリデート
 			$err_list = array();
@@ -353,7 +353,7 @@ class StageController extends Common
 		try
 		{
 			// ユーザID
-			$user_id    = $this->getLoginId();
+			$user_id = $this->getLoginId();
 			if ($user_id === false)
 			{
 				return array('error_redirect' => "session");
@@ -452,14 +452,14 @@ class StageController extends Common
 		try
 		{
 			// ユーザID
-			$user_id    = $this->getLoginId();
+			$user_id = $this->getLoginId();
 			if ($user_id === false)
 			{
 				return array('error_redirect' => "session");
 			}
 
 			// 引数
-			$id         = trim($param_list['id']);
+			$id = trim($param_list['id']);
 
 			// バリデート
 			$err_list = array();
@@ -494,7 +494,7 @@ class StageController extends Common
 
 			// 戻り値
 			$return_list = array(
-				'id'         => $id,
+				'id' => $id,
 			);
 			return $return_list;
 		}

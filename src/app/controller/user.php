@@ -1,21 +1,6 @@
 <?php
 class UserController extends Common
 {
-	public function get($param_list = array())
-	{
-		//$sort_mode = $param_list['sort_mode'];
-
-		try
-		{
-
-
-		}
-		catch (Exception $e)
-		{
-			// todo::エラー処理
-		}
-	}
-
 	public function add($param_list = array())
 	{
 		try
@@ -251,6 +236,13 @@ class UserController extends Common
 
 			// セッションにセット
 			$this->setSession("user", $user_list[0]);
+
+			// 最終ログイン日時更新
+			$sql  = "UPDATE `user` SET `login_stamp` = NOW() WHERE `id` = ? ";
+			$arg_list = array(
+				$user_list[0]['id'],
+			);
+			$this->query($sql, $arg_list);
 
 			return $user_list[0];
 		}

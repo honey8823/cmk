@@ -271,7 +271,7 @@ class CharacterController extends Common
 					return array('error_message_list' => $err_list);
 				}
 			}
-                        if (strlen($name) == 0)
+			if (strlen($name) == 0)
 			{
 				$err_list[] = "キャラクター名を入力してください。";
 			}
@@ -431,14 +431,14 @@ class CharacterController extends Common
 		try
 		{
 			// ユーザID
-			$user_id    = $this->getLoginId();
+			$user_id = $this->getLoginId();
 			if ($user_id === false)
 			{
 				return array('error_redirect' => "session");
 			}
 
 			// 引数
-			$id         = trim($param_list['id']);
+			$id = trim($param_list['id']);
 
 			// バリデート
 			$err_list = array();
@@ -473,7 +473,7 @@ class CharacterController extends Common
 
 			// 戻り値
 			$return_list = array(
-				'id'         => $id,
+				'id' => $id,
 			);
 			return $return_list;
 		}

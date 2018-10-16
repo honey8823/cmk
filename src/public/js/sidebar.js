@@ -98,7 +98,8 @@ function login(){
     		// 正常な場合
     		$('#modal-login').modal('hide');
     		$("#modal-login").find("input").val("");
-    		switchSidebar();
+    		location.href = "/";
+    		//switchSidebar();
     		return true;
     	}
     });
@@ -110,8 +111,10 @@ function login(){
 function logout(){
 	if (confirm("ログアウトしてよろしいですか？")){
 		var result = ajaxPost("user", "logout", []);
-	    result.done(function(){
-	    	switchSidebar();
+		result.done(function(){
+			location.href = "/";
+			//switchSidebar();
+			return true;
 	    });
 	}
 }

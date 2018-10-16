@@ -7,7 +7,7 @@ class EpisodeController extends Common
 		{
 			// ユーザID
 			// ログイン状態でない場合はエラー
-			$user_id    = $this->getLoginId();
+			$user_id = $this->getLoginId();
 			if ($user_id === false)
 			{
 				return array('error_redirect' => "session");
@@ -352,12 +352,7 @@ class EpisodeController extends Common
 			}
 
 			// 戻り値
-			$return_list = array(
-//				'stage_id'   => $stage_id,
-//				'name'       => $name,
-//				'remarks'    => $remarks,
-//				'tag_list'   => $tag_list,
-			);
+			$return_list = array();
 			return $return_list;
 		}
 		catch (Exception $e)
@@ -371,7 +366,7 @@ class EpisodeController extends Common
 		try
 		{
 			// ユーザID
-			$user_id    = $this->getLoginId();
+			$user_id = $this->getLoginId();
 			if ($user_id === false)
 			{
 				return array('error_redirect' => "session");
@@ -498,7 +493,7 @@ class EpisodeController extends Common
 		try
 		{
 			// ユーザID
-			$user_id    = $this->getLoginId();
+			$user_id = $this->getLoginId();
 			if ($user_id === false)
 			{
 				return array('error_redirect' => "session");
