@@ -8,40 +8,6 @@ $("#modal-addEpisode").find(".form-is_label").on("click", function(){
 	}
 });
 
-// ドラッグ＆ドロップでソート可能にする
-$(function() {
-    $(".timeline-stage.sortable").sortable({
-        update: function(){
-			var ids = [];
-			$("#timeline_for_stage").find("li").each(function(i, e){
-				ids.push($(e).data("id"));
-			});
-			var params = {
-				id_list : ids,
-			};
-
-			var result = ajaxPost("episode", "setSort", params);
-			result.done(function(){
-				if (result.return_value['error_redirect'] !== undefined && result.return_value['error_redirect'] != ""){
-					// エラーページへリダイレクト
-					location.href = "/err/" + result.return_value['error_redirect'] + ".php";
-					return false;
-				}
-				else if (result.return_value['error_message_list'] !== undefined){
-					// エラーがある場合
-					alertMsg(result.return_value['error_message_list']);
-					return false;
-				}
-				else {
-					// 正常な場合
-					// 何もしない
-					return true;
-				}
-			});
-		}
-    });
-});
-
 /*
  * 一覧取得
  */
@@ -192,6 +158,27 @@ function delEpisode(){
 }
 
 /*
+ * ソートモード切替
+ */
+function readyEpisodeSort(mode){
+	if (mode == 1){
+		// ONにする場合
+		$(".sort_mode_off").hide();
+		$(".sort_mode_on").show();
+		$(".timeline-sort-area").addClass("sortable");
+		sortableTimeline(mode);
+	}
+	else{
+		// OFFにする場合
+		$(".sort_mode_on").hide();
+		$(".sort_mode_off").show();
+		sortableTimeline(mode);
+		$(".timeline-sort-area").removeClass("sortable");
+	}
+	return;
+}
+
+/*
  * local::一覧描画
  */
 function drawEpisodeList(dat){
@@ -251,12 +238,51 @@ function drawEpisodeList(dat){
 }
 
 /*
+ * local::ドラッグ＆ドロップでソート可能にする
+ */
+function sortableTimeline(mode) {
+	if (mode != 1){
+		$(".timeline-sort-area.sortable").sortable("destroy");
+		console.log("test");
+		return true;
+	}
+
+	$(".timeline-sort-area.sortable").sortable({
+		update: function(){
+			var ids = [];
+			$("#timeline_for_stage").find("li").each(function(i, e){
+				ids.push($(e).data("id"));
+			});
+			var params = {
+				id_list : ids,
+			};
+
+			var result = ajaxPost("episode", "setSort", params);
+			result.done(function(){
+				if (result.return_value['error_redirect'] !== undefined && result.return_value['error_redirect'] != ""){
+					// エラーページへリダイレクト
+					location.href = "/err/" + result.return_value['error_redirect'] + ".php";
+					return false;
+				}
+				else if (result.return_value['error_message_list'] !== undefined){
+					// エラーがある場合
+					alertMsg(result.return_value['error_message_list']);
+					return false;
+				}
+				else {
+					// 正常な場合
+					// 何もしない
+					return true;
+				}
+			});
+		}
+	});
+	return true;
+}
+
+/*
  * エピソード更新フォームに値をセット
  */
-//$(".timeline-editable").on("click", function(){
-//	console.log( $(this).data("id") );
-//	return true;
-//});
 $(document).on("click", "li.timeline-editable", function(){
 	var id = $(this).data("id");
 

@@ -5,7 +5,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>{$smarty.const.SITE_NAME_FULL}</title>
   {include file='common/adminlte_css.tpl'}
-  <link rel="stylesheet" href="/css/common.css">
+  {include file='common/common_css.tpl'}
 </head>
 
 <body class="hold-transition skin-blue sidebar-mini">

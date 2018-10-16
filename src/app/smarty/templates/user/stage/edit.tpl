@@ -5,7 +5,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>{$smarty.const.SITE_NAME_FULL}</title>
   {include file='common/adminlte_css.tpl'}
-  <link rel="stylesheet" href="/css/common.css">
+  {include file='common/common_css.tpl'}
 </head>
 
 <body class="hold-transition skin-blue sidebar-mini">
@@ -83,8 +83,10 @@
             </ul>
             <div class="tab-content">
               <div class="tab-pane active" id="tab-content-timeline">
-                <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#modal-addEpisode">このステージのタイムラインにエピソードを追加する</button>
-                <div><small>登録後のエピソードはドラッグ＆ドロップで並べ替えることができます。</small></div>
+                <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#modal-addEpisode">タイムラインにエピソードを追加</button>
+                <button type="button" class="btn btn-primary btn-block sort_mode_off" onclick="readyEpisodeSort(1);">並べ替えモードにする</button>
+                <button type="button" class="btn btn-warning btn-block sort_mode_on" onclick="readyEpisodeSort(0);">並べ替えモード中（クリックで終了）</button>
+                <div><small>これらの操作は右下の<i class="fa fa-fw fa-plus-circle" aria-hidden="true"></i><i class="fa fa-fw fa-sort" aria-hidden="true"></i>からでも行えます。</small></div>
                 <ul class="timeline template-for-copy" id="timeline_for_stage_template">
                   <li class="time-label timeline-editable timeline-label template-for-copy" data-id="" data-toggle="modal" data-target="#modal-setEpisode"><span class="bg-red timeline-title"></span></li>
                   <li class="timeline-content timeline-editable template-for-copy" data-id="" data-toggle="modal" data-target="#modal-setEpisode">
@@ -100,8 +102,13 @@
                     </div>
                   </li>
                 </ul>
-                <ul class="timeline timeline-stage sortable" id="timeline_for_stage">
+                <ul class="timeline timeline-sort-area timeline-stage" id="timeline_for_stage">
                 </ul>
+                <div class="timeline-btn-area">
+                  <p class="clickable" data-toggle="modal" data-target="#modal-addEpisode"><i class="fa fa-fw fa-plus-circle" aria-hidden="true"></i></p>
+                  <p class="clickable sort_mode_off" onclick="readyEpisodeSort(1);"><i class="fa fa-fw fa-sort" aria-hidden="true"></i></p>
+                  <p class="clickable sort_mode_on" onclick="readyEpisodeSort(0);"><i class="fa fa-fw fa-check" aria-hidden="true"></i></p>
+                </div>
               </div>
               <div class="tab-pane" id="tab-content-character">
                 <button type="button" class="btn btn-primary btn-block disabled">作成済みのキャラクターをこのステージに割り当てる</button>

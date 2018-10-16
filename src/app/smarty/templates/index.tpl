@@ -5,7 +5,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>{$smarty.const.SITE_NAME_FULL}</title>
   {include file='common/adminlte_css.tpl'}
-  <link rel="stylesheet" href="/css/common.css">
+  {include file='common/common_css.tpl'}
 </head>
 
 <body class="hold-transition skin-blue sidebar-mini">
@@ -36,11 +36,11 @@
         </small></p>
         <h4>最近のアップデート</h4>
         <p>
-          2018-10-15<br>
+          2018-10-16<br>
           <small>
-            ・ステージとキャラクターをドラッグ＆ドロップで並べ替えられるようになりました<br>
-            ・ヘルプページを設置しました<br>
-            ・匿名のご意見フォームをトップページに設置しました
+            ・タイムライン並べ替え機能を改修しました<br>
+            （「並べ替えモードにする」か右下の<i class="fa fa-fw fa-sort" aria-hidden="true"></i>をクリックすると<br>
+            　ドラッグ＆ドロップで並べ替えられるようになりました）
           </small>
         </p>
       </div>
@@ -67,6 +67,14 @@
 
       <div class="callout callout-info">
         <h4>更新履歴</h4>
+        <p>
+          2018-10-16<br>
+          <small>
+            ・タイムライン並べ替え機能を改修しました<br>
+            （「並べ替えモードにする」か右下の<i class="fa fa-fw fa-sort" aria-hidden="true"></i>をクリックすると<br>
+            　ドラッグ＆ドロップで並べ替えられるようになりました）
+          </small>
+        </p>
         <p>
           2018-10-15<br>
           <small>
