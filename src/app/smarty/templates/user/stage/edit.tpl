@@ -92,11 +92,11 @@
                   <li class="timeline-content timeline-editable template-for-copy" data-id="" data-toggle="modal" data-target="#modal-setEpisode">
                     <i class="fa fa-arrow-right bg-blue"></i>
                     <div class="timeline-item">
-                      <h3 class="timeline-header timeline-title no-border"></h3>
+                      <h3 class="timeline-header timeline-title no-border template-for-copy"></h3>
                       <div class="timeline-body">
                         <small>
-                          <p class="timeline-free_text"></p>
-                          <p class="timeline-url"><a href="" target="_blank"></a></p>
+                          <p class="timeline-free_text template-for-copy"></p>
+                          <p class="timeline-url template-for-copy"><a href="" target="_blank"></a></p>
                         </small>
                       </div>
                     </div>

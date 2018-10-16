@@ -205,10 +205,19 @@ function drawEpisodeList(dat){
 
 		// データ貼り付け
 		$(obj).data("id", dat.id);
-		$(obj).find(".timeline-title").text(dat.title);
-		$(obj).find(".timeline-url > a").attr("href", dat.url);
-		$(obj).find(".timeline-url > a").text(dat.url);
-		$(obj).find(".timeline-free_text").html(dat.free_text);
+		if (dat.title != undefined && dat.title != ""){
+			$(obj).find(".timeline-title").text(dat.title);
+			$(obj).find(".timeline-title").removeClass("template-for-copy");
+		}
+		if (dat.url != undefined && dat.url != ""){
+			$(obj).find(".timeline-url > a").attr("href", dat.url);
+			$(obj).find(".timeline-url > a").text(strcut(dat.url, "//", "").substr(0, 20) + "...");
+			$(obj).find(".timeline-url").removeClass("template-for-copy");
+		}
+		if (dat.free_text != undefined && dat.free_text != ""){
+			$(obj).find(".timeline-free_text").html(dat.free_text);
+			$(obj).find(".timeline-free_text").removeClass("template-for-copy");
+		}
 		$(obj).find(".timeline-content").removeClass("template-for-copy");
 	}
 

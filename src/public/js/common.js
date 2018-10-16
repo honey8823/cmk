@@ -49,3 +49,20 @@ console.log("【ajaxPost:result(" + c + "/" + a + ")】", data);
 	return deferred;
 }
 
+/*
+ * 文字列を切り出す
+ */
+function strcut(str, start, end){
+    var sidx = 0;
+    var eidx = str.length;
+    if (start != ""){
+        sidx = str.indexOf(start) + start.length;
+    }
+    if (end != ""){
+        eidx = str.indexOf(end);
+    }
+    if (sidx > eidx){
+        return "";
+    }
+    return str.substring(sidx, eidx);
+}
