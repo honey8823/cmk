@@ -158,7 +158,6 @@ function setCharacter(){
     });
 }
 
-
 /*
  * 更新（公開/非公開）
  */

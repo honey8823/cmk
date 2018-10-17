@@ -6,7 +6,7 @@ require_once("../../../app/initialize.php");
 // --------------
 // テンプレート名
 // --------------
-$template_name = "user/stage/edit";
+$template_name = "public/stage/detail";
 
 // --------------------
 // コントローラ読み込み
@@ -18,8 +18,8 @@ $uc->init();
 $tc = new TagController();
 $tc->init();
 
-$sc = new StageController();
-$sc->init();
+$pc = new PublicController();
+$pc->init();
 
 // ----------------------------------
 // テンプレートに表示するデータの取得
@@ -27,23 +27,18 @@ $sc->init();
 // ----------------------------------
 $smarty_param = array();
 
-// 未ログインの場合はエラー
-if ($uc->getLoginId() === false)
-{
-	header("Location: /err/session.php");
-	exit();
-}
-
 // ステージ
-$id = isset($_GET['id']) ? $_GET['id'] : "";
-$smarty_param['stage'] = $sc->get(array('id' => $id))['stage'];
+$id   = isset($_GET['id'])   ? $_GET['id'] : "";
+$user = isset($_GET['user']) ? $_GET['user'] : "";
+$stage = $pc->getStage(array('id' => $id, 'login_id' => $user));
 
-// ステージが存在しない場合は一覧にリダイレクト
-if (!isset($smarty_param['stage']['id']))
+if (isset($stage['error_redirect']) && $stage['error_redirect'] != "")
 {
-	header("Location: /user/stage/");
+	header("Location: /err/" . $stage['error_redirect'] . ".php");
 	exit();
 }
+
+$smarty_param['stage'] = $stage['stage'];
 
 // シリーズタグ一覧
 $tag_catgory_list = $tc->getConfig("tag_category", "key");

@@ -182,7 +182,7 @@ class CharacterController extends Common
 
 			// 引数
 			$name       = trim($param_list['name']);
-                        $stage_list = isset($param_list['stage_list']) && is_array($param_list['stage_list']) ? $param_list['stage_list'] : array();
+			$stage_list = isset($param_list['stage_list']) && is_array($param_list['stage_list']) ? $param_list['stage_list'] : array();
 
 			// バリデート
 			$err_list = array();

@@ -78,7 +78,7 @@
 	margin: 0;
 }
 
-/* ステージ一覧 */
+/* 管理画面ステージ一覧 */
 .ul-stage{
 	list-style: none;
 }
@@ -107,7 +107,7 @@
 	padding: 0px 15px 0 0;
 }
 
-/* キャラクター一覧 */
+/* 管理画面キャラクター一覧 */
 .ul-character{
 	list-style: none;
 }
@@ -139,6 +139,11 @@
 /* ソート関連 */
 .sort_mode_on{
 	display: none;
+}
+
+/* 公開ステージ説明文 */
+.public-stage-remarks{
+	padding: 1em 1.5em;
 }
 
 /* **************************************** */

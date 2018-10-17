@@ -36,7 +36,7 @@ if ($user_id === false)
 }
 
 // キャラクター
-$id = $_GET['id'];
+$id = isset($_GET['id']) ? $_GET['id'] : "";
 $smarty_param['character'] = $cc->get(array('id' => $id))['character'];
 
 // ステージが存在しない場合は一覧にリダイレクト
