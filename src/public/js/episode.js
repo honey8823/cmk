@@ -122,12 +122,12 @@ function setEpisode(is_private){
 		}
 		else {
 			// 正常な場合
-			$("#timeline_for_stage > li").each(function(i, e){
-				if ($(e).data("id") ==  params['id']){
-					$(e).remove();
-				}
-			});
-			drawEpisodeList(params);
+//			$("#timeline_for_stage > li").each(function(i, e){
+//				if ($(e).data("id") ==  params['id']){
+//					$(e).remove();
+//				}
+//			});
+			drawEpisodeList(params, params['id']);
 			$('#modal-setEpisode').modal('hide');
 			return true;
 		}
@@ -189,22 +189,34 @@ function readyEpisodeSort(mode){
 /*
  * local::一覧描画
  */
-function drawEpisodeList(dat){
+function drawEpisodeList(dat, id){
 
 	if (dat.is_label == 1){
-		// 行をコピー
-		var obj_base = $("#timeline_for_stage_template").find(".timeline-label")[0];
-		var obj = $(obj_base).clone().appendTo($("#timeline_for_stage"));
+		if (id == undefined){
+			// 新規：行をコピー
+			var obj_base = $("#timeline_for_stage_template").find(".timeline-label")[0];
+			var obj = $(obj_base).clone().appendTo($("#timeline_for_stage"));
+		}
+		else{
+			// 更新：対象の行を取得
+			var obj = $("#timeline_for_stage > li[data-id='" + id + "']");
+		}
 
 		// データ貼り付け
 		$(obj).data("id", dat.id);
 		$(obj).find(".timeline-title").text(dat.title);
 		$(obj).find(".timeline-label").removeClass("template-for-copy");
 	}
-	else {
-		// 行をコピー
-		var obj_base = $("#timeline_for_stage_template").find(".timeline-content")[0];
-		var obj = $(obj_base).clone().appendTo($("#timeline_for_stage"));
+	else{
+		if (id == undefined){
+			// 新規：行をコピー
+			var obj_base = $("#timeline_for_stage_template").find(".timeline-content")[0];
+			var obj = $(obj_base).clone().appendTo($("#timeline_for_stage"));
+		}
+		else{
+			// 更新：対象の行を取得
+			var obj = $("#timeline_for_stage > li[data-id='" + id + "']");
+		}
 
 		if (dat.free_text != undefined && dat.free_text != ""){
 			dat.free_text = dat.free_text.replace(/\r?\n/g, '<br>');
@@ -212,18 +224,31 @@ function drawEpisodeList(dat){
 
 		// データ貼り付け
 		$(obj).data("id", dat.id);
+		$(obj).attr("data-id", dat.id);
 		if (dat.title != undefined && dat.title != ""){
 			$(obj).find(".timeline-title").text(dat.title);
 			$(obj).find(".timeline-title").removeClass("template-for-copy");
+		}
+		else{
+			$(obj).find(".timeline-title").text("");
+			$(obj).find(".timeline-title").addClass("template-for-copy");
 		}
 		if (dat.url != undefined && dat.url != ""){
 			$(obj).find(".timeline-url > a").attr("href", dat.url);
 			$(obj).find(".timeline-url > a").text(strcut(dat.url, "//", "").substr(0, 20) + "...");
 			$(obj).find(".timeline-url").removeClass("template-for-copy");
 		}
+		else{
+			$(obj).find(".timeline-url").text("");
+			$(obj).find(".timeline-url").addClass("template-for-copy");
+		}
 		if (dat.free_text != undefined && dat.free_text != ""){
 			$(obj).find(".timeline-free_text").html(dat.free_text);
 			$(obj).find(".timeline-free_text").removeClass("template-for-copy");
+		}
+		else{
+			$(obj).find(".timeline-free_text").text("");
+			$(obj).find(".timeline-free_text").addClass("template-for-copy");
 		}
 		$(obj).find(".timeline-content").removeClass("template-for-copy");
 	}
