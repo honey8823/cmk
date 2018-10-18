@@ -334,7 +334,7 @@ class EpisodeController extends Common
 			$arg_list[] = $is_r18     == 1  ? 1 : 0;
 			$arg_list[] = $is_private == 0  ? 0 : 1;
 			$this->query($sql, $arg_list);
-			$episode_id = $this->getLastInsertId();
+			$id = $this->getLastInsertId();
 
 			// キャラクター登録
 			$character_list = array_filter($character_list, function($v){return(preg_match("/^[0-9]+$/", $v));});
@@ -345,14 +345,16 @@ class EpisodeController extends Common
 				$sql .= "VALUES " . implode(",", array_fill(0, count($character_list), "(?, ?)"));
 				foreach ($character_list as $v)
 				{
-					$arg_list[] = $episode_id;
+					$arg_list[] = $id;
 					$arg_list[] = $v;
 				}
 				$this->query($sql, $arg_list);
 			}
 
 			// 戻り値
-			$return_list = array();
+			$return_list = array(
+				'id' => $id,
+			);
 			return $return_list;
 		}
 		catch (Exception $e)
@@ -479,7 +481,9 @@ class EpisodeController extends Common
 			}
 
 			// 戻り値
-			$return_list = array();
+			$return_list = array(
+				'id' => $id,
+			);
 			return $return_list;
 		}
 		catch (Exception $e)

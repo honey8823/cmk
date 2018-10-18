@@ -77,11 +77,14 @@ function addEpisode(is_private){
 		}
 		else {
 			// 正常な場合
+			params['id'] = result.return_value.id;
+			drawEpisodeList(params);
 			$('#modal-addEpisode').modal('hide');
-//    		$("#modal-addEpisode").find("input").val("");
-//    		$("#modal-addEpisode").find("textarea").text("");
-//    		$("#modal-addEpisode").find(".label.tag-series.tag-selectable:not(.tag-notselected)").addClass("tag-notselected");
-    		location.reload();
+    		$("#modal-addEpisode").find("input:not([type=hidden])").val("");
+    		$("#modal-addEpisode").find("input[type=checkbox]").prop("checked", false);
+    		$("#modal-addEpisode").find("textarea").val("");
+    		$("#modal-addEpisode").find(".character-selectable:not(.character-notselected)").addClass("character-notselected");
+    		$("#modal-addEpisode").find(".not_use_for_label").show();
 			return true;
 		}
 	});
@@ -119,8 +122,13 @@ function setEpisode(is_private){
 		}
 		else {
 			// 正常な場合
+			$("#timeline_for_stage > li").each(function(i, e){
+				if ($(e).data("id") ==  params['id']){
+					$(e).remove();
+				}
+			});
+			drawEpisodeList(params);
 			$('#modal-setEpisode').modal('hide');
-    		location.reload();
 			return true;
 		}
 	});
@@ -199,7 +207,6 @@ function drawEpisodeList(dat){
 		var obj = $(obj_base).clone().appendTo($("#timeline_for_stage"));
 
 		if (dat.free_text != undefined && dat.free_text != ""){
-			console.log(dat.free_text);
 			dat.free_text = dat.free_text.replace(/\r?\n/g, '<br>');
 		}
 
@@ -252,7 +259,6 @@ function drawEpisodeList(dat){
 function sortableTimeline(mode) {
 	if (mode != 1){
 		$(".timeline-sort-area.sortable").sortable("destroy");
-		console.log("test");
 		return true;
 	}
 
