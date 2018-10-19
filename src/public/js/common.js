@@ -50,6 +50,43 @@ console.log("【ajaxPost:result(" + c + "/" + a + ")】", data);
 }
 
 /*
+ * ajaxのエラー処理
+ * error_redirect が定義されている場合はそのエラーページにリダイレクト
+ */
+function isAjaxResultErrorRedirect(res){
+
+	if (res['error_redirect'] !== undefined && res['error_redirect'] != ""){
+		location.href = "/err/" + res['error_redirect'] + ".php";
+		return true;
+	}
+	return false;
+}
+
+/*
+ * ajaxのエラー処理
+ * error_message_list が定義されている場合はメッセージのアラート
+ */
+function isAjaxResultErrorMsg(res){
+	if (res['error_message_list'] !== undefined && res['error_message_list'].length > 0){
+		alertMsg(res['error_message_list']);
+		return true;
+	}
+	return false;
+}
+
+/*
+ * ajaxのエラー処理
+ * 指定されたデータが存在しない(未定義または空)場合はエラー
+ */
+function isAjaxResultNoData(val){
+	if (val === undefined || val == ""){
+		alertMsg(["データの取得に失敗しました。お手数ですが最初からやり直してください。"]);
+		return true;
+	}
+	return false;
+}
+
+/*
  * 文字列を切り出す
  */
 function strcut(str, start, end){
@@ -66,3 +103,4 @@ function strcut(str, start, end){
     }
     return str.substring(sidx, eidx);
 }
+
