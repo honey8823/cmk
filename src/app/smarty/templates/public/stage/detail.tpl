@@ -43,7 +43,7 @@
             {/foreach}
             </div>
             <div class="box-body public-stage-remarks">
-              {$stage.remarks}
+              {$stage.remarks|nl2br}
             </div>
           </div>
         </div>
@@ -69,7 +69,7 @@
                     {if $v_episode.url != "" || $v_episode.free_text != ""}
                       <div class="timeline-body">
                         <small>
-                          {if $v_episode.free_text != ""}<p class="timeline-free_text">{$v_episode.free_text}</p>{/if}
+                          {if $v_episode.free_text != ""}<p class="timeline-free_text">{$v_episode.free_text|nl2br}</p>{/if}
                           {if $v_episode.url != ""}<p class="timeline-url"><a href="" target="_blank">{$v_episode.url}</a></p>{/if}
                         </small>
                       </div>
