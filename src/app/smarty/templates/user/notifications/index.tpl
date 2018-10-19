@@ -30,7 +30,7 @@
     <!-- Main content -->
     <section class="content">
       <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-12">
           <div id="list-stage" class="box">
             <div class="box-body no-padding">
               <table class="table table-hover">

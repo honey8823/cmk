@@ -33,7 +33,7 @@
     <section class="content">
       <div class="row">
 
-        <div class="col-md-6">
+        <div class="col-md-12">
           <div class="box">
             <div class="box-body">
             {foreach from=$series_list key=k item=v_series}
@@ -48,7 +48,7 @@
           </div>
         </div>
 
-        <div class="col-md-6">
+        <div class="col-md-12">
           <div class="nav-tabs-custom">
             <ul class="nav nav-tabs">
               <li class="active"><a href="#tab-content-timeline" data-toggle="tab" aria-expanded="true">タイムライン</a></li>
