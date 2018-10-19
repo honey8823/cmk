@@ -8,6 +8,10 @@ $("#modal-addEpisode").find(".form-is_label").on("click", function(){
 	}
 });
 
+$(document).on("click", ".timeline-url", function(){
+	javascript_die(); // 強制終了
+});
+
 /*
  * 一覧取得
  */
