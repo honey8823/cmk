@@ -85,6 +85,7 @@ class UserController extends Common
 			$login_id     = trim($param_list['login_id']);
 			$name         = trim($param_list['name']);
 			$twitter_id   = trim($param_list['twitter_id']);
+			$is_r18       = trim($param_list['is_r18']);
 			$mail_address = trim($param_list['mail_address']);
 			$password     = trim($param_list['password']);
 			$password_c   = trim($param_list['password_c']);
@@ -165,6 +166,8 @@ class UserController extends Common
 			$arg_list[] = $name == "" ? null : $name;
 			$sql .= " ,`twitter_id` = ? ";
 			$arg_list[] = $twitter_id == "" ? null : $twitter_id;
+			$sql .= " ,`is_r18` = ? ";
+			$arg_list[] = $is_r18 == "1" ? "1" : "0";
 			$sql .= " ,`mail_address` = ? ";
 			$arg_list[] = $mail_address == "" ? null : $mail_address;
 			if ($password != "")
@@ -183,6 +186,7 @@ class UserController extends Common
 				'name'         => $name,
 				'login_id'     => $login_id,
 				'twitter_id'   => $twitter_id,
+				'is_r18'       => $is_r18,
 				'mail_address' => $mail_address,
 			);
 			$this->setSession("user", $user_list);

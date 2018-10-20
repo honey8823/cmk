@@ -67,7 +67,8 @@ function addEpisode(is_private){
 		params['id'] = result.return_value.id;
 		drawEpisodeList(params);
 		$('#modal-addEpisode').modal('hide');
-		$("#modal-addEpisode").find("input:not([type=hidden])").val("");
+		$("#modal-addEpisode").find("input:not([type=hidden]):not([type=radio]):not([type=checkbox])").val("");
+		$("#modal-addEpisode").find(".form-category").val(["1"]);
 		$("#modal-addEpisode").find("input[type=checkbox]").prop("checked", false);
 		$("#modal-addEpisode").find("textarea").val("");
 		$("#modal-addEpisode").find(".character-selectable:not(.character-notselected)").addClass("character-notselected");
@@ -276,11 +277,6 @@ function sortableTimeline(mode) {
 }
 
 /*
- * local::エピソード更新フォームに値をセット
- */
-//function set
-
-/*
  * エピソード更新フォームに値をセット
  */
 $(document).on("click", "li.timeline-editable", function(){
@@ -328,6 +324,7 @@ $(document).on("click", "li.timeline-editable", function(){
 				$("#modal-setEpisode").find(".character-selectable[value='" + e.id + "']").removeClass("character-notselected");
 			});
 		}
+
 		return true;
     });
 });

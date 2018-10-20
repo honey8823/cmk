@@ -65,12 +65,9 @@
         <div class="modal-footer">
           <button type="button" class="btn btn-default pull-left" data-dismiss="modal">キャンセル</button>
           <button type="button" class="btn btn-warning" onclick="delEpisode();">このエピソードを削除</button>
-          <button type="button" class="btn btn-primary" onclick="setEpisode(1);">登録</button>
-<!--
           <button type="button" class="btn btn-primary" onclick="setEpisode(0);">登録（公開する）</button>
-          <button type="button" class="btn btn-primary" onclick="setEpisode(1);">登録（非公開）</button>
+          <button type="button" class="btn btn-primary" onclick="setEpisode(1);">登録（公開しない）</button>
           <div style="text-align: right;">※現在は <u><span class="is_public">公開中</span><span class="is_private">非公開</span></u> です。</div>
--->
         </div>
       </div>
     </div>

@@ -58,12 +58,10 @@
               {/foreach}
               </div>
             </div>
-<!--
             <div class="box-body">
               <button type="button" class="btn btn-primary{if $character.is_private != 1} hidden{else}{/if}" onclick="setCharacterIsPrivate(0);">公開する<small>(現在非公開です)</small></button>
               <button type="button" class="btn btn-primary{if $character.is_private == 1} hidden{else}{/if}" onclick="setCharacterIsPrivate(1);">非公開にする<small>(現在公開中です)</small></button>
             </div>
--->
             <div class="box-body button-layout-right">
               <button type="button" class="btn btn-warning" onclick="delCharacter()">このキャラクターを削除</button>
               <button type="button" class="btn btn-primary" onclick="setCharacter();">更新する</button>
