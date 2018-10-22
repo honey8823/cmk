@@ -140,6 +140,10 @@
 .sort_mode_on{
 	display: none;
 }
+.timeline-sort-area.sortable .timeline-free_text{
+	overflow: hidden;
+    height: 1.2em;
+}
 
 /* 公開ステージ説明文 */
 .public-stage-remarks{
