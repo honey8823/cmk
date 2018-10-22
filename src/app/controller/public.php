@@ -125,4 +125,102 @@ class PublicController extends Common
 			// todo::エラー処理
 		}
 	}
+
+	public function getUser($param_list = array())
+	{
+		try
+		{
+			// 引数
+			$login_id = trim($param_list['login_id']);
+
+			$return_list = array();
+
+			// 取得（ユーザー）
+			$sql  = "SELECT `user`.`id`  ";
+			$sql .= "      ,`user`.`name` ";
+			$sql .= "      ,`user`.`login_id` ";
+			$sql .= "      ,`user`.`twitter_id` ";
+			$sql .= "      ,`user`.`login_stamp` ";
+			$sql .= "FROM   `user` ";
+			$sql .= "WHERE `user`.`login_id` = ? ";
+			$sql .= "AND   `user`.`is_delete` <> 1 ";
+			$arg_list = array(
+				$login_id,
+			);
+			$user_list = $this->query($sql, $arg_list);
+			if(count($user_list) != 1)
+			{
+				return array('error_redirect' => "notfound");
+			}
+
+			$id = $user_list[0]['id'];
+
+			// 取得（ステージ）
+			$sql  = "SELECT   `stage`.`id` ";
+			$sql .= "        ,`stage`.`name` ";
+			$sql .= "        ,`stage`.`remarks` ";
+			$sql .= "FROM     `stage` ";
+			$sql .= "WHERE    `stage`.`user_id` = ? ";
+			$sql .= "AND      `stage`.`is_private` <> 1 ";
+			$sql .= "AND      `stage`.`is_delete` <> 1 ";
+			$sql .= "ORDER BY `stage`.`sort` = 0 ASC ";
+			$sql .= "        ,`stage`.`sort` ASC ";
+			$arg_list = array($id);
+			$stage_list = $this->query($sql, $arg_list);
+
+// 			// 取得（タグ）・整形
+// 			$arg_list = array();
+// 			$sql  = "SELECT     `tag`.`id` ";
+// 			$sql .= "          ,`tag`.`category` ";
+// 			$sql .= "          ,`tag`.`name` ";
+// 			$sql .= "          ,`tag`.`name_short` ";
+// 			$sql .= "FROM       `stage_tag` ";
+// 			$sql .= "INNER JOIN `tag` ";
+// 			$sql .= "  ON       `stage_tag`.`tag_id` = `tag`.`id` ";
+// 			$sql .= "WHERE      `stage_tag`.`stage_id` = ? ";
+// 			$sql .= "ORDER BY   `tag`.`category` ASC ";
+// 			$sql .= "          ,`tag`.`sort` ASC ";
+// 			$arg_list = array($id);
+// 			$tag_list = $this->query($sql, $arg_list);
+// 			if (count($tag_list) > 0)
+// 			{
+// 				$category_list = $this->getConfig("tag_category", "value");
+// 				foreach ($tag_list as $v)
+// 				{
+// 					$stage_list[0]['tag_list'][] = array(
+// 						'id'            => $v['id'],
+// 						'category'      => $v['category'],
+// 						'category_key'  => $category_list[$v['category']]['key'],
+// 						'category_name' => $category_list[$v['category']]['name'],
+// 						'name'          => $v['name'],
+// 						'name_short'    => $v['name_short'],
+// 					);
+// 				}
+// 			}
+
+			// 取得（キャラクター）・整形
+			$sql  = "SELECT     `character`.`id` ";
+			$sql .= "          ,`character`.`name` ";
+			$sql .= "FROM       `character` ";
+			$sql .= "WHERE      `character`.`user_id` = ? ";
+			$sql .= "AND        `character`.`is_delete` <> 1 ";
+			$sql .= "AND        `character`.`is_private` <> 1 ";
+			$sql .= "ORDER BY   `character`.`sort` = 0 ASC ";
+			$sql .= "          ,`character`.`sort` ASC ";
+			$arg_list = array($id);
+			$character_list = $this->query($sql, $arg_list);
+
+
+			// 戻り値
+			$return_list['user'] = $user_list[0];
+			$return_list['stage_list'] = $stage_list;
+			$return_list['character_list'] = $character_list;
+			return $return_list;
+		}
+		catch (Exception $e)
+		{
+			// todo::エラー処理
+		}
+	}
+
 }
