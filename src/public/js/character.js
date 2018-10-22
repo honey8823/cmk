@@ -136,6 +136,7 @@ function setCharacter(){
 	var params = {
 			'id'         : $("#area-setCharacter").find(".form-id").val(),
 			'name'       : $("#area-setCharacter").find(".form-name").val(),
+			'remarks'    : $("#area-setCharacter").find(".form-remarks").val(),
 			'stage_list' : stage,
 		};
 	var result = ajaxPost("character", "set", params);

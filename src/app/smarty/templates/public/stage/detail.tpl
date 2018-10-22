@@ -43,7 +43,7 @@
             {/foreach}
             </div>
             <div class="box-body public-stage-remarks">
-              {$stage.remarks}
+              {$stage.remarks|nl2br}
             </div>
           </div>
         </div>
@@ -63,14 +63,27 @@
                   <li class="time-label timeline-label"><span class="bg-red timeline-title">{$v_episode.title}</span></li>
                 {else}
                   <li class="timeline-content">
-                    <i class="fa fa-arrow-right bg-blue"></i>
+                  {if $v_episode.category == "1"}<i class="fa fa-book bg-green"></i>{/if}
+                  {if $v_episode.category == "2"}<i class="fa fa-users bg-orange"></i>{/if}
+                  {if $v_episode.category == "3"}<i class="fa fa-user bg-yellow"></i>{/if}
                     <div class="timeline-item">
                       {if $v_episode.title != ""}<h3 class="timeline-header timeline-title no-border">{$v_episode.title}</h3>{/if}
                     {if $v_episode.url != "" || $v_episode.free_text != ""}
                       <div class="timeline-body">
                         <small>
-                          {if $v_episode.free_text != ""}<p class="timeline-free_text">{$v_episode.free_text}</p>{/if}
-                          {if $v_episode.url != ""}<p class="timeline-url"><a href="" target="_blank">{$v_episode.url}</a></p>{/if}
+                        {if $v_episode.free_text != ""}
+                          <p class="timeline-free_text">{$v_episode.free_text|nl2br}</p>
+                        {/if}
+                        {if $v_episode.free_text_full != ""}
+                          <p class="timeline-free_text_full hidden">{$v_episode.free_text_full|nl2br}</p>
+                          <div style="padding: 0.7em;">
+                            <a class="timeline-free_text_show clickable">&gt;&gt;クリックで全文を表示</a>
+                            <a class="timeline-free_text_hide clickable hidden">&gt;&gt;クリックで折り畳む</a>
+                          </div>
+                        {/if}
+                        {if $v_episode.url != ""}
+                          <p class="timeline-url"><a href="{$v_episode.url}" target="_blank">{$v_episode.url}</a></p>
+                        {/if}
                         </small>
                       </div>
                     {/if}
@@ -108,6 +121,20 @@
 <script src="/js/lib/jquery.ui.touch-punch.min.js"></script>
 <script src="/js/common.js"></script>
 <script src="/js/sidebar.js"></script>
+<script>
+$(".timeline-free_text_show").on("click", function(){
+  $(".timeline-free_text").addClass("hidden");
+  $(".timeline-free_text_show").addClass("hidden");
+  $(".timeline-free_text_full").removeClass("hidden");
+  $(".timeline-free_text_hide").removeClass("hidden");
+});
+$(".timeline-free_text_hide").on("click", function(){
+  $(".timeline-free_text_full").addClass("hidden");
+  $(".timeline-free_text_hide").addClass("hidden");
+  $(".timeline-free_text").removeClass("hidden");
+  $(".timeline-free_text_show").removeClass("hidden");
+});
+</script>
 <!-- JS end -->
 </body>
 </html>

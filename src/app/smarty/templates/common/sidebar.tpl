@@ -157,6 +157,10 @@
             <input type="text" name="mail_address" class="form-twitter_id">
           </div>
           <div>
+            <label>R18設定のコンテンツ表示を許可する</label>
+            <input type="checkbox" name="is_r18" class="form-is_r18">
+          </div>
+          <div>
             <label>メールアドレス（非公開）</label>
             <span class="menu-tooltip">
               <i class="fa fa-question-circle fa-fw" aria-hidden="true"></i>

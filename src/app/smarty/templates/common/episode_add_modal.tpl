@@ -72,11 +72,8 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default pull-left" data-dismiss="modal">キャンセル</button>
-          <button type="button" class="btn btn-primary" onclick="addEpisode(1);">登録</button>
- <!--
           <button type="button" class="btn btn-primary" onclick="addEpisode(0);">登録（公開する）</button>
-          <button type="button" class="btn btn-primary" onclick="addEpisode(1);">登録（非公開）</button>
- -->
+          <button type="button" class="btn btn-primary" onclick="addEpisode(1);">登録（公開しない）</button>
         </div>
       </div>
     </div>

@@ -110,6 +110,12 @@ class StageController extends Common
 			{
 				return array('error_redirect' => "notfound");
 			}
+			
+			// 取得（ユーザのログインID：URL生成用）
+			$sql  = "SELECT `login_id` FROM `user` WHERE `id` = ? ";
+			$arg_list = array($user_id);
+			$user_list = $this->query($sql, $arg_list);
+			$stage_list[0]['login_id'] = $user_list[0]['login_id'];
 
 			// 取得（タグ）・整形
 			$arg_list = array();
