@@ -122,7 +122,7 @@ class CharacterController extends Common
 
 			// 取得（キャラクター）
 			$arg_list = array();
-			$sql  = "SELECT   `id`, `name`, `is_private` ";
+			$sql  = "SELECT   `id`, `name`, `remarks`, `is_private` ";
 			$sql .= "FROM     `character` ";
 			$sql .= "WHERE    `id` = ? ";
 			$arg_list[] = $id;
@@ -186,11 +186,11 @@ class CharacterController extends Common
 
 			// バリデート
 			$err_list = array();
-			if (strlen($name) == 0)
+			if (mb_strlen($name) == 0)
 			{
 				$err_list[] = "キャラクター名を入力してください。";
 			}
-			elseif (strlen($name) > 64)
+			elseif (mb_strlen($name) > 64)
 			{
 				$err_list[] = "キャラクター名は64文字以内で入力してください。";
 			}
@@ -249,9 +249,10 @@ class CharacterController extends Common
 			}
 
 			// 引数
-                        $id         = trim($param_list['id']);
+			$id         = trim($param_list['id']);
 			$name       = trim($param_list['name']);
-                        $stage_list = isset($param_list['stage_list']) && is_array($param_list['stage_list']) ? $param_list['stage_list'] : array();
+			$remarks    = trim($param_list['remarks']);
+			$stage_list = isset($param_list['stage_list']) && is_array($param_list['stage_list']) ? $param_list['stage_list'] : array();
 
 			// バリデート
 			$err_list = array();
@@ -271,25 +272,31 @@ class CharacterController extends Common
 					return array('error_message_list' => $err_list);
 				}
 			}
-			if (strlen($name) == 0)
+			if (mb_strlen($name) == 0)
 			{
 				$err_list[] = "キャラクター名を入力してください。";
 			}
-			elseif (strlen($name) > 64)
+			elseif (mb_strlen($name) > 64)
 			{
 				$err_list[] = "キャラクター名は64文字以内で入力してください。";
+			}
+			if (mb_strlen($remarks) > 10000)
+			{
+				$err_list[] = "備考は1万字以内で入力してください。";
 			}
 			if (count($err_list) > 0)
 			{
 				return array('error_message_list' => $err_list);
 			}
 
-                        // 更新
+			// 更新
 			$arg_list = array();
 			$sql  = "UPDATE `character` ";
 			$sql .= "SET    `name`    = ? ";
+			$sql .= "      ,`remarks` = ? ";
 			$sql .= "WHERE  `id`      = ? ";
 			$arg_list[] = $name;
+			$arg_list[] = $remarks == "" ? null : $remarks;
 			$arg_list[] = $id;
 			$this->query($sql, $arg_list);
 

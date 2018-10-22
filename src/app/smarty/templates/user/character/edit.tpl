@@ -57,6 +57,10 @@
               {/if}
               {/foreach}
               </div>
+              <div>
+                <label>備考</label>
+                <textarea name="remarks" class="form-remarks">{$character.remarks}</textarea>
+              </div>
             </div>
             <div class="box-body">
               <button type="button" class="btn btn-primary{if $character.is_private != 1} hidden{else}{/if}" onclick="setCharacterIsPrivate(0);">公開する<small>(現在非公開です)</small></button>
