@@ -62,13 +62,24 @@
                 <textarea name="remarks" class="form-remarks">{$character.remarks}</textarea>
               </div>
             </div>
-            <div class="box-body">
-              <button type="button" class="btn btn-primary{if $character.is_private != 1} hidden{else}{/if}" onclick="setCharacterIsPrivate(0);">公開する<small>(現在非公開です)</small></button>
-              <button type="button" class="btn btn-primary{if $character.is_private == 1} hidden{else}{/if}" onclick="setCharacterIsPrivate(1);">非公開にする<small>(現在公開中です)</small></button>
-            </div>
             <div class="box-body button-layout-right">
-              <button type="button" class="btn btn-warning" onclick="delCharacter()">このキャラクターを削除</button>
               <button type="button" class="btn btn-primary" onclick="setCharacter();">更新する</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-12">
+          <div class="box">
+            <div class="box-header">
+              <h3 class="box-title">このステージに対する操作</h3>
+            </div>
+            <div class="box-body">
+{***
+              <button type="button" class="btn btn-primary btn-block{if $stage.is_private == 1} hidden{/if}" onclick="window.open('/public/stage/detail.php?user={$stage.login_id}&id={$stage.id}');">公開用ページを見る</button>
+***}
+              <button type="button" class="btn btn-primary btn-block{if $character.is_private != 1} hidden{/if}" onclick="setCharacterIsPrivate(0);">公開する<small>(現在非公開です)</small></button>
+              <button type="button" class="btn btn-primary btn-block{if $character.is_private == 1} hidden{/if}" onclick="setCharacterIsPrivate(1);">非公開にする<small>(現在公開中です)</small></button>
+              <button type="button" class="btn btn-warning btn-block" onclick="delCharacter();">削除する</button>
             </div>
           </div>
         </div>
