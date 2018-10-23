@@ -12,21 +12,12 @@ $(function() {
 
 			var result = ajaxPost("character", "setSort", params);
 			result.done(function(){
-				if (result.return_value['error_redirect'] !== undefined && result.return_value['error_redirect'] != ""){
-					// エラーページへリダイレクト
-					location.href = "/err/" + result.return_value['error_redirect'] + ".php";
-					return false;
-				}
-				else if (result.return_value['error_message_list'] !== undefined){
-					// エラーがある場合
-					alertMsg(result.return_value['error_message_list']);
-					return false;
-				}
-				else {
-					// 正常な場合
-					// 何もしない
-					return true;
-				}
+				if (isAjaxResultErrorRedirect(result.return_value) === true) {return false};  // 必要ならエラーページへリダイレクト
+				if (isAjaxResultErrorMsg(result.return_value) === true ){return false;} // 必要ならエラーメッセージ表示
+
+				// 正常な場合
+				// 何もしない
+				return true;
 			});
 		}
     });
@@ -54,38 +45,28 @@ function tableCharacter(){
 		};
 	var result = ajaxPost("character", "table", params);
     result.done(function(){
-    	if (result.return_value['error_redirect'] !== undefined && result.return_value['error_redirect'] != ""){
-    		// エラーページへリダイレクト
-    		location.href = "/err/" + result.return_value['error_redirect'] + ".php";
-    		return false;
-    	}
-    	else if (result.return_value['error_message_list'] !== undefined){
-    		// エラーがある場合
-    		alertMsg(result.return_value['error_message_list']);
-    		return false;
-    	}
-    	else {
-    		// 正常な場合
+		if (isAjaxResultErrorRedirect(result.return_value) === true) {return false};  // 必要ならエラーページへリダイレクト
+		if (isAjaxResultErrorMsg(result.return_value) === true ){return false;} // 必要ならエラーメッセージ表示
 
-    		// もっとみるボタン
-    		if (result.return_value['is_more'] == 1){
-    			$("#list-character").find(".btn-more").removeClass("disabled");
-    			$("#list-character").find("input.offset").val(parseInt(offset) + parseInt(limit));
-    		}
-    		else{
-    			$("#list-character").find(".btn-more").addClass("disabled");
-    			$("#list-character").find("input.offset").val("");
-    		}
+		// 正常な場合
+		// もっとみるボタン
+		if (result.return_value['is_more'] == 1){
+			$("#list-character").find(".btn-more").removeClass("disabled");
+			$("#list-character").find("input.offset").val(parseInt(offset) + parseInt(limit));
+		}
+		else{
+			$("#list-character").find(".btn-more").addClass("disabled");
+			$("#list-character").find("input.offset").val("");
+		}
 
-    		// テーブルに描画
-    		if (result.return_value['character_list'].length > 0){
-    			$(result.return_value['character_list']).each(function(i, e){
-    				drawCharacterList(e);
-    			});
-    		}
+		// テーブルに描画
+		if (result.return_value['character_list'].length > 0){
+			$(result.return_value['character_list']).each(function(i, e){
+				drawCharacterList(e);
+			});
+		}
 
-    		return true;
-    	}
+		return true;
     });
 }
 
@@ -104,24 +85,16 @@ function addCharacter(){
 		};
 	var result = ajaxPost("character", "add", params);
     result.done(function(){
-    	if (result.return_value['error_redirect'] !== undefined && result.return_value['error_redirect'] != ""){
-    		// エラーページへリダイレクト
-    		location.href = "/err/" + result.return_value['error_redirect'] + ".php";
-    		return false;
-    	}
-    	else if (result.return_value['error_message_list'] !== undefined){
-    		// エラーがある場合
-    		alertMsg(result.return_value['error_message_list']);
-    		return false;
-    	}
-    	else {
-    		// 正常な場合
-    		$('#modal-addCharacter').modal('hide');
-    		$("#modal-addCharacter").find("input").val("");
-    		$("#modal-addCharacter").find(".badge.stage-selectable:not(.stage-notselected)").addClass("stage-notselected");
-    		location.reload();
-    		return true;
-    	}
+		if (isAjaxResultErrorRedirect(result.return_value) === true) {return false};  // 必要ならエラーページへリダイレクト
+		if (isAjaxResultErrorMsg(result.return_value) === true ){return false;} // 必要ならエラーメッセージ表示
+
+		// 正常な場合
+		$('#modal-addCharacter').modal('hide');
+		$("#modal-addCharacter").find("input").val("");
+		$("#modal-addCharacter").find(".badge.stage-selectable:not(.stage-notselected)").addClass("stage-notselected");
+		location.reload();
+
+		return true;
     });
 }
 
@@ -141,21 +114,12 @@ function setCharacter(){
 		};
 	var result = ajaxPost("character", "set", params);
     result.done(function(){
-    	if (result.return_value['error_redirect'] !== undefined && result.return_value['error_redirect'] != ""){
-    		// エラーページへリダイレクト
-    		location.href = "/err/" + result.return_value['error_redirect'] + ".php";
-    		return false;
-    	}
-    	else if (result.return_value['error_message_list'] !== undefined){
-    		// エラーがある場合
-    		alertMsg(result.return_value['error_message_list']);
-    		return false;
-    	}
-    	else {
-    		// 正常な場合
-    		location.reload();
-    		return true;
-    	}
+		if (isAjaxResultErrorRedirect(result.return_value) === true) {return false};  // 必要ならエラーページへリダイレクト
+		if (isAjaxResultErrorMsg(result.return_value) === true ){return false;} // 必要ならエラーメッセージ表示
+
+		// 正常な場合
+		location.reload();
+		return true;
     });
 }
 
@@ -169,21 +133,12 @@ function setCharacterIsPrivate(is_private){
 		};
 	var result = ajaxPost("character", "setIsPrivate", params);
     result.done(function(){
-    	if (result.return_value['error_redirect'] !== undefined && result.return_value['error_redirect'] != ""){
-    		// エラーページへリダイレクト
-    		location.href = "/err/" + result.return_value['error_redirect'] + ".php";
-    		return false;
-    	}
-    	else if (result.return_value['error_message_list'] !== undefined){
-    		// エラーがある場合
-    		alertMsg(result.return_value['error_message_list']);
-    		return false;
-    	}
-    	else {
-    		// 正常な場合
-    		location.reload();
-    		return true;
-    	}
+		if (isAjaxResultErrorRedirect(result.return_value) === true) {return false};  // 必要ならエラーページへリダイレクト
+		if (isAjaxResultErrorMsg(result.return_value) === true ){return false;} // 必要ならエラーメッセージ表示
+
+		// 正常な場合
+		location.reload();
+		return true;
     });
 }
 
@@ -199,21 +154,12 @@ function delCharacter(){
 		};
 	var result = ajaxPost("character", "del", params);
     result.done(function(){
-    	if (result.return_value['error_redirect'] !== undefined && result.return_value['error_redirect'] != ""){
-    		// エラーページへリダイレクト
-    		location.href = "/err/" + result.return_value['error_redirect'] + ".php";
-    		return false;
-    	}
-    	else if (result.return_value['error_message_list'] !== undefined){
-    		// エラーがある場合
-    		alertMsg(result.return_value['error_message_list']);
-    		return false;
-    	}
-    	else {
-    		// 正常な場合
-    		location.href = "/user/character/";
-    		return true;
-    	}
+		if (isAjaxResultErrorRedirect(result.return_value) === true) {return false};  // 必要ならエラーページへリダイレクト
+		if (isAjaxResultErrorMsg(result.return_value) === true ){return false;} // 必要ならエラーメッセージ表示
+
+		// 正常な場合
+		location.href = "/user/character/";
+		return true;
     });
 }
 
