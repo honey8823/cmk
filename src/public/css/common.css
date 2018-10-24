@@ -14,6 +14,9 @@
 .label.tag-selectable{ /* 選択が可能なタグ */
 	cursor: pointer;
 }
+.label.tag-genre{ /* ジャンルタグ */
+	background-color: #333333;
+}
 .label.tag-series{ /* シリーズタグ */
 	background-color: #53B44A;
 }

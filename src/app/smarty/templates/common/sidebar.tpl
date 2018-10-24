@@ -153,12 +153,17 @@
             <input type="text" name="mail_name" class="form-name">
           </div>
           <div>
-            <label>Twitter ID（公開）</label>
-            <input type="text" name="mail_address" class="form-twitter_id">
+            <label>ジャンル設定</label>
+            <span class="label tag-base tag-genre tag-notselected tag-selectable template-for-copy" value=""></span>
           </div>
           <div>
             <label>R18設定のコンテンツ表示を許可する</label>
             <input type="checkbox" name="is_r18" class="form-is_r18">
+          </div>
+
+          <div>
+            <label>Twitter ID（公開）</label>
+            <input type="text" name="mail_address" class="form-twitter_id">
           </div>
           <div>
             <label>メールアドレス（非公開）</label>

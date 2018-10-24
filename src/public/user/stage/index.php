@@ -25,7 +25,8 @@ $tc->init();
 $smarty_param = array();
 
 // 未ログインの場合はエラー
-if ($uc->getLoginId() === false)
+$user_id = $uc->getLoginId();
+if ($user_id === false)
 {
 	header("Location: /err/session.php");
 	exit();
@@ -33,7 +34,7 @@ if ($uc->getLoginId() === false)
 
 // シリーズタグ一覧
 $tag_catgory_list = $tc->getConfig("tag_category", "key");
-$smarty_param['series_list'] = $tc->table(array('category_list' => array($tag_catgory_list['series']['value'])));
+$smarty_param['series_list'] = $tc->table(array('category_list' => array($tag_catgory_list['series']['value']), 'user_id' => $user_id));
 
 // 必ず指定 //////////////////////////////
 // Smartyデバッグ用
