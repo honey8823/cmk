@@ -1,6 +1,49 @@
 <?php
 class UserController extends Common
 {
+	public function get($param_list = array())
+	{
+		try
+		{
+			// ユーザID
+			$id  = $this->getLoginId();
+			if ($id === false)
+			{
+				return array('error_redirect' => "session");
+			}
+
+			// 取得（ユーザ）
+			$sql  = "SELECT `name` ";
+			$sql .= "      ,`login_id` ";
+			$sql .= "      ,`twitter_id` ";
+			$sql .= "      ,`mail_address` ";
+			$sql .= "      ,`is_r18` ";
+			$sql .= "FROM   `user` ";
+			$sql .= "WHERE  `id` = ? ";
+			$sql .= "AND    `is_delete` <> 1 ";
+			$arg_list = array($id);
+			$user_list = $this->query($sql, $arg_list);
+			if (count($user_list) != 1)
+			{
+				return array('error_redirect' => "session");
+			}
+			
+			// 取得（ジャンル）
+			$sql  = "SELECT `genre_id` ";
+			$sql .= "FROM   `user_genre` ";
+			$sql .= "WHERE  `user_id` = ? ";
+			$arg_list = array($id);
+			$user_list[0]['genre_list'] = $this->query($sql, $arg_list);
+
+			// 戻り値
+			return array('user' => $user_list[0]);
+		}
+		catch (Exception $e)
+		{
+			// todo::エラー処理
+		}
+	}
+	
 	public function add($param_list = array())
 	{
 		try
@@ -215,6 +258,36 @@ class UserController extends Common
 
 			// 戻り値
 			return $user_list;
+		}
+		catch (Exception $e)
+		{
+			// todo::エラー処理
+		}
+	}
+
+	public function del($param_list = array())
+	{
+		try
+		{
+			// ユーザID
+			$id = $this->getLoginId();
+			if ($id === false)
+			{
+				return array('error_redirect' => "session");
+			}
+
+			// 論理削除
+			$sql  = "UPDATE `user` ";
+			$sql .= "SET    `is_delete` = 1 ";
+			$sql .= "WHERE  `id` = ? ";
+			$arg_list = array($id);
+			$this->query($sql, $arg_list);
+
+			// セッション削除
+			$this->delSession();
+			
+			// 戻り値
+			return array();
 		}
 		catch (Exception $e)
 		{

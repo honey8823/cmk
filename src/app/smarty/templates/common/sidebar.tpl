@@ -44,7 +44,7 @@
           </a>
         </li>
         <li>
-          <a href="#" data-toggle="modal" data-target="#modal-setUser" onclick="setUserForm();">
+          <a href="/user/account.php">
             <i class="fa fa-user-circle" aria-hidden="true"></i> <span>アカウント情報</span>
           </a>
         </li>
@@ -129,63 +129,6 @@
         <div class="modal-footer">
           <button type="button" class="btn btn-default pull-left" data-dismiss="modal">キャンセル</button>
           <button type="button" class="btn btn-primary" onclick="login();">ログイン</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- アカウント管理modal -->
-  <div class="modal fade" id="modal-setUser">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span></button>
-          <h4 class="modal-title">アカウント管理</h4>
-        </div>
-        <div class="modal-body">
-          <div>
-            <label>ログインID（公開 / 必須）</label>
-            <input type="text" name="login_id" class="form-login_id">
-          </div>
-          <div>
-            <label>ユーザー名（公開）</label>
-            <input type="text" name="mail_name" class="form-name">
-          </div>
-          <div>
-            <label>ジャンル設定</label>
-            <span class="label tag-base tag-genre tag-notselected tag-selectable template-for-copy" value=""></span>
-          </div>
-          <div>
-            <label>R18設定のコンテンツ表示を許可する</label>
-            <input type="checkbox" name="is_r18" class="form-is_r18">
-          </div>
-
-          <div>
-            <label>Twitter ID（公開）</label>
-            <input type="text" name="mail_address" class="form-twitter_id">
-          </div>
-          <div>
-            <label>メールアドレス（非公開）</label>
-            <span class="menu-tooltip">
-              <i class="fa fa-question-circle fa-fw" aria-hidden="true"></i>
-              <span class="menu-tooltiptext">{$config.tooltip.mail_address}</span>
-            </span>
-            <input type="text" name="mail_address" class="form-mail_address">
-          </div>
-          <div>
-            <label>パスワード（非公開 / 変更する場合のみ）</label>
-            <input type="password" name="password" class="form-password">
-          </div>
-          <div>
-            <label>パスワード（非公開 / 変更する場合のみもう一度）</label>
-            <input type="password" name="password_c" class="form-password_c">
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default pull-left" data-dismiss="modal">キャンセル</button>
-          <button type="button" class="btn btn-warning" onclick="delUser();">退会</button>
-          <button type="button" class="btn btn-primary" onclick="setUser();">変更</button>
         </div>
       </div>
     </div>

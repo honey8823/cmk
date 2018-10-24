@@ -132,34 +132,3 @@ function addUser(){
 		return true;
     });
 }
-
-/*
- * 会員更新処理
- */
-function setUser(){
-	var genre = [];
-	$("#modal-setUser").find(".label.tag-selectable:not(.tag-notselected)").each(function(i, e){
-		genre.push($(e).val());
-	});
-	var params = {
-			'login_id'     : $("#modal-setUser").find(".form-login_id").val(),
-			'name'         : $("#modal-setUser").find(".form-name").val(),
-			'twitter_id'   : $("#modal-setUser").find(".form-twitter_id").val(),
-			'is_r18'       : $("#modal-setUser").find(".form-is_r18").prop("checked") ? "1" : "0",
-			'mail_address' : $("#modal-setUser").find(".form-mail_address").val(),
-			'password'     : $("#modal-setUser").find(".form-password").val(),
-			'password_c'   : $("#modal-setUser").find(".form-password_c").val(),
-			'genre_list'   : genre,
-		};
-
-	var result = ajaxPost("user", "set", params);
-    result.done(function(){
-		if (isAjaxResultErrorRedirect(result.return_value) === true) {return false};  // 必要ならエラーページへリダイレクト
-		if (isAjaxResultErrorMsg(result.return_value) === true ){return false;} // 必要ならエラーメッセージ表示
-
-		// 正常な場合
-		setUserData();
-		$('#modal-setUser').modal('hide');
-		return true;
-    });
-}
