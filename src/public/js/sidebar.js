@@ -30,7 +30,7 @@ function switchSidebar(){
 function setUserForm(){
 	var result = ajaxPost("user", "getSession", ["user"]);
     result.done(function(){
-		if (isAjaxResultErrorRedirect(result.return_value) === true) {return false};  // 必要ならエラーページへリダイレクト
+		if (isAjaxResultErrorRedirect(result.return_value) === true) {return false;}  // 必要ならエラーページへリダイレクト
 		if (isAjaxResultNoData(result.return_value['user']['id']) === true ){logout();return false;} // 必要ならエラーメッセージ表示
 
 		var result2 = ajaxPost("tag", "tableGenre", []);
@@ -69,7 +69,7 @@ function setUserForm(){
 function setUserData(){
 	var result = ajaxPost("user", "getSession", ["user"]);
     result.done(function(){
-		if (isAjaxResultErrorRedirect(result.return_value) === true) {return false};  // 必要ならエラーページへリダイレクト
+		if (isAjaxResultErrorRedirect(result.return_value) === true) {return false;}  // 必要ならエラーページへリダイレクト
 		if (isAjaxResultErrorMsg(result.return_value) === true ){return false;} // 必要ならエラーメッセージ表示
 		if (isAjaxResultNoData(result.return_value['user']['id']) === true ){logout();return false;} // データがない場合はエラー表示
 

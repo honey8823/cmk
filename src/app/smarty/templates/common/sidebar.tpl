@@ -18,56 +18,66 @@
         <li class="header">自分のまとめを管理する</li>
         <li>
           <a href="/user/stage/">
-            <i class="fa fa-file-text" aria-hidden="true"></i> <span>ステージ管理</span>
+            <i class="fa fa-fw fa-file-text" aria-hidden="true"></i><span>ステージ管理</span>
           </a>
         </li>
         <li>
           <a href="/user/character/">
-            <i class="fa fa-file-text" aria-hidden="true"></i> <span>キャラクター管理</span>
+            <i class="fa fa-fw fa-file-text" aria-hidden="true"></i><span>キャラクター管理</span>
           </a>
         </li>
         <li class="header">他人のまとめを見る</li>
         <li>
           <a href="#">
-            <i class="fa fa-file-text" aria-hidden="true"></i> <span>フォロー</span><small>＜β版実装＞</small>
+            <i class="fa fa-fw fa-file-text" aria-hidden="true"></i><span>フォロー</span><small>＜β版実装＞</small>
           </a>
         </li>
         <li>
           <a href="#">
-            <i class="fa fa-file-text" aria-hidden="true"></i> <span>お気に入り</span><small>＜β版実装＞</small>
+            <i class="fa fa-fw fa-file-text" aria-hidden="true"></i><span>お気に入り</span><small>＜β版実装＞</small>
           </a>
         </li>
         <li class="header">アカウント・その他</li>
         <li>
+          <a href="/information.php">
+            <i class="fa fa-fw fa-exclamation-circle" aria-hidden="true"></i><span>お知らせ</span>
+          </a>
+        </li>
+        <li>
           <a href="/help.php">
-            <i class="fa fa-question-circle" aria-hidden="true"></i> <span>ヘルプ</span>
+            <i class="fa fa-fw fa-question-circle" aria-hidden="true"></i><span>ヘルプ</span>
           </a>
         </li>
         <li>
           <a href="/user/account.php">
-            <i class="fa fa-user-circle" aria-hidden="true"></i> <span>アカウント情報</span>
+            <i class="fa fa-fw fa-user-circle" aria-hidden="true"></i><span>アカウント情報</span>
           </a>
         </li>
         <li>
           <a href="#" onclick="logout()";>
-            <i class="fa fa-sign-out" aria-hidden="true"></i> <span>ログアウト</span>
+            <i class="fa fa-fw fa-sign-out" aria-hidden="true"></i><span>ログアウト</span>
           </a>
         </li>
       </ul>
       <ul class="sidebar-menu logged-out" data-widget="tree">
         <li>
+          <a href="/information.php">
+            <i class="fa fa-fw fa-exclamation-circle" aria-hidden="true"></i><span>お知らせ</span>
+          </a>
+        </li>
+        <li>
           <a href="/help.php">
-            <i class="fa fa-question-circle" aria-hidden="true"></i> <span>ヘルプ</span>
+            <i class="fa fa-fw fa-question-circle" aria-hidden="true"></i><span>ヘルプ</span>
           </a>
         </li>
         <li>
           <a href="#" data-toggle="modal" data-target="#modal-login">
-            <i class="fa fa-sign-in" aria-hidden="true"></i> <span>ログイン</span>
+            <i class="fa fa-fw fa-sign-in" aria-hidden="true"></i><span>ログイン</span>
           </a>
         </li>
         <li>
           <a href="#" data-toggle="modal" data-target="#modal-addUser">
-            <i class="fa fa-user-plus" aria-hidden="true"></i> <span>新規登録</span>
+            <i class="fa fa-fw fa-user-plus" aria-hidden="true"></i><span>新規登録</span>
           </a>
         </li>
       </ul>

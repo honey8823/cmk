@@ -12,7 +12,7 @@ $(function() {
 
 			var result = ajaxPost("character", "setSort", params);
 			result.done(function(){
-				if (isAjaxResultErrorRedirect(result.return_value) === true) {return false};  // 必要ならエラーページへリダイレクト
+				if (isAjaxResultErrorRedirect(result.return_value) === true) {return false;}  // 必要ならエラーページへリダイレクト
 				if (isAjaxResultErrorMsg(result.return_value) === true ){return false;} // 必要ならエラーメッセージ表示
 
 				// 正常な場合
@@ -45,7 +45,7 @@ function tableCharacter(){
 		};
 	var result = ajaxPost("character", "table", params);
     result.done(function(){
-		if (isAjaxResultErrorRedirect(result.return_value) === true) {return false};  // 必要ならエラーページへリダイレクト
+		if (isAjaxResultErrorRedirect(result.return_value) === true) {return false;}  // 必要ならエラーページへリダイレクト
 		if (isAjaxResultErrorMsg(result.return_value) === true ){return false;} // 必要ならエラーメッセージ表示
 
 		// 正常な場合
@@ -85,7 +85,7 @@ function addCharacter(){
 		};
 	var result = ajaxPost("character", "add", params);
     result.done(function(){
-		if (isAjaxResultErrorRedirect(result.return_value) === true) {return false};  // 必要ならエラーページへリダイレクト
+		if (isAjaxResultErrorRedirect(result.return_value) === true) {return false;}  // 必要ならエラーページへリダイレクト
 		if (isAjaxResultErrorMsg(result.return_value) === true ){return false;} // 必要ならエラーメッセージ表示
 
 		// 正常な場合
@@ -114,7 +114,7 @@ function setCharacter(){
 		};
 	var result = ajaxPost("character", "set", params);
     result.done(function(){
-		if (isAjaxResultErrorRedirect(result.return_value) === true) {return false};  // 必要ならエラーページへリダイレクト
+		if (isAjaxResultErrorRedirect(result.return_value) === true) {return false;}  // 必要ならエラーページへリダイレクト
 		if (isAjaxResultErrorMsg(result.return_value) === true ){return false;} // 必要ならエラーメッセージ表示
 
 		// 正常な場合
@@ -133,7 +133,7 @@ function setCharacterIsPrivate(is_private){
 		};
 	var result = ajaxPost("character", "setIsPrivate", params);
     result.done(function(){
-		if (isAjaxResultErrorRedirect(result.return_value) === true) {return false};  // 必要ならエラーページへリダイレクト
+		if (isAjaxResultErrorRedirect(result.return_value) === true) {return false;}  // 必要ならエラーページへリダイレクト
 		if (isAjaxResultErrorMsg(result.return_value) === true ){return false;} // 必要ならエラーメッセージ表示
 
 		// 正常な場合
@@ -154,7 +154,7 @@ function delCharacter(){
 		};
 	var result = ajaxPost("character", "del", params);
     result.done(function(){
-		if (isAjaxResultErrorRedirect(result.return_value) === true) {return false};  // 必要ならエラーページへリダイレクト
+		if (isAjaxResultErrorRedirect(result.return_value) === true) {return false;}  // 必要ならエラーページへリダイレクト
 		if (isAjaxResultErrorMsg(result.return_value) === true ){return false;} // 必要ならエラーメッセージ表示
 
 		// 正常な場合
