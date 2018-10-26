@@ -6,6 +6,10 @@ class Common
 
     protected $last_insert_id = null;
 
+    // ------
+    // 初期化
+    // ------
+
     public function init()
     {
         // db
@@ -16,14 +20,24 @@ class Common
         $this->pdo = new PDO($this->dsn, config['db']['user'], config['db']['pass']);
     }
 
+    // ----------------
+    // データベース関連
+    // ----------------
+
     public function query($sql, $arg_list = array())
     {
     	// クエリ実行
     	$sth = $this->pdo->prepare($sql);
     	$sth->execute($arg_list);
+    	if ($sth->errorInfo()[2] != "")
+    	{
+    		// エラーがあった場合はthrow
+    		throw new Exception(var_export($sth->errorInfo(), true));
+    	}
     	$ret = $sth->fetchAll();
     	if (!is_array($ret))
     	{
+    		// エラーではないが取得できなかった場合はfalseを返す
     		return false;
     	}
 
@@ -38,7 +52,6 @@ class Common
     			}
     		}
     	}
-
     	return $ret;
     }
 
@@ -47,6 +60,10 @@ class Common
     	$res = $this->query("SELECT LAST_INSERT_ID() AS `last_insert_id` ");
     	return $res[0]['last_insert_id'];
     }
+
+    // ------
+    // config
+    // ------
 
     public function getConfig($name, $key)
     {
@@ -59,11 +76,20 @@ class Common
         return $return_list;
     }
 
+    // ------
+    // エラー処理
+    // ------
+
     public function exception($e)
     {
-        // todo::エラー処理
-        // ログに残したりする
-        echo '捕捉した例外: ',  $e->getMessage(), "\n";
+        // ログに残す
+        $log_text  = "";
+    	$log_text .= "///////////////////////////////////////////////////\n";
+    	$log_text .= date("Y-m-d H:i:s") . "\n";
+    	$log_text .= "-----------------------------\n";
+    	$log_text .= var_export($e, true);
+    	$log_text .= "\n\n";
+    	file_put_contents(PATH_LOGS . date("Ymd") . ".log", $log_text, FILE_APPEND);
     }
 
     public function getSession($key_list = array())

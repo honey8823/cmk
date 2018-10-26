@@ -75,7 +75,7 @@ class EpisodeController extends Common
 		}
 		catch (Exception $e)
 		{
-			// todo::エラー処理
+			$this->exception($e);
 		}
 	}
 
@@ -173,7 +173,7 @@ class EpisodeController extends Common
 		}
 		catch (Exception $e)
 		{
-			// todo::エラー処理
+			$this->exception($e);
 		}
 	}
 
@@ -245,7 +245,7 @@ class EpisodeController extends Common
 		}
 		catch (Exception $e)
 		{
-			// todo::エラー処理
+			$this->exception($e);
 		}
 	}
 
@@ -359,7 +359,7 @@ class EpisodeController extends Common
 		}
 		catch (Exception $e)
 		{
-			// todo::エラー処理
+			$this->exception($e);
 		}
 	}
 
@@ -488,7 +488,7 @@ class EpisodeController extends Common
 		}
 		catch (Exception $e)
 		{
-			// todo::エラー処理
+			$this->exception($e);
 		}
 	}
 
@@ -527,7 +527,7 @@ class EpisodeController extends Common
 		}
 		catch (Exception $e)
 		{
-			// todo::エラー処理
+			$this->exception($e);
 		}
 	}
 
@@ -587,7 +587,7 @@ class EpisodeController extends Common
 		}
 		catch (Exception $e)
 		{
-			// todo::エラー処理
+			$this->exception($e);
 		}
 	}
 
@@ -644,7 +644,7 @@ class EpisodeController extends Common
 		}
 		catch (Exception $e)
 		{
-			// todo::エラー処理
+			$this->exception($e);
 		}
 	}
 }

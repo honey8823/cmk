@@ -27,7 +27,7 @@ class UserController extends Common
 			{
 				return array('error_redirect' => "session");
 			}
-			
+
 			// 取得（ジャンル）
 			$sql  = "SELECT `genre_id` ";
 			$sql .= "FROM   `user_genre` ";
@@ -40,10 +40,10 @@ class UserController extends Common
 		}
 		catch (Exception $e)
 		{
-			// todo::エラー処理
+			$this->exception($e);
 		}
 	}
-	
+
 	public function add($param_list = array())
 	{
 		try
@@ -114,7 +114,7 @@ class UserController extends Common
 		}
 		catch (Exception $e)
 		{
-			// todo::エラー処理
+			$this->exception($e);
 		}
 
 
@@ -261,7 +261,7 @@ class UserController extends Common
 		}
 		catch (Exception $e)
 		{
-			// todo::エラー処理
+			$this->exception($e);
 		}
 	}
 
@@ -285,13 +285,13 @@ class UserController extends Common
 
 			// セッション削除
 			$this->delSession();
-			
+
 			// 戻り値
 			return array();
 		}
 		catch (Exception $e)
 		{
-			// todo::エラー処理
+			$this->exception($e);
 		}
 	}
 
@@ -347,7 +347,7 @@ class UserController extends Common
 		}
 		catch (Exception $e)
 		{
-			// todo::エラー処理
+			$this->exception($e);
 		}
 	}
 

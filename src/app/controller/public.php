@@ -25,7 +25,7 @@ class PublicController extends Common
 					$is_r18 = 1;
 				}
 			}
-			
+
 			// 取得（ステージ）
 			$sql  = "SELECT     `stage`.`id` ";
 			$sql .= "          ,`stage`.`name` ";
@@ -145,14 +145,14 @@ class PublicController extends Common
 					);
 				}
 			}
-			
+
 			// 戻り値
 			$return_list['stage'] = $stage_list[0];
 			return $return_list;
 		}
 		catch (Exception $e)
 		{
-			// todo::エラー処理
+			$this->exception($e);
 		}
 	}
 }
