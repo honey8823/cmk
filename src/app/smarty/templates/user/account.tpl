@@ -39,47 +39,53 @@
             <div class="box-body" id="area-setUser">
               <input type="hidden" class="form-id" value="{$user.id}">
 
-              <div>
+              <div class="form-group">
                 <label>ログインID（公開 / 必須）</label>
-                <input type="text" name="login_id" class="form-login_id" value="{$user.login_id}">
+                <input type="text" name="login_id" class="form-control form-login_id" value="{$user.login_id}">
               </div>
-              <div>
+              <div class="form-group">
                 <label>ユーザー名（公開）</label>
-                <input type="text" name="mail_name" class="form-name" value="{$user.name}">
+                <input type="text" name="mail_name" class="form-control form-name" value="{$user.name}">
               </div>
-              <div>
+              <div class="form-group">
                 <label>ジャンル設定</label>
-              {foreach from=$genre_list key=k item=v_genre}
-              {if isset($user.genre_list) && is_array($user.genre_list) && in_array($v_genre.id, array_column($user.genre_list, 'genre_id'))}
-                <span class="label tag-base tag-genre tag-selectable" value="{$v_genre.id}">{$v_genre.title}</span>
-              {else}
-                <span class="label tag-base tag-genre tag-selectable tag-notselected" value="{$v_genre.id}">{$v_genre.title}</span>
-              {/if}
-              {/foreach}
+                <div>
+                {foreach from=$genre_list key=k item=v_genre}
+                {if isset($user.genre_list) && is_array($user.genre_list) && in_array($v_genre.id, array_column($user.genre_list, 'genre_id'))}
+                  <span class="label tag-base tag-genre tag-selectable" value="{$v_genre.id}">{$v_genre.title}</span>
+                {else}
+                  <span class="label tag-base tag-genre tag-selectable tag-notselected" value="{$v_genre.id}">{$v_genre.title}</span>
+                {/if}
+                {/foreach}
+                </div>
               </div>
-              <div>
-                <label>R18設定のコンテンツ表示を許可する</label>
-                <input type="checkbox" name="is_r18" class="form-is_r18"{if $user.is_r18 == "1"} checked{/if}>
+              <div class="form-group">
+                <div class="checkbox">
+                  <label>
+                    <input type="checkbox" name="is_r18" class="form-is_r18"{if $user.is_r18 == "1"} checked{/if}>
+                    R18設定のコンテンツ表示を許可する
+                  </label>
+                </div>
               </div>
-              <div>
+              <div class="form-group">
                 <label>Twitter ID（公開）</label>
-                <input type="text" name="mail_address" class="form-twitter_id" value="{$user.twitter_id}">
+                <input type="text" name="mail_address" class="form-control form-twitter_id" value="{$user.twitter_id}">
               </div>
-              <div>
+              <div class="form-group">
                 <label>メールアドレス（非公開）</label>
                 <span class="menu-tooltip">
                   <i class="fa fa-question-circle fa-fw" aria-hidden="true"></i>
                   <span class="menu-tooltiptext">{$config.tooltip.mail_address}</span>
                 </span>
-                <input type="text" name="mail_address" class="form-mail_address" value="{$user.mail_address}">
+                <input type="text" name="mail_address" class="form-control form-mail_address" value="{$user.mail_address}">
               </div>
-              <div>
+              <div class="form-group">
                 <label>パスワード（非公開 / 変更する場合のみ）</label>
-                <input type="password" name="password" class="form-password">
+                <input type="password" name="password" class="form-control form-password">
               </div>
-              <div>
+              <div class="form-group">
                 <label>パスワード（非公開 / 変更する場合のみもう一度）</label>
-                <input type="password" name="password_c" class="form-password_c">
+                <input type="password" name="password_c" class="form-control form-password_c">
               </div>
             </div>
             <div class="box-body button-layout-right">

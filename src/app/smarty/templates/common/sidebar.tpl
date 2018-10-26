@@ -96,17 +96,18 @@
           <h4 class="modal-title">新規登録</h4>
         </div>
         <div class="modal-body">
-          <div>
+
+          <div class="form-group">
             <label>希望のログインID(4～32文字、半角の英数と一部記号のみ使用可)</label>
-            <input type="text" name="login_id" class="form-login_id">
+            <input type="text" name="login_id" class="form-control form-login_id">
           </div>
-          <div>
+          <div class="form-group">
             <label>パスワード(4～32文字、半角の英数と一部記号のみ使用可)</label>
-            <input type="password" name="password" class="form-password">
+            <input type="password" name="password" class="form-control form-password">
           </div>
-          <div>
+          <div class="form-group">
             <label>パスワード(もう一度)</label>
-            <input type="password" name="password_c" class="form-password_c">
+            <input type="password" name="password_c" class="form-control form-password_c">
           </div>
         </div>
         <div class="modal-footer">
@@ -127,13 +128,13 @@
           <h4 class="modal-title">ログイン</h4>
         </div>
         <div class="modal-body">
-          <div>
+          <div class="form-group">
             <label>ログインID</label>
-            <input type="text" name="login_id" class="form-login_id">
+            <input type="text" name="login_id" class="form-control form-login_id">
           </div>
-          <div>
+          <div class="form-group">
             <label>パスワード</label>
-            <input type="password" name="password" class="form-password">
+            <input type="password" name="password" class="form-control form-password">
           </div>
         </div>
         <div class="modal-footer">

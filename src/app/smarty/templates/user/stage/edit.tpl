@@ -39,11 +39,11 @@
             </div>
             <div class="box-body" id="area-setStage">
               <input type="hidden" class="form-id" value="{$stage.id}">
-              <div>
+              <div class="form-group">
                 <label>ステージ名</label><small>※必須</small>
-                <input type="text" name="name" class="form-name" value="{$stage.name}">
+                <input type="text" name="name" class="form-control form-name" value="{$stage.name}">
               </div>
-              <div>
+              <div class="form-group">
                 <label>説明文</label>
                 <span class="menu-tooltip">
                   <i class="fa fa-question-circle fa-fw" aria-hidden="true"></i>
@@ -51,15 +51,17 @@
                 </span>
                 <textarea class="form-control form-remarks" rows="3" name="remarks">{$stage.remarks}</textarea>
               </div>
-              <div>
+              <div class="form-group">
                 <label>関連するシリーズ（複数選択可）</label>
-              {foreach from=$series_list key=k item=v_series}
-              {if isset($stage.tag_list) && is_array($stage.tag_list) && in_array($v_series.id, array_column($stage.tag_list, 'id'))}
-                <span class="label tag-base tag-series tag-selectable" value="{$v_series.id}">{$v_series.name}</span>
-              {else}
-                <span class="label tag-base tag-series tag-notselected tag-selectable" value="{$v_series.id}">{$v_series.name}</span>
-              {/if}
-              {/foreach}
+                <div>
+                {foreach from=$series_list key=k item=v_series}
+                {if isset($stage.tag_list) && is_array($stage.tag_list) && in_array($v_series.id, array_column($stage.tag_list, 'id'))}
+                  <span class="label tag-base tag-series tag-selectable" value="{$v_series.id}">{$v_series.name}</span>
+                {else}
+                  <span class="label tag-base tag-series tag-notselected tag-selectable" value="{$v_series.id}">{$v_series.name}</span>
+                {/if}
+                {/foreach}
+                </div>
               </div>
             </div>
             <div class="box-body button-layout-right">

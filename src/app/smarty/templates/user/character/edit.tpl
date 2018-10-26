@@ -39,27 +39,29 @@
             </div>
             <div class="box-body" id="area-setCharacter">
               <input type="hidden" class="form-id" value="{$character.id}">
-              <div>
+              <div class="form-group">
                 <label>キャラクター名</label>
                 <span class="menu-tooltip">
                   <i class="fa fa-question-circle fa-fw" aria-hidden="true"></i>
                   <span class="menu-tooltiptext">{$config.tooltip.character_name}</span>
                 </span>
-                <input type="text" name="name" class="form-name" value="{$character.name}">
+                <input type="text" name="name" class="form-control form-name" value="{$character.name}">
               </div>
-              <div>
+              <div class="form-group">
                 <label>属するステージ（複数選択可）</label>
-              {foreach from=$stage_list key=k item=v_stage}
-              {if isset($character.stage_list) && is_array($character.stage_list) && in_array($v_stage.id, array_column($character.stage_list, 'id'))}
-                <span class="badge stage stage-selectable" value="{$v_stage.id}">{$v_stage.name}</span>
-              {else}
-                <span class="badge stage stage-notselected stage-selectable" value="{$v_stage.id}">{$v_stage.name}</span>
-              {/if}
-              {/foreach}
+                <div>
+                {foreach from=$stage_list key=k item=v_stage}
+                {if isset($character.stage_list) && is_array($character.stage_list) && in_array($v_stage.id, array_column($character.stage_list, 'id'))}
+                  <span class="badge stage stage-selectable" value="{$v_stage.id}">{$v_stage.name}</span>
+                {else}
+                  <span class="badge stage stage-notselected stage-selectable" value="{$v_stage.id}">{$v_stage.name}</span>
+                {/if}
+                {/foreach}
+                </div>
               </div>
-              <div>
+              <div class="form-group">
                 <label>備考</label>
-                <textarea name="remarks" class="form-remarks">{$character.remarks}</textarea>
+                <textarea name="remarks" class="form-control form-remarks">{$character.remarks}</textarea>
               </div>
             </div>
             <div class="box-body button-layout-right">

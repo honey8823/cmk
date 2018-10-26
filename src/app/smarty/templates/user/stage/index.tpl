@@ -72,11 +72,11 @@
 {***          <small>登録直後は非公開設定になっています。編集後に公開するようにしてください。</small>***}
         </div>
         <div class="modal-body">
-          <div>
+          <div class="form-group">
             <label>ステージ名</label><small>※必須</small>
-            <input type="text" name="name" class="form-name">
+            <input type="text" name="name" class="form-control form-name">
           </div>
-          <div>
+          <div class="form-group">
             <label>説明文</label>
             <span class="menu-tooltip">
               <i class="fa fa-question-circle fa-fw" aria-hidden="true"></i>
@@ -84,11 +84,13 @@
             </span>
             <textarea class="form-control form-remarks" rows="3" name="remarks"></textarea>
           </div>
-          <div>
+          <div class="form-group">
             <label>関連するシリーズ（複数選択可）</label>
-          {foreach from=$series_list key=k item=v_series}
-            <span class="label tag-base tag-series tag-notselected tag-selectable" value="{$v_series.id}">{$v_series.name}</span>
-          {/foreach}
+            <div>
+            {foreach from=$series_list key=k item=v_series}
+              <span class="label tag-base tag-series tag-notselected tag-selectable" value="{$v_series.id}">{$v_series.name}</span>
+            {/foreach}
+            </div>
           </div>
         </div>
         <div class="modal-footer">
