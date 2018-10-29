@@ -12,11 +12,19 @@ $template_name = "help";
 // コントローラ読み込み
 // --------------------
 
+$hc = new HelpController();
+$hc->init();
+
 // ----------------------------------
 // テンプレートに表示するデータの取得
 // その他必要な処理
 // ----------------------------------
 $smarty_param = array();
+
+// ステージ
+$help_list = $hc->table();
+
+$smarty_param['help_list'] = $help_list['help_list'];
 
 // 必ず指定 //////////////////////////////
 // Smartyデバッグ用

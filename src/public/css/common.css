@@ -153,6 +153,14 @@
 	padding: 1em 1.5em;
 }
 
+/* ヘルプページ */
+.help-update_stamp{
+	color: #999;
+	float: right;
+	padding: 10px;
+	font-size: 12px;
+}
+
 /* **************************************** */
 
 /* リンクのクリック範囲を広げる */
