@@ -82,7 +82,7 @@
                           </div>
                         {/if}
                         {if $v_episode.url != ""}
-                          <p class="timeline-url"><a href="{$v_episode.url}" target="_blank">{$v_episode.url}</a></p>
+                          <p class="timeline-url"><a href="{$v_episode.url}" target="_blank">{$v_episode.url_view}</a></p>
                         {/if}
                         </small>
                       </div>

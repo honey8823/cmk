@@ -76,9 +76,9 @@ class Common
         return $return_list;
     }
 
-    // ------
+    // ----------
     // エラー処理
-    // ------
+    // ----------
 
     public function exception($e)
     {
@@ -91,6 +91,10 @@ class Common
     	$log_text .= "\n\n";
     	file_put_contents(PATH_LOGS . date("Ymd") . ".log", $log_text, FILE_APPEND);
     }
+
+    // --------------
+    // セッション関連
+    // --------------
 
     public function getSession($key_list = array())
     {
@@ -140,6 +144,10 @@ class Common
     	}
     }
 
+    // --------------
+    // その他汎用関数
+    // --------------
+
 	public function setArrayKey($l, $k)
 	{
 		$res = array();
@@ -148,6 +156,25 @@ class Common
 			$res[$v[$k]] = $v;
 		}
 		return $res;
+	}
+
+	public function omitUrl($url, $length = 20)
+	{
+		// 切り取り開始位置：「//」の後から
+		$start = strpos($url, "//");
+		if ($start === false)
+		{
+			return false;
+		}
+		$start += 2; // 「//」の文字数分、スタート位置を加算
+
+		$url = mb_substr($url, $start, $length);
+		if (mb_strlen($url) >= $length)
+		{
+			$url .= "...";
+		}
+
+		return $url;
 	}
 }
 

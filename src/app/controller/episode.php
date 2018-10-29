@@ -163,6 +163,12 @@ class EpisodeController extends Common
 					}
 				}
 
+				// URL短縮
+				foreach ($episode_list as $k => $v)
+				{
+					$episode_list[$k]['url_view'] = $this->omitUrl($v['url']);
+				}
+
 				// 配列のキーをリセット
 				$episode_list = array_values($episode_list);
 			}

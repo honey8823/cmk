@@ -201,7 +201,7 @@ function drawEpisodeList(dat, id){
 		}
 		if (dat.url != undefined && dat.url != ""){
 			$(obj).find(".timeline-url > a").attr("href", dat.url);
-			$(obj).find(".timeline-url > a").text(strcut(dat.url, "//", "").substr(0, 20) + "...");
+			$(obj).find(".timeline-url > a").text(dat.url_view);
 			$(obj).find(".timeline-url").removeClass("template-for-copy");
 		}
 		else{
