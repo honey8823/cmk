@@ -48,6 +48,12 @@
       {/foreach}
       </div>
 
+      <a href="/tutorial.php">
+      <div class="callout callout-success">
+        <h4><i class="fa fa-fw fa-arrow-right" aria-hidden="true"></i>はじめての方はこちら＜チュートリアル＞</h4>
+      </div>
+      </a>
+
       <div class="callout callout-warning">
         <h4>ご注意</h4>
         <p><small>

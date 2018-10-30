@@ -26,6 +26,12 @@
     <!-- Main content -->
     <section class="content container-fluid">
 
+      <a href="/tutorial.php">
+      <div class="callout callout-success">
+        <h4><i class="fa fa-fw fa-arrow-right" aria-hidden="true"></i>はじめての方はこちら＜チュートリアル＞</h4>
+      </div>
+      </a>
+
     {foreach from=$help_list key=k item=v_help}
       <div class="box box-primary">
         <span class="help-update_stamp">最終更新日：{strtotime($v_help.update_stamp)|date_format:"%Y-%m-%d"}</span>
