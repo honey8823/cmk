@@ -24,7 +24,7 @@ function timeline(params){
 
 	var result = ajaxPost("episode", "timeline", params);
 	result.done(function(){
-		if (isAjaxResultErrorRedirect(result.return_value) === true) {return false};  // 必要ならエラーページへリダイレクト
+		if (isAjaxResultErrorRedirect(result.return_value) === true) {return false;}  // 必要ならエラーページへリダイレクト
 		if (isAjaxResultErrorMsg(result.return_value) === true ){return false;} // 必要ならエラーメッセージ表示
 
 		// 正常な場合
@@ -60,7 +60,7 @@ function addEpisode(is_private){
 		};
 	var result = ajaxPost("episode", "add", params);
 	result.done(function(){
-		if (isAjaxResultErrorRedirect(result.return_value) === true) {return false};  // 必要ならエラーページへリダイレクト
+		if (isAjaxResultErrorRedirect(result.return_value) === true) {return false;}  // 必要ならエラーページへリダイレクト
 		if (isAjaxResultErrorMsg(result.return_value) === true ){return false;} // 必要ならエラーメッセージ表示
 
 		// 正常な場合
@@ -97,7 +97,7 @@ function setEpisode(is_private){
 		};
 	var result = ajaxPost("episode", "set", params);
 	result.done(function(){
-		if (isAjaxResultErrorRedirect(result.return_value) === true) {return false};  // 必要ならエラーページへリダイレクト
+		if (isAjaxResultErrorRedirect(result.return_value) === true) {return false;}  // 必要ならエラーページへリダイレクト
 		if (isAjaxResultErrorMsg(result.return_value) === true ){return false;} // 必要ならエラーメッセージ表示
 
 		// 正常な場合
@@ -120,7 +120,7 @@ function delEpisode(){
 		};
 	var result = ajaxPost("episode", "del", params);
     result.done(function(){
-		if (isAjaxResultErrorRedirect(result.return_value) === true) {return false};  // 必要ならエラーページへリダイレクト
+		if (isAjaxResultErrorRedirect(result.return_value) === true) {return false;}  // 必要ならエラーページへリダイレクト
 		if (isAjaxResultErrorMsg(result.return_value) === true ){return false;} // 必要ならエラーメッセージ表示
 
 		// 正常な場合
@@ -185,7 +185,7 @@ function drawEpisodeList(dat, id){
 		}
 
 		if (dat.free_text != undefined && dat.free_text != ""){
-			dat.free_text = dat.free_text.replace(/\r?\n/g, '<br>');
+			dat.free_text = dat.free_text.replace(/\r?\n/g, "<br>");
 		}
 
 		// データ貼り付け
@@ -201,7 +201,7 @@ function drawEpisodeList(dat, id){
 		}
 		if (dat.url != undefined && dat.url != ""){
 			$(obj).find(".timeline-url > a").attr("href", dat.url);
-			$(obj).find(".timeline-url > a").text(strcut(dat.url, "//", "").substr(0, 20) + "...");
+			$(obj).find(".timeline-url > a").text(dat.url_view);
 			$(obj).find(".timeline-url").removeClass("template-for-copy");
 		}
 		else{
@@ -265,7 +265,7 @@ function sortableTimeline(mode) {
 
 			var result = ajaxPost("episode", "setSort", params);
 			result.done(function(){
-				if (isAjaxResultErrorRedirect(result.return_value) === true) {return false};  // 必要ならエラーページへリダイレクト
+				if (isAjaxResultErrorRedirect(result.return_value) === true) {return false;}  // 必要ならエラーページへリダイレクト
 				if (isAjaxResultErrorMsg(result.return_value) === true ){return false;} // 必要ならエラーメッセージ表示
 
 				// 正常な場合
@@ -280,13 +280,11 @@ function sortableTimeline(mode) {
  * エピソード更新フォームに値をセット
  */
 $(document).on("click", "li.timeline-editable", function(){
-	console.log("li click");
-
 	var id = $(this).data("id");
 
 	var result = ajaxPost("episode", "get", {id: id});
     result.done(function(){
-		if (isAjaxResultErrorRedirect(result.return_value) === true) {return false};  // 必要ならエラーページへリダイレクト
+		if (isAjaxResultErrorRedirect(result.return_value) === true) {return false;}  // 必要ならエラーページへリダイレクト
 		if (isAjaxResultErrorMsg(result.return_value) === true ){return false;} // 必要ならエラーメッセージ表示
 		if (isAjaxResultNoData(result.return_value['episode']['id']) === true ){return false;} // データがない場合はエラー表示
 

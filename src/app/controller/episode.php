@@ -75,7 +75,7 @@ class EpisodeController extends Common
 		}
 		catch (Exception $e)
 		{
-			// todo::エラー処理
+			$this->exception($e);
 		}
 	}
 
@@ -163,6 +163,12 @@ class EpisodeController extends Common
 					}
 				}
 
+				// URL短縮
+				foreach ($episode_list as $k => $v)
+				{
+					$episode_list[$k]['url_view'] = $this->omitUrl($v['url']);
+				}
+
 				// 配列のキーをリセット
 				$episode_list = array_values($episode_list);
 			}
@@ -173,7 +179,100 @@ class EpisodeController extends Common
 		}
 		catch (Exception $e)
 		{
-			// todo::エラー処理
+			$this->exception($e);
+		}
+	}
+
+	public function timelineCharacter($param_list = array())
+	{
+		try
+		{
+			// ユーザID
+			// ログイン状態でない場合はエラー
+			$user_id = $this->getLoginId();
+			if ($user_id === false)
+			{
+				return array('error_redirect' => "session");
+			}
+
+			// 引数
+			$stage_id     = isset($param_list['stage_id'])     ? trim($param_list['stage_id'])     : "";
+			$character_id = isset($param_list['character_id']) ? trim($param_list['character_id']) : "";
+
+			// キャラクターIDの指定がない場合は空を返す
+			if (!preg_match("/^[0-9]+$/", $character_id))
+			{
+				$return_list['stage_list'] = array();
+				return $return_list;
+			}
+
+			$return_list = array();
+
+			// 取得（ステージ）
+			// 指定キャラクターの属するステージ、かつ指定のある場合は指定ステージ
+			$arg_list = array();
+			$sql  = "SELECT     `stage`.`id` ";
+			$sql .= "          ,`stage`.`name` ";
+			$sql .= "          ,`stage`.`is_private` ";
+			$sql .= "FROM       `stage` ";
+			$sql .= "WHERE      `stage`.`id` IN ( SELECT `stage_id` FROM `character_stage` WHERE `character_id` = ? ) ";
+			$arg_list[] = $character_id;
+			if (preg_match("/^[0-9]+$/", $stage_id))
+			{
+				$sql .= "AND    `stage`.`id` = ? ";
+				$arg_list[] = $stage_id;
+			}
+			$sql .= "AND        `stage`.`user_id` = ? ";
+			$arg_list[] = $user_id;
+			$sql .= "AND        `stage`.`is_delete` <> 1 ";
+			$sql .= "ORDER BY   `stage`.`sort` = 0 ASC ";
+			$sql .= "          ,`stage`.`sort` ASC ";
+			$stage_list = $this->query($sql, $arg_list);
+			if (count($stage_list) == 0)
+			{
+				$return_list['stage_list'] = array(2);
+				return $return_list;
+			}
+			$stage_list = $this->setArrayKey($stage_list, "id");
+
+			// 取得（エピソード）
+			// 対象ステージのラベルはすべて取得、ラベルでないものは該当キャラクターのもののみ取得
+			$arg_list = array();
+			$sql  = "SELECT   `episode`.`id` ";
+			$sql .= "        ,`episode`.`stage_id` ";
+			$sql .= "        ,`episode`.`is_label` ";
+			$sql .= "        ,`episode`.`category` ";
+			$sql .= "        ,`episode`.`title` ";
+			$sql .= "        ,`episode`.`url` ";
+			$sql .= "        ,`episode`.`free_text` ";
+			$sql .= "        ,`episode`.`is_r18` ";
+			$sql .= "        ,`episode`.`is_private` ";
+			$sql .= "FROM     `episode` ";
+			$sql .= "WHERE    (`episode`.`id` IN (SELECT `episode_id` FROM `episode_character` WHERE `character_id` = ?) OR `episode`.`is_label` = 1) ";
+			$arg_list[] = $character_id;
+			$sql .= "AND      `episode`.`is_delete` <> 1 ";
+			$sql .= "AND      `episode`.`stage_id` IN (" . implode(",", array_fill(0, count($stage_list), "?")) . ") ";
+			$arg_list = array_merge($arg_list, array_column($stage_list, "id"));
+			$sql .= "ORDER BY `episode`.`stage_id` ASC ";
+			$sql .= "        ,`episode`.`sort` = 0 ASC ";
+			$sql .= "        ,`episode`.`sort` ASC ";
+			$sql .= "        ,`episode`.`id` ASC ";
+			$episode_list = $this->query($sql, $arg_list);
+
+			// 整形
+			foreach ($episode_list as $k => $v)
+			{
+				$v['url_view'] = $this->omitUrl($v['url']);
+				$stage_list[$v['stage_id']]['episode_list'][] = $v;
+			}
+
+			// 戻り値
+			$return_list['stage_list'] = array_values($stage_list);
+			return $return_list;
+		}
+		catch (Exception $e)
+		{
+			$this->exception($e);
 		}
 	}
 
@@ -245,7 +344,7 @@ class EpisodeController extends Common
 		}
 		catch (Exception $e)
 		{
-			// todo::エラー処理
+			$this->exception($e);
 		}
 	}
 
@@ -359,7 +458,7 @@ class EpisodeController extends Common
 		}
 		catch (Exception $e)
 		{
-			// todo::エラー処理
+			$this->exception($e);
 		}
 	}
 
@@ -488,7 +587,7 @@ class EpisodeController extends Common
 		}
 		catch (Exception $e)
 		{
-			// todo::エラー処理
+			$this->exception($e);
 		}
 	}
 
@@ -527,7 +626,7 @@ class EpisodeController extends Common
 		}
 		catch (Exception $e)
 		{
-			// todo::エラー処理
+			$this->exception($e);
 		}
 	}
 
@@ -587,7 +686,7 @@ class EpisodeController extends Common
 		}
 		catch (Exception $e)
 		{
-			// todo::エラー処理
+			$this->exception($e);
 		}
 	}
 
@@ -644,7 +743,7 @@ class EpisodeController extends Common
 		}
 		catch (Exception $e)
 		{
-			// todo::エラー処理
+			$this->exception($e);
 		}
 	}
 }

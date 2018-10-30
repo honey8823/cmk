@@ -30,29 +30,37 @@ function switchSidebar(){
 function setUserForm(){
 	var result = ajaxPost("user", "getSession", ["user"]);
     result.done(function(){
-    	if (result.return_value['error_redirect'] !== undefined && result.return_value['error_redirect'] != ""){
-    		// エラーページへリダイレクト
-    		location.href = "/err/" + result.return_value['error_redirect'] + ".php";
-    		return false;
-    	}
-    	else if (result.return_value['user']['id'] == undefined){
-    		// エラーがある場合
-    		alertMsg(["会員情報の取得に失敗しました。再度ログインしてください。"]);
-    		logout();
-    		return false;
-    	}
-    	else {
-    		// 正常な場合
-    		$("#modal-setUser").find(".form-login_id").val(result.return_value['user']['login_id']);
-    		$("#modal-setUser").find(".form-name").val(result.return_value['user']['name']);
-    		$("#modal-setUser").find(".form-twitter_id").val(result.return_value['user']['twitter_id']);
-			$("#modal-setUser").find(".form-is_r18").prop("checked", result.return_value['user']['is_r18'] == 1 ? true : false);
-    		$("#modal-setUser").find(".form-mail_address").val(result.return_value['user']['mail_address']);
-    		$("#modal-setUser").find(".form-password").val("");
-    		$("#modal-setUser").find(".form-password_c").val("");
-    		return true;
-    	}
-    });
+		if (isAjaxResultErrorRedirect(result.return_value) === true) {return false;}  // 必要ならエラーページへリダイレクト
+		if (isAjaxResultNoData(result.return_value['user']['id']) === true ){logout();return false;} // 必要ならエラーメッセージ表示
+
+		var result2 = ajaxPost("tag", "tableGenre", []);
+		result2.done(function(){
+			// 正常な場合
+			$("#modal-setUser").find(".tag-genre:not(.template-for-copy)").remove();
+			$(result2.return_value['genre_list']).each(function(i, e){
+				var obj_base = $("#modal-setUser").find(".tag-genre.template-for-copy")[0];
+				var obj = $(obj_base).clone().appendTo($(obj_base).parent());
+
+				// データ貼り付け
+				$(obj).val(e.id);
+				$(obj).text(e.title);
+				$(obj).removeClass("template-for-copy");
+				if ($.inArray(e.id, result.return_value['user']['genre_list']) != -1){
+					$(obj).removeClass("tag-notselected");
+				}
+			});
+	    });
+
+		// 正常な場合
+		$("#modal-setUser").find(".form-login_id").val(result.return_value['user']['login_id']);
+		$("#modal-setUser").find(".form-name").val(result.return_value['user']['name']);
+		$("#modal-setUser").find(".form-twitter_id").val(result.return_value['user']['twitter_id']);
+		$("#modal-setUser").find(".form-is_r18").prop("checked", result.return_value['user']['is_r18'] == 1 ? true : false);
+		$("#modal-setUser").find(".form-mail_address").val(result.return_value['user']['mail_address']);
+		$("#modal-setUser").find(".form-password").val("");
+		$("#modal-setUser").find(".form-password_c").val("");
+		return true;
+	});
 }
 
 /*
@@ -61,22 +69,13 @@ function setUserForm(){
 function setUserData(){
 	var result = ajaxPost("user", "getSession", ["user"]);
     result.done(function(){
-    	if (result.return_value['error_redirect'] !== undefined && result.return_value['error_redirect'] != ""){
-    		// エラーページへリダイレクト
-    		location.href = "/err/" + result.return_value['error_redirect'] + ".php";
-    		return false;
-    	}
-    	else if (result.return_value['user']['id'] == undefined){
-    		// 情報が取得できない場合
-    		alertMsg(["会員情報の取得に失敗しました。再度ログインしてください。"]);
-    		logout();
-    		return false;
-    	}
-    	else {
-    		// 正常な場合
-    		$(".textdata-user-name").text(result.return_value['user']['name']);
-    		return true;
-    	}
+		if (isAjaxResultErrorRedirect(result.return_value) === true) {return false;}  // 必要ならエラーページへリダイレクト
+		if (isAjaxResultErrorMsg(result.return_value) === true ){return false;} // 必要ならエラーメッセージ表示
+		if (isAjaxResultNoData(result.return_value['user']['id']) === true ){logout();return false;} // データがない場合はエラー表示
+
+    	// 正常な場合
+    	$(".textdata-user-name").text(result.return_value['user']['name']);
+    	return true;
     });
 }
 
@@ -90,18 +89,13 @@ function login(){
 		};
 	var result = ajaxPost("user", "login", params);
     result.done(function(){
-    	if (result.return_value['error_message_list'] !== undefined){
-    		// エラーがある場合
-    		alertMsg(result.return_value['error_message_list']);
-    		return false;
-    	}
-    	else {
-    		// 正常な場合
-    		$('#modal-login').modal('hide');
-    		$("#modal-login").find("input").val("");
-    		location.href = "/";
-    		return true;
-    	}
+		if (isAjaxResultErrorMsg(result.return_value) === true ){return false;} // 必要ならエラーメッセージ表示
+
+		// 正常な場合
+		$('#modal-login').modal('hide');
+		$("#modal-login").find("input").val("");
+		location.href = "/";
+		return true;
     });
 }
 
@@ -129,52 +123,12 @@ function addUser(){
 		};
 	var result = ajaxPost("user", "add", params);
     result.done(function(){
-    	if (result.return_value['error_message_list'] !== undefined){
-    		// エラーがある場合
-    		alertMsg(result.return_value['error_message_list']);
-    		return false;
-    	}
-    	else {
-    		// 正常な場合
-    		alert("会員登録が完了しました。入力いただいた情報でログインしてください。");
-    		$('#modal-addUser').modal('hide');
-    		$("#modal-addUser").find("input").val("");
-    		return true;
-    	}
-    });
-}
+		if (isAjaxResultErrorMsg(result.return_value) === true ){return false;} // 必要ならエラーメッセージ表示
 
-/*
- * 会員更新処理
- */
-function setUser(){
-	var params = {
-			'login_id'     : $("#modal-setUser").find(".form-login_id").val(),
-			'name'         : $("#modal-setUser").find(".form-name").val(),
-			'twitter_id'   : $("#modal-setUser").find(".form-twitter_id").val(),
-			'is_r18'       : $("#modal-setUser").find(".form-is_r18").prop("checked") ? "1" : "0",
-			'mail_address' : $("#modal-setUser").find(".form-mail_address").val(),
-			'password'     : $("#modal-setUser").find(".form-password").val(),
-			'password_c'   : $("#modal-setUser").find(".form-password_c").val(),
-		};
-
-	var result = ajaxPost("user", "set", params);
-    result.done(function(){
-    	if (result.return_value['error_redirect'] !== undefined && result.return_value['error_redirect'] != ""){
-    		// エラーページへリダイレクト
-    		location.href = "/err/" + result.return_value['error_redirect'] + ".php";
-    		return false;
-    	}
-    	if (result.return_value['error_message_list'] !== undefined){
-    		// エラーがある場合
-    		alertMsg(result.return_value['error_message_list']);
-    		return false;
-    	}
-    	else {
-    		// 正常な場合
-    		setUserData();
-    		$('#modal-setUser').modal('hide');
-    		return true;
-    	}
+		// 正常な場合
+		alert("会員登録が完了しました。入力いただいた情報でログインしてください。");
+		$('#modal-addUser').modal('hide');
+		$("#modal-addUser").find("input").val("");
+		return true;
     });
 }

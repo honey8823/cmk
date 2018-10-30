@@ -12,21 +12,12 @@ $(function() {
 
 			var result = ajaxPost("stage", "setSort", params);
 			result.done(function(){
-				if (result.return_value['error_redirect'] !== undefined && result.return_value['error_redirect'] != ""){
-					// エラーページへリダイレクト
-					location.href = "/err/" + result.return_value['error_redirect'] + ".php";
-					return false;
-				}
-				else if (result.return_value['error_message_list'] !== undefined){
-					// エラーがある場合
-					alertMsg(result.return_value['error_message_list']);
-					return false;
-				}
-				else {
-					// 正常な場合
-					// 何もしない
-					return true;
-				}
+				if (isAjaxResultErrorRedirect(result.return_value) === true) {return false;}  // 必要ならエラーページへリダイレクト
+				if (isAjaxResultErrorMsg(result.return_value) === true ){return false;} // 必要ならエラーメッセージ表示
+
+				// 正常な場合
+				// 何もしない
+				return true;
 			});
 		}
     });
@@ -39,27 +30,17 @@ function tableStage(){
 	var params = {};
 	var result = ajaxPost("stage", "table", params);
     result.done(function(){
-    	if (result.return_value['error_redirect'] !== undefined && result.return_value['error_redirect'] != ""){
-    		// エラーページへリダイレクト
-    		location.href = "/err/" + result.return_value['error_redirect'] + ".php";
-    		return false;
-    	}
-    	else if (result.return_value['error_message_list'] !== undefined){
-    		// エラーがある場合
-    		alertMsg(result.return_value['error_message_list']);
-    		return false;
-    	}
-    	else {
-    		// 正常な場合
-    		// テーブルに描画
-    		if (result.return_value['stage_list'].length > 0){
-    			$(result.return_value['stage_list']).each(function(i, e){
-    				drawStageList(e);
-    			});
-    		}
+		if (isAjaxResultErrorRedirect(result.return_value) === true) {return false;}  // 必要ならエラーページへリダイレクト
+		if (isAjaxResultErrorMsg(result.return_value) === true ){return false;} // 必要ならエラーメッセージ表示
 
-    		return true;
-    	}
+		// 正常な場合
+		// テーブルに描画
+		if (result.return_value['stage_list'].length > 0){
+			$(result.return_value['stage_list']).each(function(i, e){
+				drawStageList(e);
+			});
+		}
+		return true;
     });
 }
 
@@ -78,25 +59,16 @@ function addStage(){
 		};
 	var result = ajaxPost("stage", "add", params);
     result.done(function(){
-    	if (result.return_value['error_redirect'] !== undefined && result.return_value['error_redirect'] != ""){
-    		// エラーページへリダイレクト
-    		location.href = "/err/" + result.return_value['error_redirect'] + ".php";
-    		return false;
-    	}
-    	else if (result.return_value['error_message_list'] !== undefined){
-    		// エラーがある場合
-    		alertMsg(result.return_value['error_message_list']);
-    		return false;
-    	}
-    	else {
-    		// 正常な場合
-    		$('#modal-addStage').modal('hide');
-    		$("#modal-addStage").find("input").val("");
-    		$("#modal-addStage").find("textarea").text("");
-    		$("#modal-addStage").find(".label.tag-series.tag-selectable:not(.tag-notselected)").addClass("tag-notselected");
-    		location.reload();
-    		return true;
-    	}
+		if (isAjaxResultErrorRedirect(result.return_value) === true) {return false;}  // 必要ならエラーページへリダイレクト
+		if (isAjaxResultErrorMsg(result.return_value) === true ){return false;} // 必要ならエラーメッセージ表示
+
+		// 正常な場合
+		$('#modal-addStage').modal('hide');
+		$("#modal-addStage").find("input").val("");
+		$("#modal-addStage").find("textarea").text("");
+		$("#modal-addStage").find(".label.tag-series.tag-selectable:not(.tag-notselected)").addClass("tag-notselected");
+		location.reload();
+		return true;
     });
 }
 
@@ -116,22 +88,13 @@ function setStage(){
 		};
 	var result = ajaxPost("stage", "set", params);
     result.done(function(){
-    	if (result.return_value['error_redirect'] !== undefined && result.return_value['error_redirect'] != ""){
-    		// エラーページへリダイレクト
-    		location.href = "/err/" + result.return_value['error_redirect'] + ".php";
-    		return false;
-    	}
-    	else if (result.return_value['error_message_list'] !== undefined){
-    		// エラーがある場合
-    		alertMsg(result.return_value['error_message_list']);
-    		return false;
-    	}
-    	else {
-    		// 正常な場合
-    		location.reload();
-    		return true;
-    	}
-    });
+		if (isAjaxResultErrorRedirect(result.return_value) === true) {return false;}  // 必要ならエラーページへリダイレクト
+		if (isAjaxResultErrorMsg(result.return_value) === true ){return false;} // 必要ならエラーメッセージ表示
+
+		// 正常な場合
+		location.reload();
+		return true;
+	});
 }
 
 /*
@@ -144,22 +107,13 @@ function setStageIsPrivate(is_private){
 		};
 	var result = ajaxPost("stage", "setIsPrivate", params);
     result.done(function(){
-    	if (result.return_value['error_redirect'] !== undefined && result.return_value['error_redirect'] != ""){
-    		// エラーページへリダイレクト
-    		location.href = "/err/" + result.return_value['error_redirect'] + ".php";
-    		return false;
-    	}
-    	else if (result.return_value['error_message_list'] !== undefined){
-    		// エラーがある場合
-    		alertMsg(result.return_value['error_message_list']);
-    		return false;
-    	}
-    	else {
-    		// 正常な場合
-    		location.reload();
-    		return true;
-    	}
-    });
+		if (isAjaxResultErrorRedirect(result.return_value) === true) {return false;}  // 必要ならエラーページへリダイレクト
+		if (isAjaxResultErrorMsg(result.return_value) === true ){return false;} // 必要ならエラーメッセージ表示
+
+		// 正常な場合
+		location.reload();
+		return true;
+	});
 }
 
 /*
@@ -174,22 +128,13 @@ function delStage(){
 		};
 	var result = ajaxPost("stage", "del", params);
     result.done(function(){
-    	if (result.return_value['error_redirect'] !== undefined && result.return_value['error_redirect'] != ""){
-    		// エラーページへリダイレクト
-    		location.href = "/err/" + result.return_value['error_redirect'] + ".php";
-    		return false;
-    	}
-    	else if (result.return_value['error_message_list'] !== undefined){
-    		// エラーがある場合
-    		alertMsg(result.return_value['error_message_list']);
-    		return false;
-    	}
-    	else {
-    		// 正常な場合
-    		location.href = "/user/stage/";
-    		return true;
-    	}
-    });
+		if (isAjaxResultErrorRedirect(result.return_value) === true) {return false;}  // 必要ならエラーページへリダイレクト
+		if (isAjaxResultErrorMsg(result.return_value) === true ){return false;} // 必要ならエラーメッセージ表示
+
+		// 正常な場合
+		location.href = "/user/stage/";
+		return true;
+	});
 }
 
 /*

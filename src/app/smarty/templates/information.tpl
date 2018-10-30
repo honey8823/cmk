@@ -20,26 +20,27 @@
 
     <!-- Content Header (Page header) -->
     <section class="content-header">
-      <h1>ヘルプ</h1>
+      <h1>お知らせ</h1>
     </section>
 
     <!-- Main content -->
     <section class="content container-fluid">
+      <div class="row" style="margin-top: 10px;">
+        <div class="col-md-12" id="list-information">
+          <div>
 
-      <a href="/tutorial.php">
-      <div class="callout callout-success">
-        <h4><i class="fa fa-fw fa-arrow-right" aria-hidden="true"></i>はじめての方はこちら＜チュートリアル＞</h4>
+            <div class="box box-primary information_list template-for-copy">
+              <div class="box-header"><h3 class="box-title information-date"></h3></div>
+              <div class="box-body information-content"></div>
+            </div>
+
+          </div>
+          <div class="box-body no-padding">
+            <button type="button" class="btn btn-default btn-block btn-more disabled" onclick="tableInformation();">もっとみる</button>
+            <input type="hidden" class="offset" value="0">
+          </div>
+        </div>
       </div>
-      </a>
-
-    {foreach from=$help_list key=k item=v_help}
-      <div class="box box-primary">
-        <span class="help-update_stamp">最終更新日：{strtotime($v_help.update_stamp)|date_format:"%Y-%m-%d"}</span>
-        <div class="box-header"><h3 class="box-title">{$v_help.title}</h3></div>
-        <div class="box-body"><small>{$v_help.content}</small></div>
-      </div>
-    {/foreach}
-
     </section>
 
     <!-- ///////////////////////////////////////////////////// -->
@@ -55,6 +56,15 @@
 {include file='common/adminlte_js.tpl'}
 <script src="/js/common.js"></script>
 <script src="/js/sidebar.js"></script>
+<script src="/js/information.js"></script>
+<script>
+// 読み込み完了時の処理
+$(function(){
+	// データ読み込み
+	$("#list-information").find("input.offset").val(0);
+	tableInformation();
+});
+</script>
 <!-- JS end -->
 </body>
 </html>

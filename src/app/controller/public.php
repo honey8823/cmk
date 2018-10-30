@@ -25,7 +25,7 @@ class PublicController extends Common
 					$is_r18 = 1;
 				}
 			}
-			
+
 			// 取得（ステージ）
 			$sql  = "SELECT     `stage`.`id` ";
 			$sql .= "          ,`stage`.`name` ";
@@ -104,12 +104,14 @@ class PublicController extends Common
 			$sql .= "          ,`episode`.`sort` ASC ";
 			$arg_list = array($id);
 			$episode_list = $this->query($sql, $arg_list);
+
+			// 整形
 			$stage_list[0]['episode_list'] = array();
 			if (count($episode_list) > 0)
 			{
-				// 長文省略整形
 				foreach ($episode_list as $k => $v)
 				{
+					// 長文省略整形
 					$episode_list[$k]['free_text_full'] = "";
 					$cursor = mb_strpos($v['free_text'], "=====");
 					if ($cursor !== false)
@@ -117,6 +119,9 @@ class PublicController extends Common
 						$episode_list[$k]['free_text_full'] = str_replace("=====", "", $v['free_text']);
 						$episode_list[$k]['free_text']      = mb_substr($v['free_text'], 0, $cursor);
 					}
+
+					// URL省略整形
+					$episode_list[$k]['url_view'] = $this->omitUrl($v['url']);
 				}
 				$stage_list[0]['episode_list'] = $episode_list;
 			}
@@ -145,14 +150,14 @@ class PublicController extends Common
 					);
 				}
 			}
-			
+
 			// 戻り値
 			$return_list['stage'] = $stage_list[0];
 			return $return_list;
 		}
 		catch (Exception $e)
 		{
-			// todo::エラー処理
+			$this->exception($e);
 		}
 	}
 

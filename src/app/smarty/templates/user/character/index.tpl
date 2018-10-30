@@ -80,19 +80,21 @@
 -->
         </div>
         <div class="modal-body">
-          <div>
+          <div class="form-group">
             <label>キャラクター名</label>
             <span class="menu-tooltip">
               <i class="fa fa-question-circle fa-fw" aria-hidden="true"></i>
               <span class="menu-tooltiptext">{$config.tooltip.character_name}</span>
             </span>
-            <input type="text" name="name" class="form-name">
+            <input type="text" name="name" class="form-control form-name">
           </div>
-          <div>
+          <div class="form-group">
             <label>属するステージ（複数選択可）</label>
-          {foreach from=$stage_list key=k item=v_stage}
-            <span class="badge stage stage-notselected stage-selectable" value="{$v_stage.id}">{$v_stage.name}</span>
-          {/foreach}
+            <div>
+            {foreach from=$stage_list key=k item=v_stage}
+              <span class="badge stage stage-notselected stage-selectable" value="{$v_stage.id}">{$v_stage.name}</span>
+            {/foreach}
+            </div>
           </div>
         </div>
         <div class="modal-footer">

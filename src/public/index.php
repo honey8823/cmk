@@ -11,8 +11,9 @@ $template_name = "index";
 // --------------------
 // コントローラ読み込み
 // --------------------
-// $cc = new CharacterController();
-// $cc->init();
+
+$ic = new InformationController();
+$ic->init();
 
 // ----------------------------------
 // テンプレートに表示するデータの取得
@@ -20,9 +21,8 @@ $template_name = "index";
 // ----------------------------------
 $smarty_param = array();
 
-// // 新着
-// $param = array('sort_mode' => "new");
-// $smarty_param['new_character_list'] = $rc->get($param);
+// 最新お知らせ1件
+$smarty_param['information_list'] = $ic->table()['information_list'];
 
 // 必ず指定 //////////////////////////////
 // Smartyデバッグ用
