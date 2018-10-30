@@ -167,6 +167,58 @@
                 <li><a href="/user/stage/edit.php?id={$v_stage.id}">{$v_stage.name}</a></li>
               {/foreach}
                 </ul>
+
+
+
+                <ul>
+
+                  <li class="character_profile_edit /*template-for-copy*/" style="display:inline-flex">
+                    <select>
+                      <option value="0" selected>--選択してください--</option>
+                      <option value="1">本名・フルネームなど</option>
+                      <option value="2">生年月日</option>
+                      <option value="3">性別</option>
+                      <option value="3">…とかいう</option>
+                      <option value="3">項目って</option>
+                      <option value="3">無限にあるよね</option>
+                    </select>
+                    <input type="text">
+                    <a href="">削除</a>
+                  </li>
+
+                  <li class="character_profile_edit /*template-for-copy*/" style="display:inline-flex">
+                    <select>
+                      <option value="0" selected>--選択してください--</option>
+                      <option value="1">本名・フルネームなど</option>
+                      <option value="2">生年月日</option>
+                      <option value="3">性別</option>
+                      <option value="3">…とかいう</option>
+                      <option value="3">項目って</option>
+                      <option value="3">無限にあるよね</option>
+                    </select>
+                    <input type="text">
+                    <a href="">削除</a>
+                  </li>
+
+                  <li class="character_profile_edit /*template-for-copy*/" style="display:inline-flex">
+                    <select>
+                      <option value="0" selected>--選択してください--</option>
+                      <option value="1">本名・フルネームなど</option>
+                      <option value="2">生年月日</option>
+                      <option value="3">性別</option>
+                      <option value="3">…とかいう</option>
+                      <option value="3">項目って</option>
+                      <option value="3">無限にあるよね</option>
+                    </select>
+                    <input type="text">
+                    <a href="">削除</a>
+                  </li>
+
+                  <div><a href="">もっとふやす</a></div>
+                </ul>
+
+
+
               </div>
 -->
             </div>
