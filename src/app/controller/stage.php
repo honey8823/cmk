@@ -75,7 +75,7 @@ class StageController extends Common
 		}
 		catch (Exception $e)
 		{
-			// todo::エラー処理
+			$this->exception($e);
 		}
 	}
 
@@ -110,7 +110,7 @@ class StageController extends Common
 			{
 				return array('error_redirect' => "notfound");
 			}
-			
+
 			// 取得（ユーザのログインID：URL生成用）
 			$sql  = "SELECT `login_id` FROM `user` WHERE `id` = ? ";
 			$arg_list = array($user_id);
@@ -177,7 +177,7 @@ class StageController extends Common
 		}
 		catch (Exception $e)
 		{
-			// todo::エラー処理
+			$this->exception($e);
 		}
 	}
 
@@ -252,7 +252,7 @@ class StageController extends Common
 		}
 		catch (Exception $e)
 		{
-			// todo::エラー処理
+			$this->exception($e);
 		}
 	}
 
@@ -350,7 +350,7 @@ class StageController extends Common
 		}
 		catch (Exception $e)
 		{
-			// todo::エラー処理
+			$this->exception($e);
 		}
 	}
 
@@ -410,7 +410,7 @@ class StageController extends Common
 		}
 		catch (Exception $e)
 		{
-			// todo::エラー処理
+			$this->exception($e);
 		}
 	}
 
@@ -449,7 +449,7 @@ class StageController extends Common
 		}
 		catch (Exception $e)
 		{
-			// todo::エラー処理
+			$this->exception($e);
 		}
 	}
 
@@ -506,7 +506,7 @@ class StageController extends Common
 		}
 		catch (Exception $e)
 		{
-			// todo::エラー処理
+			$this->exception($e);
 		}
 	}
 }

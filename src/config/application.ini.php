@@ -5,6 +5,7 @@ define("PATH_CONTROLLER", realpath(PATH_ROOT . "/app/controller") . "/");
 define("PATH_PUBLIC"    , realpath(PATH_ROOT . "/public")         . "/");
 define("PATH_TEMPLATE"  , realpath(PATH_ROOT . "/app/smarty")     . "/");
 define("PATH_LIBS"      , realpath(PATH_ROOT . "/app/libs")       . "/");
+define("PATH_LOGS"      , realpath(PATH_ROOT . "/app/logs")       . "/");
 
 define("SITE_NAME_FULL" , "うちのこまとめ");
 define("SITE_NAME_SHORT", "うま");
@@ -35,7 +36,7 @@ const config = array(
 		array('value' => 2, 'key' => "relation" , 'name' => "キャラクター同士の関係について"),
 		array('value' => 3, 'key' => "profile"  , 'name' => "キャラクタープロフィールの変化"),
 	),
-    
+
 	// ツールチップ
 	'tooltip' => array(
 		/* ユーザー情報系 */

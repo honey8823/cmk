@@ -14,6 +14,9 @@
 .label.tag-selectable{ /* 選択が可能なタグ */
 	cursor: pointer;
 }
+.label.tag-genre{ /* ジャンルタグ */
+	background-color: #333333;
+}
 .label.tag-series{ /* シリーズタグ */
 	background-color: #53B44A;
 }
@@ -76,6 +79,13 @@
 }
 .timeline-body p{
 	margin: 0;
+}
+.timeline-stage_name{
+	width: 100%;
+	display: grid;
+}
+.timeline-label_title{
+	margin-left: 0.5em;
 }
 
 /* 管理画面ステージ一覧 */
@@ -148,6 +158,14 @@
 /* 公開ステージ説明文 */
 .public-stage-remarks{
 	padding: 1em 1.5em;
+}
+
+/* ヘルプページ */
+.help-update_stamp{
+	color: #999;
+	float: right;
+	padding: 10px;
+	font-size: 12px;
 }
 
 /* **************************************** */

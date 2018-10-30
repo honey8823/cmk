@@ -18,56 +18,66 @@
         <li class="header">自分のまとめを管理する</li>
         <li>
           <a href="/user/stage/">
-            <i class="fa fa-file-text" aria-hidden="true"></i> <span>ステージ管理</span>
+            <i class="fa fa-fw fa-file-text" aria-hidden="true"></i><span>ステージ管理</span>
           </a>
         </li>
         <li>
           <a href="/user/character/">
-            <i class="fa fa-file-text" aria-hidden="true"></i> <span>キャラクター管理</span>
+            <i class="fa fa-fw fa-file-text" aria-hidden="true"></i><span>キャラクター管理</span>
           </a>
         </li>
         <li class="header">他人のまとめを見る</li>
         <li>
           <a href="#">
-            <i class="fa fa-file-text" aria-hidden="true"></i> <span>フォロー</span><small>＜β版実装＞</small>
+            <i class="fa fa-fw fa-file-text" aria-hidden="true"></i><span>フォロー</span><small>＜β版実装＞</small>
           </a>
         </li>
         <li>
           <a href="#">
-            <i class="fa fa-file-text" aria-hidden="true"></i> <span>お気に入り</span><small>＜β版実装＞</small>
+            <i class="fa fa-fw fa-file-text" aria-hidden="true"></i><span>お気に入り</span><small>＜β版実装＞</small>
           </a>
         </li>
         <li class="header">アカウント・その他</li>
         <li>
-          <a href="/help.php">
-            <i class="fa fa-question-circle" aria-hidden="true"></i> <span>ヘルプ</span>
+          <a href="/information.php">
+            <i class="fa fa-fw fa-exclamation-circle" aria-hidden="true"></i><span>お知らせ</span>
           </a>
         </li>
         <li>
-          <a href="#" data-toggle="modal" data-target="#modal-setUser" onclick="setUserForm();">
-            <i class="fa fa-user-circle" aria-hidden="true"></i> <span>アカウント情報</span>
+          <a href="/help.php">
+            <i class="fa fa-fw fa-question-circle" aria-hidden="true"></i><span>ヘルプ</span>
+          </a>
+        </li>
+        <li>
+          <a href="/user/account.php">
+            <i class="fa fa-fw fa-user-circle" aria-hidden="true"></i><span>アカウント情報</span>
           </a>
         </li>
         <li>
           <a href="#" onclick="logout()";>
-            <i class="fa fa-sign-out" aria-hidden="true"></i> <span>ログアウト</span>
+            <i class="fa fa-fw fa-sign-out" aria-hidden="true"></i><span>ログアウト</span>
           </a>
         </li>
       </ul>
       <ul class="sidebar-menu logged-out" data-widget="tree">
         <li>
+          <a href="/information.php">
+            <i class="fa fa-fw fa-exclamation-circle" aria-hidden="true"></i><span>お知らせ</span>
+          </a>
+        </li>
+        <li>
           <a href="/help.php">
-            <i class="fa fa-question-circle" aria-hidden="true"></i> <span>ヘルプ</span>
+            <i class="fa fa-fw fa-question-circle" aria-hidden="true"></i><span>ヘルプ</span>
           </a>
         </li>
         <li>
           <a href="#" data-toggle="modal" data-target="#modal-login">
-            <i class="fa fa-sign-in" aria-hidden="true"></i> <span>ログイン</span>
+            <i class="fa fa-fw fa-sign-in" aria-hidden="true"></i><span>ログイン</span>
           </a>
         </li>
         <li>
           <a href="#" data-toggle="modal" data-target="#modal-addUser">
-            <i class="fa fa-user-plus" aria-hidden="true"></i> <span>新規登録</span>
+            <i class="fa fa-fw fa-user-plus" aria-hidden="true"></i><span>新規登録</span>
           </a>
         </li>
       </ul>
@@ -86,17 +96,18 @@
           <h4 class="modal-title">新規登録</h4>
         </div>
         <div class="modal-body">
-          <div>
+
+          <div class="form-group">
             <label>希望のログインID(4～32文字、半角の英数と一部記号のみ使用可)</label>
-            <input type="text" name="login_id" class="form-login_id">
+            <input type="text" name="login_id" class="form-control form-login_id">
           </div>
-          <div>
+          <div class="form-group">
             <label>パスワード(4～32文字、半角の英数と一部記号のみ使用可)</label>
-            <input type="password" name="password" class="form-password">
+            <input type="password" name="password" class="form-control form-password">
           </div>
-          <div>
+          <div class="form-group">
             <label>パスワード(もう一度)</label>
-            <input type="password" name="password_c" class="form-password_c">
+            <input type="password" name="password_c" class="form-control form-password_c">
           </div>
         </div>
         <div class="modal-footer">
@@ -117,70 +128,18 @@
           <h4 class="modal-title">ログイン</h4>
         </div>
         <div class="modal-body">
-          <div>
+          <div class="form-group">
             <label>ログインID</label>
-            <input type="text" name="login_id" class="form-login_id">
+            <input type="text" name="login_id" class="form-control form-login_id">
           </div>
-          <div>
+          <div class="form-group">
             <label>パスワード</label>
-            <input type="password" name="password" class="form-password">
+            <input type="password" name="password" class="form-control form-password">
           </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default pull-left" data-dismiss="modal">キャンセル</button>
           <button type="button" class="btn btn-primary" onclick="login();">ログイン</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- アカウント管理modal -->
-  <div class="modal fade" id="modal-setUser">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span></button>
-          <h4 class="modal-title">アカウント管理</h4>
-        </div>
-        <div class="modal-body">
-          <div>
-            <label>ログインID（公開 / 必須）</label>
-            <input type="text" name="login_id" class="form-login_id">
-          </div>
-          <div>
-            <label>ユーザー名（公開）</label>
-            <input type="text" name="mail_name" class="form-name">
-          </div>
-          <div>
-            <label>Twitter ID（公開）</label>
-            <input type="text" name="mail_address" class="form-twitter_id">
-          </div>
-          <div>
-            <label>R18設定のコンテンツ表示を許可する</label>
-            <input type="checkbox" name="is_r18" class="form-is_r18">
-          </div>
-          <div>
-            <label>メールアドレス（非公開）</label>
-            <span class="menu-tooltip">
-              <i class="fa fa-question-circle fa-fw" aria-hidden="true"></i>
-              <span class="menu-tooltiptext">{$config.tooltip.mail_address}</span>
-            </span>
-            <input type="text" name="mail_address" class="form-mail_address">
-          </div>
-          <div>
-            <label>パスワード（非公開 / 変更する場合のみ）</label>
-            <input type="password" name="password" class="form-password">
-          </div>
-          <div>
-            <label>パスワード（非公開 / 変更する場合のみもう一度）</label>
-            <input type="password" name="password_c" class="form-password_c">
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default pull-left" data-dismiss="modal">キャンセル</button>
-          <button type="button" class="btn btn-warning" onclick="delUser();">退会</button>
-          <button type="button" class="btn btn-primary" onclick="setUser();">変更</button>
         </div>
       </div>
     </div>

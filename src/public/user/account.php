@@ -1,12 +1,12 @@
 <?php
 // 必ず指定 //////////////////////////
-require_once("../../../app/initialize.php");
+require_once("../../app/initialize.php");
 //////////////////////////////////////
 
 // --------------
 // テンプレート名
 // --------------
-$template_name = "user/stage/edit";
+$template_name = "user/account";
 
 // --------------------
 // コントローラ読み込み
@@ -17,9 +17,6 @@ $uc->init();
 
 $tc = new TagController();
 $tc->init();
-
-$sc = new StageController();
-$sc->init();
 
 // ----------------------------------
 // テンプレートに表示するデータの取得
@@ -35,20 +32,11 @@ if ($user_id === false)
 	exit();
 }
 
-// ステージ
-$id = isset($_GET['id']) ? $_GET['id'] : "";
-$smarty_param['stage'] = $sc->get(array('id' => $id))['stage'];
+// ユーザ
+$smarty_param['user'] = $uc->get()['user'];
 
-// ステージが存在しない場合は一覧にリダイレクト
-if (!isset($smarty_param['stage']['id']))
-{
-	header("Location: /user/stage/");
-	exit();
-}
-
-// シリーズタグ一覧
-$tag_catgory_list = $tc->getConfig("tag_category", "key");
-$smarty_param['series_list'] = $tc->table(array('category_list' => array($tag_catgory_list['series']['value']), 'user_id' => $user_id));
+// ジャンル一覧
+$smarty_param['genre_list'] = $tc->tableGenre()['genre_list'];
 
 // 必ず指定 //////////////////////////////
 // Smartyデバッグ用
