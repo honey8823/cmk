@@ -21,6 +21,9 @@ $sc->init();
 $cc = new CharacterController();
 $cc->init();
 
+$ec = new EpisodeController();
+$ec->init();
+
 // ----------------------------------
 // テンプレートに表示するデータの取得
 // その他必要な処理
@@ -39,7 +42,7 @@ if ($user_id === false)
 $id = isset($_GET['id']) ? $_GET['id'] : "";
 $smarty_param['character'] = $cc->get(array('id' => $id))['character'];
 
-// ステージが存在しない場合は一覧にリダイレクト
+// キャラクターが存在しない場合は一覧にリダイレクト
 if (!isset($smarty_param['character']['id']))
 {
 	header("Location: /user/character/");
@@ -48,6 +51,9 @@ if (!isset($smarty_param['character']['id']))
 
 // ステージ一覧
 $smarty_param['stage_list'] = $sc->table()['stage_list'];
+
+// キャラクタータイムライン
+$smarty_param['timeline'] = $ec->timelineCharacter(array('character_id' => $id))['stage_list'];
 
 // 必ず指定 //////////////////////////////
 // Smartyデバッグ用

@@ -80,6 +80,13 @@
 .timeline-body p{
 	margin: 0;
 }
+.timeline-stage_name{
+	width: 100%;
+	display: grid;
+}
+.timeline-label_title{
+	margin-left: 0.5em;
+}
 
 /* 管理画面ステージ一覧 */
 .ul-stage{
