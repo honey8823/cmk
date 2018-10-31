@@ -60,7 +60,7 @@
                 {/foreach}
               </div>
               <div class="private-stage-remarks"><small>{$stage.remarks|escape:'html'|nl2br}</small></div>
-              <div class="box-body button-layout-right">
+              <div class="box-body text-align-right">
               {if $stage.is_private != 1}
                 <button type="button" class="btn btn-primary" onclick="window.open('/public/stage/detail.php?user={$stage.login_id}&id={$stage.id}');">公開用ページを見る</button>
               {/if}
@@ -93,7 +93,7 @@
                 </span>
                 <textarea class="form-control form-remarks" rows="3" name="remarks">{$stage.remarks}</textarea>
               </div>
-              <div class="box-body button-layout-right">
+              <div class="box-body text-align-right">
                 <button type="button" class="btn btn-default pull-left" onclick="$('#area-setStage').hide();$('#area-viewStage').show();">キャンセル</button>
                 <button type="button" class="btn btn-warning" onclick="delStage();">削除する</button>
                 <button type="button" class="btn btn-primary" onclick="setStage();">更新する</button>

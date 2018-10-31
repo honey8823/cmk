@@ -60,7 +60,7 @@
                 {/foreach}
               </div>
               <div class="private-character-remarks"><small>{$character.remarks|escape:'html'|nl2br}</small></div>
-              <div class="box-body button-layout-right">
+              <div class="box-body text-align-right">
 {***
               {if $character.is_private != 1}
                 <button type="button" class="btn btn-primary" onclick="window.open('/public/character/detail.php?user={$stage.login_id}&id={$character.id}');">公開用ページを見る</button>
@@ -95,7 +95,7 @@
                 <label>備考</label>
                 <textarea name="remarks" class="form-control form-remarks">{$character.remarks}</textarea>
               </div>
-              <div class="box-body button-layout-right">
+              <div class="box-body text-align-right">
                 <button type="button" class="btn btn-default pull-left" onclick="$('#area-setCharacter').hide();$('#area-viewCharacter').show();">キャンセル</button>
                 <button type="button" class="btn btn-warning" onclick="delCharacter();">削除する</button>
                 <button type="button" class="btn btn-primary" onclick="setCharacter();">更新する</button>

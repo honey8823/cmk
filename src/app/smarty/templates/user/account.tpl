@@ -88,7 +88,7 @@
                 <input type="password" name="password_c" class="form-control form-password_c">
               </div>
             </div>
-            <div class="box-body button-layout-right">
+            <div class="box-body text-align-right">
               <button type="button" class="btn btn-primary" onclick="setUser();">更新する</button>
             </div>
           </div>
