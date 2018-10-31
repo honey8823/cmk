@@ -94,7 +94,7 @@
             <label>属するステージ（複数選択可）</label>
             <div>
             {foreach from=$stage_list key=k item=v_stage}
-              <span class="badge stage stage-notselected stage-selectable" value="{$v_stage.id}">{$v_stage.name}</span>
+              <span class="badge stage stage-notselected stage-selectable clickable" value="{$v_stage.id}">{$v_stage.name}</span>
             {/foreach}
             </div>
           </div>

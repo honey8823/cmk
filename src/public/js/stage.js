@@ -100,6 +100,7 @@ function readyStageSort(mode){
 		$(".sort_mode_off").hide();
 		$(".sort_mode_on").show();
 		$(".stage-sort-area").addClass("sortable");
+		$(".stage-sort-area > li").addClass("clickable");
 		sortableStage(mode);
 	}
 	else{
@@ -108,6 +109,7 @@ function readyStageSort(mode){
 		$(".sort_mode_off").show();
 		sortableStage(mode);
 		$(".stage-sort-area").removeClass("sortable");
+		$(".stage-sort-area > li").removeClass("clickable");
 	}
 	return;
 }

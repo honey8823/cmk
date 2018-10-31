@@ -52,9 +52,9 @@
                 <div>
                 {foreach from=$genre_list key=k item=v_genre}
                 {if isset($user.genre_list) && is_array($user.genre_list) && in_array($v_genre.id, array_column($user.genre_list, 'genre_id'))}
-                  <span class="label tag-base tag-genre tag-selectable" value="{$v_genre.id}">{$v_genre.title}</span>
+                  <span class="label tag-base tag-genre tag-selectable clickable" value="{$v_genre.id}">{$v_genre.title}</span>
                 {else}
-                  <span class="label tag-base tag-genre tag-selectable tag-notselected" value="{$v_genre.id}">{$v_genre.title}</span>
+                  <span class="label tag-base tag-genre tag-selectable clickable tag-notselected" value="{$v_genre.id}">{$v_genre.title}</span>
                 {/if}
                 {/foreach}
                 </div>

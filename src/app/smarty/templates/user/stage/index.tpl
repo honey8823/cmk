@@ -91,7 +91,7 @@
             <label>関連するシリーズ（複数選択可）</label>
             <div>
             {foreach from=$series_list key=k item=v_series}
-              <span class="label tag-base tag-series tag-notselected tag-selectable" value="{$v_series.id}">{$v_series.name}</span>
+              <span class="label tag-base tag-series tag-notselected tag-selectable clickable" value="{$v_series.id}">{$v_series.name}</span>
             {/foreach}
             </div>
           </div>

@@ -47,7 +47,7 @@
             </div>
             <div class="box-body" id="area-viewCharacter">
               <div>
-                <span class="is_private_icon is_private_{$character.is_private}" onclick="setCharacterIsPrivate({if $character.is_private == 1}0{else}1{/if});">
+                <span class="is_private_icon is_private_{$character.is_private} clickable" onclick="setCharacterIsPrivate({if $character.is_private == 1}0{else}1{/if});">
                   <i class="fa {if $character.is_private == 1}fa-lock{else}fa-unlock{/if} fa-fw"></i>
                 </span>
                 <span><big>{$character.name|escape:'html'}</big></span>
@@ -84,9 +84,9 @@
                 <div>
                 {foreach from=$stage_list key=k item=v_stage}
                 {if isset($character.stage_list) && is_array($character.stage_list) && in_array($v_stage.id, array_column($character.stage_list, 'id'))}
-                  <span class="badge stage stage-selectable" value="{$v_stage.id}">{$v_stage.name}</span>
+                  <span class="badge stage stage-selectable clickable" value="{$v_stage.id}">{$v_stage.name}</span>
                 {else}
-                  <span class="badge stage stage-notselected stage-selectable" value="{$v_stage.id}">{$v_stage.name}</span>
+                  <span class="badge stage stage-notselected stage-selectable clickable" value="{$v_stage.id}">{$v_stage.name}</span>
                 {/if}
                 {/foreach}
                 </div>
@@ -161,8 +161,8 @@
                 {/foreach}
 
 {*** コピペ用
-                  <li class="time-label timeline-editable timeline-label template-for-copy" data-id="" data-toggle="modal" data-target="#modal-setEpisode"><span class="bg-red timeline-title"></span></li>
-                  <li class="timeline-content timeline-editable template-for-copy" data-id="" data-toggle="modal" data-target="#modal-setEpisode">
+                  <li class="time-label timeline-editable timeline-label clickable template-for-copy" data-id="" data-toggle="modal" data-target="#modal-setEpisode"><span class="bg-red timeline-title"></span></li>
+                  <li class="timeline-content timeline-editable clickable template-for-copy" data-id="" data-toggle="modal" data-target="#modal-setEpisode">
                     <i class="fa fa-arrow-right bg-blue"></i>
                     <div class="timeline-item">
                       <h3 class="timeline-header timeline-title no-border"></h3>

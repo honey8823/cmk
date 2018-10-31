@@ -10,9 +10,6 @@
 .label.tag-base{ /* タグ：基本 */
 	color: #FFFFFF;
 }
-.label.tag-selectable{ /* 選択が可能なタグ */
-	cursor: pointer;
-}
 .label.tag-genre{ /* ジャンルタグ */
 	background-color: #333333;
 }
@@ -29,9 +26,6 @@
 	color: #FFFFFF;
 	font-size: 0.75em;
 }
-.badge.stage-selectable{ /* 選択が可能なステージ */
-	cursor: pointer;
-}
 .badge.stage-notselected{ /* 未選択ステージ */
 	background-color: #CCCCCC;
 }
@@ -44,9 +38,6 @@
 	margin: 3px;
 	padding: .2em .6em .3em:
 }
-.badge.character-selectable{ /* 選択が可能なキャラクター */
-	cursor: pointer;
-}
 .badge.character-notselected{ /* 未選択キャラクター */
 	background-color: #CCCCCC;
 }
@@ -54,7 +45,6 @@
 /* 鍵アイコン */
 .is_private_icon{
 	font-size: 1.2em;
-	cursor: pointer;
 }
 .is_private_icon.is_private_0{
 	color: #CCCCCC;
@@ -69,9 +59,6 @@
 }
 .timeline.timeline-stage > li{
 	margin: 0em 1em 0.5em 0;
-}
-.timeline-editable{
-	cursor: pointer;
 }
 .timeline-btn-area{
 	position: fixed;

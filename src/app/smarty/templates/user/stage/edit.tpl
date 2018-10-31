@@ -47,7 +47,7 @@
             </div>
             <div class="box-body" id="area-viewStage">
               <div>
-                <span class="is_private_icon is_private_{$stage.is_private}" onclick="setStageIsPrivate({if $stage.is_private == 1}0{else}1{/if});">
+                <span class="is_private_icon clickable is_private_{$stage.is_private}" onclick="setStageIsPrivate({if $stage.is_private == 1}0{else}1{/if});">
                   <i class="fa {if $stage.is_private == 1}fa-lock{else}fa-unlock{/if} fa-fw"></i>
                 </span>
                 <span><big>{$stage.name|escape:'html'}</big></span>
@@ -78,9 +78,9 @@
                 <div>
                 {foreach from=$series_list key=k item=v_series}
                 {if isset($stage.tag_list) && is_array($stage.tag_list) && in_array($v_series.id, array_column($stage.tag_list, 'id'))}
-                  <span class="label tag-base tag-series tag-selectable" value="{$v_series.id}">{$v_series.name}</span>
+                  <span class="label tag-base tag-series tag-selectable clickable" value="{$v_series.id}">{$v_series.name}</span>
                 {else}
-                  <span class="label tag-base tag-series tag-notselected tag-selectable" value="{$v_series.id}">{$v_series.name}</span>
+                  <span class="label tag-base tag-series tag-notselected tag-selectable clickable" value="{$v_series.id}">{$v_series.name}</span>
                 {/if}
                 {/foreach}
                 </div>

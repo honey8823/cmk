@@ -100,6 +100,7 @@ function readyCharacterSort(mode){
 		$(".sort_mode_off").hide();
 		$(".sort_mode_on").show();
 		$(".character-sort-area").addClass("sortable");
+		$(".character-sort-area > li").addClass("clickable");
 		sortableCharacter(mode);
 	}
 	else{
@@ -108,6 +109,7 @@ function readyCharacterSort(mode){
 		$(".sort_mode_off").show();
 		sortableCharacter(mode);
 		$(".character-sort-area").removeClass("sortable");
+		$(".character-sort-area > li").removeClass("clickable");
 	}
 	return;
 }
