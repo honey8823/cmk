@@ -50,7 +50,7 @@
                   <span class="name"><a href="/user/stage/edit.php?id={$v_stage.id}" class="stage_id"><span class="stage_name">{$v_stage.name|escape:'html'}</span></a></span>
                   <span class="tag">
                   {foreach from=$v_stage.tag_list key=k item=v_tag}
-                    <span class="label tag-base tag-{$v_tag.category_key}">{$v_tag.name_short}</span>
+                    <span class="label tag-base tag-{$v_tag.category_key}">{$v_tag.name_short|escape:'html'}</span>
                   {/foreach}
                   </span>
                 </li>

@@ -52,7 +52,7 @@
                   <span class="stage">
                   {if isset($v_character.stage_list) && is_array($v_character.stage_list)}
                   {foreach from=$v_character.stage_list key=k item=v_stage}
-                    <span class="badge stage">{$v_stage.name}</span>
+                    <span class="badge stage">{$v_stage.name|escape:'html'}</span>
                   {/foreach}
                   {/if}
                   </span>

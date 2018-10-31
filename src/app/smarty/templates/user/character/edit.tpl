@@ -28,6 +28,14 @@
       </ol>
     </section>
 
+<p class="hint-box">
+  UIを大きく変更しました。<br>
+  編集や削除を行いたい場合は「内容を編集する」をクリックしてください。<br>
+  キャラクターの公開/非公開を切り替えたいときはタイトル横の鍵マークをクリックしてください。<br>
+  （鍵が閉まっている黄色いアイコンは「非公開」、鍵が開いているグレーのアイコンは「公開」を表します）<br>
+  {* 公開状態の場合のみ「公開用ページを見る」のリンク先は他人からも閲覧可能です。 *}
+</p>
+
     <!-- Main content -->
     <section class="content">
       <div class="row">
@@ -37,7 +45,31 @@
             <div class="box-header">
               <h3 class="box-title">基本情報</h3>
             </div>
-            <div class="box-body" id="area-setCharacter">
+            <div class="box-body" id="area-viewCharacter">
+              <div>
+                <span class="is_private_icon is_private_{$character.is_private}" onclick="setCharacterIsPrivate({if $character.is_private == 1}0{else}1{/if});">
+                  <i class="fa {if $character.is_private == 1}fa-lock{else}fa-unlock{/if} fa-fw"></i>
+                </span>
+                <span><big>{$character.name|escape:'html'}</big></span>
+              </div>
+              <div class="private-character-stage">
+                {foreach from=$stage_list key=k item=v_stage}
+                {if isset($character.stage_list) && is_array($character.stage_list) && in_array($v_stage.id, array_column($character.stage_list, 'id'))}
+                  <span class="badge stage" value="{$v_stage.id}">{$v_stage.name}</span>
+                {/if}
+                {/foreach}
+              </div>
+              <div class="private-character-remarks"><small>{$character.remarks|escape:'html'|nl2br}</small></div>
+              <div class="box-body button-layout-right">
+{***
+              {if $character.is_private != 1}
+                <button type="button" class="btn btn-primary" onclick="window.open('/public/character/detail.php?user={$stage.login_id}&id={$character.id}');">公開用ページを見る</button>
+              {/if}
+***}
+                <button type="button" class="btn btn-primary" onclick="$('#area-viewCharacter').hide();$('#area-setCharacter').show();">内容を編集する</button>
+              </div>
+            </div>
+            <div class="box-body" id="area-setCharacter" style="display:none;">
               <input type="hidden" class="form-id" value="{$character.id}">
               <div class="form-group">
                 <label>キャラクター名</label>
@@ -63,25 +95,11 @@
                 <label>備考</label>
                 <textarea name="remarks" class="form-control form-remarks">{$character.remarks}</textarea>
               </div>
-            </div>
-            <div class="box-body button-layout-right">
-              <button type="button" class="btn btn-primary" onclick="setCharacter();">更新する</button>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-md-12">
-          <div class="box">
-            <div class="box-header">
-              <h3 class="box-title">このキャラクターに対する操作</h3>
-            </div>
-            <div class="box-body">
-{***
-              <button type="button" class="btn btn-primary btn-block{if $stage.is_private == 1} hidden{/if}" onclick="window.open('/public/stage/detail.php?user={$stage.login_id}&id={$stage.id}');">公開用ページを見る</button>
-***}
-              <button type="button" class="btn btn-primary btn-block{if $character.is_private != 1} hidden{/if}" onclick="setCharacterIsPrivate(0);">公開する<small>(現在非公開です)</small></button>
-              <button type="button" class="btn btn-primary btn-block{if $character.is_private == 1} hidden{/if}" onclick="setCharacterIsPrivate(1);">非公開にする<small>(現在公開中です)</small></button>
-              <button type="button" class="btn btn-warning btn-block" onclick="delCharacter();">削除する</button>
+              <div class="box-body button-layout-right">
+                <button type="button" class="btn btn-default pull-left" onclick="$('#area-setCharacter').hide();$('#area-viewCharacter').show();">キャンセル</button>
+                <button type="button" class="btn btn-warning" onclick="delCharacter();">削除する</button>
+                <button type="button" class="btn btn-primary" onclick="setCharacter();">更新する</button>
+              </div>
             </div>
           </div>
         </div>

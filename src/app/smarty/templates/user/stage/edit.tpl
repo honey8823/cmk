@@ -28,6 +28,14 @@
       </ol>
     </section>
 
+<p class="hint-box">
+  UIを大きく変更しました。<br>
+  編集や削除を行いたい場合は「内容を編集する」をクリックしてください。<br>
+  ステージの公開/非公開を切り替えたいときはタイトル横の鍵マークをクリックしてください。<br>
+  （鍵が閉まっている黄色いアイコンは「非公開」、鍵が開いているグレーのアイコンは「公開」を表します）<br>
+  公開状態の場合のみ「公開用ページを見る」のリンク先は他人からも閲覧可能です。
+</p>
+
     <!-- Main content -->
     <section class="content">
       <div class="row">
@@ -37,19 +45,33 @@
             <div class="box-header">
               <h3 class="box-title">基本情報</h3>
             </div>
-            <div class="box-body" id="area-setStage">
+            <div class="box-body" id="area-viewStage">
+              <div>
+                <span class="is_private_icon is_private_{$stage.is_private}" onclick="setStageIsPrivate({if $stage.is_private == 1}0{else}1{/if});">
+                  <i class="fa {if $stage.is_private == 1}fa-lock{else}fa-unlock{/if} fa-fw"></i>
+                </span>
+                <span><big>{$stage.name|escape:'html'}</big></span>
+              </div>
+              <div class="private-stage-tag">
+                {foreach from=$series_list key=k item=v_series}
+                {if isset($stage.tag_list) && is_array($stage.tag_list) && in_array($v_series.id, array_column($stage.tag_list, 'id'))}
+                  <span class="label tag-base tag-series" value="{$v_series.id}">{$v_series.name}</span>
+                {/if}
+                {/foreach}
+              </div>
+              <div class="private-stage-remarks"><small>{$stage.remarks|escape:'html'|nl2br}</small></div>
+              <div class="box-body button-layout-right">
+              {if $stage.is_private != 1}
+                <button type="button" class="btn btn-primary" onclick="window.open('/public/stage/detail.php?user={$stage.login_id}&id={$stage.id}');">公開用ページを見る</button>
+              {/if}
+                <button type="button" class="btn btn-primary" onclick="$('#area-viewStage').hide();$('#area-setStage').show();">内容を編集する</button>
+              </div>
+            </div>
+            <div class="box-body" id="area-setStage" style="display:none;">
               <input type="hidden" class="form-id" value="{$stage.id}">
               <div class="form-group">
                 <label>ステージ名</label><small>※必須</small>
                 <input type="text" name="name" class="form-control form-name" value="{$stage.name}">
-              </div>
-              <div class="form-group">
-                <label>説明文</label>
-                <span class="menu-tooltip">
-                  <i class="fa fa-question-circle fa-fw" aria-hidden="true"></i>
-                  <span class="menu-tooltiptext">{$config.tooltip.stage_remarks}</span>
-                </span>
-                <textarea class="form-control form-remarks" rows="3" name="remarks">{$stage.remarks}</textarea>
               </div>
               <div class="form-group">
                 <label>関連するシリーズ（複数選択可）</label>
@@ -63,23 +85,19 @@
                 {/foreach}
                 </div>
               </div>
-            </div>
-            <div class="box-body button-layout-right">
-              <button type="button" class="btn btn-primary" onclick="setStage();">更新する</button>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-md-12">
-          <div class="box">
-            <div class="box-header">
-              <h3 class="box-title">このステージに対する操作</h3>
-            </div>
-            <div class="box-body">
-              <button type="button" class="btn btn-primary btn-block{if $stage.is_private == 1} hidden{/if}" onclick="window.open('/public/stage/detail.php?user={$stage.login_id}&id={$stage.id}');">公開用ページを見る</button>
-              <button type="button" class="btn btn-primary btn-block{if $stage.is_private != 1} hidden{/if}" onclick="setStageIsPrivate(0);">公開する<small>(現在非公開です)</small></button>
-              <button type="button" class="btn btn-primary btn-block{if $stage.is_private == 1} hidden{/if}" onclick="setStageIsPrivate(1);">非公開にする<small>(現在公開中です)</small></button>
-              <button type="button" class="btn btn-warning btn-block" onclick="delStage();">削除する</button>
+              <div class="form-group">
+                <label>説明文</label>
+                <span class="menu-tooltip">
+                  <i class="fa fa-question-circle fa-fw" aria-hidden="true"></i>
+                  <span class="menu-tooltiptext">{$config.tooltip.stage_remarks}</span>
+                </span>
+                <textarea class="form-control form-remarks" rows="3" name="remarks">{$stage.remarks}</textarea>
+              </div>
+              <div class="box-body button-layout-right">
+                <button type="button" class="btn btn-default pull-left" onclick="$('#area-setStage').hide();$('#area-viewStage').show();">キャンセル</button>
+                <button type="button" class="btn btn-warning" onclick="delStage();">削除する</button>
+                <button type="button" class="btn btn-primary" onclick="setStage();">更新する</button>
+              </div>
             </div>
           </div>
         </div>
@@ -124,7 +142,7 @@
                 <div><small>今後、ステージに含まれるキャラクターを変更しやすいよう機能を追加する予定です。</small></div>
                 <ul>
                 {foreach from=$stage.character_list key=k item=v_character}
-                  <li><a href="/user/character/edit.php?id={$v_character.id}">{$v_character.name}</a></li>
+                  <li><a href="/user/character/edit.php?id={$v_character.id}">{$v_character.name|escape:'html'}</a></li>
                 {/foreach}
                 </ul>
               </div>

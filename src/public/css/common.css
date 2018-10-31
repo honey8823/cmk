@@ -52,6 +52,10 @@
 }
 
 /* 鍵アイコン */
+.is_private_icon{
+	font-size: 1.2em;
+	cursor: pointer;
+}
 .is_private_icon.is_private_0{
 	color: #CCCCCC;
 }
@@ -148,9 +152,35 @@
     height: 1.2em;
 }
 
-/* 公開ステージ説明文 */
+/* 公開ステージ：説明文 */
 .public-stage-remarks{
 	padding: 1em 1.5em;
+}
+
+/* 管理用ステージ：説明文 */
+.private-stage-remarks{
+	margin: 1em;
+	padding: 0.5em;
+	background: #EEEEEE;
+	border-radius: 0.5em;
+}
+
+/* 管理用ステージ：タグ */
+.private-stage-tag{
+	margin: 1em;
+}
+
+/* 管理用キャラクター：説明文 */
+.private-character-remarks{
+	margin: 1em;
+	padding: 0.5em;
+	background: #EEEEEE;
+	border-radius: 0.5em;
+}
+
+/* 管理用キャラクター：ステージ */
+.private-character-stage{
+	margin: 1em;
 }
 
 /* ヘルプページ */
