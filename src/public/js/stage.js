@@ -1,49 +1,3 @@
-// ドラッグ＆ドロップでソート可能にする
-$(function() {
-    $(".ul-stage.sortable").sortable({
-        update: function(){
-			var ids = [];
-			$(".ul-stage > li:not(.template-for-copy)").each(function(i, e){
-				ids.push($(e).data("id"));
-			});
-			var params = {
-				id_list : ids,
-			};
-
-			var result = ajaxPost("stage", "setSort", params);
-			result.done(function(){
-				if (isAjaxResultErrorRedirect(result.return_value) === true) {return false;}  // 必要ならエラーページへリダイレクト
-				if (isAjaxResultErrorMsg(result.return_value) === true ){return false;} // 必要ならエラーメッセージ表示
-
-				// 正常な場合
-				// 何もしない
-				return true;
-			});
-		}
-    });
-});
-
-/*
- * 一覧取得
- */
-function tableStage(){
-	var params = {};
-	var result = ajaxPost("stage", "table", params);
-    result.done(function(){
-		if (isAjaxResultErrorRedirect(result.return_value) === true) {return false;}  // 必要ならエラーページへリダイレクト
-		if (isAjaxResultErrorMsg(result.return_value) === true ){return false;} // 必要ならエラーメッセージ表示
-
-		// 正常な場合
-		// テーブルに描画
-		if (result.return_value['stage_list'].length > 0){
-			$(result.return_value['stage_list']).each(function(i, e){
-				drawStageList(e);
-			});
-		}
-		return true;
-    });
-}
-
 /*
  * 登録
  */
@@ -138,44 +92,55 @@ function delStage(){
 }
 
 /*
- * local::一覧描画
+ * ソートモード切替
  */
-function drawStageList(dat){
-	// 行をコピー
-	var obj_base = $("#list-stage").find(".stage_list.template-for-copy")[0];
-	var obj = $(obj_base).clone().appendTo($(obj_base).parent());
+function readyStageSort(mode){
+	if (mode == 1){
+		// ONにする場合
+		$(".sort_mode_off").hide();
+		$(".sort_mode_on").show();
+		$(".stage-sort-area").addClass("sortable");
+		sortableStage(mode);
+	}
+	else{
+		// OFFにする場合
+		$(".sort_mode_on").hide();
+		$(".sort_mode_off").show();
+		sortableStage(mode);
+		$(".stage-sort-area").removeClass("sortable");
+	}
+	return;
+}
 
-	// ステージID
-	$(obj).data("id", dat.id);
+/*
+ * local::ドラッグ＆ドロップでソート可能にする
+ */
+function sortableStage(mode) {
+	if (mode != 1){
+		$(".stage-sort-area.sortable").sortable("destroy");
+		return true;
+	}
 
-	// ステージ名
-	$(obj).find(".stage_name").text(dat.name);
+	$(".stage-sort-area.sortable").sortable({
+		update: function(){
+			var ids = [];
+			$(".ul-stage > li:not(.template-for-copy)").each(function(i, e){
+				ids.push($(e).data("id"));
+			});
+			var params = {
+				id_list : ids,
+			};
 
-	// リンク先
-	var params = {id: dat.id};
-	$(obj).find(".stage_id").attr("href", $(obj).find(".stage_id").attr("href") + $.param(params));
+			var result = ajaxPost("stage", "setSort", params);
+			result.done(function(){
+				if (isAjaxResultErrorRedirect(result.return_value) === true) {return false;}  // 必要ならエラーページへリダイレクト
+				if (isAjaxResultErrorMsg(result.return_value) === true ){return false;} // 必要ならエラーメッセージ表示
 
-	// タグ
-	$(dat.tag_list).each(function(i_tag, e_tag){
-		var obj_tag_base = $(obj).find(".tag > .tag-base.template-for-copy")[0];
-		var obj_tag = $(obj_tag_base).clone().appendTo($(obj_tag_base).parent());
-
-		// タグ略称
-		obj_tag.addClass("tag-" + e_tag.category_key);
-		obj_tag.text(e_tag.name_short);
-
-		// テンプレート用クラスを外す
-		obj_tag.removeClass("template-for-copy");
+				// 正常な場合
+				// 何もしない
+				return true;
+			});
+		}
 	});
-
-	// 公開/非公開
-	if (dat.is_private == 1){
-		$(obj).find(".stage_is_private_0").remove();
-	}
-	else {
-		$(obj).find(".stage_is_private_1").remove();
-	}
-
-	// テンプレート用クラスを外す
-	obj.removeClass("template-for-copy");
+	return true;
 }

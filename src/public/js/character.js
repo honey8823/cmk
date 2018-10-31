@@ -1,75 +1,3 @@
-// ドラッグ＆ドロップでソート可能にする
-$(function() {
-    $(".ul-character.sortable").sortable({
-        update: function(){
-			var ids = [];
-			$(".ul-character > li:not(.template-for-copy)").each(function(i, e){
-				ids.push($(e).data("id"));
-			});
-			var params = {
-				id_list : ids,
-			};
-
-			var result = ajaxPost("character", "setSort", params);
-			result.done(function(){
-				if (isAjaxResultErrorRedirect(result.return_value) === true) {return false;}  // 必要ならエラーページへリダイレクト
-				if (isAjaxResultErrorMsg(result.return_value) === true ){return false;} // 必要ならエラーメッセージ表示
-
-				// 正常な場合
-				// 何もしない
-				return true;
-			});
-		}
-    });
-});
-
-/*
- * 一覧取得
- */
-function tableCharacter(){
-
-	var limit = 50; // 1回あたりの件数
-
-	var offset = $("#list-character").find("input.offset").val();
-	if (offset == ""){
-		// offsetが空の場合は何もしない
-		$("#list-character").find(".btn-more").addClass("disabled");
-		return false;
-	}
-
-	var params = {
-			'sort_column' : "",
-			'sort_order'  : "",
-			'limit'       : limit,
-			'offset'      : offset,
-		};
-	var result = ajaxPost("character", "table", params);
-    result.done(function(){
-		if (isAjaxResultErrorRedirect(result.return_value) === true) {return false;}  // 必要ならエラーページへリダイレクト
-		if (isAjaxResultErrorMsg(result.return_value) === true ){return false;} // 必要ならエラーメッセージ表示
-
-		// 正常な場合
-		// もっとみるボタン
-		if (result.return_value['is_more'] == 1){
-			$("#list-character").find(".btn-more").removeClass("disabled");
-			$("#list-character").find("input.offset").val(parseInt(offset) + parseInt(limit));
-		}
-		else{
-			$("#list-character").find(".btn-more").addClass("disabled");
-			$("#list-character").find("input.offset").val("");
-		}
-
-		// テーブルに描画
-		if (result.return_value['character_list'].length > 0){
-			$(result.return_value['character_list']).each(function(i, e){
-				drawCharacterList(e);
-			});
-		}
-
-		return true;
-    });
-}
-
 /*
  * 登録
  */
@@ -164,43 +92,55 @@ function delCharacter(){
 }
 
 /*
- * local::一覧描画
+ * ソートモード切替
  */
-function drawCharacterList(dat){
-	// 行をコピー
-	var obj_base = $("#list-character").find(".character_list.template-for-copy")[0];
-	var obj = $(obj_base).clone().appendTo($(obj_base).parent());
+function readyCharacterSort(mode){
+	if (mode == 1){
+		// ONにする場合
+		$(".sort_mode_off").hide();
+		$(".sort_mode_on").show();
+		$(".character-sort-area").addClass("sortable");
+		sortableCharacter(mode);
+	}
+	else{
+		// OFFにする場合
+		$(".sort_mode_on").hide();
+		$(".sort_mode_off").show();
+		sortableCharacter(mode);
+		$(".character-sort-area").removeClass("sortable");
+	}
+	return;
+}
 
-	// キャラクターID
-	$(obj).data("id", dat.id);
+/*
+ * local::ドラッグ＆ドロップでソート可能にする
+ */
+function sortableCharacter(mode) {
+	if (mode != 1){
+		$(".character-sort-area.sortable").sortable("destroy");
+		return true;
+	}
 
-	// キャラクター名
-	$(obj).find(".character_name").text(dat.name);
+	$(".character-sort-area.sortable").sortable({
+		update: function(){
+			var ids = [];
+			$(".ul-character > li:not(.template-for-copy)").each(function(i, e){
+				ids.push($(e).data("id"));
+			});
+			var params = {
+				id_list : ids,
+			};
 
-	// リンク先
-	var params = {id: dat.id};
-	$(obj).find(".character_id").attr("href", $(obj).find(".character_id").attr("href") + $.param(params));
+			var result = ajaxPost("character", "setSort", params);
+			result.done(function(){
+				if (isAjaxResultErrorRedirect(result.return_value) === true) {return false;}  // 必要ならエラーページへリダイレクト
+				if (isAjaxResultErrorMsg(result.return_value) === true ){return false;} // 必要ならエラーメッセージ表示
 
-	// ステージ
-	$(dat.stage_list).each(function(i, e){
-		var obj_stage_base = $(obj).find(".stage > .stage.template-for-copy")[0];
-		var obj_stage = $(obj_stage_base).clone().appendTo($(obj_stage_base).parent());
-
-		// ステージ名
-		obj_stage.text(e.name);
-
-		// テンプレート用クラスを外す
-		obj_stage.removeClass("template-for-copy");
+				// 正常な場合
+				// 何もしない
+				return true;
+			});
+		}
 	});
-
-	// 公開/非公開
-	if (dat.is_private == 1){
-		$(obj).find(".character_is_private_0").remove();
-	}
-	else {
-		$(obj).find(".character_is_private_1").remove();
-	}
-
-	// テンプレート用クラスを外す
-	obj.removeClass("template-for-copy");
+	return true;
 }

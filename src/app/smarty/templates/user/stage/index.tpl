@@ -32,26 +32,30 @@
       <div class="row">
         <div class="col-md-12">
           <div class="box-body">
-            <div class="pull-right">
-              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-addStage">ステージを追加</button>
-            </div>
             <div>
-              <small>
-                <!-- ※使い方やガイドラインなど、総合ヘルプはこちら -->
-              </small>
+              <button type="button" class="btn btn-block btn-primary" data-toggle="modal" data-target="#modal-addStage">ステージを追加</button>
+            {if count($stage_list) > 1}
+              <button type="button" class="btn btn-primary btn-block sort_mode_off" onclick="readyStageSort(1);">並べ替えモードにする</button>
+              <button type="button" class="btn btn-warning btn-block sort_mode_on" onclick="readyStageSort(0);">並べ替えモードを終了</button>
+              <p class="hint-box sort_mode_on">並べ替えモード中：ドラッグ＆ドロップで並べ替えができます。</p>
+            {/if}
             </div>
           </div>
           <div id="list-stage" class="box">
             <div class="box-body no-padding">
-
-              <ul class="ul-stage sortable">
-                <li class="stage_list template-for-copy" data-id="">
-                  <span class="is_private"><span class="stage_is_private_0"><i class="fa fa-unlock fa-fw"></i></span><span class="stage_is_private_1"><i class="fa fa-lock fa-fw"></i></span></span>
-                  <span class="name"><a href="/user/stage/edit.php?" class="stage_id"><span class="stage_name"></span></a></span>
-                  <span class="tag"><span class="template-for-copy label tag-base"></span></span>
+              <ul class="ul-stage stage-sort-area">
+              {foreach from=$stage_list key=k item=v_stage}
+                <li class="stage_list" data-id="{$v_stage.id}">
+                  <span class="is_private"><span class="is_private_icon is_private_{$v_stage.is_private}"><i class="fa {if $v_stage.is_private == 1}fa-lock{else}fa-unlock{/if} fa-fw"></i></span></span>
+                  <span class="name"><a href="/user/stage/edit.php?id={$v_stage.id}" class="stage_id"><span class="stage_name">{$v_stage.name|escape:'html'}</span></a></span>
+                  <span class="tag">
+                  {foreach from=$v_stage.tag_list key=k item=v_tag}
+                    <span class="label tag-base tag-{$v_tag.category_key}">{$v_tag.name_short}</span>
+                  {/foreach}
+                  </span>
                 </li>
+              {/foreach}
               </ul>
-
             </div>
           </div>
         </div>
@@ -69,7 +73,6 @@
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span></button>
           <h4 class="modal-title">ステージ登録</h4>
-{***          <small>登録直後は非公開設定になっています。編集後に公開するようにしてください。</small>***}
         </div>
         <div class="modal-body">
           <div class="form-group">
@@ -112,13 +115,6 @@
 <script src="/js/common.js"></script>
 <script src="/js/sidebar.js"></script>
 <script src="/js/stage.js"></script>
-<script>
-// 読み込み完了時の処理
-$(function(){
-	// データ読み込み
-	tableStage();
-});
-</script>
 <!-- JS end -->
 </body>
 </html>

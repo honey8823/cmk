@@ -20,12 +20,12 @@
 
     <!-- Content Header (Page header) -->
     <section class="content-header">
-      <h1>{$stage.name}</h1>
-      <small>{$stage.user_name}@{$stage.user_login_id}</small>
+      <h1>{$stage.name|escape:'html'}</h1>
+      <small>{$stage.user_name|escape:'html'}@{$stage.user_login_id}</small>
       <ol class="breadcrumb">
         <li><a href="/">トップ</a></li>
-        <li><a href="#">{$stage.user_name}@{$stage.user_login_id}</a></li> {*** todo:: /public/stage/?user=** にリンク ***}
-        <li class="active">{$stage.name}</li>
+        <li><a href="#">{$stage.user_name|escape:'html'}@{$stage.user_login_id}</a></li> {*** todo:: /public/stage/?user=** にリンク ***}
+        <li class="active">{$stage.name|escape:'html'}</li>
       </ol>
     </section>
 
@@ -43,7 +43,7 @@
             {/foreach}
             </div>
             <div class="box-body public-stage-remarks">
-              {$stage.remarks|nl2br}
+              {$stage.remarks|escape:'html'|nl2br}
             </div>
           </div>
         </div>
@@ -67,22 +67,22 @@
                   {if $v_episode.category == "2"}<i class="fa fa-users bg-orange"></i>{/if}
                   {if $v_episode.category == "3"}<i class="fa fa-user bg-yellow"></i>{/if}
                     <div class="timeline-item">
-                      {if $v_episode.title != ""}<h3 class="timeline-header timeline-title no-border">{$v_episode.title}</h3>{/if}
+                      {if $v_episode.title != ""}<h3 class="timeline-header timeline-title no-border">{$v_episode.title|escape:'html'}</h3>{/if}
                     {if $v_episode.url != "" || $v_episode.free_text != ""}
                       <div class="timeline-body">
                         <small>
                         {if $v_episode.free_text != ""}
-                          <p class="timeline-free_text">{$v_episode.free_text|nl2br}</p>
+                          <p class="timeline-free_text">{$v_episode.free_text|escape:'html'|nl2br}</p>
                         {/if}
                         {if $v_episode.free_text_full != ""}
-                          <p class="timeline-free_text_full hidden">{$v_episode.free_text_full|nl2br}</p>
+                          <p class="timeline-free_text_full hidden">{$v_episode.free_text_full|escape:'html'|nl2br}</p>
                           <div style="padding: 0.7em;">
                             <a class="timeline-free_text_show clickable">&gt;&gt;クリックで全文を表示</a>
                             <a class="timeline-free_text_hide clickable hidden">&gt;&gt;クリックで折り畳む</a>
                           </div>
                         {/if}
                         {if $v_episode.url != ""}
-                          <p class="timeline-url"><a href="{$v_episode.url}" target="_blank">{$v_episode.url_view}</a></p>
+                          <p class="timeline-url"><a href="{$v_episode.url}" target="_blank">{$v_episode.url_view|escape:'html'}</a></p>
                         {/if}
                         </small>
                       </div>

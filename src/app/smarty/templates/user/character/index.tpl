@@ -32,32 +32,34 @@
       <div class="row">
         <div class="col-md-12">
           <div class="box-body">
-            <div class="pull-right">
-              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-addCharacter">キャラクターを追加</button>
-            </div>
-<!--
             <div>
-              <small>
-                ※使い方やガイドラインなど、総合ヘルプはこちら
-              </small>
+              <button type="button" class="btn btn-block btn-primary" data-toggle="modal" data-target="#modal-addCharacter">キャラクターを追加</button>
+            {if count($character_list) > 1}
+              <button type="button" class="btn btn-block btn-primary sort_mode_off" onclick="readyCharacterSort(1);">並べ替えモードにする</button>
+              <button type="button" class="btn btn-block btn-warning sort_mode_on" onclick="readyCharacterSort(0);">並べ替えモードを終了</button>
+              <p class="hint-box sort_mode_on">並べ替えモード中：ドラッグ＆ドロップで並べ替えができます。</p>
+            {/if}
             </div>
--->
           </div>
           <div id="list-character" class="box">
             <div class="box-body no-padding">
+              <ul class="ul-character character-sort-area">
+              {foreach from=$character_list key=k item=v_character}
 
-              <ul class="ul-character sortable">
-                <li class="character_list template-for-copy" data-id="">
-                  <span class="is_private"><span class="character_is_private_0"><i class="fa fa-unlock fa-fw"></i></span><span class="character_is_private_1"><i class="fa fa-lock fa-fw"></i></span></span>
-                  <span class="name"><a href="/user/character/edit.php?" class="character_id"><span class="character_name"></span></a></span>
-                  <span class="stage"><span class="template-for-copy badge stage"></span></span>
+                <li class="character_list" data-id="{$v_character.id}">
+                  <span class="is_private"><span class="is_private_icon is_private_{$v_character.is_private}"><i class="fa {if $v_character.is_private == 1}fa-lock{else}fa-unlock{/if} fa-fw"></i></span></span>
+                  <span class="name"><a href="/user/character/edit.php?id={$v_character.id}" class="character_id"><span class="character_name">{$v_character.name|escape:'html'}</span></a></span>
+                  <span class="stage">
+                  {if isset($v_character.stage_list) && is_array($v_character.stage_list)}
+                  {foreach from=$v_character.stage_list key=k item=v_stage}
+                    <span class="badge stage">{$v_stage.name}</span>
+                  {/foreach}
+                  {/if}
+                  </span>
                 </li>
-              </ul>
 
-            </div>
-            <div class="box-body no-padding">
-              <button type="button" class="btn btn-default btn-block btn-more disabled" onclick="tableCharacter();">もっとみる</button>
-              <input type="hidden" class="offset" value="0">
+              {/foreach}
+              </ul>
             </div>
           </div>
         </div>
@@ -116,14 +118,6 @@
 <script src="/js/common.js"></script>
 <script src="/js/sidebar.js"></script>
 <script src="/js/character.js"></script>
-<script>
-// 読み込み完了時の処理
-$(function(){
-	// データ読み込み
-	$("#list-character").find("input.offset").val(0);
-	tableCharacter();
-});
-</script>
 <!-- JS end -->
 </body>
 </html>

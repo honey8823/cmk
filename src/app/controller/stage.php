@@ -22,7 +22,8 @@ class StageController extends Common
 			$sql .= "WHERE    `user_id` = ? ";
 			$arg_list[] = $user_id;
 			$sql .= "AND      `is_delete` <> 1 ";
-			$sql .= "ORDER BY `sort` ASC ";
+			$sql .= "ORDER BY `sort` = 0 ASC ";
+			$sql .= "        ,`sort` ASC ";
 			$stage_list = $this->query($sql, $arg_list);
 
 			// 取得（タグ）・整形

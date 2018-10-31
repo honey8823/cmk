@@ -184,10 +184,6 @@ function drawEpisodeList(dat, id){
 			var obj = $("#timeline_for_stage > li[data-id='" + id + "']");
 		}
 
-		if (dat.free_text != undefined && dat.free_text != ""){
-			dat.free_text = dat.free_text.replace(/\r?\n/g, "<br>");
-		}
-
 		// データ貼り付け
 		$(obj).data("id", dat.id);
 		$(obj).attr("data-id", dat.id);
@@ -209,7 +205,7 @@ function drawEpisodeList(dat, id){
 			$(obj).find(".timeline-url").addClass("template-for-copy");
 		}
 		if (dat.free_text != undefined && dat.free_text != ""){
-			$(obj).find(".timeline-free_text").html(dat.free_text);
+			$(obj).find(".timeline-free_text").html(strToText(dat.free_text));
 			$(obj).find(".timeline-free_text").removeClass("template-for-copy");
 		}
 		else{

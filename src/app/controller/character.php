@@ -5,12 +5,6 @@ class CharacterController extends Common
 	{
 		try
 		{
-			// 引数
-			$sort_column = isset($param_list['sort_column']) ? trim($param_list['sort_column']) : "";
-			$sort_order  = isset($param_list['sort_order'])  ? trim($param_list['sort_order'])  : "";
-			$limit       = isset($param_list['limit'])       ? trim($param_list['limit'])       : "20";
-			$offset      = isset($param_list['offset'])      ? trim($param_list['offset'])      : "0";
-
 			// ユーザID
 			// ログイン状態でない場合はエラー
 			$user_id    = $this->getLoginId();
@@ -29,30 +23,9 @@ class CharacterController extends Common
 			$sql .= "WHERE    `user_id` = ? ";
 			$arg_list[] = $user_id;
 			$sql .= "AND      `is_delete` <> 1 ";
-			if ($sort_column == "")
-			{
-				$sql .= "ORDER BY `sort` = 0 ASC ";
-				$sql .= "        ,`sort` ASC ";
-			}
-			else
-			{
-				$sql .= "ORDER BY `" . $sort_column . "` " . $sort_order . " ";
-			}
-			$sql .= "LIMIT    " . $offset . ", " . ($limit + 1) . " ";
+			$sql .= "ORDER BY `sort` = 0 ASC ";
+			$sql .= "        ,`sort` ASC ";
 			$character_list = $this->query($sql, $arg_list);
-
-			if (count($character_list) == ($limit + 1))
-			{
-				// 次を取得可
-				// 確認用に取得した最後の1件を配列から除く
-				$return_list['is_more'] = 1;
-				unset($character_list[$limit]);
-			}
-			else
-			{
-				// 次を取得不可
-				$return_list['is_more'] = 0;
-			}
 
 			// 取得（ステージ）・整形
 			if (count($character_list) > 0)

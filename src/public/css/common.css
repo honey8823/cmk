@@ -9,7 +9,6 @@
 /* タグ */
 .label.tag-base{ /* タグ：基本 */
 	color: #FFFFFF;
-	margin: 0 5px;
 }
 .label.tag-selectable{ /* 選択が可能なタグ */
 	cursor: pointer;
@@ -29,8 +28,6 @@
 	background-color: #B44A53;
 	color: #FFFFFF;
 	font-size: 0.75em;
-	margin: 3px;
-	padding: .2em .6em .3em:
 }
 .badge.stage-selectable{ /* 選択が可能なステージ */
 	cursor: pointer;
@@ -52,6 +49,14 @@
 }
 .badge.character-notselected{ /* 未選択キャラクター */
 	background-color: #CCCCCC;
+}
+
+/* 鍵アイコン */
+.is_private_icon.is_private_0{
+	color: #CCCCCC;
+}
+.is_private_icon.is_private_1{
+	color: #f39c12;
 }
 
 /* 管理用タイムライン */
@@ -104,12 +109,6 @@
 	padding: 0px 15px 0 0;
 	width: 2em;
 }
-.stage_list > .is_private > .stage_is_private_0{
-	color: #CCCCCC;
-}
-.stage_list > .is_private > .stage_is_private_1{
-	color: #f39c12;
-}
 .stage_list > .name{
 	width: 10em;
 }
@@ -132,12 +131,6 @@
 	margin: -10px;
 	padding: 0px 15px 0 0;
 	width: 2em;
-}
-.character_list > .is_private > .character_is_private_0{
-	color: #CCCCCC;
-}
-.character_list > .is_private > .character_is_private_1{
-	color: #f39c12;
 }
 .character_list > .name{
 	width: 10em;
@@ -226,4 +219,16 @@ li a {
 .menu-tooltip:hover .menu-tooltiptext {
 	visibility: visible;
 	opacity: 1;
+}
+
+/* ヒント */
+p.hint-box {
+	color: white;
+	background-color: black;
+	opacity: 0.3;
+	margin: 1em;
+	border-radius: 5px;
+	text-align: center;
+	padding: 0.1em;
+	font-size: 0.75em;
 }
