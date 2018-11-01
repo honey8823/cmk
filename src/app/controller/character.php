@@ -39,14 +39,16 @@ class CharacterController extends Common
 				$sql .= "INNER JOIN `stage` ";
 				$sql .= "  ON       `stage_character`.`stage_id` = `stage`.`id` ";
 				$sql .= "WHERE      `stage_character`.`character_id` IN (" . implode(",", array_fill(0, count($character_list), "?")) . ") ";
+				$sql .= "AND        `stage`.`user_id` = ? ";
 				$sql .= "AND        `stage`.`is_delete` <> 1 ";
-				$sql .= "ORDER BY   `stage_character`.`character_id` DESC ";
+				$sql .= "ORDER BY   `stage_character`.`character_id` ASC ";
 				$sql .= "          ,`stage`.`sort` = 0 ASC ";
 				$sql .= "          ,`stage`.`sort` ASC ";
 				foreach ($character_list as $v)
 				{
 					$arg_list[] = $v['id'];
 				}
+				$arg_list[] = $user_id;
 				$stage_list = $this->query($sql, $arg_list);
 
 				if (count($stage_list) > 0)
@@ -117,9 +119,10 @@ class CharacterController extends Common
 			$sql .= "  ON       `stage_character`.`stage_id` = `stage`.`id` ";
 			$sql .= "WHERE      `stage_character`.`character_id` = ? ";
 			$sql .= "AND        `stage`.`is_delete` <> 1 ";
+			$sql .= "AND        `stage`.`user_id` = ? ";
 			$sql .= "ORDER BY   `stage`.`sort` = 0 ASC ";
 			$sql .= "          ,`stage`.`sort` ASC ";
-			$arg_list = array($id);
+			$arg_list = array($id, $user_id);
 			$stage_list = $this->query($sql, $arg_list);
 			$character_list[0]['stage_list'] = array();
 			if (count($stage_list) > 0)
@@ -191,8 +194,8 @@ class CharacterController extends Common
 				$sql .= "VALUES " . implode(",", array_fill(0, count($stage_list), "(?, ?)"));
 				foreach ($stage_list as $v)
 				{
-					$arg_list[] = $id;
 					$arg_list[] = $v;
+					$arg_list[] = $id;
 				}
 				$this->query($sql, $arg_list);
 			}
@@ -274,6 +277,10 @@ class CharacterController extends Common
 			$arg_list[] = $id;
 			$this->query($sql, $arg_list);
 
+			// todo::upsert >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+// 			$sc = new StageController();
+// 			$sc->upsertCharacter();
+
 			// ステージ登録
 			// 一度全削除して再登録
 			$sql  = "DELETE FROM `stage_character` ";
@@ -288,11 +295,13 @@ class CharacterController extends Common
 				$sql .= "VALUES " . implode(",", array_fill(0, count($stage_list), "(?, ?)"));
 				foreach ($stage_list as $v)
 				{
-					$arg_list[] = $id;
 					$arg_list[] = $v;
+					$arg_list[] = $id;
 				}
 				$this->query($sql, $arg_list);
 			}
+
+			// <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 			// 戻り値
 			$return_list = array(

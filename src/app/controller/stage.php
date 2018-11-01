@@ -41,7 +41,7 @@ class StageController extends Common
 				$sql .= "INNER JOIN `tag` ";
 				$sql .= "  ON       `stage_tag`.`tag_id` = `tag`.`id` ";
 				$sql .= "WHERE      `stage_tag`.`stage_id` IN (" . implode(",", array_fill(0, count($stage_list), "?")) . ") ";
-				$sql .= "ORDER BY   `stage_tag`.`stage_id` DESC ";
+				$sql .= "ORDER BY   `stage_tag`.`stage_id` ASC ";
 				$sql .= "          ,`tag`.`category` ASC ";
 				$sql .= "          ,`tag`.`sort` ASC ";
 				foreach ($stage_list as $v)
@@ -157,9 +157,11 @@ class StageController extends Common
 			$sql .= "INNER JOIN `character` ";
 			$sql .= "  ON       `stage_character`.`character_id` = `character`.`id` ";
 			$sql .= "WHERE      `stage_character`.`stage_id` = ? ";
+			$sql .= "AND        `character`.`user_id` = ? ";
 			$sql .= "AND        `character`.`is_delete` <> 1 ";
-			$sql .= "ORDER BY   `stage_character`.`sort` ASC ";
-			$arg_list = array($id);
+			$sql .= "ORDER BY   `stage_character`.`sort` = 0 ASC ";
+			$sql .= "          ,`stage_character`.`sort` ASC ";
+			$arg_list = array($id, $user_id);
 			$character_list = $this->query($sql, $arg_list);
 			$stage_list[0]['character_list'] = array();
 			if (count($character_list) > 0)
@@ -323,7 +325,7 @@ class StageController extends Common
 			$this->query($sql, $arg_list);
 
 			// タグ登録
-			// 一度全削除して再登録
+			// 一度全削除して再登録（sortがないため問題なし）
 			$sql  = "DELETE FROM `stage_tag` ";
 			$sql .= "WHERE `stage_id` = ? ";
 			$arg_list = array($id);
@@ -441,6 +443,92 @@ class StageController extends Common
 				$arg_list = array(
 					$sort + 1,
 					$id,
+					$user_id,
+				);
+				$this->query($sql, $arg_list);
+			}
+
+			// 戻り値
+			$return_list = array($id_list);
+			return $return_list;
+		}
+		catch (Exception $e)
+		{
+			$this->exception($e);
+		}
+	}
+
+	public function setCharacterSort($param_list = array())
+	{
+		try
+		{
+			// ユーザID
+			$user_id    = $this->getLoginId();
+			if ($user_id === false)
+			{
+				return array('error_redirect' => "session");
+			}
+
+			// 引数
+			$stage_id = $param_list['stage_id'];
+			$id_list  = isset($param_list['id_list']) && is_array($param_list['id_list']) ? $param_list['id_list'] : array();
+
+			// 更新
+			$sql  = "UPDATE `stage_character` ";
+			$sql .= "SET    `sort` = ? ";
+			$sql .= "WHERE  `character_id` = ? ";
+			$sql .= "AND    `stage_id` IN (SELECT `id` FROM `stage` WHERE `stage_id` = ? AND `user_id` = ?) ";
+			foreach ($id_list as $sort => $id)
+			{
+				$arg_list = array(
+					$sort + 1,
+					$id,
+					$stage_id,
+					$user_id,
+				);
+				$this->query($sql, $arg_list);
+			}
+
+			// 戻り値
+			$return_list = array($id_list);
+			return $return_list;
+		}
+		catch (Exception $e)
+		{
+			$this->exception($e);
+		}
+	}
+
+	public function upsertCharacter($param_list = array())
+	{
+		try
+		{
+			// ユーザID
+			$user_id    = $this->getLoginId();
+			if ($user_id === false)
+			{
+				return array('error_redirect' => "session");
+			}
+
+			// 引数
+			$stage_id       = $param_list['stage_id'];
+			$character_list = isset($param_list['character_list']) && is_array($param_list['character_list']) ? $param_list['character_list'] : array();
+
+// todo::ここから
+			return array();
+
+
+			// 更新
+			$sql  = "UPDATE `stage_character` ";
+			$sql .= "SET    `sort` = ? ";
+			$sql .= "WHERE  `character_id` = ? ";
+			$sql .= "AND    `stage_id` IN (SELECT `id` FROM `stage` WHERE `stage_id` = ? AND `user_id` = ?) ";
+			foreach ($id_list as $sort => $id)
+			{
+				$arg_list = array(
+					$sort + 1,
+					$id,
+					$stage_id,
 					$user_id,
 				);
 				$this->query($sql, $arg_list);

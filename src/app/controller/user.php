@@ -325,7 +325,7 @@ class UserController extends Common
 				$user_list = $this->query($sql, $arg_list);
 				if (count($user_list) != 1)
 				{
-					$err_list[] = "ログインに失敗しました。" . count($user_list);
+					$err_list[] = "ログインに失敗しました。";
 				}
 			}
 			if (count($err_list) > 0)
