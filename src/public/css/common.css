@@ -52,10 +52,21 @@
 .is_private_icon.is_private_1{
 	color: #f39c12;
 }
+.timeline-editable > .is_private_icon{
+	margin-left: -0.5em;
+	margin-top: 0.2em;
+	position: absolute;
+}
+
+/* 編集アイコン */
+.edit_icon{
+	font-size: 1.2em;
+	color: #999999;
+}
 
 /* 管理用タイムライン */
 .timeline.timeline-stage{
-	margin: 30px 0 30px 0;
+	margin: 30px 0 30px 1em;
 }
 .timeline.timeline-stage > li{
 	margin: 0em 1em 0.5em 0;
@@ -82,6 +93,14 @@
 }
 .timeline-label_title{
 	margin-left: 0.5em;
+}
+.timeline-editable > span.timeline-label-title{
+	padding-left: 1em;
+	margin-left: -0.7em;
+	padding-right: 1em;
+}
+.timeline-editable > .timeline-label-title > .is_private_icon{
+	margin-left: -0.7em;
 }
 
 /* 管理画面ステージ一覧 */

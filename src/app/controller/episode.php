@@ -654,7 +654,11 @@ class EpisodeController extends Common
 			}
 			else
 			{
-				$sql  = "SELECT `id` FROM `stage` WHERE `id` = ? AND `user_id` = ? AND `is_delete` <> 1 ";
+				$sql  = "SELECT `id`  ";
+				$sql .= "FROM   `episode` ";
+				$sql .= "WHERE  `id` = ? ";
+				$sql .= "AND    `is_delete` <> 1 ";
+				$sql .= "AND    `stage_id` IN (SELECT `id` FROM `stage` WHERE `user_id` = ? AND `is_delete` <> 1) ";
 				$arg_list = array($id, $user_id);
 				$r = $this->query($sql, $arg_list);
 				if (count($r) != 1)
@@ -670,7 +674,7 @@ class EpisodeController extends Common
 
 			// 更新
 			$arg_list = array();
-			$sql  = "UPDATE `stage` ";
+			$sql  = "UPDATE `episode` ";
 			$sql .= "SET    `is_private` = ? ";
 			$sql .= "WHERE  `id` = ? ";
 			$arg_list[] = $is_private;

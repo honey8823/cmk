@@ -13,6 +13,10 @@
         {else}
           // todo::ステージ選択のセレクトボックス
         {/if}
+          <div class="form-group clickable" onclick="$(this).children().toggleClass('hide');">
+            <span class="form-is_private" data-is_private="1"><span class="is_private_icon is_private_1"><i class="fa fa-lock fa-fw"></i></span>非公開<small>（クリックで公開に切り替え）</small></span>
+            <span class="form-is_private hide" data-is_private="0"><span class="is_private_icon is_private_0"><i class="fa fa-unlock fa-fw"></i></span>公開<small>（クリックで非公開に切り替え）</small></span>
+          </div>
           <div class="form-group">
             <div class="checkbox">
               <label>
@@ -87,8 +91,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default pull-left" data-dismiss="modal">キャンセル</button>
-          <button type="button" class="btn btn-primary" onclick="addEpisode(0);">「公開状態で」登録</button>
-          <button type="button" class="btn btn-primary" onclick="addEpisode(1);">「非公開で」登録</button>
+          <button type="button" class="btn btn-primary" onclick="addEpisode();">登録</button>
         </div>
       </div>
     </div>

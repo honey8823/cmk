@@ -59,7 +59,7 @@
                 {/if}
                 {/foreach}
               </div>
-              <div class="private-stage-remarks"><small>{$stage.remarks|escape:'html'|nl2br}</small></div>
+              <div class="private-stage-remarks"><small>{if $stage.remarks != ""}{$stage.remarks|escape:'html'|nl2br}{else}（説明文は登録されていません）{/if}</small></div>
               <div class="box-body text-align-right">
               {if $stage.is_private != 1}
                 <button type="button" class="btn btn-primary" onclick="window.open('/public/stage/detail.php?user={$stage.login_id}&id={$stage.id}');">公開用ページを見る</button>
@@ -102,6 +102,14 @@
           </div>
         </div>
 
+<p class="hint-box">
+  タイムライン編集のUIを変更しました。<br>
+  エピソードの公開/非公開を切り替えたいときはタイトル横の鍵マークをクリックしてください。<br>
+  （鍵が閉まっている黄色いアイコンは「非公開」、鍵が開いているグレーのアイコンは「公開」を表します）<br>
+  ただし、登録フォームや編集フォームでの変更も可能です。<br>
+  このステージが公開されている場合に限り、公開用ページに表示されます。
+</p>
+
         <div class="col-md-12">
           <div class="nav-tabs-custom">
             <ul class="nav nav-tabs">
@@ -113,10 +121,19 @@
                 <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#modal-addEpisode">タイムラインにエピソードを追加</button>
                 <button type="button" class="btn btn-primary btn-block sort_mode_off" onclick="readyEpisodeSort(1);">並べ替えモードにする</button>
                 <button type="button" class="btn btn-warning btn-block sort_mode_on" onclick="readyEpisodeSort(0);">並べ替えモード中（クリックで終了）</button>
-                <div><small>これらの操作は右下の<i class="fa fa-fw fa-plus-circle" aria-hidden="true"></i><i class="fa fa-fw fa-sort" aria-hidden="true"></i>からでも行えます。</small></div>
+                <p class="hint-box">これらの操作は右下の<i class="fa fa-fw fa-plus-circle" aria-hidden="true"></i><i class="fa fa-fw fa-sort" aria-hidden="true"></i>からでも行えます。</p>
+                <p class="hint-box sort_mode_on">並べ替えモード中：ドラッグ＆ドロップで並べ替えができます。</p>
                 <ul class="timeline template-for-copy" id="timeline_for_stage_template">
-                  <li class="time-label timeline-editable timeline-label template-for-copy" data-id="" data-toggle="modal" data-target="#modal-setEpisode"><span class="bg-red timeline-title"></span></li>
-                  <li class="timeline-content timeline-editable template-for-copy" data-id="" data-toggle="modal" data-target="#modal-setEpisode">
+                  <li class="time-label timeline-editable timeline-label clickable template-for-copy" data-id="" data-toggle="modal" data-target="#modal-setEpisode">
+                    <span class="timeline-label-title bg-red">
+                      <span class="is_private_icon is_private_0 set_episode-is_private template-for-copy"><i class="fa fa-unlock fa-fw"></i></span>
+                      <span class="is_private_icon is_private_1 set_episode-is_private template-for-copy"><i class="fa fa-lock fa-fw"></i></span>
+                      <span class="timeline-title"></span>
+                    </span>
+                  </li>
+                  <li class="timeline-editable timeline-content clickable template-for-copy" data-id="" data-toggle="modal" data-target="#modal-setEpisode">
+                    <span class="is_private_icon is_private_0 set_episode-is_private template-for-copy"><i class="fa fa-unlock fa-fw"></i></span>
+                    <span class="is_private_icon is_private_1 set_episode-is_private template-for-copy"><i class="fa fa-lock fa-fw"></i></span>
                     <i class="fa fa-arrow-right bg-blue"></i>
                     <div class="timeline-item">
                       <h3 class="timeline-header timeline-title no-border template-for-copy"></h3>
