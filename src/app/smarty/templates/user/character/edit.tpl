@@ -59,7 +59,7 @@
                 {/if}
                 {/foreach}
               </div>
-              <div class="private-character-remarks"><small>{$character.remarks|escape:'html'|nl2br}</small></div>
+              <div class="private-character-remarks"><small>{if $character.remarks != ""}{$character.remarks|escape:'html'|nl2br}{else}（備考は登録されていません）{/if}</small></div>
               <div class="box-body text-align-right">
 {***
               {if $character.is_private != 1}
