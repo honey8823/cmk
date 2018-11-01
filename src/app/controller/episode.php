@@ -215,7 +215,7 @@ class EpisodeController extends Common
 			$sql .= "          ,`stage`.`name` ";
 			$sql .= "          ,`stage`.`is_private` ";
 			$sql .= "FROM       `stage` ";
-			$sql .= "WHERE      `stage`.`id` IN ( SELECT `stage_id` FROM `character_stage` WHERE `character_id` = ? ) ";
+			$sql .= "WHERE      `stage`.`id` IN ( SELECT `stage_id` FROM `stage_character` WHERE `character_id` = ? ) ";
 			$arg_list[] = $character_id;
 			if (preg_match("/^[0-9]+$/", $stage_id))
 			{

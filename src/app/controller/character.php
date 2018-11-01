@@ -16,7 +16,6 @@ class CharacterController extends Common
 			$return_list = array();
 
 			// 取得（キャラクター）
-			// 次を取得できるかどうかを調べるため、「limit+1」件取得している
 			$arg_list = array();
 			$sql  = "SELECT   `id`, `name`, `is_private` ";
 			$sql .= "FROM     `character` ";
@@ -33,15 +32,16 @@ class CharacterController extends Common
 				$character_list = $this->setArrayKey($character_list, "id");
 
 				$arg_list = array();
-				$sql  = "SELECT     `character_stage`.`character_id` ";
+				$sql  = "SELECT     `stage_character`.`character_id` ";
 				$sql .= "          ,`stage`.`id` ";
 				$sql .= "          ,`stage`.`name` ";
-				$sql .= "FROM       `character_stage` ";
+				$sql .= "FROM       `stage_character` ";
 				$sql .= "INNER JOIN `stage` ";
-				$sql .= "  ON       `character_stage`.`stage_id` = `stage`.`id` ";
-				$sql .= "WHERE      `character_stage`.`character_id` IN (" . implode(",", array_fill(0, count($character_list), "?")) . ") ";
-                                $sql .= "AND        `stage`.`is_delete` <> 1 ";
-				$sql .= "ORDER BY   `character_stage`.`character_id` DESC ";
+				$sql .= "  ON       `stage_character`.`stage_id` = `stage`.`id` ";
+				$sql .= "WHERE      `stage_character`.`character_id` IN (" . implode(",", array_fill(0, count($character_list), "?")) . ") ";
+				$sql .= "AND        `stage`.`is_delete` <> 1 ";
+				$sql .= "ORDER BY   `stage_character`.`character_id` DESC ";
+				$sql .= "          ,`stage`.`sort` = 0 ASC ";
 				$sql .= "          ,`stage`.`sort` ASC ";
 				foreach ($character_list as $v)
 				{
@@ -112,15 +112,16 @@ class CharacterController extends Common
 			// 取得（ステージ）・整形
 			$sql  = "SELECT     `stage`.`id` ";
 			$sql .= "          ,`stage`.`name` ";
-			$sql .= "FROM       `character_stage` ";
+			$sql .= "FROM       `stage_character` ";
 			$sql .= "INNER JOIN `stage` ";
-			$sql .= "  ON       `character_stage`.`stage_id` = `stage`.`id` ";
-			$sql .= "WHERE      `character_stage`.`character_id` = ? ";
-                        $sql .= "AND        `stage`.`is_delete` <> 1 ";
-			$sql .= "ORDER BY   `stage`.`sort` ASC ";
-                        $arg_list = array($id);
+			$sql .= "  ON       `stage_character`.`stage_id` = `stage`.`id` ";
+			$sql .= "WHERE      `stage_character`.`character_id` = ? ";
+			$sql .= "AND        `stage`.`is_delete` <> 1 ";
+			$sql .= "ORDER BY   `stage`.`sort` = 0 ASC ";
+			$sql .= "          ,`stage`.`sort` ASC ";
+			$arg_list = array($id);
 			$stage_list = $this->query($sql, $arg_list);
-                        $character_list[0]['stage_list'] = array();
+			$character_list[0]['stage_list'] = array();
 			if (count($stage_list) > 0)
 			{
 				foreach ($stage_list as $v)
@@ -186,7 +187,7 @@ class CharacterController extends Common
 			if (count($stage_list) > 0)
 			{
 				$arg_list = array();
-				$sql  = "INSERT INTO `character_stage` (`character_id`, `stage_id`) ";
+				$sql  = "INSERT INTO `stage_character` (`stage_id`, `character_id`) ";
 				$sql .= "VALUES " . implode(",", array_fill(0, count($stage_list), "(?, ?)"));
 				foreach ($stage_list as $v)
 				{
@@ -275,7 +276,7 @@ class CharacterController extends Common
 
 			// ステージ登録
 			// 一度全削除して再登録
-			$sql  = "DELETE FROM `character_stage` ";
+			$sql  = "DELETE FROM `stage_character` ";
 			$sql .= "WHERE `character_id` = ? ";
 			$arg_list = array($id);
 			$this->query($sql, $arg_list);
@@ -283,7 +284,7 @@ class CharacterController extends Common
 			if (count($stage_list) > 0)
 			{
 				$arg_list = array();
-				$sql  = "INSERT INTO `character_stage` (`character_id`, `stage_id`) ";
+				$sql  = "INSERT INTO `stage_character` (`stage_id`, `character_id`) ";
 				$sql .= "VALUES " . implode(",", array_fill(0, count($stage_list), "(?, ?)"));
 				foreach ($stage_list as $v)
 				{

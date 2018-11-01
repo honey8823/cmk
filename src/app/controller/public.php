@@ -130,13 +130,14 @@ class PublicController extends Common
 			$arg_list = array();
 			$sql  = "SELECT     `character`.`id` ";
 			$sql .= "          ,`character`.`name` ";
-			$sql .= "FROM       `character_stage` ";
+			$sql .= "FROM       `stage_character` ";
 			$sql .= "INNER JOIN `character` ";
-			$sql .= "  ON       `character_stage`.`character_id` = `character`.`id` ";
-			$sql .= "WHERE      `character_stage`.`stage_id` = ? ";
+			$sql .= "  ON       `stage_character`.`character_id` = `character`.`id` ";
+			$sql .= "WHERE      `stage_character`.`stage_id` = ? ";
 			$sql .= "AND        `character`.`is_delete` <> 1 ";
 			$sql .= "AND        `character`.`is_private` <> 1 ";
-			$sql .= "ORDER BY   `character_stage`.`sort` ASC ";
+			$sql .= "ORDER BY   `stage_character`.`sort` = 0 ASC ";
+			$sql .= "          ,`stage_character`.`sort` ASC ";
 			$arg_list = array($id);
 			$character_list = $this->query($sql, $arg_list);
 			$stage_list[0]['character_list'] = array();

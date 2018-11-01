@@ -118,9 +118,11 @@
             </ul>
             <div class="tab-content">
               <div class="tab-pane active" id="tab-content-timeline">
-                <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#modal-addEpisode">タイムラインにエピソードを追加</button>
-                <button type="button" class="btn btn-primary btn-block sort_mode_off" onclick="readyEpisodeSort(1);">並べ替えモードにする</button>
-                <button type="button" class="btn btn-warning btn-block sort_mode_on" onclick="readyEpisodeSort(0);">並べ替えモード中（クリックで終了）</button>
+                <div class="box-body">
+                  <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#modal-addEpisode">タイムラインにエピソードを追加</button>
+                  <button type="button" class="btn btn-primary btn-block sort_mode_off" onclick="readyEpisodeSort(1);">並べ替えモードにする</button>
+                  <button type="button" class="btn btn-warning btn-block sort_mode_on" onclick="readyEpisodeSort(0);">並べ替えモード中（クリックで終了）</button>
+                </div>
                 <p class="hint-box">これらの操作は右下の<i class="fa fa-fw fa-plus-circle" aria-hidden="true"></i><i class="fa fa-fw fa-sort" aria-hidden="true"></i>からでも行えます。</p>
                 <p class="hint-box sort_mode_on">並べ替えモード中：ドラッグ＆ドロップで並べ替えができます。</p>
                 <ul class="timeline template-for-copy" id="timeline_for_stage_template">
@@ -146,8 +148,7 @@
                     </div>
                   </li>
                 </ul>
-                <ul class="timeline timeline-sort-area timeline-stage" id="timeline_for_stage">
-                </ul>
+                <ul class="timeline timeline-sort-area timeline-stage" id="timeline_for_stage"></ul>
                 <div class="timeline-btn-area">
                   <p class="clickable" data-toggle="modal" data-target="#modal-addEpisode"><i class="fa fa-fw fa-plus-circle" aria-hidden="true"></i></p>
                   <p class="clickable sort_mode_off" onclick="readyEpisodeSort(1);"><i class="fa fa-fw fa-sort" aria-hidden="true"></i></p>

@@ -152,12 +152,13 @@ class StageController extends Common
 			$arg_list = array();
 			$sql  = "SELECT     `character`.`id` ";
 			$sql .= "          ,`character`.`name` ";
-			$sql .= "FROM       `character_stage` ";
+			$sql .= "          ,`character`.`is_private` ";
+			$sql .= "FROM       `stage_character` ";
 			$sql .= "INNER JOIN `character` ";
-			$sql .= "  ON       `character_stage`.`character_id` = `character`.`id` ";
-			$sql .= "WHERE      `character_stage`.`stage_id` = ? ";
+			$sql .= "  ON       `stage_character`.`character_id` = `character`.`id` ";
+			$sql .= "WHERE      `stage_character`.`stage_id` = ? ";
 			$sql .= "AND        `character`.`is_delete` <> 1 ";
-			$sql .= "ORDER BY   `character_stage`.`sort` ASC ";
+			$sql .= "ORDER BY   `stage_character`.`sort` ASC ";
 			$arg_list = array($id);
 			$character_list = $this->query($sql, $arg_list);
 			$stage_list[0]['character_list'] = array();
@@ -166,8 +167,9 @@ class StageController extends Common
 				foreach ($character_list as $v)
 				{
 					$stage_list[0]['character_list'][] = array(
-						'id'    => $v['id'],
-						'name'  => $v['name'],
+						'id'         => $v['id'],
+						'name'       => $v['name'],
+						'is_private' => $v['is_private'],
 					);
 				}
 			}
