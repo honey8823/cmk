@@ -113,8 +113,8 @@
 <!-- ./wrapper -->
 
 <!-- JS start -->
-<script src="/js/lib/jquery.ui.touch-punch.min.js"></script>
 {include file='common/adminlte_js.tpl'}
+<script src="/js/lib/jquery.ui.touch-punch.min.js"></script>
 <script src="/js/common.js"></script>
 <script src="/js/sidebar.js"></script>
 <script src="/js/character.js"></script>

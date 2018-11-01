@@ -62,6 +62,7 @@
               <i class="fa fa-question-circle fa-fw" aria-hidden="true"></i>
               <span class="menu-tooltiptext">{$config.tooltip.episode_free_text}</span>
             </span>
+            <button type="button" class="btn btn-default btn-xs pull-right insert-read-more">「続きを読む」の挿入</button>
             <textarea class="form-control form-free_text" rows="3" name="form-control free_text"></textarea>
           </div>
           <div class="form-group not_use_for_label">

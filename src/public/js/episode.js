@@ -20,6 +20,24 @@ $(document).on("click", ".set_episode-is_private", function(){
 	javascript_die(); // 強制終了
 });
 
+// カーソル位置に「続きを読む」マーカーを挿入
+$(document).on("click", ".insert-read-more", function(){
+	// テキストエリアのオブジェクト
+	var obj_ta = $(this).parent().find("textarea");
+	// 挿入位置
+	var cursor = obj_ta.get(0).selectionStart;
+	// 本文
+	var str_before = obj_ta.val();
+
+	// 本文に「=====」を挿入
+	obj_ta.val(str_before.slice(0, cursor) + "=====" + str_before.slice(cursor));
+
+	// カーソルを元の位置＋5文字の位置に置く
+	obj_ta.get(0).focus();
+	obj_ta.get(0).selectionStart = cursor + 5;
+	obj_ta.get(0).selectionEnd = cursor + 5;
+});
+
 /*
  * 一覧取得
  */
