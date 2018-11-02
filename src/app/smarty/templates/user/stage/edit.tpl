@@ -156,18 +156,37 @@
                 </div>
               </div>
               <div class="tab-pane" id="tab-content-character">
-                <button type="button" class="btn btn-primary btn-block disabled">作成済みのキャラクターをこのステージに割り当てる</button>
-                <div><small>今後、ステージに含まれるキャラクターを変更しやすいよう機能を追加する予定です。</small></div>
-                <ul>
-                {foreach from=$stage.character_list key=k item=v_character}
-                  <li><a href="/user/character/edit.php?id={$v_character.id}">{$v_character.name|escape:'html'}</a></li>
-                {/foreach}
-                </ul>
+                <div class="box-body">
+                  <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#modal-upsertStageCharacter">このステージに属するキャラクターの割り当てを変更する</button>
+                {if count($stage.character_list) > 1}
+                  <button type="button" class="btn btn-block btn-primary sort_mode_off" onclick="readyStageCharacterSort(1);">並べ替えモードにする</button>
+                  <button type="button" class="btn btn-block btn-warning sort_mode_on" onclick="readyStageCharacterSort(0);">並べ替えモードを終了</button>
+                  <p class="hint-box sort_mode_on">並べ替えモード中：ドラッグ＆ドロップで並べ替えができます。</p>
+                {/if}
+                </div>
+                <div id="list-character" class="box">
+                  <div class="box-body no-padding">
+                    <ul class="ul-character stage-character-sort-area">
+                      <li class="character_list template-for-copy" data-id="">
+                        <span class="is_private">
+                          <span class="is_private_icon is_private_0 hide"><i class="fa fa-unlock fa-fw"></i></span>
+                          <span class="is_private_icon is_private_1 hide"><i class="fa fa-lock fa-fw"></i></span>
+                        </span>
+                        <span class="name"><a href="/user/character/edit.php?" class="character_id"><span class="character_name"></span></a></span>
+                      </li>
+                    {foreach from=$stage.character_list key=k item=v_character}
+                      <li class="character_list" data-id="{$v_character.id}">
+                        <span class="is_private"><span class="is_private_icon is_private_{$v_character.is_private}"><i class="fa {if $v_character.is_private == 1}fa-lock{else}fa-unlock{/if} fa-fw"></i></span></span>
+                        <span class="name"><a href="/user/character/edit.php?id={$v_character.id}" class="character_id"><span class="character_name">{$v_character.name|escape:'html'}</span></a></span>
+                      </li>
+                    {/foreach}
+                    </ul>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
-
       </div>
     </section>
     <!-- ///////////////////////////////////////////////////// -->
@@ -176,6 +195,47 @@
 
   {include file='common/episode_add_modal.tpl'}
   {include file='common/episode_set_modal.tpl'}
+
+    <!-- キャラクター割り当てmodal -->
+  <div class="modal fade" id="modal-upsertStageCharacter">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">キャラクター割り当て</h4>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <div>
+            {foreach from=$character_list key=k item=v_character}
+            {if isset($stage.character_list) && is_array($stage.character_list) && in_array($v_character.id, array_column($stage.character_list, 'id'))}
+              <span class="badge character character-selectable clickable" value="{$v_character.id}">{$v_character.name|escape:'html'}</span>
+            {else}
+              <span class="badge character character-selectable character-notselected clickable" value="{$v_character.id}">{$v_character.name|escape:'html'}</span>
+            {/if}
+            {/foreach}
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default pull-left" data-dismiss="modal">キャンセル</button>
+          <button type="button" class="btn btn-primary" onclick="upsertStageCharacter();">保存</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+{*** 試作メモ
+  <!-- エピソード登録modal -->
+  <div class="modal fade" id="modal-menuEdit">
+    <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: white;">
+      <p><i class="fa fa-fw fa-toggle-on" aria-hidden="true" style="width: 2em; height: 2em; font-size: 2em; text-align: center; border-radius: 50%; color: white;"></i> 公開/非公開の切り替え</p>
+      <p><i class="fa fa-fw fa-pencil" aria-hidden="true" style="width: 2em; height: 2em; font-size: 2em; text-align: center; border-radius: 50%; color: white;"></i> 編集する</p>
+    </div>
+  </div>
+***}
 
   {include file='common/footer.tpl'}
 
@@ -188,6 +248,7 @@
 <script src="/js/common.js"></script>
 <script src="/js/sidebar.js"></script>
 <script src="/js/stage.js"></script>
+<script src="/js/stage-character.js"></script>
 <script src="/js/episode.js"></script>
 <script>
 // 読み込み完了時の処理

@@ -277,31 +277,61 @@ class CharacterController extends Common
 			$arg_list[] = $id;
 			$this->query($sql, $arg_list);
 
-			// todo::upsert >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-// 			$sc = new StageController();
-// 			$sc->upsertCharacter();
-
 			// ステージ登録
-			// 一度全削除して再登録
-			$sql  = "DELETE FROM `stage_character` ";
-			$sql .= "WHERE `character_id` = ? ";
-			$arg_list = array($id);
-			$this->query($sql, $arg_list);
+
+			// 変更後のデータを取得
 			$stage_list = array_filter($stage_list, function($v){return(preg_match("/^[0-9]+$/", $v));});
+			$new_stage_list = array();
+			$after_stage_list = array();
 			if (count($stage_list) > 0)
+			{
+				// 登録できないデータ（削除済み・本人のデータでないもの）を省く
+				$sql  = "SELECT `id` FROM `stage` WHERE `id` IN (" . implode(",", array_fill(0, count($stage_list), "?")) . ") AND `user_id` = ? AND `is_delete` <> 1 ";
+				$arg_list = $stage_list;
+				$arg_list[] = $user_id;
+				$new_stage_list = $this->query($sql, $arg_list);
+				$after_stage_list = array_column($new_stage_list, "id");
+				$new_stage_list = $this->setArrayKey($new_stage_list, "id");
+			}
+
+			// 変更前のデータを取得
+			$sql  = "SELECT `stage_id` ";
+			$sql .= "FROM   `stage_character` ";
+			$sql .= "WHERE  `character_id` = ? ";
+			$arg_list = array($id);
+			$before_stage_list = array_column($this->query($sql, $arg_list), "stage_id");
+
+			// 削除対象
+			$del_stage_list = array_diff($before_stage_list, $after_stage_list);
+
+			// 追加対象
+			$add_stage_list = array_diff($after_stage_list, $before_stage_list);
+
+			// 不要なものを削除
+			if (count($del_stage_list) > 0)
+			{
+				$arg_list = array();
+				$sql  = "DELETE FROM `stage_character` ";
+				$sql .= "WHERE `character_id` = ? ";
+				$sql .= "AND   `stage_id` IN (" . implode(",", array_fill(0, count($del_stage_list), "?")) . ") ";
+				$arg_list[] = $id;
+				$arg_list = array_merge($arg_list, $del_stage_list);
+				$this->query($sql, $arg_list);
+			}
+
+			// 必要なものを追加
+			if (count($add_stage_list) > 0)
 			{
 				$arg_list = array();
 				$sql  = "INSERT INTO `stage_character` (`stage_id`, `character_id`) ";
-				$sql .= "VALUES " . implode(",", array_fill(0, count($stage_list), "(?, ?)"));
-				foreach ($stage_list as $v)
+				$sql .= "VALUES " . implode(",", array_fill(0, count($add_stage_list), "(?, ?)"));
+				foreach ($add_stage_list as $v)
 				{
 					$arg_list[] = $v;
 					$arg_list[] = $id;
 				}
 				$this->query($sql, $arg_list);
 			}
-
-			// <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 			// 戻り値
 			$return_list = array(

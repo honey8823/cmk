@@ -21,6 +21,9 @@ $tc->init();
 $sc = new StageController();
 $sc->init();
 
+$cc = new CharacterController();
+$cc->init();
+
 // ----------------------------------
 // テンプレートに表示するデータの取得
 // その他必要な処理
@@ -49,6 +52,9 @@ if (!isset($smarty_param['stage']['id']))
 // シリーズタグ一覧
 $tag_catgory_list = $tc->getConfig("tag_category", "key");
 $smarty_param['series_list'] = $tc->table(array('category_list' => array($tag_catgory_list['series']['value']), 'user_id' => $user_id));
+
+// キャラクター一覧
+$smarty_param['character_list'] = $cc->table()['character_list'];
 
 // 必ず指定 //////////////////////////////
 // Smartyデバッグ用
