@@ -42,6 +42,10 @@
 	background-color: #CCCCCC;
 }
 
+/****************/
+/* 管理ページ用 */
+/****************/
+
 /* 鍵アイコン */
 .is_private_icon{
 	font-size: 1.2em;
@@ -56,12 +60,6 @@
 	margin-left: -0.5em;
 	margin-top: 0.2em;
 	position: absolute;
-}
-
-/* 編集アイコン */
-.edit_icon{
-	font-size: 1.2em;
-	color: #999999;
 }
 
 /* 管理用タイムライン */
@@ -158,11 +156,6 @@
     height: 1.2em;
 }
 
-/* 公開ステージ：説明文 */
-.public-stage-remarks{
-	padding: 1em 1.5em;
-}
-
 /* 管理用ステージ：説明文 */
 .private-stage-remarks{
 	margin: 1em;
@@ -188,6 +181,36 @@
 .private-character-stage{
 	margin: 1em;
 }
+
+/****************/
+/* 公開ページ用 */
+/****************/
+
+/* 登録日時＋ツール */
+.public-info-box{
+	font-size: 0.75em;
+	color: #999999;
+}
+
+/* 公開ステージ：説明文 */
+.public-stage-remarks{
+	margin: 1em 2em;
+	padding: 0.5em;
+	background: #EEEEEE;
+	border-radius: 0.5em;
+}
+
+/* 公開キャラクター：説明文 */
+.public-character-remarks{
+	margin: 1em 2em;
+	padding: 0.5em;
+	background: #EEEEEE;
+	border-radius: 0.5em;
+}
+
+/****************/
+/* 一般ページ用 */
+/****************/
 
 /* ヘルプページ */
 .help-update_stamp{

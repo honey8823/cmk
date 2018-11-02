@@ -61,11 +61,9 @@
               </div>
               <div class="private-character-remarks"><small>{if $character.remarks != ""}{$character.remarks|escape:'html'|nl2br}{else}（備考は登録されていません）{/if}</small></div>
               <div class="box-body text-align-right">
-{***
               {if $character.is_private != 1}
-                <button type="button" class="btn btn-primary" onclick="window.open('/public/character/detail.php?user={$stage.login_id}&id={$character.id}');">公開用ページを見る</button>
+                <button type="button" class="btn btn-primary" onclick="window.open('/public/character/detail.php?user={$character.login_id}&id={$character.id}');">公開用ページを見る</button>
               {/if}
-***}
                 <button type="button" class="btn btn-primary" onclick="$('#area-viewCharacter').hide();$('#area-setCharacter').show();">内容を編集する</button>
               </div>
             </div>
@@ -119,9 +117,9 @@
 -->
                 <ul class="timeline" id="timeline_for_stage_template">
                 {foreach from=$timeline key=k_tl item=v_tl}
-                  <li class="time-label timeline-stage_name" data-id="{$v_tl.id}">
+                  <li class="time-label timeline-stage_name clickable" data-id="{$v_tl.id}" onclick="location.href='/user/stage/edit.php?id={$v_tl.id}';">
                     <span class="{if $v_tl.is_private == 1}bg-gray{else}bg-blue{/if} timeline-title">
-                      <span>{$v_tl.name}</span>
+                      <span>{$v_tl.name|escape:'html'}</span>
                     </span>
                   </li>
                 {if isset($v_tl.episode_list) && is_array($v_tl.episode_list)}
@@ -129,7 +127,7 @@
                 {if $v_episode.is_label == 1}
                   <li class="time-label timeline-label timeline-label_title" data-id="{$v_episode.id}">
                     <span class="{if $v_episode.is_private == 1}bg-gray{else}bg-red{/if} timeline-title">
-                      <span>{$v_episode.title}</span>
+                      <span>{$v_episode.title|escape:'html'}</span>
                     </span>
                   </li>
                 {else}
@@ -139,13 +137,13 @@
                     {if $v_episode.category == "3"}<i class="fa fa-user {if $v_episode.is_private == 1}bg-gray{else}bg-yellow{/if}"></i>{/if}
                     <div class="timeline-item">
                     {if $v_episode.title != ""}
-                      <h3 class="timeline-header timeline-title no-border">{$v_episode.title}</h3>
+                      <h3 class="timeline-header timeline-title no-border">{$v_episode.title|escape:'html'}</h3>
                     {/if}
                     {if $v_episode.free_text != "" || $v_episode.url != ""}
                       <div class="timeline-body">
                         <small>
                         {if $v_episode.free_text != ""}
-                          <p class="timeline-free_text">{$v_episode.free_text|nl2br}</p>
+                          <p class="timeline-free_text">{$v_episode.free_text|escape:'html'|nl2br}</p>
                         {/if}
                         {if $v_episode.url != ""}
                           <p class="timeline-url"><a href="{$v_episode.url}" target="_blank">{$v_episode.url_view}</a></p>
@@ -182,7 +180,7 @@
                 <button type="button" class="btn btn-primary pull-right">このキャラクターにエピソードを追加する</button>
                 <ul>
               {foreach from=$character.stage_list key=k item=v_stage}
-                <li><a href="/user/stage/edit.php?id={$v_stage.id}">{$v_stage.name}</a></li>
+                <li><a href="/user/stage/edit.php?id={$v_stage.id}">{$v_stage.name|escape:'html'}</a></li>
               {/foreach}
                 </ul>
               </div>

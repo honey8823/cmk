@@ -55,7 +55,7 @@
               <div class="private-stage-tag">
                 {foreach from=$series_list key=k item=v_series}
                 {if isset($stage.tag_list) && is_array($stage.tag_list) && in_array($v_series.id, array_column($stage.tag_list, 'id'))}
-                  <span class="label tag-base tag-series" value="{$v_series.id}">{$v_series.name}</span>
+                  <span class="label tag-base tag-series" value="{$v_series.id}">{$v_series.name|escape:'html'}</span>
                 {/if}
                 {/foreach}
               </div>
@@ -78,9 +78,9 @@
                 <div>
                 {foreach from=$series_list key=k item=v_series}
                 {if isset($stage.tag_list) && is_array($stage.tag_list) && in_array($v_series.id, array_column($stage.tag_list, 'id'))}
-                  <span class="label tag-base tag-series tag-selectable clickable" value="{$v_series.id}">{$v_series.name}</span>
+                  <span class="label tag-base tag-series tag-selectable clickable" value="{$v_series.id}">{$v_series.name|escape:'html'}</span>
                 {else}
-                  <span class="label tag-base tag-series tag-notselected tag-selectable clickable" value="{$v_series.id}">{$v_series.name}</span>
+                  <span class="label tag-base tag-series tag-notselected tag-selectable clickable" value="{$v_series.id}">{$v_series.name|escape:'html'}</span>
                 {/if}
                 {/foreach}
                 </div>

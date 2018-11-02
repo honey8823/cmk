@@ -20,8 +20,8 @@
 
     <!-- Content Header (Page header) -->
     <section class="content-header">
-      <h1>{$stage.name|escape:'html'}</h1>
-      <small>by {$stage.user_name|escape:'html'}@{$stage.user_login_id}</small>
+      <h1>{$character.name|escape:'html'}</h1>
+      <small>by {$character.user_name|escape:'html'}@{$character.user_login_id}</small>
     </section>
 
     <!-- Main content -->
@@ -31,19 +31,17 @@
         <div class="col-md-12">
           <div class="box">
             <div class="box-body">
-            {foreach from=$series_list key=k item=v_series}
-            {if isset($stage.tag_list) && is_array($stage.tag_list) && in_array($v_series.id, array_column($stage.tag_list, 'id'))}
-              <span class="label tag-base tag-series" value="{$v_series.id}">{$v_series.name}</span>
-            {/if}
+            {foreach from=$character.tag_list key=k item=v_tag}
+              <span class="label tag-base tag-series" value="{$v_tag.id}">{$v_tag.name}</span>
             {/foreach}
             </div>
-          {if $stage.remarks != ""}
-            <div class="box-body public-stage-remarks">
-              {$stage.remarks|escape:'html'|nl2br}
+          {if $character.remarks != ""}
+            <div class="box-body public-character-remarks">
+              {$character.remarks|escape:'html'|nl2br}
             </div>
           {/if}
             <div class="public-info-box text-align-right" style="padding: 1em;">
-              <p>登録日：{strtotime($stage.create_stamp)|date_format:"%Y-%m-%d %H:%M"}</p>
+              <p>登録日：{strtotime($character.create_stamp)|date_format:"%Y-%m-%d %H:%M"}</p>
 {*** [β版]お気に入り・通報
               <i class="fa fa-heart-o" aria-hidden="true"></i>
 ***}
@@ -55,34 +53,42 @@
           <div class="nav-tabs-custom">
             <ul class="nav nav-tabs">
               <li class="active"><a href="#tab-content-timeline" data-toggle="tab" aria-expanded="true">タイムライン</a></li>
-              <li class=""><a href="#tab-content-character" data-toggle="tab" aria-expanded="false">キャラクター</a></li>
+{***
+              <li class=""><a href="#tab-content-character" data-toggle="tab" aria-expanded="false">ステージ</a></li>
+***}
             </ul>
             <div class="tab-content">
 
               <div class="tab-pane active" id="tab-content-timeline">
-                <ul class="timeline timeline-stage">
-                {foreach from=$stage.episode_list key=k item=v_episode}
-                {if $v_episode.is_label == "1"}
-                  <li class="time-label timeline-label"><span class="bg-red timeline-title">{$v_episode.title}</span></li>
+                <ul class="timeline">
+                {foreach from=$character.stage_list key=k_stage item=v_stage}
+                  <li class="time-label timeline-stage_name clickable" onclick="location.href='/public/stage/detail.php?user={$character.user_login_id}&id={$v_stage.id}';">
+                    <span class="bg-blue timeline-title">
+                      <span>{$v_stage.name|escape:'html'}</span>
+                    </span>
+                  </li>
+                {if isset($v_stage.episode_list) && is_array($v_stage.episode_list)}
+                {foreach from=$v_stage.episode_list key=k_episode item=v_episode}
+                {if $v_episode.is_label == 1}
+                  <li class="time-label timeline-label timeline-label_title">
+                    <span class="bg-red timeline-title">
+                      <span>{$v_episode.title|escape:'html'}</span>
+                    </span>
+                  </li>
                 {else}
-                  <li class="timeline-content">
-                  {if $v_episode.category == "1"}<i class="fa fa-book bg-green"></i>{/if}
-                  {if $v_episode.category == "2"}<i class="fa fa-users bg-orange"></i>{/if}
-                  {if $v_episode.category == "3"}<i class="fa fa-user bg-yellow"></i>{/if}
+                  <li class="timeline-content" data-id="{$v_episode.id}">
+                    {if $v_episode.category == "1"}<i class="fa fa-book {if $v_episode.is_private == 1}bg-gray{else}bg-green{/if}"></i>{/if}
+                    {if $v_episode.category == "2"}<i class="fa fa-users {if $v_episode.is_private == 1}bg-gray{else}bg-orange{/if}"></i>{/if}
+                    {if $v_episode.category == "3"}<i class="fa fa-user {if $v_episode.is_private == 1}bg-gray{else}bg-yellow{/if}"></i>{/if}
                     <div class="timeline-item">
-                      {if $v_episode.title != ""}<h3 class="timeline-header timeline-title no-border">{$v_episode.title|escape:'html'}</h3>{/if}
-                    {if $v_episode.url != "" || $v_episode.free_text != ""}
+                    {if $v_episode.title != ""}
+                      <h3 class="timeline-header timeline-title no-border">{$v_episode.title|escape:'html'}</h3>
+                    {/if}
+                    {if $v_episode.free_text != "" || $v_episode.url != ""}
                       <div class="timeline-body">
                         <small>
                         {if $v_episode.free_text != ""}
                           <p class="timeline-free_text">{$v_episode.free_text|escape:'html'|nl2br}</p>
-                        {/if}
-                        {if $v_episode.free_text_full != ""}
-                          <p class="timeline-free_text_full hidden">{$v_episode.free_text_full|escape:'html'|nl2br}</p>
-                          <div style="padding: 0.7em;">
-                            <a class="timeline-free_text_show clickable">&gt;&gt;クリックで全文を表示</a>
-                            <a class="timeline-free_text_hide clickable hidden">&gt;&gt;クリックで折り畳む</a>
-                          </div>
                         {/if}
                         {if $v_episode.url != ""}
                           <p class="timeline-url"><a href="{$v_episode.url}" target="_blank">{$v_episode.url_view|escape:'html'}</a></p>
@@ -94,21 +100,19 @@
                   </li>
                 {/if}
                 {/foreach}
+                {/if}
+                {/foreach}
                 </ul>
               </div>
-
+{***
               <div class="tab-pane" id="tab-content-character">
-                <div class="box-body no-padding">
-                  <ul class="ul-character">
-                  {foreach from=$stage.character_list key=k item=v_character}
-                    <li class="character_list" data-id="{$v_character.id}">
-                      <span class="name"><a href="/public/character/detail.php?user={$stage.user_login_id}&id={$v_character.id}" class="character_id"><span class="character_name">{$v_character.name|escape:'html'}</span></a></span>
-                    </li>
-                  {/foreach}
-                  </ul>
-                </div>
+                <ul>
+                {foreach from=$character.stage_list key=k item=v_stage}
+                  <li><a href="/public/stage/detail.php?user={$character.user_login_id}&id={$v_stage.id}">{$v_stage.name|escape:'html'}</a></li>
+                {/foreach}
+                </ul>
               </div>
-
+***}
             </div>
           </div>
         </div>
