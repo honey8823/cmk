@@ -148,8 +148,8 @@ function setEpisodeIsPrivate(id, is_private){
 		if (isAjaxResultErrorMsg(result.return_value) === true ){return false;} // 必要ならエラーメッセージ表示
 
 		// 正常な場合
-		$(".timeline-editable[data-id='" + id + "']").find(".is_private_icon.is_private_" + (is_private == "1" ? "0" : "1")).hide();
-		$(".timeline-editable[data-id='" + id + "']").find(".is_private_icon.is_private_" + is_private).show();
+		$(".timeline-editable[data-id='" + id + "']").find(".is_private_icon.is_private_" + (is_private == "1" ? "0" : "1")).addClass("template-for-copy");
+		$(".timeline-editable[data-id='" + id + "']").find(".is_private_icon.is_private_" + is_private).removeClass("template-for-copy");
 		return true;
 	});
 }
