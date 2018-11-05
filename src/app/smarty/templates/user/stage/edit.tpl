@@ -172,18 +172,22 @@
                 </div>
                 <div id="list-character" class="box">
                   <div class="box-body no-padding">
-                    <ul class="ul-character stage-character-sort-area">
+                    <ul class="nav nav-stacked ul-character stage-character-sort-area">
                       <li class="character_list template-for-copy" data-id="">
+                        <a href="/user/character/edit.php?" class="character_id">
                         <span class="is_private">
                           <span class="is_private_icon is_private_0 hide"><i class="fa fa-unlock fa-fw"></i></span>
                           <span class="is_private_icon is_private_1 hide"><i class="fa fa-lock fa-fw"></i></span>
                         </span>
-                        <span class="name"><a href="/user/character/edit.php?" class="character_id"><span class="character_name"></span></a></span>
+                        <span class="name"><span class="character_name"></span></span>
+                        </a>
                       </li>
                     {foreach from=$stage.character_list key=k item=v_character}
                       <li class="character_list" data-id="{$v_character.id}">
+                        <a href="/user/character/edit.php?id={$v_character.id}" class="character_id">
                         <span class="is_private"><span class="is_private_icon is_private_{$v_character.is_private}"><i class="fa {if $v_character.is_private == 1}fa-lock{else}fa-unlock{/if} fa-fw"></i></span></span>
-                        <span class="name"><a href="/user/character/edit.php?id={$v_character.id}" class="character_id"><span class="character_name">{$v_character.name|escape:'html'}</span></a></span>
+                        <span class="name"><span class="character_name">{$v_character.name|escape:'html'}</span></span>
+                        </a>
                       </li>
                     {/foreach}
                     </ul>

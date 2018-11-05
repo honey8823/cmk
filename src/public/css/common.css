@@ -141,8 +141,9 @@
 	padding: 0px 15px 0 0;
 	width: 2em;
 }
-.character_list > .name{
+.character_list .name{
 	width: 10em;
+	display: inline-block;
 }
 .character_list > .stage{
 	padding: 0px 15px 0 0;
@@ -249,7 +250,7 @@ li a {
 
 /* コピー用テンプレート（非表示にする） */
 .template-for-copy{
-	display: none;
+	display: none !important;
 }
 
 /* ボタンの右寄せ */

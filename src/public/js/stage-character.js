@@ -84,7 +84,7 @@ function upsertStageCharacter(){
 			$(obj).data("id", e);
 			$(obj).attr("data-id", e);
 			$(obj).find(".is_private_" + result.return_value.character_list[e].is_private).removeClass("hide");
-			$(obj).find(".name > a").attr("href", $(obj).find(".name > a").attr("href") + $.param({id: e}));
+			$(obj).find("a.character_id").attr("href", $(obj).find("a.character_id").attr("href") + $.param({id: e}));
 			$(obj).find(".character_name").text(result.return_value.character_list[e].name);
 
 			$(obj).removeClass("template-for-copy");

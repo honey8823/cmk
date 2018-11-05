@@ -43,19 +43,21 @@
           </div>
           <div id="list-character" class="box">
             <div class="box-body no-padding">
-              <ul class="ul-character character-sort-area">
+              <ul class="nav nav-stacked ul-character character-sort-area">
               {foreach from=$character_list key=k item=v_character}
 
                 <li class="character_list" data-id="{$v_character.id}">
-                  <span class="is_private"><span class="is_private_icon is_private_{$v_character.is_private}"><i class="fa {if $v_character.is_private == 1}fa-lock{else}fa-unlock{/if} fa-fw"></i></span></span>
-                  <span class="name"><a href="/user/character/edit.php?id={$v_character.id}" class="character_id"><span class="character_name">{$v_character.name|escape:'html'}</span></a></span>
-                  <span class="stage">
-                  {if isset($v_character.stage_list) && is_array($v_character.stage_list)}
-                  {foreach from=$v_character.stage_list key=k item=v_stage}
-                    <span class="badge stage">{$v_stage.name|escape:'html'}</span>
-                  {/foreach}
-                  {/if}
-                  </span>
+                  <a href="/user/character/edit.php?id={$v_character.id}" class="character_id">
+                    <span class="is_private"><span class="is_private_icon is_private_{$v_character.is_private}"><i class="fa {if $v_character.is_private == 1}fa-lock{else}fa-unlock{/if} fa-fw"></i></span></span>
+                    <span class="name"><span class="character_name">{$v_character.name|escape:'html'}</span></span>
+                    <span class="stage">
+                    {if isset($v_character.stage_list) && is_array($v_character.stage_list)}
+                    {foreach from=$v_character.stage_list key=k item=v_stage}
+                      <span class="badge stage">{$v_stage.name|escape:'html'}</span>
+                    {/foreach}
+                    {/if}
+                    </span>
+                  </a>
                 </li>
 
               {/foreach}
