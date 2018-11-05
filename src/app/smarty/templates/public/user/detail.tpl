@@ -20,27 +20,26 @@
 
     <!-- Content Header (Page header) -->
     <section class="content-header">
-      <h1>{$user.name}@{$user.login_id}</h1>
-      <ol class="breadcrumb">
-        <li><a href="/">トップ</a></li>
-        <li class="active">{$user.name}@{$user.login_id}</li>
-      </ol>
+      <h1>{$user.name|escape:'html'}<small>@{$user.login_id}</small></h1>
+      <div>
+      {foreach from=$genre_list key=k item=v_genre}
+        <span class="label tag-base tag-genre" value="{$v_genre.id}">{$v_genre.title}</span>
+      {/foreach}
+      </div>
     </section>
 
     <!-- Main content -->
     <section class="content">
       <div class="row">
-
+{*
         <div class="col-md-12">
           <div class="box">
             <div class="box-body">
-              <div><label>ジャンル</label><span></span></div>
               <div><label>Twitter</label><span><a href="//twitter.com/{$user.twitter_id}" target="_blank">@{$user.twitter_id}</a></span></div>
-              {*** <div><label>最終ログイン</label><span></span></div> ***}
             </div>
           </div>
         </div>
-
+*}
         <div class="col-md-12">
           <div class="nav-tabs-custom">
             <ul class="nav nav-tabs">
@@ -49,19 +48,26 @@
             </ul>
             <div class="tab-content">
               <div class="tab-pane active" id="tab-content-stage">
-                <ul>
+                <ul class="nav nav-stacked stage_list">
                 {foreach from=$stage_list key=k item=v_stage}
                   <li>
-                    {$v_stage.id} {$v_stage.name} {$v_stage.remarks}
+                    <a href="/public/stage/detail.php?user={$user.login_id}&id={$v_stage.id}">
+                      <span class="name">{$v_stage.name|escape:'html'}</span>
+                      <span class="tag">
+                      {foreach from=$v_stage.tag_list key=k item=v_tag}
+                        <span class="label tag-base tag-{$v_tag.category_key}">{$v_tag.name_short|escape:'html'}</span>
+                      {/foreach}
+                      </span>
+                    </a>
                   </li>
                 {/foreach}
                 </ul>
               </div>
               <div class="tab-pane" id="tab-content-character">
-                <ul>
+                <ul class="nav nav-stacked character_list">
                 {foreach from=$character_list key=k item=v_character}
                   <li>
-                    {$v_character.id} {$v_character.name}
+                    <a href="/public/character/detail.php?user={$user.login_id}&id={$v_character.id}">{$v_character.name|escape:'html'}</a>
                   </li>
                 {/foreach}
                 </ul>

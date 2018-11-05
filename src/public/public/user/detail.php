@@ -15,9 +15,6 @@ $template_name = "public/user/detail";
 $uc = new UserController();
 $uc->init();
 
-// $tc = new TagController();
-// $tc->init();
-
 $pc = new PublicController();
 $pc->init();
 
@@ -38,12 +35,9 @@ if (isset($user['error_redirect']) && $user['error_redirect'] != "")
 }
 
 $smarty_param['user']           = $user['user'];
+$smarty_param['genre_list']     = $user['genre_list'];
 $smarty_param['stage_list']     = $user['stage_list'];
 $smarty_param['character_list'] = $user['character_list'];
-
-// // シリーズタグ一覧
-// $tag_catgory_list = $tc->getConfig("tag_category", "key");
-// $smarty_param['series_list'] = $tc->table(array('category_list' => array($tag_catgory_list['series']['value'])));
 
 // 必ず指定 //////////////////////////////
 // Smartyデバッグ用

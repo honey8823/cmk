@@ -89,6 +89,7 @@
               </div>
             </div>
             <div class="box-body text-align-right">
+              <button type="button" class="btn btn-primary" onclick="window.open('/public/user/detail.php?u={$user.login_id}');">公開用ページを見る</button>
               <button type="button" class="btn btn-primary" onclick="setUser();">更新する</button>
             </div>
           </div>

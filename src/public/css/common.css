@@ -117,8 +117,9 @@
 	padding: 0px 15px 0 0;
 	width: 2em;
 }
-.stage_list > .name{
-	width: 10em;
+.stage_list .name{
+	width: 15em;
+	display: inline-block;
 }
 .stage_list > .tag{
 	padding: 0px 15px 0 0;

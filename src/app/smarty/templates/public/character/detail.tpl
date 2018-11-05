@@ -21,7 +21,7 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>{$character.name|escape:'html'}</h1>
-      <small>by {$character.user_name|escape:'html'}@{$character.user_login_id}</small>
+      <small><a href="/public/user/detail.php?u={$character.user_login_id}">by {$character.user_name|escape:'html'}@{$character.user_login_id}</a></small>
     </section>
 
     <!-- Main content -->

@@ -344,6 +344,16 @@ class PublicController extends Common
 
 			$id = $user_list[0]['id'];
 
+			// 取得（ジャンル）
+			$sql  = "SELECT     `genre`.`id` ";
+			$sql .= "          ,`genre`.`title` ";
+			$sql .= "FROM       `user_genre` ";
+			$sql .= "INNER JOIN `genre` ON `user_genre`.`genre_id` = `genre`.`id` ";
+			$sql .= "WHERE      `user_genre`.`user_id` = ? ";
+			$sql .= "ORDER BY   `genre`.`sort` ASC ";
+			$arg_list = array($id);
+			$genre_list = $this->query($sql, $arg_list);
+
 			// 取得（ステージ）
 			$sql  = "SELECT   `stage`.`id` ";
 			$sql .= "        ,`stage`.`name` ";
@@ -369,10 +379,54 @@ class PublicController extends Common
 			$arg_list = array($id);
 			$character_list = $this->query($sql, $arg_list);
 
+			// 取得（ステージタグ）
+			if (count($stage_list) > 0)
+			{
+				$stage_list = $this->setArrayKey($stage_list, "id");
+
+				$arg_list = array();
+				$sql  = "SELECT     `stage_tag`.`stage_id` ";
+				$sql .= "          ,`tag`.`id` ";
+				$sql .= "          ,`tag`.`category` ";
+				$sql .= "          ,`tag`.`name` ";
+				$sql .= "          ,`tag`.`name_short` ";
+				$sql .= "FROM       `stage_tag` ";
+				$sql .= "INNER JOIN `tag` ";
+				$sql .= "  ON       `stage_tag`.`tag_id` = `tag`.`id` ";
+				$sql .= "WHERE      `stage_tag`.`stage_id` IN (" . implode(",", array_fill(0, count($stage_list), "?")) . ") ";
+				$sql .= "ORDER BY   `stage_tag`.`stage_id` ASC ";
+				$sql .= "          ,`tag`.`category` ASC ";
+				$sql .= "          ,`tag`.`sort` ASC ";
+				foreach ($stage_list as $v)
+				{
+					$arg_list[] = $v['id'];
+				}
+				$tag_list = $this->query($sql, $arg_list);
+
+				if (count($tag_list) > 0)
+				{
+					$category_list = $this->getConfig("tag_category", "value");
+					foreach ($tag_list as $v)
+					{
+						$stage_list[$v['stage_id']]['tag_list'][] = array(
+							'id'            => $v['id'],
+							'category'      => $v['category'],
+							'category_key'  => $category_list[$v['category']]['key'],
+							'category_name' => $category_list[$v['category']]['name'],
+							'name'          => $v['name'],
+							'name_short'    => $v['name_short'],
+						);
+					}
+				}
+
+				// 配列のキーをリセット
+				$stage_list = array_values($stage_list);
+			}
 
 			// 戻り値
-			$return_list['user'] = $user_list[0];
-			$return_list['stage_list'] = $stage_list;
+			$return_list['user']           = $user_list[0];
+			$return_list['genre_list']     = $genre_list;
+			$return_list['stage_list']     = $stage_list;
 			$return_list['character_list'] = $character_list;
 			return $return_list;
 		}
