@@ -32,12 +32,12 @@
       <div class="row">
         <div class="col-md-12">
 
-              <div class="private-user-url">
-                <small>
-                  {$user.name|escape:'html'}さんの公開ページは以下のURLです。<br>
-                  <a href="/public/user/detail.php?u={$user.login_id}" target="_blank">http://{$smarty.server.SERVER_NAME}/public/user/detail.php?u={$user.login_id}</a>
-                </small>
-              </div>
+          <div class="private-url">
+            <small>
+              {$user.name|escape:'html'}さんの公開ページは以下のURLです。<br>
+              <a href="/public/user/detail.php?u={$user.login_id}">http://{$smarty.server.SERVER_NAME}/public/user/detail.php?u={$user.login_id}</a>
+            </small>
+          </div>
 
           <div class="box collapsed-box">
             <div class="box-header with-border clickable" data-widget="collapse">

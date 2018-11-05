@@ -24,7 +24,7 @@
       <ol class="breadcrumb">
         <li><a href="/">トップ</a></li>
         <li><a href="/user/character/">キャラクター管理</a></li>
-        <li class="active">編集</li>
+        <li class="active">[{$character.name|escape:'html'}]編集</li>
       </ol>
     </section>
 
@@ -41,6 +41,15 @@
       <div class="row">
 
         <div class="col-md-12">
+        {if $character.is_private != 1}
+          <div class="private-url">
+            <small>
+              「{$character.name|escape:'html'}」の公開ページは以下のURLです。<br>
+              <a href="/public/character/detail.php?user={$character.login_id}&id={$character.id}">http://{$smarty.server.SERVER_NAME}/public/character/detail.php?user={$character.login_id}&id={$character.id}</a>
+            </small>
+          </div>
+        {/if}
+
           <div class="box">
             <div class="box-header with-border">
               <h3 class="box-title">基本情報</h3>
@@ -61,9 +70,6 @@
               </div>
               <div class="private-character-remarks"><small>{if $character.remarks != ""}{$character.remarks|escape:'html'|nl2br}{else}（備考は登録されていません）{/if}</small></div>
               <div class="box-body text-align-right">
-              {if $character.is_private != 1}
-                <button type="button" class="btn btn-primary" onclick="window.open('/public/character/detail.php?user={$character.login_id}&id={$character.id}');">公開用ページを見る</button>
-              {/if}
                 <button type="button" class="btn btn-primary" onclick="$('#area-viewCharacter').hide();$('#area-setCharacter').show();">内容を編集する</button>
               </div>
             </div>

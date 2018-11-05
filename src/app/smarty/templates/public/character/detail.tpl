@@ -22,6 +22,11 @@
     <section class="content-header">
       <h1>{$character.name|escape:'html'}</h1>
       <small><a href="/public/user/detail.php?u={$character.user_login_id}">by {$character.user_name|escape:'html'}@{$character.user_login_id}</a></small>
+      <ol class="breadcrumb">
+        <li><a href="/">トップ</a></li>
+        <li><a href="/public/user/detail.php?u={$character.user_login_id}">{if $character.user_name != ""}{$character.user_name|escape:'html'}{else} - {/if}さんのキャラクター</a></li>
+        <li class="active">「{$character.name|escape:'html'}」</li>
+      </ol>
     </section>
 
     <!-- Main content -->

@@ -24,7 +24,7 @@
       <ol class="breadcrumb">
         <li><a href="/">トップ</a></li>
         <li><a href="/user/stage/">ステージ管理</a></li>
-        <li class="active">編集</li>
+        <li class="active">[{$stage.name|escape:'html'}]編集</li>
       </ol>
     </section>
 
@@ -41,6 +41,15 @@
       <div class="row">
 
         <div class="col-md-12">
+        {if $stage.is_private != 1}
+          <div class="private-url">
+            <small>
+              「{$stage.name|escape:'html'}」の公開ページは以下のURLです。<br>
+              <a href="/public/stage/detail.php?user={$stage.login_id}&id={$stage.id}">http://{$smarty.server.SERVER_NAME}/public/user/detail.php?user={$stage.login_id}&id={$stage.id}</a>
+            </small>
+          </div>
+        {/if}
+
           <div class="box">
             <div class="box-header with-border">
               <h3 class="box-title">基本情報</h3>
@@ -61,9 +70,6 @@
               </div>
               <div class="private-stage-remarks"><small>{if $stage.remarks != ""}{$stage.remarks|escape:'html'|nl2br}{else}（説明文は登録されていません）{/if}</small></div>
               <div class="box-body text-align-right">
-              {if $stage.is_private != 1}
-                <button type="button" class="btn btn-primary" onclick="window.open('/public/stage/detail.php?user={$stage.login_id}&id={$stage.id}');">公開用ページを見る</button>
-              {/if}
                 <button type="button" class="btn btn-primary" onclick="$('#area-viewStage').hide();$('#area-setStage').show();">内容を編集する</button>
               </div>
             </div>
