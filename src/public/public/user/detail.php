@@ -6,7 +6,7 @@ require_once("../../../app/initialize.php");
 // --------------
 // テンプレート名
 // --------------
-$template_name = "public/character/detail";
+$template_name = "public/user/detail";
 
 // --------------------
 // コントローラ読み込み
@@ -14,9 +14,6 @@ $template_name = "public/character/detail";
 
 $uc = new UserController();
 $uc->init();
-
-// $tc = new TagController();
-// $tc->init();
 
 $pc = new PublicController();
 $pc->init();
@@ -27,22 +24,20 @@ $pc->init();
 // ----------------------------------
 $smarty_param = array();
 
-// キャラクター
-$id   = isset($_GET['id'])   ? $_GET['id'] : "";
-$user = isset($_GET['user']) ? $_GET['user'] : "";
-$character = $pc->getCharacter(array('id' => $id, 'login_id' => $user));
+// ユーザー
+$login_id = isset($_GET['u']) ? $_GET['u'] : "";
+$user = $pc->getUser(array('login_id' => $login_id));
 
-if (isset($character['error_redirect']) && $character['error_redirect'] != "")
+if (isset($user['error_redirect']) && $user['error_redirect'] != "")
 {
-	header("Location: /err/" . $character['error_redirect'] . ".php");
+	header("Location: /err/" . $user['error_redirect'] . ".php");
 	exit();
 }
 
-$smarty_param['character'] = $character['character'];
-
-// シリーズタグ一覧
-// $tag_catgory_list = $tc->getConfig("tag_category", "key");
-// $smarty_param['series_list'] = $tc->table(array('category_list' => array($tag_catgory_list['series']['value'])));
+$smarty_param['user']           = $user['user'];
+$smarty_param['genre_list']     = $user['genre_list'];
+$smarty_param['stage_list']     = $user['stage_list'];
+$smarty_param['character_list'] = $user['character_list'];
 
 // 必ず指定 //////////////////////////////
 // Smartyデバッグ用

@@ -28,16 +28,46 @@
       </ol>
     </section>
 
+<p class="hint-box">
+  UIを大きく変更しました。<br>
+  編集や削除を行いたい場合は「内容を編集する」をクリックしてください。<br>
+  キャラクターの公開/非公開を切り替えたいときはタイトル横の鍵マークをクリックしてください。<br>
+  （鍵が閉まっている黄色いアイコンは「非公開」、鍵が開いているグレーのアイコンは「公開」を表します）<br>
+  {* 公開状態の場合のみ「公開用ページを見る」のリンク先は他人からも閲覧可能です。 *}
+</p>
+
     <!-- Main content -->
     <section class="content">
       <div class="row">
 
         <div class="col-md-12">
           <div class="box">
-            <div class="box-header">
+            <div class="box-header with-border">
               <h3 class="box-title">基本情報</h3>
             </div>
-            <div class="box-body" id="area-setCharacter">
+            <div class="box-body" id="area-viewCharacter">
+              <div>
+                <span class="is_private_icon is_private_{$character.is_private} clickable" onclick="setCharacterIsPrivate({if $character.is_private == 1}0{else}1{/if});">
+                  <i class="fa {if $character.is_private == 1}fa-lock{else}fa-unlock{/if} fa-fw"></i>
+                </span>
+                <span><big>{$character.name|escape:'html'}</big></span>
+              </div>
+              <div class="private-character-stage">
+                {foreach from=$stage_list key=k item=v_stage}
+                {if isset($character.stage_list) && is_array($character.stage_list) && in_array($v_stage.id, array_column($character.stage_list, 'id'))}
+                  <span class="badge stage" value="{$v_stage.id}">{$v_stage.name}</span>
+                {/if}
+                {/foreach}
+              </div>
+              <div class="private-character-remarks"><small>{if $character.remarks != ""}{$character.remarks|escape:'html'|nl2br}{else}（備考は登録されていません）{/if}</small></div>
+              <div class="box-body text-align-right">
+              {if $character.is_private != 1}
+                <button type="button" class="btn btn-primary" onclick="window.open('/public/character/detail.php?user={$character.login_id}&id={$character.id}');">公開用ページを見る</button>
+              {/if}
+                <button type="button" class="btn btn-primary" onclick="$('#area-viewCharacter').hide();$('#area-setCharacter').show();">内容を編集する</button>
+              </div>
+            </div>
+            <div class="box-body" id="area-setCharacter" style="display:none;">
               <input type="hidden" class="form-id" value="{$character.id}">
               <div class="form-group">
                 <label>キャラクター名</label>
@@ -52,9 +82,9 @@
                 <div>
                 {foreach from=$stage_list key=k item=v_stage}
                 {if isset($character.stage_list) && is_array($character.stage_list) && in_array($v_stage.id, array_column($character.stage_list, 'id'))}
-                  <span class="badge stage stage-selectable" value="{$v_stage.id}">{$v_stage.name}</span>
+                  <span class="badge stage stage-selectable clickable" value="{$v_stage.id}">{$v_stage.name}</span>
                 {else}
-                  <span class="badge stage stage-notselected stage-selectable" value="{$v_stage.id}">{$v_stage.name}</span>
+                  <span class="badge stage stage-notselected stage-selectable clickable" value="{$v_stage.id}">{$v_stage.name}</span>
                 {/if}
                 {/foreach}
                 </div>
@@ -63,25 +93,11 @@
                 <label>備考</label>
                 <textarea name="remarks" class="form-control form-remarks">{$character.remarks}</textarea>
               </div>
-            </div>
-            <div class="box-body button-layout-right">
-              <button type="button" class="btn btn-primary" onclick="setCharacter();">更新する</button>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-md-12">
-          <div class="box">
-            <div class="box-header">
-              <h3 class="box-title">このキャラクターに対する操作</h3>
-            </div>
-            <div class="box-body">
-{***
-              <button type="button" class="btn btn-primary btn-block{if $stage.is_private == 1} hidden{/if}" onclick="window.open('/public/stage/detail.php?user={$stage.login_id}&id={$stage.id}');">公開用ページを見る</button>
-***}
-              <button type="button" class="btn btn-primary btn-block{if $character.is_private != 1} hidden{/if}" onclick="setCharacterIsPrivate(0);">公開する<small>(現在非公開です)</small></button>
-              <button type="button" class="btn btn-primary btn-block{if $character.is_private == 1} hidden{/if}" onclick="setCharacterIsPrivate(1);">非公開にする<small>(現在公開中です)</small></button>
-              <button type="button" class="btn btn-warning btn-block" onclick="delCharacter();">削除する</button>
+              <div class="box-body text-align-right">
+                <button type="button" class="btn btn-default pull-left" onclick="$('#area-setCharacter').hide();$('#area-viewCharacter').show();">キャンセル</button>
+                <button type="button" class="btn btn-warning" onclick="delCharacter();">削除する</button>
+                <button type="button" class="btn btn-primary" onclick="setCharacter();">更新する</button>
+              </div>
             </div>
           </div>
         </div>
@@ -101,9 +117,9 @@
 -->
                 <ul class="timeline" id="timeline_for_stage_template">
                 {foreach from=$timeline key=k_tl item=v_tl}
-                  <li class="time-label timeline-stage_name" data-id="{$v_tl.id}">
+                  <li class="time-label timeline-stage_name clickable" data-id="{$v_tl.id}" onclick="location.href='/user/stage/edit.php?id={$v_tl.id}';">
                     <span class="{if $v_tl.is_private == 1}bg-gray{else}bg-blue{/if} timeline-title">
-                      <span>{$v_tl.name}</span>
+                      <span>{$v_tl.name|escape:'html'}</span>
                     </span>
                   </li>
                 {if isset($v_tl.episode_list) && is_array($v_tl.episode_list)}
@@ -111,7 +127,7 @@
                 {if $v_episode.is_label == 1}
                   <li class="time-label timeline-label timeline-label_title" data-id="{$v_episode.id}">
                     <span class="{if $v_episode.is_private == 1}bg-gray{else}bg-red{/if} timeline-title">
-                      <span>{$v_episode.title}</span>
+                      <span>{$v_episode.title|escape:'html'}</span>
                     </span>
                   </li>
                 {else}
@@ -121,13 +137,13 @@
                     {if $v_episode.category == "3"}<i class="fa fa-user {if $v_episode.is_private == 1}bg-gray{else}bg-yellow{/if}"></i>{/if}
                     <div class="timeline-item">
                     {if $v_episode.title != ""}
-                      <h3 class="timeline-header timeline-title no-border">{$v_episode.title}</h3>
+                      <h3 class="timeline-header timeline-title no-border">{$v_episode.title|escape:'html'}</h3>
                     {/if}
                     {if $v_episode.free_text != "" || $v_episode.url != ""}
                       <div class="timeline-body">
                         <small>
                         {if $v_episode.free_text != ""}
-                          <p class="timeline-free_text">{$v_episode.free_text}</p>
+                          <p class="timeline-free_text">{$v_episode.free_text|escape:'html'|nl2br}</p>
                         {/if}
                         {if $v_episode.url != ""}
                           <p class="timeline-url"><a href="{$v_episode.url}" target="_blank">{$v_episode.url_view}</a></p>
@@ -143,8 +159,8 @@
                 {/foreach}
 
 {*** コピペ用
-                  <li class="time-label timeline-editable timeline-label template-for-copy" data-id="" data-toggle="modal" data-target="#modal-setEpisode"><span class="bg-red timeline-title"></span></li>
-                  <li class="timeline-content timeline-editable template-for-copy" data-id="" data-toggle="modal" data-target="#modal-setEpisode">
+                  <li class="time-label timeline-editable timeline-label clickable template-for-copy" data-id="" data-toggle="modal" data-target="#modal-setEpisode"><span class="bg-red timeline-title"></span></li>
+                  <li class="timeline-content timeline-editable clickable template-for-copy" data-id="" data-toggle="modal" data-target="#modal-setEpisode">
                     <i class="fa fa-arrow-right bg-blue"></i>
                     <div class="timeline-item">
                       <h3 class="timeline-header timeline-title no-border"></h3>
@@ -164,7 +180,7 @@
                 <button type="button" class="btn btn-primary pull-right">このキャラクターにエピソードを追加する</button>
                 <ul>
               {foreach from=$character.stage_list key=k item=v_stage}
-                <li><a href="/user/stage/edit.php?id={$v_stage.id}">{$v_stage.name}</a></li>
+                <li><a href="/user/stage/edit.php?id={$v_stage.id}">{$v_stage.name|escape:'html'}</a></li>
               {/foreach}
                 </ul>
 

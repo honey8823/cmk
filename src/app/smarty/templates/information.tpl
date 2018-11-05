@@ -30,7 +30,7 @@
           <div>
 
             <div class="box box-primary information_list template-for-copy">
-              <div class="box-header"><h3 class="box-title information-date"></h3></div>
+              <div class="box-header with-border"><h3 class="box-title information-date"></h3></div>
               <div class="box-body information-content"></div>
             </div>
 

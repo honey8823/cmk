@@ -27,7 +27,7 @@
     <section class="content container-fluid">
 
       <div class="box box-primary">
-        <div class="box-header"><h3 class="box-title"><i class="fa fa-check fa-fw"></i>まずはシンプルなタイムラインを作ってみる</h3></div>
+        <div class="box-header with-border"><h3 class="box-title"><i class="fa fa-check fa-fw"></i>まずはシンプルなタイムラインを作ってみる</h3></div>
         <div class="box-body">
           <h4>【STEP1】ステージを追加する</h4>
           <small>
@@ -61,7 +61,7 @@
       </div>
 
       <div class="box box-primary">
-        <div class="box-header"><h3 class="box-title"><i class="fa fa-check fa-fw"></i>ステージへ情報を追加する＜ジャンル編＞</h3></div>
+        <div class="box-header with-border"><h3 class="box-title"><i class="fa fa-check fa-fw"></i>ステージへ情報を追加する＜ジャンル編＞</h3></div>
         <div class="box-body">
           <h4>【STEP1】アカウント情報を変更する</h4>
           <small>
@@ -69,7 +69,7 @@
             このサイトで使うジャンルを選んで保存してください。<br>
             ※ジャンルの自由入力に対応する予定はありません。<br>
             　追加希望はいつでも受け付けていますので、<br>
-            　トップページの匿名フォームや作者Twitterにてお気軽にお知らせください。
+            　<a href="/">トップページの匿名フォーム</a>や<a href="https://twitter.com/smtk_tks">作者Twitter</a>にてお気軽にお知らせください。
           </small>
           <h4>【STEP2】ステージに関連作品を設定する</h4>
           <small>
@@ -82,7 +82,7 @@
       </div>
 
       <div class="box box-primary">
-        <div class="box-header"><h3 class="box-title"><i class="fa fa-check fa-fw"></i>ステージへ情報を追加する＜キャラクター編＞</h3></div>
+        <div class="box-header with-border"><h3 class="box-title"><i class="fa fa-check fa-fw"></i>ステージへ情報を追加する＜キャラクター編＞</h3></div>
         <div class="box-body">
           <u>※この肝心のキャラクター系機能はいろいろと未実装です…。今後拡張していく予定です。</u>
           <h4>【STEP1】キャラクターを追加する</h4>

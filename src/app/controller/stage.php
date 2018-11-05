@@ -22,7 +22,8 @@ class StageController extends Common
 			$sql .= "WHERE    `user_id` = ? ";
 			$arg_list[] = $user_id;
 			$sql .= "AND      `is_delete` <> 1 ";
-			$sql .= "ORDER BY `sort` ASC ";
+			$sql .= "ORDER BY `sort` = 0 ASC ";
+			$sql .= "        ,`sort` ASC ";
 			$stage_list = $this->query($sql, $arg_list);
 
 			// 取得（タグ）・整形
@@ -40,7 +41,7 @@ class StageController extends Common
 				$sql .= "INNER JOIN `tag` ";
 				$sql .= "  ON       `stage_tag`.`tag_id` = `tag`.`id` ";
 				$sql .= "WHERE      `stage_tag`.`stage_id` IN (" . implode(",", array_fill(0, count($stage_list), "?")) . ") ";
-				$sql .= "ORDER BY   `stage_tag`.`stage_id` DESC ";
+				$sql .= "ORDER BY   `stage_tag`.`stage_id` ASC ";
 				$sql .= "          ,`tag`.`category` ASC ";
 				$sql .= "          ,`tag`.`sort` ASC ";
 				foreach ($stage_list as $v)
@@ -151,13 +152,16 @@ class StageController extends Common
 			$arg_list = array();
 			$sql  = "SELECT     `character`.`id` ";
 			$sql .= "          ,`character`.`name` ";
-			$sql .= "FROM       `character_stage` ";
+			$sql .= "          ,`character`.`is_private` ";
+			$sql .= "FROM       `stage_character` ";
 			$sql .= "INNER JOIN `character` ";
-			$sql .= "  ON       `character_stage`.`character_id` = `character`.`id` ";
-			$sql .= "WHERE      `character_stage`.`stage_id` = ? ";
+			$sql .= "  ON       `stage_character`.`character_id` = `character`.`id` ";
+			$sql .= "WHERE      `stage_character`.`stage_id` = ? ";
+			$sql .= "AND        `character`.`user_id` = ? ";
 			$sql .= "AND        `character`.`is_delete` <> 1 ";
-			$sql .= "ORDER BY   `character_stage`.`sort` ASC ";
-			$arg_list = array($id);
+			$sql .= "ORDER BY   `stage_character`.`sort` = 0 ASC ";
+			$sql .= "          ,`stage_character`.`sort` ASC ";
+			$arg_list = array($id, $user_id);
 			$character_list = $this->query($sql, $arg_list);
 			$stage_list[0]['character_list'] = array();
 			if (count($character_list) > 0)
@@ -165,8 +169,9 @@ class StageController extends Common
 				foreach ($character_list as $v)
 				{
 					$stage_list[0]['character_list'][] = array(
-						'id'    => $v['id'],
-						'name'  => $v['name'],
+						'id'         => $v['id'],
+						'name'       => $v['name'],
+						'is_private' => $v['is_private'],
 					);
 				}
 			}
@@ -186,7 +191,7 @@ class StageController extends Common
 		try
 		{
 			// ユーザID
-			$user_id    = $this->getLoginId();
+			$user_id = $this->getLoginId();
 			if ($user_id === false)
 			{
 				return array('error_redirect' => "session");
@@ -320,7 +325,7 @@ class StageController extends Common
 			$this->query($sql, $arg_list);
 
 			// タグ登録
-			// 一度全削除して再登録
+			// 一度全削除して再登録（sortがないため問題なし）
 			$sql  = "DELETE FROM `stage_tag` ";
 			$sql .= "WHERE `stage_id` = ? ";
 			$arg_list = array($id);
@@ -419,7 +424,7 @@ class StageController extends Common
 		try
 		{
 			// ユーザID
-			$user_id    = $this->getLoginId();
+			$user_id = $this->getLoginId();
 			if ($user_id === false)
 			{
 				return array('error_redirect' => "session");
@@ -445,6 +450,149 @@ class StageController extends Common
 
 			// 戻り値
 			$return_list = array($id_list);
+			return $return_list;
+		}
+		catch (Exception $e)
+		{
+			$this->exception($e);
+		}
+	}
+
+	public function setCharacterSort($param_list = array())
+	{
+		try
+		{
+			// ユーザID
+			$user_id = $this->getLoginId();
+			if ($user_id === false)
+			{
+				return array('error_redirect' => "session");
+			}
+
+			// 引数
+			$stage_id = $param_list['stage_id'];
+			$id_list  = isset($param_list['id_list']) && is_array($param_list['id_list']) ? $param_list['id_list'] : array();
+
+			// 更新
+			$sql  = "UPDATE `stage_character` ";
+			$sql .= "SET    `sort` = ? ";
+			$sql .= "WHERE  `character_id` = ? ";
+			$sql .= "AND    `stage_id` IN (SELECT `id` FROM `stage` WHERE `stage_id` = ? AND `user_id` = ?) ";
+			foreach ($id_list as $sort => $id)
+			{
+				$arg_list = array(
+					$sort + 1,
+					$id,
+					$stage_id,
+					$user_id,
+				);
+				$this->query($sql, $arg_list);
+			}
+
+			// 戻り値
+			$return_list = array($id_list);
+			return $return_list;
+		}
+		catch (Exception $e)
+		{
+			$this->exception($e);
+		}
+	}
+
+	public function upsertCharacter($param_list = array())
+	{
+		try
+		{
+			// ユーザID
+			$user_id = $this->getLoginId();
+			if ($user_id === false)
+			{
+				return array('error_redirect' => "session");
+			}
+
+			// 引数
+			$stage_id       = $param_list['stage_id'];
+			$character_list = isset($param_list['character_list']) && is_array($param_list['character_list']) ? $param_list['character_list'] : array();
+
+			// バリデート
+			$err_list = array();
+			if (!preg_match("/^[0-9]+$/", $stage_id))
+			{
+				$err_list[] = "存在しないデータです。最初からやり直してください。";
+				return array('error_message_list' => $err_list);
+			}
+			else
+			{
+				$sql  = "SELECT `id` FROM `stage` WHERE `id` = ? AND `user_id` = ? AND `is_delete` <> 1 ";
+				$arg_list = array($stage_id, $user_id);
+				$r = $this->query($sql, $arg_list);
+				if (count($r) != 1)
+				{
+					$err_list[] = "存在しないデータです。最初からやり直してください。";
+					return array('error_message_list' => $err_list);
+				}
+			}
+
+			// 変更後のデータを取得
+			$character_list = array_filter($character_list, function($v){return(preg_match("/^[0-9]+$/", $v));});
+			$new_character_list = array();
+			$after_character_list = array();
+			if (count($character_list) > 0)
+			{
+				// 登録できないデータ（削除済み・本人のデータでないもの）を省く
+				$sql  = "SELECT `id`, `name`, `is_private` FROM `character` WHERE `id` IN (" . implode(",", array_fill(0, count($character_list), "?")) . ") AND `user_id` = ? AND `is_delete` <> 1 ";
+				$arg_list = $character_list;
+				$arg_list[] = $user_id;
+				$new_character_list = $this->query($sql, $arg_list);
+				$after_character_list = array_column($new_character_list, "id");
+				$new_character_list = $this->setArrayKey($new_character_list, "id");
+			}
+
+			// 変更前のデータを取得
+			$sql  = "SELECT `character_id` ";
+			$sql .= "FROM   `stage_character` ";
+			$sql .= "WHERE  `stage_id` = ? ";
+			$arg_list = array($stage_id);
+			$before_character_list = array_column($this->query($sql, $arg_list), "character_id");
+
+			// 削除対象
+			$del_character_list = array_diff($before_character_list, $after_character_list);
+
+			// 追加対象
+			$add_character_list = array_diff($after_character_list, $before_character_list);
+
+			// 不要なものを削除
+			if (count($del_character_list) > 0)
+			{
+				$arg_list = array();
+				$sql  = "DELETE FROM `stage_character` ";
+				$sql .= "WHERE `stage_id` = ? ";
+				$sql .= "AND   `character_id` IN (" . implode(",", array_fill(0, count($del_character_list), "?")) . ") ";
+				$arg_list[] = $stage_id;
+				$arg_list = array_merge($arg_list, $del_character_list);
+				$this->query($sql, $arg_list);
+			}
+
+			// 必要なものを追加
+			if (count($add_character_list) > 0)
+			{
+				$arg_list = array();
+				$sql  = "INSERT INTO `stage_character` (`stage_id`, `character_id`) ";
+				$sql .= "VALUES " . implode(",", array_fill(0, count($add_character_list), "(?, ?)"));
+				foreach ($add_character_list as $v)
+				{
+					$arg_list[] = $stage_id;
+					$arg_list[] = $v;
+				}
+				$this->query($sql, $arg_list);
+			}
+
+			// 戻り値
+			$return_list = array(
+				'character_list'     => $new_character_list,
+				'del_character_list' => array_values($del_character_list),
+				'add_character_list' => array_values($add_character_list),
+			);
 			return $return_list;
 		}
 		catch (Exception $e)

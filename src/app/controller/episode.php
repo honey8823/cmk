@@ -1,84 +1,6 @@
 <?php
 class EpisodeController extends Common
 {
-	public function table($param_list = array())
-	{
-		try
-		{
-			// ユーザID
-			// ログイン状態でない場合はエラー
-			$user_id = $this->getLoginId();
-			if ($user_id === false)
-			{
-				return array('error_redirect' => "session");
-			}
-
-			$return_list = array();
-
-			// 取得（ステージ）
-			$arg_list = array();
-			$sql  = "SELECT   `id`, `name`, `sort`, `is_private` ";
-			$sql .= "FROM     `stage` ";
-			$sql .= "WHERE    `user_id` = ? ";
-			$arg_list[] = $user_id;
-			$sql .= "AND      `is_delete` <> 1 ";
-			$sql .= "ORDER BY `sort` ASC ";
-			$stage_list = $this->query($sql, $arg_list);
-
-			// 取得（タグ）・整形
-			if (count($stage_list) > 0)
-			{
-				$stage_list = $this->setArrayKey($stage_list, "id");
-
-				$arg_list = array();
-				$sql  = "SELECT    `stage_tag`.`stage_id` ";
-				$sql .= "         ,`tag`.`id` ";
-				$sql .= "         ,`tag`.`category` ";
-				$sql .= "         ,`tag`.`name` ";
-				$sql .= "         ,`tag`.`name_short` ";
-				$sql .= "FROM      `stage_tag` ";
-				$sql .= "INNER JOIN `tag` ";
-				$sql .= "  ON       `stage_tag`.`tag_id` = `tag`.`id` ";
-				$sql .= "WHERE      `stage_tag`.`stage_id` IN (" . implode(",", array_fill(0, count($stage_list), "?")) . ") ";
-				$sql .= "ORDER BY   `stage_tag`.`stage_id` DESC ";
-				$sql .= "          ,`tag`.`category` ASC ";
-				$sql .= "          ,`tag`.`sort` ASC ";
-				foreach ($stage_list as $v)
-				{
-					$arg_list[] = $v['id'];
-				}
-				$tag_list = $this->query($sql, $arg_list);
-
-				if (count($tag_list) > 0)
-				{
-					$category_list = $this->getConfig("tag_category", "value");
-					foreach ($tag_list as $v)
-					{
-						$stage_list[$v['stage_id']]['tag_list'][] = array(
-							'id'            => $v['id'],
-							'category'      => $v['category'],
-							'category_key'  => $category_list[$v['category']]['key'],
-							'category_name' => $category_list[$v['category']]['name'],
-							'name'          => $v['name'],
-							'name_short'    => $v['name_short'],
-						);
-					}
-				}
-
-				// 配列のキーをリセット
-				$stage_list = array_values($stage_list);
-			}
-
-			// 戻り値
-			$return_list['stage_list'] = $stage_list;
-			return $return_list;
-		}
-		catch (Exception $e)
-		{
-			$this->exception($e);
-		}
-	}
-
 	public function timeline($param_list = array())
 	{
 		try
@@ -92,8 +14,14 @@ class EpisodeController extends Common
 			}
 
 			// 引数
-			$stage_id     = isset($param_list['stage_id'])     ? trim($param_list['stage_id'])     : "";
-			$character_id = isset($param_list['character_id']) ? trim($param_list['character_id']) : "";
+			$stage_id = isset($param_list['stage_id']) ? trim($param_list['stage_id']) : "";
+
+			// ステージIDの指定がない場合は空を返す
+			if (!preg_match("/^[0-9]+$/", $stage_id))
+			{
+				$return_list['stage_list'] = array();
+				return $return_list;
+			}
 
 			$return_list = array();
 
@@ -115,18 +43,9 @@ class EpisodeController extends Common
 			$sql .= "                   AND `stage`.`is_delete` <> 1 ";
 			$arg_list[] = $user_id;
 			$sql .= "WHERE      `episode`.`is_delete` <> 1 ";
-			if ($stage_id != "")
-			{
-				$sql .= "AND `episode`.`stage_id` = ? ";
-				$arg_list[] = $stage_id;
-			}
-			if ($character_id != "")
-			{
-				$sql .= "AND `episode`.`id` IN (SELECT `episode_id` FROM `episode_character` WHERE `character_id` = ?) ";
-				$arg_list[] = $character_id;
-			}
-			$sql .= "ORDER BY `stage`.`sort` ASC ";
-			$sql .= "        ,`episode`.`sort` = 0 ASC ";
+			$sql .= "AND        `episode`.`stage_id` = ? ";
+			$arg_list[] = $stage_id;
+			$sql .= "ORDER BY `episode`.`sort` = 0 ASC ";
 			$sql .= "        ,`episode`.`sort` ASC ";
 			$sql .= "        ,`episode`.`id` ASC ";
 			$episode_list = $this->query($sql, $arg_list);
@@ -137,14 +56,17 @@ class EpisodeController extends Common
 				$episode_list = $this->setArrayKey($episode_list, "id");
 
 				$arg_list = array();
-				$sql  = "SELECT    `episode_character`.`episode_id` ";
-				$sql .= "         ,`character`.`id` ";
-				$sql .= "         ,`character`.`name` ";
-				$sql .= "FROM      `episode_character` ";
+				$sql  = "SELECT     `episode_character`.`episode_id` ";
+				$sql .= "          ,`character`.`id` ";
+				$sql .= "          ,`character`.`name` ";
+				$sql .= "FROM       `episode_character` ";
 				$sql .= "INNER JOIN `character` ON  `episode_character`.`character_id` = `character`.`id` ";
 				$sql .= "                       AND `character`.`is_delete` <> 1 ";
+				$sql .= "                       AND `character`.`user_id` = ? ";
+				$arg_list[] = $user_id;
 				$sql .= "WHERE      `episode_character`.`episode_id` IN (" . implode(",", array_fill(0, count($episode_list), "?")) . ") ";
 				$sql .= "ORDER BY   `episode_character`.`episode_id` ASC ";
+				$sql .= "          ,`character`.`sort` = 0 ASC ";
 				$sql .= "          ,`character`.`sort` ASC ";
 				foreach ($episode_list as $v)
 				{
@@ -196,7 +118,6 @@ class EpisodeController extends Common
 			}
 
 			// 引数
-			$stage_id     = isset($param_list['stage_id'])     ? trim($param_list['stage_id'])     : "";
 			$character_id = isset($param_list['character_id']) ? trim($param_list['character_id']) : "";
 
 			// キャラクターIDの指定がない場合は空を返す
@@ -209,19 +130,14 @@ class EpisodeController extends Common
 			$return_list = array();
 
 			// 取得（ステージ）
-			// 指定キャラクターの属するステージ、かつ指定のある場合は指定ステージ
+			// 指定キャラクターの属するステージ
 			$arg_list = array();
 			$sql  = "SELECT     `stage`.`id` ";
 			$sql .= "          ,`stage`.`name` ";
 			$sql .= "          ,`stage`.`is_private` ";
 			$sql .= "FROM       `stage` ";
-			$sql .= "WHERE      `stage`.`id` IN ( SELECT `stage_id` FROM `character_stage` WHERE `character_id` = ? ) ";
+			$sql .= "WHERE      `stage`.`id` IN ( SELECT `stage_id` FROM `stage_character` WHERE `character_id` = ? ) ";
 			$arg_list[] = $character_id;
-			if (preg_match("/^[0-9]+$/", $stage_id))
-			{
-				$sql .= "AND    `stage`.`id` = ? ";
-				$arg_list[] = $stage_id;
-			}
 			$sql .= "AND        `stage`.`user_id` = ? ";
 			$arg_list[] = $user_id;
 			$sql .= "AND        `stage`.`is_delete` <> 1 ";
@@ -230,7 +146,7 @@ class EpisodeController extends Common
 			$stage_list = $this->query($sql, $arg_list);
 			if (count($stage_list) == 0)
 			{
-				$return_list['stage_list'] = array(2);
+				$return_list['stage_list'] = array();
 				return $return_list;
 			}
 			$stage_list = $this->setArrayKey($stage_list, "id");
@@ -322,9 +238,11 @@ class EpisodeController extends Common
 			$sql .= "FROM       `episode_character` ";
 			$sql .= "INNER JOIN `character` ON  `episode_character`.`character_id` = `character`.`id` ";
 			$sql .= "                       AND `character`.`is_delete` <> 1 ";
+			$sql .= "                       AND `character`.`user_id` = ? ";
 			$sql .= "WHERE      `episode_character`.`episode_id` = ? ";
-			$sql .= "ORDER BY   `character`.`sort` ASC ";
-			$arg_list = array($id);
+			$sql .= "ORDER BY   `character`.`sort` = 0 ASC ";
+			$sql .= "          ,`character`.`sort` ASC ";
+			$arg_list = array($user_id, $id);
 			$character_list = $this->query($sql, $arg_list);
 			$episode_list[0]['character_list'] = array();
 			if (count($character_list) > 0)
@@ -404,7 +322,7 @@ class EpisodeController extends Common
 			{
 				if (!(strpos($url, "http://") === 0 || strpos($url, "https://") === 0 || strpos($url, "//") === 0))
 				{
-					$err_list[] = "URLは、「http://」「https://」「//」のいずれかから開始してください。";
+					$err_list[] = "URLは、「http://」「https://」のいずれかから開始してください。";
 				}
 			}
 			if (mb_strlen($url) > 256)
@@ -523,7 +441,7 @@ class EpisodeController extends Common
 				{
 					if (!(strpos($url, "http://") === 0 || strpos($url, "https://") === 0 || strpos($url, "//") === 0))
 					{
-						$err_list[] = "URLは、「http://」「https://」「//」のいずれかから開始してください。";
+						$err_list[] = "URLは、「http://」「https://」のいずれかから開始してください。";
 					}
 				}
 				if (mb_strlen($url) > 256)
@@ -543,12 +461,12 @@ class EpisodeController extends Common
 			// 登録
 			$arg_list = array();
 			$sql  = "UPDATE `episode` ";
-			$sql .= "SET `category`   = ?";
-			$sql .= "   ,`title`      = ?";
-			$sql .= "   ,`url`        = ?";
-			$sql .= "   ,`free_text`  = ?";
-			$sql .= "   ,`is_r18`     = ?";
-			$sql .= "   ,`is_private` = ?";
+			$sql .= "SET `category`   = ? ";
+			$sql .= "   ,`title`      = ? ";
+			$sql .= "   ,`url`        = ? ";
+			$sql .= "   ,`free_text`  = ? ";
+			$sql .= "   ,`is_r18`     = ? ";
+			$sql .= "   ,`is_private` = ? ";
 			$sql .= "WHERE `id` = ? ";
 			$arg_list[] = $category   == "" ? 0    : $category;
 			$arg_list[] = $title      == "" ? null : $title;
@@ -560,7 +478,7 @@ class EpisodeController extends Common
 			$this->query($sql, $arg_list);
 
 			// キャラクター登録
-			// 一度全削除して再登録
+			// 一度全削除して再登録（sortがないため問題なし）
 			$sql  = "DELETE FROM `episode_character` ";
 			$sql .= "WHERE `episode_id` = ? ";
 			$arg_list = array($id);
@@ -654,7 +572,11 @@ class EpisodeController extends Common
 			}
 			else
 			{
-				$sql  = "SELECT `id` FROM `stage` WHERE `id` = ? AND `user_id` = ? AND `is_delete` <> 1 ";
+				$sql  = "SELECT `id`  ";
+				$sql .= "FROM   `episode` ";
+				$sql .= "WHERE  `id` = ? ";
+				$sql .= "AND    `is_delete` <> 1 ";
+				$sql .= "AND    `stage_id` IN (SELECT `id` FROM `stage` WHERE `user_id` = ? AND `is_delete` <> 1) ";
 				$arg_list = array($id, $user_id);
 				$r = $this->query($sql, $arg_list);
 				if (count($r) != 1)
@@ -670,7 +592,7 @@ class EpisodeController extends Common
 
 			// 更新
 			$arg_list = array();
-			$sql  = "UPDATE `stage` ";
+			$sql  = "UPDATE `episode` ";
 			$sql .= "SET    `is_private` = ? ";
 			$sql .= "WHERE  `id` = ? ";
 			$arg_list[] = $is_private;
@@ -708,17 +630,21 @@ class EpisodeController extends Common
 			$err_list = array();
 			if (!preg_match("/^[0-9]+$/", $id))
 			{
-				$err_list[] = "存在しないデータです。最初からやり直してください。1";
+				$err_list[] = "存在しないデータです。最初からやり直してください。";
 				return array('error_message_list' => $err_list);
 			}
 			else
 			{
-				$sql  = "SELECT `id` FROM `episode` WHERE `id` = ? AND `is_delete` <> 1 AND `stage_id` IN (SELECT `id` FROM `stage` WHERE `user_id` = ?) ";
+				$sql  = "SELECT `id` ";
+				$sql .= "FROM   `episode` ";
+				$sql .= "WHERE  `id` = ? ";
+				$sql .= "AND    `is_delete` <> 1 ";
+				$sql .= "AND    `stage_id` IN (SELECT `id` FROM `stage` WHERE `user_id` = ?) ";
 				$arg_list = array($id, $user_id);
 				$r = $this->query($sql, $arg_list);
 				if (count($r) != 1)
 				{
-					$err_list[] = "存在しないデータです。最初からやり直してください。2";
+					$err_list[] = "存在しないデータです。最初からやり直してください。";
 					return array('error_message_list' => $err_list);
 				}
 			}

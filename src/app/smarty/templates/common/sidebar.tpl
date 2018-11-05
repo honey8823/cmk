@@ -50,7 +50,7 @@
         </li>
         <li>
           <a href="/user/account.php">
-            <i class="fa fa-fw fa-user-circle" aria-hidden="true"></i><span>アカウント情報</span>
+            <i class="fa fa-fw fa-user-circle" aria-hidden="true"></i><span>アカウント管理</span>
           </a>
         </li>
         <li>

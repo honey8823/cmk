@@ -104,3 +104,9 @@ function strcut(str, start, end){
     return str.substring(sidx, eidx);
 }
 
+/*
+ * 文字列のHTMLタグをエスケープし、改行文字を改行として扱う
+ */
+function strToText(str){
+	return $("<DUMMY>").text(str).html().replace(/\r\n|\r|\n/g, "<br>");
+}

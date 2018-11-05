@@ -9,10 +9,6 @@
 /* タグ */
 .label.tag-base{ /* タグ：基本 */
 	color: #FFFFFF;
-	margin: 0 5px;
-}
-.label.tag-selectable{ /* 選択が可能なタグ */
-	cursor: pointer;
 }
 .label.tag-genre{ /* ジャンルタグ */
 	background-color: #333333;
@@ -29,11 +25,6 @@
 	background-color: #B44A53;
 	color: #FFFFFF;
 	font-size: 0.75em;
-	margin: 3px;
-	padding: .2em .6em .3em:
-}
-.badge.stage-selectable{ /* 選択が可能なステージ */
-	cursor: pointer;
 }
 .badge.stage-notselected{ /* 未選択ステージ */
 	background-color: #CCCCCC;
@@ -47,22 +38,36 @@
 	margin: 3px;
 	padding: .2em .6em .3em:
 }
-.badge.character-selectable{ /* 選択が可能なキャラクター */
-	cursor: pointer;
-}
 .badge.character-notselected{ /* 未選択キャラクター */
 	background-color: #CCCCCC;
 }
 
+/****************/
+/* 管理ページ用 */
+/****************/
+
+/* 鍵アイコン */
+.is_private_icon{
+	font-size: 1.2em;
+}
+.is_private_icon.is_private_0{
+	color: #CCCCCC;
+}
+.is_private_icon.is_private_1{
+	color: #f39c12;
+}
+.timeline-editable > .is_private_icon{
+	margin-left: -0.5em;
+	margin-top: 0.2em;
+	position: absolute;
+}
+
 /* 管理用タイムライン */
 .timeline.timeline-stage{
-	margin: 30px 0 30px 0;
+	margin: 30px 0 30px 1em;
 }
 .timeline.timeline-stage > li{
 	margin: 0em 1em 0.5em 0;
-}
-.timeline-editable{
-	cursor: pointer;
 }
 .timeline-btn-area{
 	position: fixed;
@@ -87,6 +92,14 @@
 .timeline-label_title{
 	margin-left: 0.5em;
 }
+.timeline-editable > span.timeline-label-title{
+	padding-left: 1em;
+	margin-left: -0.7em;
+	padding-right: 1em;
+}
+.timeline-editable > .timeline-label-title > .is_private_icon{
+	margin-left: -0.7em;
+}
 
 /* 管理画面ステージ一覧 */
 .ul-stage{
@@ -104,14 +117,9 @@
 	padding: 0px 15px 0 0;
 	width: 2em;
 }
-.stage_list > .is_private > .stage_is_private_0{
-	color: #CCCCCC;
-}
-.stage_list > .is_private > .stage_is_private_1{
-	color: #f39c12;
-}
-.stage_list > .name{
-	width: 10em;
+.stage_list .name{
+	width: 15em;
+	display: inline-block;
 }
 .stage_list > .tag{
 	padding: 0px 15px 0 0;
@@ -133,12 +141,6 @@
 	padding: 0px 15px 0 0;
 	width: 2em;
 }
-.character_list > .is_private > .character_is_private_0{
-	color: #CCCCCC;
-}
-.character_list > .is_private > .character_is_private_1{
-	color: #f39c12;
-}
 .character_list > .name{
 	width: 10em;
 }
@@ -155,10 +157,77 @@
     height: 1.2em;
 }
 
-/* 公開ステージ説明文 */
-.public-stage-remarks{
-	padding: 1em 1.5em;
+/* 管理用ステージ：説明文 */
+.private-stage-remarks{
+	margin: 1em;
+	padding: 0.5em;
+	background: #EEEEEE;
+	border-radius: 0.5em;
 }
+
+/* 管理用ステージ：タグ */
+.private-stage-tag{
+	margin: 1em;
+}
+
+/* 管理用キャラクター：説明文 */
+.private-character-remarks{
+	margin: 1em;
+	padding: 0.5em;
+	background: #EEEEEE;
+	border-radius: 0.5em;
+}
+
+/* 管理用キャラクター：ステージ */
+.private-character-stage{
+	margin: 1em;
+}
+
+/* アカウント管理：URL記載スペース */
+.private-user-url{
+	padding: 0.5em;
+	background: #FFFFFF;
+	border-radius: 0.5em;
+	margin-bottom: 1em;
+}
+
+/****************/
+/* 公開ページ用 */
+/****************/
+
+/* 登録日時＋ツール */
+.public-info-box{
+	font-size: 0.75em;
+	color: #999999;
+}
+
+/* 公開ステージ：説明文 */
+.public-stage-remarks{
+	margin: 1em 2em;
+	padding: 0.5em;
+	background: #EEEEEE;
+	border-radius: 0.5em;
+}
+
+/* 公開キャラクター：説明文 */
+.public-character-remarks{
+	margin: 1em 2em;
+	padding: 0.5em;
+	background: #EEEEEE;
+	border-radius: 0.5em;
+}
+
+/* アカウント：コメント */
+.public-user-remarks{
+	margin: 1em 0;
+	padding: 0.5em;
+	background: #EEEEEE;
+	border-radius: 0.5em;
+}
+
+/****************/
+/* 一般ページ用 */
+/****************/
 
 /* ヘルプページ */
 .help-update_stamp{
@@ -184,7 +253,7 @@ li a {
 }
 
 /* ボタンの右寄せ */
-.button-layout-right{
+.text-align-right{
 	text-align: right;
 }
 
@@ -226,4 +295,16 @@ li a {
 .menu-tooltip:hover .menu-tooltiptext {
 	visibility: visible;
 	opacity: 1;
+}
+
+/* ヒント */
+p.hint-box {
+	color: white;
+	background-color: black;
+	opacity: 0.3;
+	margin: 1em;
+	border-radius: 5px;
+	text-align: center;
+	padding: 0.1em;
+	font-size: 0.75em;
 }

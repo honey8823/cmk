@@ -20,12 +20,8 @@
 
     <!-- Content Header (Page header) -->
     <section class="content-header">
-      <h1>キャラクター管理</h1>
-      <ol class="breadcrumb">
-        <li><a href="/">トップ</a></li>
-        <li><a href="/user/character/">キャラクター管理</a></li>
-        <li class="active">編集</li>
-      </ol>
+      <h1>{$character.name|escape:'html'}</h1>
+      <small><a href="/public/user/detail.php?u={$character.user_login_id}">by {$character.user_name|escape:'html'}@{$character.user_login_id}</a></small>
     </section>
 
     <!-- Main content -->
@@ -34,39 +30,21 @@
 
         <div class="col-md-12">
           <div class="box">
-            <div class="box-header">
-              <h3 class="box-title">基本情報</h3>
-            </div>
-            <div class="box-body" id="area-setCharacter">
-              <input type="hidden" class="form-id" value="{$character.id}">
-              <div>
-                <label>キャラクター名</label>
-                <span class="menu-tooltip">
-                  <i class="fa fa-question-circle fa-fw" aria-hidden="true"></i>
-                  <span class="menu-tooltiptext">{$config.tooltip.character_name}</span>
-                </span>
-                <input type="text" name="name" class="form-name" value="{$character.name}">
-              </div>
-              <div>
-                <label>属するステージ（複数選択可）</label>
-              {foreach from=$stage_list key=k item=v_stage}
-              {if isset($character.stage_list) && is_array($character.stage_list) && in_array($v_stage.id, array_column($character.stage_list, 'id'))}
-                <span class="badge stage stage-selectable" value="{$v_stage.id}">{$v_stage.name}</span>
-              {else}
-                <span class="badge stage stage-notselected stage-selectable" value="{$v_stage.id}">{$v_stage.name}</span>
-              {/if}
-              {/foreach}
-              </div>
-            </div>
-<!--
             <div class="box-body">
-              <button type="button" class="btn btn-primary{if $character.is_private != 1} hidden{else}{/if}" onclick="setCharacterIsPrivate(0);">公開する<small>(現在非公開です)</small></button>
-              <button type="button" class="btn btn-primary{if $character.is_private == 1} hidden{else}{/if}" onclick="setCharacterIsPrivate(1);">非公開にする<small>(現在公開中です)</small></button>
+            {foreach from=$character.tag_list key=k item=v_tag}
+              <span class="label tag-base tag-series" value="{$v_tag.id}">{$v_tag.name}</span>
+            {/foreach}
             </div>
--->
-            <div class="box-body button-layout-right">
-              <button type="button" class="btn btn-warning" onclick="delCharacter()">このキャラクターを削除</button>
-              <button type="button" class="btn btn-primary" onclick="setCharacter();">更新する</button>
+          {if $character.remarks != ""}
+            <div class="box-body public-character-remarks">
+              {$character.remarks|escape:'html'|nl2br}
+            </div>
+          {/if}
+            <div class="public-info-box text-align-right" style="padding: 1em;">
+              <p>登録日：{strtotime($character.create_stamp)|date_format:"%Y-%m-%d %H:%M"}</p>
+{*** [β版]お気に入り・通報
+              <i class="fa fa-heart-o" aria-hidden="true"></i>
+***}
             </div>
           </div>
         </div>
@@ -74,92 +52,63 @@
         <div class="col-md-12">
           <div class="nav-tabs-custom">
             <ul class="nav nav-tabs">
-              <li class="active"><a href="#tab-content-profile" data-toggle="tab" aria-expanded="true">基本プロフィール</a></li>
-              <li class=""><a href="#tab-content-timeline" data-toggle="tab" aria-expanded="false">タイムライン</a></li>
+              <li class="active"><a href="#tab-content-timeline" data-toggle="tab" aria-expanded="true">タイムライン</a></li>
 {***
-              <li class=""><a href="#tab-content-stage" data-toggle="tab" aria-expanded="false">ステージ</a></li>
+              <li class=""><a href="#tab-content-character" data-toggle="tab" aria-expanded="false">ステージ</a></li>
 ***}
             </ul>
             <div class="tab-content">
-              <div class="tab-pane active" id="tab-content-profile">
-{***
-                <button type="button" class="btn btn-primary pull-right">このキャラクターにエピソードを追加する</button>
-***}
-                <ul>
 
-                  <li class="character_profile_edit /*template-for-copy*/" style="display:inline-flex">
-                    <select>
-                      <option value="0" selected>--選択してください--</option>
-                      <option value="1">本名・フルネームなど</option>
-                      <option value="2">生年月日</option>
-                      <option value="3">性別</option>
-                      <option value="3">…とかいう</option>
-                      <option value="3">項目って</option>
-                      <option value="3">無限にあるよね</option>
-                    </select>
-                    <input type="text">
-                    <a href="">削除</a>
+              <div class="tab-pane active" id="tab-content-timeline">
+                <ul class="timeline">
+                {foreach from=$character.stage_list key=k_stage item=v_stage}
+                  <li class="time-label timeline-stage_name clickable" onclick="location.href='/public/stage/detail.php?user={$character.user_login_id}&id={$v_stage.id}';">
+                    <span class="bg-blue timeline-title">
+                      <span>{$v_stage.name|escape:'html'}</span>
+                    </span>
                   </li>
-
-                  <li class="character_profile_edit /*template-for-copy*/" style="display:inline-flex">
-                    <select>
-                      <option value="0" selected>--選択してください--</option>
-                      <option value="1">本名・フルネームなど</option>
-                      <option value="2">生年月日</option>
-                      <option value="3">性別</option>
-                      <option value="3">…とかいう</option>
-                      <option value="3">項目って</option>
-                      <option value="3">無限にあるよね</option>
-                    </select>
-                    <input type="text">
-                    <a href="">削除</a>
+                {if isset($v_stage.episode_list) && is_array($v_stage.episode_list)}
+                {foreach from=$v_stage.episode_list key=k_episode item=v_episode}
+                {if $v_episode.is_label == 1}
+                  <li class="time-label timeline-label timeline-label_title">
+                    <span class="bg-red timeline-title">
+                      <span>{$v_episode.title|escape:'html'}</span>
+                    </span>
                   </li>
-
-                  <li class="character_profile_edit /*template-for-copy*/" style="display:inline-flex">
-                    <select>
-                      <option value="0" selected>--選択してください--</option>
-                      <option value="1">本名・フルネームなど</option>
-                      <option value="2">生年月日</option>
-                      <option value="3">性別</option>
-                      <option value="3">…とかいう</option>
-                      <option value="3">項目って</option>
-                      <option value="3">無限にあるよね</option>
-                    </select>
-                    <input type="text">
-                    <a href="">削除</a>
-                  </li>
-
-                  <div><a href="">もっとふやす</a></div>
-                </ul>
-              </div>
-              <div class="tab-pane" id="tab-content-timeline">
-{***
-                <button type="button" class="btn btn-primary pull-right">このキャラクターにエピソードを追加する</button>
-***}
-                <ul class="timeline template-for-copy" id="timeline_for_stage_template">
-                  <li class="time-label timeline-editable timeline-label template-for-copy" data-id="" data-toggle="modal" data-target="#modal-setEpisode"><span class="bg-red timeline-title"></span></li>
-                  <li class="timeline-content timeline-editable template-for-copy" data-id="" data-toggle="modal" data-target="#modal-setEpisode">
-                    <i class="fa fa-arrow-right bg-blue"></i>
+                {else}
+                  <li class="timeline-content" data-id="{$v_episode.id}">
+                    {if $v_episode.category == "1"}<i class="fa fa-book {if $v_episode.is_private == 1}bg-gray{else}bg-green{/if}"></i>{/if}
+                    {if $v_episode.category == "2"}<i class="fa fa-users {if $v_episode.is_private == 1}bg-gray{else}bg-orange{/if}"></i>{/if}
+                    {if $v_episode.category == "3"}<i class="fa fa-user {if $v_episode.is_private == 1}bg-gray{else}bg-yellow{/if}"></i>{/if}
                     <div class="timeline-item">
-                      <h3 class="timeline-header timeline-title no-border"></h3>
+                    {if $v_episode.title != ""}
+                      <h3 class="timeline-header timeline-title no-border">{$v_episode.title|escape:'html'}</h3>
+                    {/if}
+                    {if $v_episode.free_text != "" || $v_episode.url != ""}
                       <div class="timeline-body">
                         <small>
-                          <p class="timeline-free_text"></p>
-                          <p class="timeline-url"><a href="" target="_blank"></a></p>
+                        {if $v_episode.free_text != ""}
+                          <p class="timeline-free_text">{$v_episode.free_text|escape:'html'|nl2br}</p>
+                        {/if}
+                        {if $v_episode.url != ""}
+                          <p class="timeline-url"><a href="{$v_episode.url}" target="_blank">{$v_episode.url_view|escape:'html'}</a></p>
+                        {/if}
                         </small>
                       </div>
+                    {/if}
                     </div>
                   </li>
-                </ul>
-                <ul class="timeline timeline-sort-area timeline-stage" id="timeline_for_stage">
+                {/if}
+                {/foreach}
+                {/if}
+                {/foreach}
                 </ul>
               </div>
 {***
-              <div class="tab-pane" id="tab-content-stage">
-                <button type="button" class="btn btn-primary pull-right">このキャラクターにエピソードを追加する</button>
+              <div class="tab-pane" id="tab-content-character">
                 <ul>
                 {foreach from=$character.stage_list key=k item=v_stage}
-                  <li><a href="/user/stage/edit.php?id={$v_stage.id}">{$v_stage.name}</a></li>
+                  <li><a href="/public/stage/detail.php?user={$character.user_login_id}&id={$v_stage.id}">{$v_stage.name|escape:'html'}</a></li>
                 {/foreach}
                 </ul>
               </div>
@@ -181,19 +130,21 @@
 
 <!-- JS start -->
 {include file='common/adminlte_js.tpl'}
+<script src="/js/lib/jquery.ui.touch-punch.min.js"></script>
 <script src="/js/common.js"></script>
 <script src="/js/sidebar.js"></script>
-<script src="/js/character.js"></script>
-<script src="/js/episode.js"></script>
 <script>
-// 読み込み完了時の処理
-$(function(){
-	// データ読み込み
-	var param = {
-		stage_id     : "",
-        character_id : {$character.id},
-	}
-	timeline(param);
+$(".timeline-free_text_show").on("click", function(){
+  $(".timeline-free_text").addClass("hidden");
+  $(".timeline-free_text_show").addClass("hidden");
+  $(".timeline-free_text_full").removeClass("hidden");
+  $(".timeline-free_text_hide").removeClass("hidden");
+});
+$(".timeline-free_text_hide").on("click", function(){
+  $(".timeline-free_text_full").addClass("hidden");
+  $(".timeline-free_text_hide").addClass("hidden");
+  $(".timeline-free_text").removeClass("hidden");
+  $(".timeline-free_text_show").removeClass("hidden");
 });
 </script>
 <!-- JS end -->

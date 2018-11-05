@@ -30,21 +30,24 @@
     <!-- Main content -->
     <section class="content">
       <div class="row">
-
         <div class="col-md-12">
-          <div class="box">
-            <div class="box-header">
-              <h3 class="box-title">基本情報</h3>
-            </div>
-            <div class="box-body" id="area-setUser">
-              <input type="hidden" class="form-id" value="{$user.id}">
 
-              <div class="form-group">
-                <label>ログインID（公開 / 必須）</label>
-                <input type="text" name="login_id" class="form-control form-login_id" value="{$user.login_id}">
+              <div class="private-user-url">
+                <small>
+                  {$user.name|escape:'html'}さんの公開ページは以下のURLです。<br>
+                  <a href="/public/user/detail.php?u={$user.login_id}" target="_blank">http://{$smarty.server.SERVER_NAME}/public/user/detail.php?u={$user.login_id}</a>
+                </small>
               </div>
+
+          <div class="box collapsed-box">
+            <div class="box-header with-border clickable" data-widget="collapse">
+              <h3 class="box-title">プロフィールを変更する</h3>
+
+            </div>
+            <div class="box-body" id="area-setUserProfile">
+              <input type="hidden" class="form-id" value="{$user.id}">
               <div class="form-group">
-                <label>ユーザー名（公開）</label>
+                <label>ユーザー名</label>
                 <input type="text" name="mail_name" class="form-control form-name" value="{$user.name}">
               </div>
               <div class="form-group">
@@ -52,24 +55,39 @@
                 <div>
                 {foreach from=$genre_list key=k item=v_genre}
                 {if isset($user.genre_list) && is_array($user.genre_list) && in_array($v_genre.id, array_column($user.genre_list, 'genre_id'))}
-                  <span class="label tag-base tag-genre tag-selectable" value="{$v_genre.id}">{$v_genre.title}</span>
+                  <span class="label tag-base tag-genre tag-selectable clickable" value="{$v_genre.id}">{$v_genre.title}</span>
                 {else}
-                  <span class="label tag-base tag-genre tag-selectable tag-notselected" value="{$v_genre.id}">{$v_genre.title}</span>
+                  <span class="label tag-base tag-genre tag-selectable clickable tag-notselected" value="{$v_genre.id}">{$v_genre.title}</span>
                 {/if}
                 {/foreach}
                 </div>
               </div>
               <div class="form-group">
-                <div class="checkbox">
-                  <label>
-                    <input type="checkbox" name="is_r18" class="form-is_r18"{if $user.is_r18 == "1"} checked{/if}>
-                    R18設定のコンテンツ表示を許可する
-                  </label>
-                </div>
+                <label>コメント</label>
+                <textarea class="form-control form-remarks" rows="3" name="remarks">{$user.remarks}</textarea>
               </div>
               <div class="form-group">
-                <label>Twitter ID（公開）</label>
-                <input type="text" name="mail_address" class="form-control form-twitter_id" value="{$user.twitter_id}">
+                <label>Twitter ID</label>
+                <input type="text" name="twitter_id" class="form-control form-twitter_id" value="{$user.twitter_id}">
+              </div>
+              <div class="form-group">
+                <label>Pixiv ID</label>
+                <input type="text" name="pixiv_id" class="form-control form-pixiv_id" value="{$user.pixiv_id}">
+              </div>
+            </div>
+            <div class="box-body text-align-right">
+              <button type="button" class="btn btn-primary" onclick="setUserProfile();">更新する</button>
+            </div>
+          </div>
+
+          <div class="box collapsed-box">
+            <div class="box-header with-border clickable" data-widget="collapse">
+              <h3 class="box-title">アカウント情報を変更する</h3>
+            </div>
+            <div class="box-body" id="area-setUserAccount">
+              <div class="form-group">
+                <label>ログインID（公開 / 必須）</label>
+                <input type="text" name="login_id" class="form-control form-login_id" value="{$user.login_id}">
               </div>
               <div class="form-group">
                 <label>メールアドレス（非公開）</label>
@@ -80,23 +98,44 @@
                 <input type="text" name="mail_address" class="form-control form-mail_address" value="{$user.mail_address}">
               </div>
               <div class="form-group">
-                <label>パスワード（非公開 / 変更する場合のみ）</label>
+                <div class="checkbox">
+                  <label>
+                    <input type="checkbox" name="is_r18" class="form-is_r18"{if $user.is_r18 == "1"} checked{/if}>
+                    R18設定のコンテンツ表示を許可する
+                  </label>
+                </div>
+              </div>
+            </div>
+            <div class="box-body text-align-right">
+              <button type="button" class="btn btn-primary" onclick="setUserAccount();">更新する</button>
+            </div>
+          </div>
+
+          <div class="box collapsed-box">
+            <div class="box-header with-border clickable" data-widget="collapse">
+              <h3 class="box-title">パスワードを変更する</h3>
+            </div>
+            <div class="box-body" id="area-setUserPassword">
+              <div class="form-group">
+                <label>現在のパスワード</label>
+                <input type="password_o" name="password_o" class="form-control form-password_o">
+              </div>
+              <div class="form-group">
+                <label>新しいパスワード</label>
                 <input type="password" name="password" class="form-control form-password">
               </div>
               <div class="form-group">
-                <label>パスワード（非公開 / 変更する場合のみもう一度）</label>
+                <label>新しいパスワード（もう一度）</label>
                 <input type="password" name="password_c" class="form-control form-password_c">
               </div>
             </div>
-            <div class="box-body button-layout-right">
-              <button type="button" class="btn btn-primary" onclick="setUser();">更新する</button>
+            <div class="box-body text-align-right">
+              <button type="button" class="btn btn-primary" onclick="setUserPassword();">更新する</button>
             </div>
           </div>
-        </div>
 
-        <div class="col-md-12">
-          <div class="box">
-            <div class="box-header">
+          <div class="box collapsed-box"">
+            <div class="box-header with-border clickable" data-widget="collapse">
               <h3 class="box-title">このアカウントに対する操作</h3>
             </div>
             <div class="box-body">

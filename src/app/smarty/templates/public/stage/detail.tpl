@@ -20,13 +20,8 @@
 
     <!-- Content Header (Page header) -->
     <section class="content-header">
-      <h1>{$stage.name}</h1>
-      <small>{$stage.user_name}@{$stage.user_login_id}</small>
-      <ol class="breadcrumb">
-        <li><a href="/">トップ</a></li>
-        <li><a href="#">{$stage.user_name}@{$stage.user_login_id}</a></li> {*** todo:: /public/stage/?user=** にリンク ***}
-        <li class="active">{$stage.name}</li>
-      </ol>
+      <h1>{$stage.name|escape:'html'}</h1>
+      <small><a href="/public/user/detail.php?u={$stage.user_login_id}">by {$stage.user_name|escape:'html'}@{$stage.user_login_id}</a></small>
     </section>
 
     <!-- Main content -->
@@ -42,8 +37,16 @@
             {/if}
             {/foreach}
             </div>
+          {if $stage.remarks != ""}
             <div class="box-body public-stage-remarks">
-              {$stage.remarks|nl2br}
+              {$stage.remarks|escape:'html'|nl2br}
+            </div>
+          {/if}
+            <div class="public-info-box text-align-right" style="padding: 1em;">
+              <p>登録日：{strtotime($stage.create_stamp)|date_format:"%Y-%m-%d %H:%M"}</p>
+{*** [β版]お気に入り・通報
+              <i class="fa fa-heart-o" aria-hidden="true"></i>
+***}
             </div>
           </div>
         </div>
@@ -52,7 +55,7 @@
           <div class="nav-tabs-custom">
             <ul class="nav nav-tabs">
               <li class="active"><a href="#tab-content-timeline" data-toggle="tab" aria-expanded="true">タイムライン</a></li>
-              {*** <li class=""><a href="#tab-content-character" data-toggle="tab" aria-expanded="false">キャラクター</a></li> ***}
+              <li class=""><a href="#tab-content-character" data-toggle="tab" aria-expanded="false">キャラクター</a></li>
             </ul>
             <div class="tab-content">
 
@@ -67,22 +70,22 @@
                   {if $v_episode.category == "2"}<i class="fa fa-users bg-orange"></i>{/if}
                   {if $v_episode.category == "3"}<i class="fa fa-user bg-yellow"></i>{/if}
                     <div class="timeline-item">
-                      {if $v_episode.title != ""}<h3 class="timeline-header timeline-title no-border">{$v_episode.title}</h3>{/if}
+                      {if $v_episode.title != ""}<h3 class="timeline-header timeline-title no-border">{$v_episode.title|escape:'html'}</h3>{/if}
                     {if $v_episode.url != "" || $v_episode.free_text != ""}
                       <div class="timeline-body">
                         <small>
                         {if $v_episode.free_text != ""}
-                          <p class="timeline-free_text">{$v_episode.free_text|nl2br}</p>
+                          <p class="timeline-free_text">{$v_episode.free_text|escape:'html'|nl2br}</p>
                         {/if}
                         {if $v_episode.free_text_full != ""}
-                          <p class="timeline-free_text_full hidden">{$v_episode.free_text_full|nl2br}</p>
+                          <p class="timeline-free_text_full hidden">{$v_episode.free_text_full|escape:'html'|nl2br}</p>
                           <div style="padding: 0.7em;">
                             <a class="timeline-free_text_show clickable">&gt;&gt;クリックで全文を表示</a>
                             <a class="timeline-free_text_hide clickable hidden">&gt;&gt;クリックで折り畳む</a>
                           </div>
                         {/if}
                         {if $v_episode.url != ""}
-                          <p class="timeline-url"><a href="{$v_episode.url}" target="_blank">{$v_episode.url_view}</a></p>
+                          <p class="timeline-url"><a href="{$v_episode.url}" target="_blank">{$v_episode.url_view|escape:'html'}</a></p>
                         {/if}
                         </small>
                       </div>
@@ -93,14 +96,18 @@
                 {/foreach}
                 </ul>
               </div>
-{***
+
               <div class="tab-pane" id="tab-content-character">
-                {foreach from=$stage.character_list key=k item=v_character}
-                  <li><a href="/user/character/edit.php?id={$v_character.id}">{$v_character.name}</a></li>
-                {/foreach}
-                </ul>
+                <div class="box-body no-padding">
+                  <ul class="nav nav-stacked ul-character">
+                  {foreach from=$stage.character_list key=k item=v_character}
+                    <li class="character_list" data-id="{$v_character.id}">
+                      <a href="/public/character/detail.php?user={$stage.user_login_id}&id={$v_character.id}" class="character_id"><span class="name"><span class="character_name">{$v_character.name|escape:'html'}</span></span></a>
+                    </li>
+                  {/foreach}
+                  </ul>
+                </div>
               </div>
-***}
             </div>
           </div>
         </div>
