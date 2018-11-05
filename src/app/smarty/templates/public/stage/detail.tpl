@@ -99,16 +99,15 @@
 
               <div class="tab-pane" id="tab-content-character">
                 <div class="box-body no-padding">
-                  <ul class="ul-character">
+                  <ul class="nav nav-stacked ul-character">
                   {foreach from=$stage.character_list key=k item=v_character}
                     <li class="character_list" data-id="{$v_character.id}">
-                      <span class="name"><a href="/public/character/detail.php?user={$stage.user_login_id}&id={$v_character.id}" class="character_id"><span class="character_name">{$v_character.name|escape:'html'}</span></a></span>
+                      <a href="/public/character/detail.php?user={$stage.user_login_id}&id={$v_character.id}" class="character_id"><span class="name"><span class="character_name">{$v_character.name|escape:'html'}</span></span></a>
                     </li>
                   {/foreach}
                   </ul>
                 </div>
               </div>
-
             </div>
           </div>
         </div>
