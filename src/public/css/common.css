@@ -63,6 +63,9 @@
 }
 
 /* 管理用タイムライン */
+.timeline.timeline-character{
+	margin: 1em 0 30px 1em;
+}
 .timeline.timeline-stage{
 	margin: 30px 0 30px 1em;
 }

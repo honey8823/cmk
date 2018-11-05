@@ -33,7 +33,6 @@
   編集や削除を行いたい場合は「内容を編集する」をクリックしてください。<br>
   ステージの公開/非公開を切り替えたいときはタイトル横の鍵マークをクリックしてください。<br>
   （鍵が閉まっている黄色いアイコンは「非公開」、鍵が開いているグレーのアイコンは「公開」を表します）<br>
-  公開状態の場合のみ「公開用ページを見る」のリンク先は他人からも閲覧可能です。
 </p>
 
     <!-- Main content -->
@@ -142,7 +141,10 @@
                   <li class="timeline-editable timeline-content clickable template-for-copy" data-id="" data-toggle="modal" data-target="#modal-setEpisode">
                     <span class="is_private_icon is_private_0 set_episode-is_private template-for-copy"><i class="fa fa-unlock fa-fw"></i></span>
                     <span class="is_private_icon is_private_1 set_episode-is_private template-for-copy"><i class="fa fa-lock fa-fw"></i></span>
-                    <i class="fa fa-arrow-right bg-blue"></i>
+                    <i class="fa fa-arrow-right bg-blue template-for-copy"></i>
+                    <i class="fa fa-book bg-green category_icon category_1 template-for-copy"></i>
+                    <i class="fa fa-users bg-orange category_icon category_2 template-for-copy"></i>
+                    <i class="fa fa-user bg-yellow category_icon category_3 template-for-copy"></i>
                     <div class="timeline-item">
                       <h3 class="timeline-header timeline-title no-border template-for-copy"></h3>
                       <div class="timeline-body">

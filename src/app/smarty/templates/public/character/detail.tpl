@@ -82,9 +82,9 @@
                   </li>
                 {else}
                   <li class="timeline-content" data-id="{$v_episode.id}">
-                    {if $v_episode.category == "1"}<i class="fa fa-book {if $v_episode.is_private == 1}bg-gray{else}bg-green{/if}"></i>{/if}
-                    {if $v_episode.category == "2"}<i class="fa fa-users {if $v_episode.is_private == 1}bg-gray{else}bg-orange{/if}"></i>{/if}
-                    {if $v_episode.category == "3"}<i class="fa fa-user {if $v_episode.is_private == 1}bg-gray{else}bg-yellow{/if}"></i>{/if}
+                    {if $v_episode.category == "1"}<i class="fa fa-book bg-green"></i>{/if}
+                    {if $v_episode.category == "2"}<i class="fa fa-users bg-orange"></i>{/if}
+                    {if $v_episode.category == "3"}<i class="fa fa-user bg-yellow"></i>{/if}
                     <div class="timeline-item">
                     {if $v_episode.title != ""}
                       <h3 class="timeline-header timeline-title no-border">{$v_episode.title|escape:'html'}</h3>

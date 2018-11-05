@@ -33,7 +33,6 @@
   編集や削除を行いたい場合は「内容を編集する」をクリックしてください。<br>
   キャラクターの公開/非公開を切り替えたいときはタイトル横の鍵マークをクリックしてください。<br>
   （鍵が閉まっている黄色いアイコンは「非公開」、鍵が開いているグレーのアイコンは「公開」を表します）<br>
-  {* 公開状態の場合のみ「公開用ページを見る」のリンク先は他人からも閲覧可能です。 *}
 </p>
 
     <!-- Main content -->
@@ -121,10 +120,15 @@
 <!--
                 <button type="button" class="btn btn-primary pull-right">このキャラクターにエピソードを追加する</button>
 -->
-                <ul class="timeline" id="timeline_for_stage_template">
+                <ul class="timeline timeline-character" id="timeline_for_stage_template">
                 {foreach from=$timeline key=k_tl item=v_tl}
                   <li class="time-label timeline-stage_name clickable" data-id="{$v_tl.id}" onclick="location.href='/user/stage/edit.php?id={$v_tl.id}';">
-                    <span class="{if $v_tl.is_private == 1}bg-gray{else}bg-blue{/if} timeline-title">
+                    <span class="bg-blue timeline-title">
+                    {if $v_tl.is_private == 1}
+                      <span class="is_private_icon is_private_1"><i class="fa fa-lock fa-fw"></i></span>
+                    {else}
+                      <span class="is_private_icon is_private_0"><i class="fa fa-unlock fa-fw"></i></span>
+                    {/if}
                       <span>{$v_tl.name|escape:'html'}</span>
                     </span>
                   </li>
@@ -132,15 +136,25 @@
                 {foreach from=$v_tl.episode_list key=k_episode item=v_episode}
                 {if $v_episode.is_label == 1}
                   <li class="time-label timeline-label timeline-label_title" data-id="{$v_episode.id}">
-                    <span class="{if $v_episode.is_private == 1}bg-gray{else}bg-red{/if} timeline-title">
+                    <span class="bg-red timeline-title">
+                    {if $v_episode.is_private == 1}
+                      <span class="is_private_icon is_private_1"><i class="fa fa-lock fa-fw"></i></span>
+                    {else}
+                      <span class="is_private_icon is_private_0"><i class="fa fa-unlock fa-fw"></i></span>
+                    {/if}
                       <span>{$v_episode.title|escape:'html'}</span>
                     </span>
                   </li>
                 {else}
-                  <li class="timeline-content" data-id="{$v_episode.id}">
-                    {if $v_episode.category == "1"}<i class="fa fa-book {if $v_episode.is_private == 1}bg-gray{else}bg-green{/if}"></i>{/if}
-                    {if $v_episode.category == "2"}<i class="fa fa-users {if $v_episode.is_private == 1}bg-gray{else}bg-orange{/if}"></i>{/if}
-                    {if $v_episode.category == "3"}<i class="fa fa-user {if $v_episode.is_private == 1}bg-gray{else}bg-yellow{/if}"></i>{/if}
+                  <li class="timeline-content timeline-editable" data-id="{$v_episode.id}">
+                    {if $v_episode.is_private == 1}
+                      <span class="is_private_icon is_private_1"><i class="fa fa-lock fa-fw"></i></span>
+                    {else}
+                      <span class="is_private_icon is_private_0"><i class="fa fa-unlock fa-fw"></i></span>
+                    {/if}
+                    {if $v_episode.category == "1"}<i class="fa fa-book bg-green"></i>{/if}
+                    {if $v_episode.category == "2"}<i class="fa fa-users bg-orange"></i>{/if}
+                    {if $v_episode.category == "3"}<i class="fa fa-user bg-yellow"></i>{/if}
                     <div class="timeline-item">
                     {if $v_episode.title != ""}
                       <h3 class="timeline-header timeline-title no-border">{$v_episode.title|escape:'html'}</h3>
