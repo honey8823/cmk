@@ -183,6 +183,14 @@
 	margin: 1em;
 }
 
+/* アカウント管理：URL記載スペース */
+.private-user-url{
+	padding: 0.5em;
+	background: #FFFFFF;
+	border-radius: 0.5em;
+	margin-bottom: 1em;
+}
+
 /****************/
 /* 公開ページ用 */
 /****************/
@@ -204,6 +212,14 @@
 /* 公開キャラクター：説明文 */
 .public-character-remarks{
 	margin: 1em 2em;
+	padding: 0.5em;
+	background: #EEEEEE;
+	border-radius: 0.5em;
+}
+
+/* アカウント：コメント */
+.public-user-remarks{
+	margin: 1em 0;
 	padding: 0.5em;
 	background: #EEEEEE;
 	border-radius: 0.5em;

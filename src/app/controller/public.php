@@ -329,6 +329,8 @@ class PublicController extends Common
 			$sql .= "      ,`user`.`name` ";
 			$sql .= "      ,`user`.`login_id` ";
 			$sql .= "      ,`user`.`twitter_id` ";
+			$sql .= "      ,`user`.`pixiv_id` ";
+			$sql .= "      ,`user`.`remarks` ";
 			$sql .= "      ,`user`.`login_stamp` ";
 			$sql .= "FROM   `user` ";
 			$sql .= "WHERE `user`.`login_id` = ? ";

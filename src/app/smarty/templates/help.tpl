@@ -33,9 +33,9 @@
       </a>
 
     {foreach from=$help_list key=k item=v_help}
-      <div class="box box-primary">
+      <div class="box box-primary collapsed-box">
         <span class="help-update_stamp">最終更新日：{strtotime($v_help.update_stamp)|date_format:"%Y-%m-%d"}</span>
-        <div class="box-header"><h3 class="box-title">{$v_help.title}</h3></div>
+        <div class="box-header with-border clickable" data-widget="collapse"><h3 class="box-title">{$v_help.title}</h3></div>
         <div class="box-body"><small>{$v_help.content}</small></div>
       </div>
     {/foreach}

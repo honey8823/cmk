@@ -25,45 +25,6 @@ function switchSidebar(){
 }
 
 /*
- * 会員更新フォームに値をセット
- */
-function setUserForm(){
-	var result = ajaxPost("user", "getSession", ["user"]);
-    result.done(function(){
-		if (isAjaxResultErrorRedirect(result.return_value) === true) {return false;}  // 必要ならエラーページへリダイレクト
-		if (isAjaxResultNoData(result.return_value['user']['id']) === true ){logout();return false;} // 必要ならエラーメッセージ表示
-
-		var result2 = ajaxPost("tag", "tableGenre", []);
-		result2.done(function(){
-			// 正常な場合
-			$("#modal-setUser").find(".tag-genre:not(.template-for-copy)").remove();
-			$(result2.return_value['genre_list']).each(function(i, e){
-				var obj_base = $("#modal-setUser").find(".tag-genre.template-for-copy")[0];
-				var obj = $(obj_base).clone().appendTo($(obj_base).parent());
-
-				// データ貼り付け
-				$(obj).val(e.id);
-				$(obj).text(e.title);
-				$(obj).removeClass("template-for-copy");
-				if ($.inArray(e.id, result.return_value['user']['genre_list']) != -1){
-					$(obj).removeClass("tag-notselected");
-				}
-			});
-	    });
-
-		// 正常な場合
-		$("#modal-setUser").find(".form-login_id").val(result.return_value['user']['login_id']);
-		$("#modal-setUser").find(".form-name").val(result.return_value['user']['name']);
-		$("#modal-setUser").find(".form-twitter_id").val(result.return_value['user']['twitter_id']);
-		$("#modal-setUser").find(".form-is_r18").prop("checked", result.return_value['user']['is_r18'] == 1 ? true : false);
-		$("#modal-setUser").find(".form-mail_address").val(result.return_value['user']['mail_address']);
-		$("#modal-setUser").find(".form-password").val("");
-		$("#modal-setUser").find(".form-password_c").val("");
-		return true;
-	});
-}
-
-/*
  * 会員情報をHTMLにセット
  */
 function setUserData(){
