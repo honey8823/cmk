@@ -7,8 +7,8 @@ define("PATH_TEMPLATE"  , realpath(PATH_ROOT . "/app/smarty")     . "/");
 define("PATH_LIBS"      , realpath(PATH_ROOT . "/app/libs")       . "/");
 define("PATH_LOGS"      , realpath(PATH_ROOT . "/app/logs")       . "/");
 
-define("SITE_NAME_FULL" , "うちのこまとめ");
-define("SITE_NAME_SHORT", "うま");
+define("SITE_NAME_FULL" , "うちのこタイムライン");
+define("SITE_NAME_SHORT", "UTL");
 
 define("DOMAIN", $_SERVER['SERVER_NAME']);
 
