@@ -11,8 +11,8 @@
           <input type="hidden" name="id" class="form-id" value="">
           <input type="hidden" name="is_label" class="form-is_label" value="">
           <div class="form-group clickable" onclick="$(this).children().toggleClass('hide');">
-            <span class="form-is_private" data-is_private="1"><span class="is_private_icon is_private_1"><i class="fa fa-lock fa-fw"></i></span>非公開<small>（クリックで公開に切り替え）</small></span>
-            <span class="form-is_private" data-is_private="0"><span class="is_private_icon is_private_0"><i class="fa fa-unlock fa-fw"></i></span>公開<small>（クリックで非公開に切り替え）</small></span>
+            <span class="form-is_private" data-is_private="1"><span class="is_private_icon clickable is_private_1"><i class="fa fa-lock fa-fw"></i></span>非公開<small>（クリックで公開に切り替え）</small></span>
+            <span class="form-is_private" data-is_private="0"><span class="is_private_icon clickable is_private_0"><i class="fa fa-unlock fa-fw"></i></span>公開<small>（クリックで非公開に切り替え）</small></span>
           </div>
           <div class="form-group not_use_for_label">
             <label>カテゴリ</label>
