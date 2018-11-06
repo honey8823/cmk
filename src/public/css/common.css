@@ -48,7 +48,12 @@
 
 /* 鍵アイコン */
 .is_private_icon{
+	font-size: 0.9em;
+	opacity: 0.6;
+}
+.is_private_icon.clickable{
 	font-size: 1.2em;
+	opacity: 1.0;
 }
 .is_private_icon.is_private_0{
 	color: #CCCCCC;

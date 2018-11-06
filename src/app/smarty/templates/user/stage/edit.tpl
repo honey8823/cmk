@@ -133,14 +133,14 @@
                 <ul class="timeline template-for-copy" id="timeline_for_stage_template">
                   <li class="time-label timeline-editable timeline-label clickable template-for-copy" data-id="" data-toggle="modal" data-target="#modal-setEpisode">
                     <span class="timeline-label-title bg-red">
-                      <span class="is_private_icon is_private_0 set_episode-is_private template-for-copy"><i class="fa fa-unlock fa-fw"></i></span>
-                      <span class="is_private_icon is_private_1 set_episode-is_private template-for-copy"><i class="fa fa-lock fa-fw"></i></span>
+                      <span class="is_private_icon is_private_0 clickable et_episode-is_private template-for-copy"><i class="fa fa-unlock fa-fw"></i></span>
+                      <span class="is_private_icon is_private_1 clickable set_episode-is_private template-for-copy"><i class="fa fa-lock fa-fw"></i></span>
                       <span class="timeline-title"></span>
                     </span>
                   </li>
                   <li class="timeline-editable timeline-content clickable template-for-copy" data-id="" data-toggle="modal" data-target="#modal-setEpisode">
-                    <span class="is_private_icon is_private_0 set_episode-is_private template-for-copy"><i class="fa fa-unlock fa-fw"></i></span>
-                    <span class="is_private_icon is_private_1 set_episode-is_private template-for-copy"><i class="fa fa-lock fa-fw"></i></span>
+                    <span class="is_private_icon is_private_0 clickable set_episode-is_private template-for-copy"><i class="fa fa-unlock fa-fw"></i></span>
+                    <span class="is_private_icon is_private_1 clickable set_episode-is_private template-for-copy"><i class="fa fa-lock fa-fw"></i></span>
                     <i class="fa fa-arrow-right bg-blue template-for-copy"></i>
                     <i class="fa fa-book bg-green category_icon category_1 template-for-copy"></i>
                     <i class="fa fa-users bg-orange category_icon category_2 template-for-copy"></i>
