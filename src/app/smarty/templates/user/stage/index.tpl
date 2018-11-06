@@ -43,17 +43,21 @@
           </div>
           <div id="list-stage" class="box">
             <div class="box-body no-padding">
-              <ul class="ul-stage stage-sort-area">
+              <ul class="nav nav-stacked ul-stage stage-sort-area">
               {foreach from=$stage_list key=k item=v_stage}
+
                 <li class="stage_list" data-id="{$v_stage.id}">
-                  <span class="is_private"><span class="is_private_icon is_private_{$v_stage.is_private}"><i class="fa {if $v_stage.is_private == 1}fa-lock{else}fa-unlock{/if} fa-fw"></i></span></span>
-                  <span class="name"><a href="/user/stage/edit.php?id={$v_stage.id}" class="stage_id"><span class="stage_name">{$v_stage.name|escape:'html'}</span></a></span>
-                  <span class="tag">
-                  {foreach from=$v_stage.tag_list key=k item=v_tag}
-                    <span class="label tag-base tag-{$v_tag.category_key}">{$v_tag.name_short|escape:'html'}</span>
-                  {/foreach}
-                  </span>
+                  <a href="/user/stage/edit.php?id={$v_stage.id}" class="stage_id">
+                    <span class="is_private"><span class="is_private_icon is_private_{$v_stage.is_private}"><i class="fa {if $v_stage.is_private == 1}fa-lock{else}fa-unlock{/if} fa-fw"></i></span></span>
+                    <span class="name"><span class="stage_name">{$v_stage.name|escape:'html'}</span></span>
+                    <span class="tag">
+                    {foreach from=$v_stage.tag_list key=k item=v_tag}
+                      <span class="label tag-base tag-{$v_tag.category_key}">{$v_tag.name_short|escape:'html'}</span>
+                    {/foreach}
+                    </span>
+                  </a>
                 </li>
+
               {/foreach}
               </ul>
             </div>

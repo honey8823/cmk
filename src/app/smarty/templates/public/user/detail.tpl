@@ -21,11 +21,10 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>{$user.name|escape:'html'}<small>@{$user.login_id}</small></h1>
-      <div>
-      {foreach from=$genre_list key=k item=v_genre}
-        <span class="label tag-base tag-genre" value="{$v_genre.id}">{$v_genre.title}</span>
-      {/foreach}
-      </div>
+      <ol class="breadcrumb">
+        <li><a href="/">トップ</a></li>
+        <li class="active">{if $user.name != ""}{$user.name|escape:'html'}{else} - {/if}さん</li>
+      </ol>
     </section>
 
     <!-- Main content -->
@@ -35,6 +34,11 @@
         <div class="col-md-12">
           <div class="box">
             <div class="box-body">
+              <div>
+              {foreach from=$genre_list key=k item=v_genre}
+                <span class="label tag-base tag-genre" value="{$v_genre.id}">{$v_genre.title}</span>
+              {/foreach}
+              </div>
               <div class="public-user-remarks">
                 {$user.remarks|escape:'html'|nl2br}
               </div>

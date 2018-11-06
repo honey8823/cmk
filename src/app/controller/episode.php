@@ -143,6 +143,7 @@ class EpisodeController extends Common
 			$sql .= "AND        `stage`.`is_delete` <> 1 ";
 			$sql .= "ORDER BY   `stage`.`sort` = 0 ASC ";
 			$sql .= "          ,`stage`.`sort` ASC ";
+			$sql .= "          ,`stage`.`id` ASC ";
 			$stage_list = $this->query($sql, $arg_list);
 			if (count($stage_list) == 0)
 			{

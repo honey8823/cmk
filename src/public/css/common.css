@@ -48,7 +48,12 @@
 
 /* 鍵アイコン */
 .is_private_icon{
+	font-size: 0.9em;
+	opacity: 0.6;
+}
+.is_private_icon.clickable{
 	font-size: 1.2em;
+	opacity: 1.0;
 }
 .is_private_icon.is_private_0{
 	color: #CCCCCC;
@@ -63,6 +68,9 @@
 }
 
 /* 管理用タイムライン */
+.timeline.timeline-character{
+	margin: 1em 0 30px 1em;
+}
 .timeline.timeline-stage{
 	margin: 30px 0 30px 1em;
 }
@@ -141,8 +149,9 @@
 	padding: 0px 15px 0 0;
 	width: 2em;
 }
-.character_list > .name{
+.character_list .name{
 	width: 10em;
+	display: inline-block;
 }
 .character_list > .stage{
 	padding: 0px 15px 0 0;
@@ -184,7 +193,7 @@
 }
 
 /* アカウント管理：URL記載スペース */
-.private-user-url{
+.private-url{
 	padding: 0.5em;
 	background: #FFFFFF;
 	border-radius: 0.5em;
@@ -249,7 +258,7 @@ li a {
 
 /* コピー用テンプレート（非表示にする） */
 .template-for-copy{
-	display: none;
+	display: none !important;
 }
 
 /* ボタンの右寄せ */

@@ -24,7 +24,7 @@
       <ol class="breadcrumb">
         <li><a href="/">トップ</a></li>
         <li><a href="/user/stage/">ステージ管理</a></li>
-        <li class="active">編集</li>
+        <li class="active">[{$stage.name|escape:'html'}]編集</li>
       </ol>
     </section>
 
@@ -33,7 +33,6 @@
   編集や削除を行いたい場合は「内容を編集する」をクリックしてください。<br>
   ステージの公開/非公開を切り替えたいときはタイトル横の鍵マークをクリックしてください。<br>
   （鍵が閉まっている黄色いアイコンは「非公開」、鍵が開いているグレーのアイコンは「公開」を表します）<br>
-  公開状態の場合のみ「公開用ページを見る」のリンク先は他人からも閲覧可能です。
 </p>
 
     <!-- Main content -->
@@ -41,6 +40,15 @@
       <div class="row">
 
         <div class="col-md-12">
+        {if $stage.is_private != 1}
+          <div class="private-url">
+            <small>
+              「{$stage.name|escape:'html'}」の公開ページは以下のURLです。<br>
+              <a href="/public/stage/detail.php?user={$stage.login_id}&id={$stage.id}">http://{$smarty.server.SERVER_NAME}/public/user/detail.php?user={$stage.login_id}&id={$stage.id}</a>
+            </small>
+          </div>
+        {/if}
+
           <div class="box">
             <div class="box-header with-border">
               <h3 class="box-title">基本情報</h3>
@@ -61,9 +69,6 @@
               </div>
               <div class="private-stage-remarks"><small>{if $stage.remarks != ""}{$stage.remarks|escape:'html'|nl2br}{else}（説明文は登録されていません）{/if}</small></div>
               <div class="box-body text-align-right">
-              {if $stage.is_private != 1}
-                <button type="button" class="btn btn-primary" onclick="window.open('/public/stage/detail.php?user={$stage.login_id}&id={$stage.id}');">公開用ページを見る</button>
-              {/if}
                 <button type="button" class="btn btn-primary" onclick="$('#area-viewStage').hide();$('#area-setStage').show();">内容を編集する</button>
               </div>
             </div>
@@ -128,15 +133,18 @@
                 <ul class="timeline template-for-copy" id="timeline_for_stage_template">
                   <li class="time-label timeline-editable timeline-label clickable template-for-copy" data-id="" data-toggle="modal" data-target="#modal-setEpisode">
                     <span class="timeline-label-title bg-red">
-                      <span class="is_private_icon is_private_0 set_episode-is_private template-for-copy"><i class="fa fa-unlock fa-fw"></i></span>
-                      <span class="is_private_icon is_private_1 set_episode-is_private template-for-copy"><i class="fa fa-lock fa-fw"></i></span>
+                      <span class="is_private_icon is_private_0 clickable et_episode-is_private template-for-copy"><i class="fa fa-unlock fa-fw"></i></span>
+                      <span class="is_private_icon is_private_1 clickable set_episode-is_private template-for-copy"><i class="fa fa-lock fa-fw"></i></span>
                       <span class="timeline-title"></span>
                     </span>
                   </li>
                   <li class="timeline-editable timeline-content clickable template-for-copy" data-id="" data-toggle="modal" data-target="#modal-setEpisode">
-                    <span class="is_private_icon is_private_0 set_episode-is_private template-for-copy"><i class="fa fa-unlock fa-fw"></i></span>
-                    <span class="is_private_icon is_private_1 set_episode-is_private template-for-copy"><i class="fa fa-lock fa-fw"></i></span>
-                    <i class="fa fa-arrow-right bg-blue"></i>
+                    <span class="is_private_icon is_private_0 clickable set_episode-is_private template-for-copy"><i class="fa fa-unlock fa-fw"></i></span>
+                    <span class="is_private_icon is_private_1 clickable set_episode-is_private template-for-copy"><i class="fa fa-lock fa-fw"></i></span>
+                    <i class="fa fa-arrow-right bg-blue template-for-copy"></i>
+                    <i class="fa fa-book bg-green category_icon category_1 template-for-copy"></i>
+                    <i class="fa fa-users bg-orange category_icon category_2 template-for-copy"></i>
+                    <i class="fa fa-user bg-yellow category_icon category_3 template-for-copy"></i>
                     <div class="timeline-item">
                       <h3 class="timeline-header timeline-title no-border template-for-copy"></h3>
                       <div class="timeline-body">
@@ -166,18 +174,22 @@
                 </div>
                 <div id="list-character" class="box">
                   <div class="box-body no-padding">
-                    <ul class="ul-character stage-character-sort-area">
+                    <ul class="nav nav-stacked ul-character stage-character-sort-area">
                       <li class="character_list template-for-copy" data-id="">
+                        <a href="/user/character/edit.php?" class="character_id">
                         <span class="is_private">
                           <span class="is_private_icon is_private_0 hide"><i class="fa fa-unlock fa-fw"></i></span>
                           <span class="is_private_icon is_private_1 hide"><i class="fa fa-lock fa-fw"></i></span>
                         </span>
-                        <span class="name"><a href="/user/character/edit.php?" class="character_id"><span class="character_name"></span></a></span>
+                        <span class="name"><span class="character_name"></span></span>
+                        </a>
                       </li>
                     {foreach from=$stage.character_list key=k item=v_character}
                       <li class="character_list" data-id="{$v_character.id}">
+                        <a href="/user/character/edit.php?id={$v_character.id}" class="character_id">
                         <span class="is_private"><span class="is_private_icon is_private_{$v_character.is_private}"><i class="fa {if $v_character.is_private == 1}fa-lock{else}fa-unlock{/if} fa-fw"></i></span></span>
-                        <span class="name"><a href="/user/character/edit.php?id={$v_character.id}" class="character_id"><span class="character_name">{$v_character.name|escape:'html'}</span></a></span>
+                        <span class="name"><span class="character_name">{$v_character.name|escape:'html'}</span></span>
+                        </a>
                       </li>
                     {/foreach}
                     </ul>

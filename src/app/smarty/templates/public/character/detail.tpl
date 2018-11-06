@@ -22,6 +22,11 @@
     <section class="content-header">
       <h1>{$character.name|escape:'html'}</h1>
       <small><a href="/public/user/detail.php?u={$character.user_login_id}">by {$character.user_name|escape:'html'}@{$character.user_login_id}</a></small>
+      <ol class="breadcrumb">
+        <li><a href="/">トップ</a></li>
+        <li><a href="/public/user/detail.php?u={$character.user_login_id}">{if $character.user_name != ""}{$character.user_name|escape:'html'}{else} - {/if}さんのキャラクター</a></li>
+        <li class="active">「{$character.name|escape:'html'}」</li>
+      </ol>
     </section>
 
     <!-- Main content -->
@@ -77,9 +82,9 @@
                   </li>
                 {else}
                   <li class="timeline-content" data-id="{$v_episode.id}">
-                    {if $v_episode.category == "1"}<i class="fa fa-book {if $v_episode.is_private == 1}bg-gray{else}bg-green{/if}"></i>{/if}
-                    {if $v_episode.category == "2"}<i class="fa fa-users {if $v_episode.is_private == 1}bg-gray{else}bg-orange{/if}"></i>{/if}
-                    {if $v_episode.category == "3"}<i class="fa fa-user {if $v_episode.is_private == 1}bg-gray{else}bg-yellow{/if}"></i>{/if}
+                    {if $v_episode.category == "1"}<i class="fa fa-book bg-green"></i>{/if}
+                    {if $v_episode.category == "2"}<i class="fa fa-users bg-orange"></i>{/if}
+                    {if $v_episode.category == "3"}<i class="fa fa-user bg-yellow"></i>{/if}
                     <div class="timeline-item">
                     {if $v_episode.title != ""}
                       <h3 class="timeline-header timeline-title no-border">{$v_episode.title|escape:'html'}</h3>
