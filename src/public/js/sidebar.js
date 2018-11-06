@@ -55,7 +55,15 @@ function login(){
 		// 正常な場合
 		$('#modal-login').modal('hide');
 		$("#modal-login").find("input").val("");
-		location.href = "/";
+		if (location.pathname.match(/^\/err\//)){
+			// エラーページにいた場合のみトップへリダイレクト
+			location.href = "/";
+		}
+		else{
+			// エラーページではないところにいた場合はリロード
+			location.reload();
+		}
+
 		return true;
     });
 }
@@ -64,7 +72,7 @@ function login(){
  * ログアウト処理
  */
 function logout(){
-	if (confirm("ログアウトしてよろしいですか？")){
+	if (confirm("ログアウトしてトップページへ戻ります。よろしいですか？")){
 		var result = ajaxPost("user", "logout", []);
 		result.done(function(){
 			location.href = "/";

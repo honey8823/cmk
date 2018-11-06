@@ -138,20 +138,7 @@
 <script src="/js/lib/jquery.ui.touch-punch.min.js"></script>
 <script src="/js/common.js"></script>
 <script src="/js/sidebar.js"></script>
-<script>
-$(".timeline-free_text_show").on("click", function(){
-  $(".timeline-free_text").addClass("hidden");
-  $(".timeline-free_text_show").addClass("hidden");
-  $(".timeline-free_text_full").removeClass("hidden");
-  $(".timeline-free_text_hide").removeClass("hidden");
-});
-$(".timeline-free_text_hide").on("click", function(){
-  $(".timeline-free_text_full").addClass("hidden");
-  $(".timeline-free_text_hide").addClass("hidden");
-  $(".timeline-free_text").removeClass("hidden");
-  $(".timeline-free_text_show").removeClass("hidden");
-});
-</script>
+<script src="/js/episode.js"></script>
 <!-- JS end -->
 </body>
 </html>

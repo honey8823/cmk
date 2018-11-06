@@ -38,6 +38,20 @@ $(document).on("click", ".insert-read-more", function(){
 	obj_ta.get(0).selectionEnd = cursor + 5;
 });
 
+// 「続きを読む」の切り替え
+$(".timeline-free_text_show").on("click", function(){
+	  $(".timeline-free_text").addClass("hidden");
+	  $(".timeline-free_text_show").addClass("hidden");
+	  $(".timeline-free_text_full").removeClass("hidden");
+	  $(".timeline-free_text_hide").removeClass("hidden");
+});
+$(".timeline-free_text_hide").on("click", function(){
+	  $(".timeline-free_text_full").addClass("hidden");
+	  $(".timeline-free_text_hide").addClass("hidden");
+	  $(".timeline-free_text").removeClass("hidden");
+	  $(".timeline-free_text_show").removeClass("hidden");
+});
+
 /*
  * 一覧取得
  */
