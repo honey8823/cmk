@@ -34,8 +34,17 @@
       <div class="row">
 
         <div class="col-md-12">
+        {if $is_login != "1"}
+          <p class="hint-box">ログインするとお気に入り機能がご利用いただけます。</p>
+        {/if}
           <div class="box">
             <div class="box-body">
+              <div class="text-align-right">
+              {if $is_login == "1"}
+                <i class="fa fa-fw fa-heart-o is_favorite_icon clickable is_favorite_0 {if $is_favorite == "1"}hidden{/if}" aria-hidden="true" data-favorite_type_key="character" data-id="{$character.id}"></i>
+                <i class="fa fa-fw fa-heart is_favorite_icon clickable is_favorite_1 {if $is_favorite != "1"}hidden{/if}" aria-hidden="true" data-favorite_type_key="character" data-id="{$character.id}"></i>
+              {/if}
+              </div>
             {foreach from=$character.tag_list key=k item=v_tag}
               <span class="label tag-base tag-series" value="{$v_tag.id}">{$v_tag.name}</span>
             {/foreach}
@@ -47,9 +56,6 @@
           {/if}
             <div class="public-info-box text-align-right" style="padding: 1em;">
               <p>登録日：{strtotime($character.create_stamp)|date_format:"%Y-%m-%d %H:%M"}</p>
-{*** [β版]お気に入り・通報
-              <i class="fa fa-heart-o" aria-hidden="true"></i>
-***}
             </div>
           </div>
         </div>
@@ -139,6 +145,7 @@
 <script src="/js/common.js"></script>
 <script src="/js/sidebar.js"></script>
 <script src="/js/episode.js"></script>
+<script src="/js/favorite.js"></script>
 <!-- JS end -->
 </body>
 </html>

@@ -200,6 +200,17 @@
 	margin-bottom: 1em;
 }
 
+/* お気に入り：非リンク */
+.ul-favorite > li.notlink span{
+	color: #999999;
+}
+/* お気に入り：作者 */
+.ul-favorite > li .author{
+	color: #999999;
+	font-size: 0.7em;
+	margin-left: 0.5em;
+}
+
 /****************/
 /* 公開ページ用 */
 /****************/
@@ -232,6 +243,12 @@
 	padding: 0.5em;
 	background: #EEEEEE;
 	border-radius: 0.5em;
+}
+
+/* お気に入りアイコン */
+.is_favorite_icon{
+	font-size: 1.2em;
+	color: #fe416b;
 }
 
 /****************/

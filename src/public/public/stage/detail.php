@@ -38,7 +38,9 @@ if (isset($stage['error_redirect']) && $stage['error_redirect'] != "")
 	exit();
 }
 
-$smarty_param['stage'] = $stage['stage'];
+$smarty_param['stage']       = $stage['stage'];
+$smarty_param['is_login']    = $stage['is_login'];
+$smarty_param['is_favorite'] = $stage['is_favorite'];
 
 // シリーズタグ一覧
 $tag_catgory_list = $tc->getConfig("tag_category", "key");

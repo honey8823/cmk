@@ -32,8 +32,17 @@
       <div class="row">
 
         <div class="col-md-12">
+        {if $is_login != "1"}
+          <p class="hint-box">ログインするとお気に入り機能がご利用いただけます。</p>
+        {/if}
           <div class="box">
             <div class="box-body">
+              <div class="text-align-right">
+              {if $is_login == "1"}
+                <i class="fa fa-fw fa-heart-o is_favorite_icon clickable is_favorite_0 {if $is_favorite == "1"}hidden{/if}" aria-hidden="true" data-favorite_type_key="user" data-id="{$user.id}"></i>
+                <i class="fa fa-fw fa-heart is_favorite_icon clickable is_favorite_1 {if $is_favorite != "1"}hidden{/if}" aria-hidden="true" data-favorite_type_key="user" data-id="{$user.id}"></i>
+              {/if}
+              </div>
               <div>
               {foreach from=$genre_list key=k item=v_genre}
                 <span class="label tag-base tag-genre" value="{$v_genre.id}">{$v_genre.title}</span>
@@ -106,6 +115,7 @@
 <script src="/js/lib/jquery.ui.touch-punch.min.js"></script>
 <script src="/js/common.js"></script>
 <script src="/js/sidebar.js"></script>
+<script src="/js/favorite.js"></script>
 <!-- JS end -->
 </body>
 </html>

@@ -1,12 +1,12 @@
 <?php
 // 必ず指定 //////////////////////////
-require_once("../../../app/initialize.php");
+require_once("../../app/initialize.php");
 //////////////////////////////////////
 
 // --------------
 // テンプレート名
 // --------------
-$template_name = "public/character/detail";
+$template_name = "user/favorite";
 
 // --------------------
 // コントローラ読み込み
@@ -15,11 +15,8 @@ $template_name = "public/character/detail";
 $uc = new UserController();
 $uc->init();
 
-// $tc = new TagController();
-// $tc->init();
-
-$pc = new PublicController();
-$pc->init();
+$fc = new FavoriteController();
+$fc->init();
 
 // ----------------------------------
 // テンプレートに表示するデータの取得
@@ -27,20 +24,16 @@ $pc->init();
 // ----------------------------------
 $smarty_param = array();
 
-// キャラクター
-$id   = isset($_GET['id'])   ? $_GET['id'] : "";
-$user = isset($_GET['user']) ? $_GET['user'] : "";
-$character = $pc->getCharacter(array('id' => $id, 'login_id' => $user));
-
-if (isset($character['error_redirect']) && $character['error_redirect'] != "")
+// 未ログインの場合はエラー
+$user_id = $uc->getLoginId();
+if ($user_id === false)
 {
-	header("Location: /err/" . $character['error_redirect'] . ".php");
+	header("Location: /err/session.php");
 	exit();
 }
 
-$smarty_param['character']   = $character['character'];
-$smarty_param['is_login']    = $character['is_login'];
-$smarty_param['is_favorite'] = $character['is_favorite'];
+// お気に入り
+$smarty_param['favorite_type_list'] = $fc->table()['favorite_type_list'];
 
 // 必ず指定 //////////////////////////////
 // Smartyデバッグ用

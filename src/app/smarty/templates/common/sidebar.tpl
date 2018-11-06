@@ -28,13 +28,8 @@
         </li>
         <li class="header">よそのこタイムライン</li>
         <li>
-          <a href="#">
-            <i class="fa fa-fw fa-arrow-circle-right" aria-hidden="true"></i><span>フォロー<small>＜β版実装予定＞</small></span>
-          </a>
-        </li>
-        <li>
-          <a href="#">
-            <i class="fa fa-fw fa-heart" aria-hidden="true"></i><span>お気に入り<small>＜β版実装予定＞</small></span>
+          <a href="/user/favorite.php">
+            <i class="fa fa-fw fa-heart" aria-hidden="true"></i><span>お気に入り</span>
           </a>
         </li>
         <li class="header">その他</li>

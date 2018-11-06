@@ -37,6 +37,13 @@ const config = array(
 		array('value' => 3, 'key' => "profile"  , 'name' => "キャラクタープロフィールの変化"),
 	),
 
+	// お気に入りタイプ
+	'favorite_type' => array(
+		array('value' => 1, 'key' => "user"      , 'name' => "ユーザー"),
+		array('value' => 2, 'key' => "stage"     , 'name' => "ステージ"),
+		array('value' => 3, 'key' => "character" , 'name' => "キャラクター"),
+	),
+
 	// ツールチップ
 	'tooltip' => array(
 		/* ユーザー情報系 */

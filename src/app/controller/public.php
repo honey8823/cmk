@@ -12,19 +12,8 @@ class PublicController extends Common
 			$return_list = array();
 
 			// ログイン中のユーザ情報
-			// （R18の許可情報の取得用）
-			$is_r18 = 0;
-			$user_id = $this->getLoginId();
-			if ($user_id != false)
-			{
-				$sql  = "SELECT `is_r18` FROM `user` WHERE `id` = ? ";
-				$arg_list = array($user_id);
-				$user_list = $this->query($sql, $arg_list);
-				if (count($user_list) == 1 && $user_list[0]['is_r18'] == 1)
-				{
-					$is_r18 = 1;
-				}
-			}
+			// （R18の許可情報・お気に入りの取得用）
+			$login_user_list = $this->getLoginUser("stage", $id);
 
 			// 取得（ステージ）
 			$sql  = "SELECT     `stage`.`id` ";
@@ -96,7 +85,7 @@ class PublicController extends Common
 			$sql .= "WHERE      `episode`.`stage_id` = ? ";
 			$sql .= "AND        `episode`.`is_delete` <> 1 ";
 			$sql .= "AND        `episode`.`is_private` <> 1 ";
-			if ($is_r18 != 1)
+			if ($login_user_list['is_r18'] != 1)
 			{
 				$sql .= "AND        `episode`.`is_r18` <> 1 ";
 			}
@@ -154,6 +143,9 @@ class PublicController extends Common
 
 			// 戻り値
 			$return_list['stage'] = $stage_list[0];
+			$return_list['is_login']    = $login_user_list['is_login'];
+			$return_list['is_favorite'] = $login_user_list['is_favorite'];
+
 			return $return_list;
 		}
 		catch (Exception $e)
@@ -173,19 +165,8 @@ class PublicController extends Common
 			$return_list = array();
 
 			// ログイン中のユーザ情報
-			// （R18の許可情報の取得用）
-			$is_r18 = 0;
-			$user_id = $this->getLoginId();
-			if ($user_id != false)
-			{
-				$sql  = "SELECT `is_r18` FROM `user` WHERE `id` = ? ";
-				$arg_list = array($user_id);
-				$user_list = $this->query($sql, $arg_list);
-				if (count($user_list) == 1 && $user_list[0]['is_r18'] == 1)
-				{
-					$is_r18 = 1;
-				}
-			}
+			// （R18の許可情報・お気に入りの取得用）
+			$login_user_list = $this->getLoginUser("character", $id);
 
 			// 取得（キャラクター）
 			$sql  = "SELECT     `character`.`id` ";
@@ -285,7 +266,7 @@ class PublicController extends Common
 				$arg_list[] = $id;
 				$sql .= "AND      `episode`.`is_delete` <> 1 ";
 				$sql .= "AND      `episode`.`is_private` <> 1 ";
-				if ($is_r18 != 1)
+				if ($login_user_list['is_r18'] != 1)
 				{
 					$sql .= "AND  `episode`.`is_r18` <> 1 ";
 				}
@@ -307,6 +288,9 @@ class PublicController extends Common
 
 			// 戻り値
 			$return_list['character'] = $character_list[0];
+			$return_list['is_login']    = $login_user_list['is_login'];
+			$return_list['is_favorite'] = $login_user_list['is_favorite'];
+
 			return $return_list;
 		}
 		catch (Exception $e)
@@ -345,6 +329,10 @@ class PublicController extends Common
 			}
 
 			$id = $user_list[0]['id'];
+
+			// ログイン中のユーザ情報
+			// （R18の許可情報・お気に入りの取得用）
+			$login_user_list = $this->getLoginUser("user", $id);
 
 			// 取得（ジャンル）
 			$sql  = "SELECT     `genre`.`id` ";
@@ -430,11 +418,63 @@ class PublicController extends Common
 			$return_list['genre_list']     = $genre_list;
 			$return_list['stage_list']     = $stage_list;
 			$return_list['character_list'] = $character_list;
+			$return_list['is_login']       = $login_user_list['is_login'];
+			$return_list['is_favorite']    = $login_user_list['is_favorite'];
+
 			return $return_list;
 		}
 		catch (Exception $e)
 		{
 			$this->exception($e);
 		}
+	}
+
+	/*
+	 * ログイン中ユーザの情報取得
+	 * @param $favorite_type_key  お気に入りかどうかをチェックしたいデータの区分（user, stage, character のいずれか）
+	 * @param $favorite_target_id お気に入りかどうかをチェックしたいデータのID（user.id, stage.id, character.id）
+	 */
+	private function getLoginUser($favorite_type_key = "", $favorite_target_id = "")
+	{
+		$return_list = array(
+			'is_login'    => 0,
+			'is_r18'      => 0,
+			'is_favorite' => 0,
+		);
+
+		$user_id = $this->getLoginId();
+		if ($user_id != false)
+		{
+			// お気に入りタイプ
+			$favorite_type_list = $this->getConfig("favorite_type", "key");
+
+			$sql  = "SELECT    `user`.`is_r18` ";
+			$sql .= "         ,`favorite`.`id` ";
+			$sql .= "FROM      `user` ";
+			$sql .= "LEFT JOIN `favorite` ON  `user`.`id` = `favorite`.`user_id` ";
+			$sql .= "                     AND `favorite`.`type` = ? ";
+			$sql .= "                     AND `favorite`.`id` = ? ";
+			$sql .= "WHERE     `user`.`id` = ? ";
+			$arg_list = array(
+				$favorite_type_list[$favorite_type_key]['value'],
+				$favorite_target_id,
+				$user_id,
+			);
+			$user_list = $this->query($sql, $arg_list);
+			if (count($user_list) == 1)
+			{
+				$return_list['is_login'] = 1;
+				if ($user_list[0]['is_r18'] == 1)
+				{
+					$return_list['is_r18'] = 1;
+				}
+				if ($user_list[0]['id'] != "")
+				{
+					$return_list['is_favorite'] = 1;
+				}
+			}
+		}
+
+		return $return_list;
 	}
 }
