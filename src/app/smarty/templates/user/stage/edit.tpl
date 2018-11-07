@@ -28,13 +28,6 @@
       </ol>
     </section>
 
-<p class="hint-box">
-  UIを大きく変更しました。<br>
-  編集や削除を行いたい場合は「内容を編集する」をクリックしてください。<br>
-  ステージの公開/非公開を切り替えたいときはタイトル横の鍵マークをクリックしてください。<br>
-  （鍵が閉まっている黄色いアイコンは「非公開」、鍵が開いているグレーのアイコンは「公開」を表します）<br>
-</p>
-
     <!-- Main content -->
     <section class="content">
       <div class="row">
@@ -61,11 +54,11 @@
                 <span><big>{$stage.name|escape:'html'}</big></span>
               </div>
               <div class="private-stage-tag">
-                {foreach from=$series_list key=k item=v_series}
-                {if isset($stage.tag_list) && is_array($stage.tag_list) && in_array($v_series.id, array_column($stage.tag_list, 'id'))}
-                  <span class="label tag-base tag-series" value="{$v_series.id}">{$v_series.name|escape:'html'}</span>
-                {/if}
+                {if isset($stage.tag_list) && is_array($stage.tag_list)}
+                {foreach from=$stage.tag_list key=k item=v_tag}
+                  <span class="label tag-base tag-series" value="{$v_tag.id}">{$v_tag.name|escape:'html'}</span>
                 {/foreach}
+                {/if}
               </div>
               <div class="private-stage-remarks"><small>{if $stage.remarks != ""}{$stage.remarks|escape:'html'|nl2br}{else}（説明文は登録されていません）{/if}</small></div>
               <div class="box-body text-align-right">
@@ -75,11 +68,14 @@
             <div class="box-body" id="area-setStage" style="display:none;">
               <input type="hidden" class="form-id" value="{$stage.id}">
               <div class="form-group">
-                <label>ステージ名</label><small>※必須</small>
-                <input type="text" name="name" class="form-control form-name" value="{$stage.name}">
+                <label>ステージ名</label>
+                <input type="text" name="name" class="form-control form-name" value="{$stage.name}" placeholder="※必須">
               </div>
               <div class="form-group">
                 <label>関連するシリーズ（複数選択可）</label>
+              {if !isset($series_list) || !is_array($series_list) || count($series_list) == 0}
+                <p class="hint-box">アカウント管理から「ジャンル」設定を行うことで選択できるようになります。<br>のちほど選択することも可能なので、気が向いたらお試しください。</p>
+              {/if}
                 <div>
                 {foreach from=$series_list key=k item=v_series}
                 {if isset($stage.tag_list) && is_array($stage.tag_list) && in_array($v_series.id, array_column($stage.tag_list, 'id'))}
@@ -107,14 +103,6 @@
           </div>
         </div>
 
-<p class="hint-box">
-  タイムライン編集のUIを変更しました。<br>
-  エピソードの公開/非公開を切り替えたいときはタイトル横の鍵マークをクリックしてください。<br>
-  （鍵が閉まっている黄色いアイコンは「非公開」、鍵が開いているグレーのアイコンは「公開」を表します）<br>
-  ただし、登録フォームや編集フォームでの変更も可能です。<br>
-  このステージが公開されている場合に限り、公開用ページに表示されます。
-</p>
-
         <div class="col-md-12">
           <div class="nav-tabs-custom">
             <ul class="nav nav-tabs">
@@ -124,11 +112,10 @@
             <div class="tab-content">
               <div class="tab-pane active" id="tab-content-timeline">
                 <div class="box-body">
-                  <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#modal-addEpisode">タイムラインにエピソードを追加</button>
-                  <button type="button" class="btn btn-primary btn-block sort_mode_off" onclick="readyEpisodeSort(1);">並べ替えモードにする</button>
-                  <button type="button" class="btn btn-warning btn-block sort_mode_on" onclick="readyEpisodeSort(0);">並べ替えモード中（クリックで終了）</button>
+                  <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#modal-addEpisode"><i class="fa fa-fw fa-plus" aria-hidden="true"></i>タイムラインにエピソードを追加</button>
+                  <button type="button" class="btn btn-primary btn-block sort_mode_off" onclick="readyEpisodeSort(1);"><i class="fa fa-fw fa-sort" aria-hidden="true"></i>並べ替えモードにする</button>
+                  <button type="button" class="btn btn-warning btn-block sort_mode_on" onclick="readyEpisodeSort(0);"><i class="fa fa-fw fa-sort" aria-hidden="true"></i>並べ替えモード中（クリックで終了）</button>
                 </div>
-                <p class="hint-box">これらの操作は右下の<i class="fa fa-fw fa-plus-circle" aria-hidden="true"></i><i class="fa fa-fw fa-sort" aria-hidden="true"></i>からでも行えます。</p>
                 <p class="hint-box sort_mode_on">並べ替えモード中：ドラッグ＆ドロップで並べ替えができます。</p>
                 <ul class="timeline template-for-copy" id="timeline_for_stage_template">
                   <li class="time-label timeline-editable timeline-label clickable template-for-copy" data-id="" data-toggle="modal" data-target="#modal-setEpisode">
@@ -157,8 +144,8 @@
                   </li>
                 </ul>
                 <ul class="timeline timeline-sort-area timeline-stage" id="timeline_for_stage"></ul>
-                <div class="timeline-btn-area">
-                  <p class="clickable" data-toggle="modal" data-target="#modal-addEpisode"><i class="fa fa-fw fa-plus-circle" aria-hidden="true"></i></p>
+                <div class="float-button-area">
+                  <p class="clickable" data-toggle="modal" data-target="#modal-addEpisode"><i class="fa fa-fw fa-plus" aria-hidden="true"></i></p>
                   <p class="clickable sort_mode_off" onclick="readyEpisodeSort(1);"><i class="fa fa-fw fa-sort" aria-hidden="true"></i></p>
                   <p class="clickable sort_mode_on" onclick="readyEpisodeSort(0);"><i class="fa fa-fw fa-check" aria-hidden="true"></i></p>
                 </div>
@@ -169,7 +156,7 @@
                 {if count($stage.character_list) > 1}
                   <button type="button" class="btn btn-block btn-primary sort_mode_off" onclick="readyStageCharacterSort(1);">並べ替えモードにする</button>
                   <button type="button" class="btn btn-block btn-warning sort_mode_on" onclick="readyStageCharacterSort(0);">並べ替えモードを終了</button>
-                  <p class="hint-box sort_mode_on">並べ替えモード中：ドラッグ＆ドロップで並べ替えができます。</p>
+                  <p class="hint-box sort_mode_on">並べ替えモード中：ドラッグ＆ドロップで並べ替えができます。<br>また、これはこのステージ内での並べ替えであり、キャラクター一覧ページ等には影響しません。</p>
                 {/if}
                 </div>
                 <div id="list-character" class="box">

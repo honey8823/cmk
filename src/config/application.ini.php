@@ -59,7 +59,61 @@ const config = array(
 		'episode_free_text' => "フリーエリアです。（HTMLタグ不可）<br>SSやちょっとした会話ネタ、URL先についての補足など。",
 		'episode_is_r18'    => "内容がアダルトコンテンツになる場合はチェックを入れてください。<br>ご協力お願いいたします。",
 		'episode_character' => "選択すると、そのキャラクターの<br>タイムラインにも表示されるようになります。",
+		'episode_character_override' => "一人だけ選択できます。",
+	),
+
+	// 詳細プロフィール項目
+	// 1**：生まれについて
+	// 2**：名前、呼び方、所属、肩書きなど
+	// 3**：外見や身体的特徴など
+	// 4**：衣食住、好み、習慣、信条
+	// 9**：メタ的な情報
+	'character_profile_q' => array(
+		array('value' =>  101, 'title' => "本名・フルネーム"),
+		array('value' =>  102, 'title' => "性別"),
+		array('value' =>  103, 'title' => "誕生日"),
+		array('value' =>  104, 'title' => "年齢"),
+		array('value' =>  105, 'title' => "出身地"),
+		array('value' =>  106, 'title' => "種族"),
+
+		array('value' =>  301, 'title' => "外見"),
+		array('value' =>  302, 'title' => "体格"),
+		array('value' =>  303, 'title' => "髪"),
+		array('value' =>  304, 'title' => "目"),
+		array('value' =>  305, 'title' => "肌"),
+		array('value' =>  306, 'title' => "声"),
+
+		array('value' =>  201, 'title' => "通称・ニックネーム"),
+		array('value' =>  202, 'title' => "称号・二つ名"),
+		array('value' =>  203, 'title' => "自称・偽名"),
+		array('value' =>  204, 'title' => "一人称"),
+		array('value' =>  205, 'title' => "二人称"),
+		array('value' =>  206, 'title' => "三人称"),
+		array('value' =>  207, 'title' => "他人の呼び方"),
+
+		array('value' =>  251, 'title' => "職業"),
+		array('value' =>  252, 'title' => "所属組織"),
+		array('value' =>  253, 'title' => "地位・肩書き"),
+
+		array('value' =>  401, 'title' => "趣味"),
+		array('value' =>  402, 'title' => "特技"),
+		array('value' =>  403, 'title' => "服装"),
+		array('value' =>  404, 'title' => "食事"),
+		array('value' =>  405, 'title' => "料理"),
+		array('value' =>  406, 'title' => "好きな食べ物"),
+		array('value' =>  407, 'title' => "嫌いな食べ物"),
+		array('value' =>  408, 'title' => "寝つき・寝起き"),
+
+		array('value' =>  451, 'title' => "目的・目標"),
+		array('value' =>  452, 'title' => "戦う理由"),
+
+		array('value' =>  901, 'title' => "[メタ]キャラクター名の由来"),
+		array('value' =>  902, 'title' => "[メタ]CV・脳内CV"),
+		array('value' =>  903, 'title' => "[メタ]クラス・職業"),
+		array('value' =>  904, 'title' => "[メタ]イメージソング"),
 	),
 );
+
+
 
 

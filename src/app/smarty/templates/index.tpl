@@ -28,16 +28,23 @@
       <div class="callout callout-info">
         <h4>なにこれ</h4>
         <p><small>
-          キャラメイクゲーやTRPGで作ったキャラクターやストーリーをまとめるツールです。<br>
-          2018年10月14日にα版として公開しております。<br>
-          セブンスドラゴンシリーズを前提として開発中ですが、<br>
-          他ゲーム・一次創作などにも利用いただいても構いません。<br>
-          サイト名の案を募集中。
+          キャラメイクゲーやTRPGで作ったキャラクターやストーリーをまとめるツールです。（β版）<br>
+          一次創作二次創作問わず、ご自由にご利用ください。<br>
+          <br>
+          不具合やご要望は<a href="//twitter.com/smtk_tks/" target="_blank">こちら</a>までリプライorDMください。<br>
+          もしくは、ページ下部のフォームから匿名でお送りいただいてもOKです。<br>
+          ただしあくまで個人の趣味で作っているサイトですので対応しきれない場合はご了承ください。
         </small></p>
       </div>
 
+      <a href="/tutorial.php">
+        <div class="callout callout-success">
+          <h4><i class="fa fa-fw fa-arrow-right" aria-hidden="true"></i>はじめての方はこちら＜チュートリアル＞</h4>
+        </div>
+      </a>
+
       <div class="callout callout-info">
-        <h4>お知らせ＆最近のアップデート</h4>
+        <h4>お知らせ</h4>
       {foreach from=$information_list key=k item=v_inforamtion}
         <p>
           {$v_inforamtion.create_stamp|date_format:"%Y-%m-%d"}<br>
@@ -48,27 +55,10 @@
       {/foreach}
       </div>
 
-      <a href="/tutorial.php">
-      <div class="callout callout-success">
-        <h4><i class="fa fa-fw fa-arrow-right" aria-hidden="true"></i>はじめての方はこちら＜チュートリアル＞</h4>
-      </div>
-      </a>
-
-      <div class="callout callout-warning">
-        <h4>ご注意</h4>
-        <p><small>
-          とりあえず作ってみたα版です。<br>
-          ご自由にご利用いただいて構いませんが、<br>開発中のため、データの公開状態や内容の維持は保証しません。<br>
-          不具合やご要望は<a href="//twitter.com/smtk_tks/" target="_blank">こちら</a>までリプライorDMください。<br>
-          もしくは、下記のフォームから匿名でお送りいただいてもOKです。<br>
-          ただしあくまで個人の趣味で作っているサイトですので対応しきれない場合はご了承ください。<br>
-          当方デザイナーではなくプログラマーなので、見た目が二の次になっているのもご了承ください…。
-        </small></p>
-      </div>
       <div>
         <div class="form-group">
           <label>ご要望・不具合報告・ご質問はこちらへ</label>
-          <textarea id="contact_content" class="form-control" rows="1" placeholder="（匿名なのでこちらからの返信はできませんが、場合によってはトップページ等でお知らせします）"></textarea>
+          <textarea id="contact_content" class="form-control" rows="1" placeholder="（匿名なので個別返信はできませんが、内容によってはトップページ等で告知します）"></textarea>
           <button type="button" class="btn btn-primary btn-xs btn-block" onclick="addContact();">送信</button>
         </div>
       </div>

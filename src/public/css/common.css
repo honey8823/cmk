@@ -77,13 +77,23 @@
 .timeline.timeline-stage > li{
 	margin: 0em 1em 0.5em 0;
 }
-.timeline-btn-area{
+.float-button-area{
 	position: fixed;
 	bottom: 2em;
 	right: 0.5em;
-	font-size: 2em;
-	opacity: 0.5;
+	font-size: 1.8em;
+	opacity: 0.7;
 }
+.float-button-area > p{
+	border-radius: 50%;
+	background-color: #000000;
+	color: #FFFFFF;
+	text-align: center;
+	height: 1.8em;
+	width: 1.8em;
+	line-height: 1.8em;
+}
+
 .timeline-header.timeline-title{
 	padding: 7px !important;
 }
@@ -190,6 +200,22 @@
 /* 管理用キャラクター：ステージ */
 .private-character-stage{
 	margin: 1em;
+}
+
+/* 管理用キャラクター：詳細プロフィール */
+.ul-character_profile > li .view_mode div.character_profile_a{
+	font-size: 0.85em;
+	padding: 0.5em;
+	margin: 0.5em;
+	background: #EEEEEE;
+	border-radius: 0.5em;
+}
+.ul-character_profile .character_profile_button_area{
+	font-size: 1.2em;
+}
+.ul-character_profile > li textarea{
+	display: inline-block;
+	font-size: 0.85em;
 }
 
 /* アカウント管理：URL記載スペース */

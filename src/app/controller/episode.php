@@ -568,7 +568,7 @@ class EpisodeController extends Common
 			$err_list = array();
 			if (!preg_match("/^[0-9]+$/", $id))
 			{
-				$err_list[] = "存在しないデータです。最初からやり直してください。";
+				$err_list[] = "エラーが発生しました。一旦画面をリロードしてやり直してください。";
 				return array('error_message_list' => $err_list);
 			}
 			else
@@ -582,7 +582,7 @@ class EpisodeController extends Common
 				$r = $this->query($sql, $arg_list);
 				if (count($r) != 1)
 				{
-					$err_list[] = "存在しないデータです。最初からやり直してください。";
+					$err_list[] = "エラーが発生しました。一旦画面をリロードしてやり直してください。";
 					return array('error_message_list' => $err_list);
 				}
 			}
@@ -631,7 +631,7 @@ class EpisodeController extends Common
 			$err_list = array();
 			if (!preg_match("/^[0-9]+$/", $id))
 			{
-				$err_list[] = "存在しないデータです。最初からやり直してください。";
+				$err_list[] = "エラーが発生しました。一旦画面をリロードしてやり直してください。";
 				return array('error_message_list' => $err_list);
 			}
 			else
@@ -645,7 +645,7 @@ class EpisodeController extends Common
 				$r = $this->query($sql, $arg_list);
 				if (count($r) != 1)
 				{
-					$err_list[] = "存在しないデータです。最初からやり直してください。";
+					$err_list[] = "エラーが発生しました。一旦画面をリロードしてやり直してください。";
 					return array('error_message_list' => $err_list);
 				}
 			}

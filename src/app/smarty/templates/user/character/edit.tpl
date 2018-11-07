@@ -5,6 +5,8 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>{$smarty.const.SITE_NAME_FULL}</title>
   {include file='common/adminlte_css.tpl'}
+  <link rel="stylesheet" href="/js/adminlte_2.4.5/bower_components/select2/dist/css/select2.min.css">
+  <link rel="stylesheet" href="/js/adminlte_2.4.5/dist/css/AdminLTE.min.css">
   {include file='common/common_css.tpl'}
 </head>
 
@@ -27,13 +29,6 @@
         <li class="active">[{$character.name|escape:'html'}]編集</li>
       </ol>
     </section>
-
-<p class="hint-box">
-  UIを大きく変更しました。<br>
-  編集や削除を行いたい場合は「内容を編集する」をクリックしてください。<br>
-  キャラクターの公開/非公開を切り替えたいときはタイトル横の鍵マークをクリックしてください。<br>
-  （鍵が閉まっている黄色いアイコンは「非公開」、鍵が開いているグレーのアイコンは「公開」を表します）<br>
-</p>
 
     <!-- Main content -->
     <section class="content">
@@ -73,7 +68,7 @@
               </div>
             </div>
             <div class="box-body" id="area-setCharacter" style="display:none;">
-              <input type="hidden" class="form-id" value="{$character.id}">
+              <input type="hidden" class="form-id hidden-character_id" value="{$character.id}">
               <div class="form-group">
                 <label>キャラクター名</label>
                 <span class="menu-tooltip">
@@ -110,16 +105,89 @@
         <div class="col-md-12">
           <div class="nav-tabs-custom">
             <ul class="nav nav-tabs">
-              <li class="active"><a href="#tab-content-timeline" data-toggle="tab" aria-expanded="true">タイムライン</a></li>
-<!--
-              <li class=""><a href="#tab-content-stage" data-toggle="tab" aria-expanded="false">ステージ</a></li>
--->
+              <li class="active"><a href="#tab-content-profile" data-toggle="tab" aria-expanded="false">詳細プロフィール</a></li>
+              <li class=""><a href="#tab-content-timeline" data-toggle="tab" aria-expanded="true">タイムライン</a></li>
             </ul>
+
             <div class="tab-content">
-              <div class="tab-pane active" id="tab-content-timeline">
-<!--
+              <div class="tab-pane active" id="tab-content-profile">
+                <p class="hint-box">ステージごとに異なる項目や時間の経過で変わる項目は<br>「ステージ」内で別途設定することができます。</p>
+                <ul class="nav nav-stacked ul-character_profile">
+
+                {foreach from=$character.profile_list key=k item=v_profile}
+                  <li class="li-character_profile" data-q="{$v_profile.question}">
+                    <a>
+
+                      <!-- 表示モード -->
+                      <span class="view_mode">
+                        <div class="character_profile_button_area pull-right">
+                          <i class="fa fa-fw fa-pencil-square-o clickable character_profile_edit_icon" aria-hidden="true"></i>
+                          <i class="fa fa-fw fa-trash-o clickable character_profile_delete_icon" aria-hidden="true"></i>
+                        </div>
+                        <div class="character_profile_q">{$v_profile.question_title}</div>
+                        <div class="character_profile_a">{$v_profile.answer|escape:'html'|nl2br}</div>
+                      </span>
+
+                      <!-- 編集モード -->
+                      <span class="edit_mode hidden">
+                        <div class="character_profile_button_area pull-right">
+                          <i class="fa fa-fw fa-floppy-o clickable character_profile_save_icon" aria-hidden="true"></i>
+                        </div>
+                        <div class="character_profile_q set_mode">{$v_profile.question_title}</div>
+                        <div class="character_profile_a">
+                          <textarea class="form-control" rows="3">{$v_profile.answer}</textarea>
+                        </div>
+                      </span>
+
+                    </a>
+                  </li>
+                {/foreach}
+
+                  <li class="li-character_profile template-for-copy">
+                    <a>
+
+                      <!-- 表示モード -->
+                      <span class="view_mode hidden">
+                        <div class="character_profile_button_area pull-right">
+                          <i class="fa fa-fw fa-pencil-square-o clickable character_profile_edit_icon" aria-hidden="true"></i>
+                          <i class="fa fa-fw fa-trash-o clickable character_profile_delete_icon" aria-hidden="true"></i>
+                        </div>
+                        <div class="character_profile_q">本名・フルネーム</div>
+                        <div class="character_profile_a">なんとかかんとか</div>
+                      </span>
+
+                      <!-- 編集モード -->
+                      <span class="edit_mode">
+                        <div class="character_profile_button_area pull-right">
+                          <i class="fa fa-fw fa-floppy-o clickable character_profile_save_icon" aria-hidden="true"></i>
+                        </div>
+
+                        <div class="character_profile_q add_mode">
+                          <div>項目を新規追加</div>
+                          <select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true">
+                          {foreach from=$character_profile_q key=k item=v_q}
+                          {if !in_array($v_q.value, array_column($character.profile_list, "question"))}
+                            <option value="{$v_q.value}">{$v_q.title}</option>
+                          {/if}
+                          {/foreach}
+                          </select>
+                        </div>
+                        <div class="character_profile_q set_mode hidden"></div>
+                        <div class="character_profile_a">
+                          <textarea class="form-control" rows="3"></textarea>
+                        </div>
+                      </span>
+
+                    </a>
+                  </li>
+
+                </ul>
+              </div>
+
+              <div class="tab-pane" id="tab-content-timeline">
+{*
                 <button type="button" class="btn btn-primary pull-right">このキャラクターにエピソードを追加する</button>
--->
+*}
                 <ul class="timeline timeline-character" id="timeline_for_stage_template">
                 {foreach from=$timeline key=k_tl item=v_tl}
                   <li class="time-label timeline-stage_name clickable" data-id="{$v_tl.id}" onclick="location.href='/user/stage/edit.php?id={$v_tl.id}';">
@@ -195,20 +263,9 @@
 ***}
                 </ul>
               </div>
-<!--
-              <div class="tab-pane" id="tab-content-stage">
-                <button type="button" class="btn btn-primary pull-right">このキャラクターにエピソードを追加する</button>
-                <ul>
-              {foreach from=$character.stage_list key=k item=v_stage}
-                <li><a href="/user/stage/edit.php?id={$v_stage.id}">{$v_stage.name|escape:'html'}</a></li>
-              {/foreach}
-                </ul>
-              </div>
--->
             </div>
           </div>
         </div>
-
       </div>
     </section>
     <!-- ///////////////////////////////////////////////////// -->
@@ -222,10 +279,17 @@
 
 <!-- JS start -->
 {include file='common/adminlte_js.tpl'}
+<script src="/js/adminlte_2.4.5/bower_components/select2/dist/js/select2.full.min.js"></script>
 <script src="/js/common.js"></script>
 <script src="/js/sidebar.js"></script>
 <script src="/js/character.js"></script>
 <script src="/js/episode.js"></script>
+<script>
+$(function(){
+	// プロフィールのフォーム表示用
+	copyCharacterProfileForm();
+});
+</script>
 <!-- JS end -->
 </body>
 </html>

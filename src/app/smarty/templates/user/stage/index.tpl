@@ -51,9 +51,11 @@
                     <span class="is_private"><span class="is_private_icon is_private_{$v_stage.is_private}"><i class="fa {if $v_stage.is_private == 1}fa-lock{else}fa-unlock{/if} fa-fw"></i></span></span>
                     <span class="name"><span class="stage_name">{$v_stage.name|escape:'html'}</span></span>
                     <span class="tag">
+                    {if isset($v_stage.tag_list) && is_array($v_stage.tag_list)}
                     {foreach from=$v_stage.tag_list key=k item=v_tag}
                       <span class="label tag-base tag-{$v_tag.category_key}">{$v_tag.name_short|escape:'html'}</span>
                     {/foreach}
+                    {/if}
                     </span>
                   </a>
                 </li>
@@ -80,8 +82,8 @@
         </div>
         <div class="modal-body">
           <div class="form-group">
-            <label>ステージ名</label><small>※必須</small>
-            <input type="text" name="name" class="form-control form-name">
+            <label>ステージ名</label>
+            <input type="text" name="name" class="form-control form-name" placeholder="※必須">
           </div>
           <div class="form-group">
             <label>説明文</label>
@@ -93,6 +95,9 @@
           </div>
           <div class="form-group">
             <label>関連するシリーズ（複数選択可）</label>
+          {if !isset($series_list) || !is_array($series_list) || count($series_list) == 0}
+            <p class="hint-box">アカウント管理から「ジャンル」設定を行うことで選択できるようになります。<br>のちほど選択することも可能なので、気が向いたらお試しください。</p>
+          {/if}
             <div>
             {foreach from=$series_list key=k item=v_series}
               <span class="label tag-base tag-series tag-notselected tag-selectable clickable" value="{$v_series.id}">{$v_series.name}</span>

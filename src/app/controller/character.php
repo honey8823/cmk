@@ -142,6 +142,30 @@ class CharacterController extends Common
 				}
 			}
 
+			// 取得（詳細プロフィール）・整形
+			$q_list = $this->getConfig("character_profile_q", "value");
+			$sql  = "SELECT     `character_profile`.`question` ";
+			$sql .= "          ,`character_profile`.`answer` ";
+			$sql .= "FROM       `character_profile` ";
+			$sql .= "WHERE      `character_profile`.`character_id` = ? ";
+			$sql .= "ORDER BY   `character_profile`.`sort` = 0 ASC ";
+			$sql .= "          ,`character_profile`.`sort` ASC ";
+			$sql .= "          ,`character_profile`.`create_stamp` ASC ";
+			$arg_list = array($id);
+			$profile_list = $this->query($sql, $arg_list);
+			$character_list[0]['profile_list'] = array();
+			if (count($profile_list) > 0)
+			{
+				foreach ($profile_list as $v)
+				{
+					$character_list[0]['profile_list'][] = array(
+						'question'       => $v['question'],
+						'question_title' => $q_list[$v['question']]['title'],
+						'answer'         => $v['answer'],
+					);
+				}
+			}
+
 			// 戻り値
 			$return_list['character'] = $character_list[0];
 			return $return_list;
@@ -241,7 +265,7 @@ class CharacterController extends Common
 			$err_list = array();
 			if (!preg_match("/^[0-9]+$/", $id))
 			{
-				$err_list[] = "存在しないデータです。最初からやり直してください。";
+				$err_list[] = "エラーが発生しました。一旦画面をリロードしてやり直してください。";
 				return array('error_message_list' => $err_list);
 			}
 			else
@@ -251,7 +275,7 @@ class CharacterController extends Common
 				$r = $this->query($sql, $arg_list);
 				if (count($r) != 1)
 				{
-					$err_list[] = "存在しないデータです。最初からやり直してください。";
+					$err_list[] = "エラーが発生しました。一旦画面をリロードしてやり直してください。";
 					return array('error_message_list' => $err_list);
 				}
 			}
@@ -372,7 +396,7 @@ class CharacterController extends Common
 			$err_list = array();
 			if (!preg_match("/^[0-9]+$/", $id))
 			{
-				$err_list[] = "存在しないデータです。最初からやり直してください。";
+				$err_list[] = "エラーが発生しました。一旦画面をリロードしてやり直してください。";
 				return array('error_message_list' => $err_list);
 			}
 			else
@@ -382,7 +406,7 @@ class CharacterController extends Common
 				$r = $this->query($sql, $arg_list);
 				if (count($r) != 1)
 				{
-					$err_list[] = "存在しないデータです。最初からやり直してください。";
+					$err_list[] = "エラーが発生しました。一旦画面をリロードしてやり直してください。";
 					return array('error_message_list' => $err_list);
 				}
 			}
@@ -470,7 +494,7 @@ class CharacterController extends Common
 			$err_list = array();
 			if (!preg_match("/^[0-9]+$/", $id))
 			{
-				$err_list[] = "存在しないデータです。最初からやり直してください。";
+				$err_list[] = "エラーが発生しました。一旦画面をリロードしてやり直してください。";
 				return array('error_message_list' => $err_list);
 			}
 			else
@@ -480,7 +504,7 @@ class CharacterController extends Common
 				$r = $this->query($sql, $arg_list);
 				if (count($r) != 1)
 				{
-					$err_list[] = "存在しないデータです。最初からやり直してください。";
+					$err_list[] = "エラーが発生しました。一旦画面をリロードしてやり直してください。";
 					return array('error_message_list' => $err_list);
 				}
 			}
@@ -508,4 +532,226 @@ class CharacterController extends Common
 			$this->exception($e);
 		}
 	}
+
+	public function addProfile($param_list = array())
+	{
+		try
+		{
+			// ユーザID
+			$user_id    = $this->getLoginId();
+			if ($user_id === false)
+			{
+				return array('error_redirect' => "session");
+			}
+
+			// 引数
+			$character_id = trim($param_list['character_id']);
+			$question     = trim($param_list['question']);
+			$answer       = trim($param_list['answer']);
+
+			// キャラクタープロフィール項目
+			$q_list = $this->getConfig("character_profile_q", "value");
+
+			// バリデート
+			$err_list = array();
+			if (!preg_match("/^[0-9]+$/", $character_id))
+			{
+				$err_list[] = "エラーが発生しました。一旦画面をリロードしてやり直してください。";
+				return array('error_message_list' => $err_list);
+			}
+			else
+			{
+				$sql  = "SELECT `id` FROM `character` WHERE `id` = ? AND `user_id` = ? AND `is_delete` <> 1 ";
+				$arg_list = array($character_id, $user_id);
+				$r = $this->query($sql, $arg_list);
+				if (count($r) != 1)
+				{
+					$err_list[] = "エラーが発生しました。一旦画面をリロードしてやり直してください。";
+					return array('error_message_list' => $err_list);
+				}
+			}
+			if (!isset($q_list[$question]))
+			{
+				$err_list[] = "エラーが発生しました。一旦画面をリロードしてやり直してください。";
+				return array('error_message_list' => $err_list);
+			}
+			if (mb_strlen($answer) == 0)
+			{
+				$err_list[] = "内容を入力してください。";
+			}
+			elseif (mb_strlen($answer) > 1000)
+			{
+				$err_list[] = "内容は1000文字以内で入力してください。";
+			}
+			if (count($err_list) > 0)
+			{
+				return array('error_message_list' => $err_list);
+			}
+
+			// 登録
+			$arg_list = array();
+			$sql  = "INSERT INTO `character_profile` (`character_id`, `question`, `answer`) ";
+			$sql .= "VALUES                          (?             , ?         , ?       ) ";
+			$arg_list[] = $character_id;
+			$arg_list[] = $question;
+			$arg_list[] = $answer;
+			$this->query($sql, $arg_list);
+
+			// 戻り値
+			$return_list = array(
+				'question'       => $question,
+				'question_title' => $q_list[$question]['title'],
+				'answer'         => $answer,
+			);
+			return $return_list;
+		}
+		catch (Exception $e)
+		{
+			$this->exception($e);
+		}
+	}
+
+	public function setProfile($param_list = array())
+	{
+		try
+		{
+			// ユーザID
+			$user_id    = $this->getLoginId();
+			if ($user_id === false)
+			{
+				return array('error_redirect' => "session");
+			}
+
+			// 引数
+			$character_id = trim($param_list['character_id']);
+			$question     = trim($param_list['question']);
+			$answer       = trim($param_list['answer']);
+
+			// キャラクタープロフィール項目
+			$q_list = $this->getConfig("character_profile_q", "value");
+
+			// バリデート
+			$err_list = array();
+			if (!preg_match("/^[0-9]+$/", $character_id))
+			{
+				$err_list[] = "エラーが発生しました。一旦画面をリロードしてやり直してください。";
+				return array('error_message_list' => $err_list);
+			}
+			else
+			{
+				$sql  = "SELECT `id` FROM `character` WHERE `id` = ? AND `user_id` = ? AND `is_delete` <> 1 ";
+				$arg_list = array($character_id, $user_id);
+				$r = $this->query($sql, $arg_list);
+				if (count($r) != 1)
+				{
+					$err_list[] = "エラーが発生しました。一旦画面をリロードしてやり直してください。";
+					return array('error_message_list' => $err_list);
+				}
+			}
+			if (!isset($q_list[$question]))
+			{
+				$err_list[] = "エラーが発生しました。一旦画面をリロードしてやり直してください。";
+				return array('error_message_list' => $err_list);
+			}
+			if (mb_strlen($answer) == 0)
+			{
+				$err_list[] = "内容を入力してください。";
+			}
+			elseif (mb_strlen($answer) > 1000)
+			{
+				$err_list[] = "内容は1000文字以内で入力してください。";
+			}
+			if (count($err_list) > 0)
+			{
+				return array('error_message_list' => $err_list);
+			}
+
+			// 登録
+			$arg_list = array();
+			$sql  = "UPDATE `character_profile` ";
+			$sql .= "SET    `answer` = ? ";
+			$sql .= "WHERE  `character_id` = ? ";
+			$sql .= "AND    `question` = ? ";
+			$arg_list[] = $answer;
+			$arg_list[] = $character_id;
+			$arg_list[] = $question;
+			$this->query($sql, $arg_list);
+
+			// 戻り値
+			$return_list = array(
+				'answer'         => $answer,
+			);
+			return $return_list;
+		}
+		catch (Exception $e)
+		{
+			$this->exception($e);
+		}
+	}
+
+	public function delProfile($param_list = array())
+	{
+		try
+		{
+			// ユーザID
+			$user_id    = $this->getLoginId();
+			if ($user_id === false)
+			{
+				return array('error_redirect' => "session");
+			}
+
+			// 引数
+			$character_id = trim($param_list['character_id']);
+			$question     = trim($param_list['question']);
+
+			// キャラクタープロフィール項目
+			$q_list = $this->getConfig("character_profile_q", "value");
+
+			// バリデート
+			$err_list = array();
+			if (!preg_match("/^[0-9]+$/", $character_id))
+			{
+				$err_list[] = "エラーが発生しました。一旦画面をリロードしてやり直してください。";
+				return array('error_message_list' => $err_list);
+			}
+			else
+			{
+				$sql  = "SELECT `id` FROM `character` WHERE `id` = ? AND `user_id` = ? AND `is_delete` <> 1 ";
+				$arg_list = array($character_id, $user_id);
+				$r = $this->query($sql, $arg_list);
+				if (count($r) != 1)
+				{
+					$err_list[] = "エラーが発生しました。一旦画面をリロードしてやり直してください。";
+					return array('error_message_list' => $err_list);
+				}
+			}
+			if (!isset($q_list[$question]))
+			{
+				$err_list[] = "エラーが発生しました。一旦画面をリロードしてやり直してください。";
+				return array('error_message_list' => $err_list);
+			}
+			if (count($err_list) > 0)
+			{
+				return array('error_message_list' => $err_list);
+			}
+
+			// 登録
+			$arg_list = array();
+			$sql  = "DELETE FROM `character_profile` ";
+			$sql .= "WHERE       `character_id` = ? ";
+			$sql .= "AND         `question` = ? ";
+			$arg_list[] = $character_id;
+			$arg_list[] = $question;
+			$this->query($sql, $arg_list);
+
+			// 戻り値
+			$return_list = array();
+			return $return_list;
+		}
+		catch (Exception $e)
+		{
+			$this->exception($e);
+		}
+	}
+
 }
