@@ -101,3 +101,36 @@ function addUser(){
 		return true;
     });
 }
+
+/*
+ * リクエストボックス
+ */
+function addContactRequest(){
+	var category = $("#modal-request .form-category").val();
+	var content  = $("#modal-request .form-free_text").val();
+
+	if (content == ""){
+		return false;
+	}
+
+	var params = {
+			'content' : "【" + category + "】\n" + content,
+		};
+	var result = ajaxPost("contact", "add", params);
+    result.done(function(){
+		if (isAjaxResultErrorRedirect(result.return_value) === true) {return false;}  // 必要ならエラーページへリダイレクト
+		if (isAjaxResultErrorMsg(result.return_value) === true ){return false;} // 必要ならエラーメッセージ表示
+
+		// 正常な場合
+		$('#modal-request').modal("hide");
+		$("#modal-request .form-free_text").val("");
+		return true;
+    });
+}
+/*
+ * リクエストボックスにデフォルトカテゴリ設定
+ */
+function setRequestCategory(c){
+	$("#modal-request .form-category").val(c);
+	//$("#modal-request .form-category > option[value='" + c + "']").prop("selected", true);
+}

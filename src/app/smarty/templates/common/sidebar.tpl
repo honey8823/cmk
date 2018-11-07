@@ -44,6 +44,11 @@
           </a>
         </li>
         <li>
+          <a href="#" data-toggle="modal" data-target="#modal-request">
+            <i class="fa fa-fw fa-archive" aria-hidden="true"></i><span>リクエストボックス</span>
+          </a>
+        </li>
+        <li>
           <a href="/user/account.php">
             <i class="fa fa-fw fa-user-circle" aria-hidden="true"></i><span>アカウント管理</span>
           </a>
@@ -135,6 +140,40 @@
         <div class="modal-footer">
           <button type="button" class="btn btn-default pull-left" data-dismiss="modal">キャンセル</button>
           <button type="button" class="btn btn-primary" onclick="login();">ログイン</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- リクエストmodal -->
+  <div class="modal fade" id="modal-request">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">リクエストボックス</h4>
+        </div>
+        <div class="modal-body">
+          <p class="hint-box">欲しいものをお気軽にリクエストしていってください。</p>
+          <div class="form-group">
+            <label>カテゴリ</label>
+            <select class="form-control form-category" name="category">
+              <option value="none">未選択（下記に記載ください）</option>
+              <option value="genre">ジャンル</option>
+              <option value="tag-series">作品タグ</option>
+              <option value="character_profile">プロフィール項目</option>
+              <option value="system">機能・バグ修正</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>ほしいもの</label>
+            <textarea class="form-control form-free_text" rows="3" name="form-control free_text"></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default pull-left" data-dismiss="modal">キャンセル</button>
+          <button type="button" class="btn btn-primary" onclick="addContactRequest();">リクエストする</button>
         </div>
       </div>
     </div>

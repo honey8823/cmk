@@ -77,7 +77,7 @@
                 <label>関連するシリーズ（複数選択可）</label>
               {if !isset($series_list) || !is_array($series_list) || count($series_list) == 0}
                 <p class="hint-box">アカウント管理から「ジャンル」設定を行うことで選択できるようになります。<br>のちほど選択することも可能なので、気が向いたらお試しください。</p>
-              {/if}
+              {else}
                 <div>
                 {foreach from=$series_list key=k item=v_series}
                 {if isset($stage.tag_list) && is_array($stage.tag_list) && in_array($v_series.id, array_column($stage.tag_list, 'id'))}
@@ -87,6 +87,12 @@
                 {/if}
                 {/foreach}
                 </div>
+                <div class="text-align-right">
+                  <a href="#" data-toggle="modal" data-target="#modal-request" onclick="setRequestCategory('tag-series');">
+                    <small><i class="fa fa-fw fa-arrow-circle-right" aria-hidden="true"></i>欲しい作品タグがない！</small>
+                  </a>
+                </div>
+              {/if}
               </div>
               <div class="form-group">
                 <label>説明文</label>

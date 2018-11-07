@@ -61,6 +61,11 @@
                 {/if}
                 {/foreach}
                 </div>
+                <div class="text-align-right">
+                  <a href="#" data-toggle="modal" data-target="#modal-request" onclick="setRequestCategory('genre');">
+                    <small><i class="fa fa-fw fa-arrow-circle-right" aria-hidden="true"></i>欲しいジャンルがない！</small>
+                  </a>
+                </div>
               </div>
               <div class="form-group">
                 <label>コメント</label>

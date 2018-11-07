@@ -184,6 +184,11 @@
                   </li>
 
                 </ul>
+                <div class="text-align-right">
+                  <a href="#" data-toggle="modal" data-target="#modal-request" onclick="setRequestCategory('character_profile');">
+                    <small><i class="fa fa-fw fa-arrow-circle-right" aria-hidden="true"></i>欲しい項目がない！</small>
+                  </a>
+                </div>
               </div>
 
               <div class="tab-pane" id="tab-content-timeline">

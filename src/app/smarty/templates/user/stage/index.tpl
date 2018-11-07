@@ -97,12 +97,13 @@
             <label>関連するシリーズ（複数選択可）</label>
           {if !isset($series_list) || !is_array($series_list) || count($series_list) == 0}
             <p class="hint-box">アカウント管理から「ジャンル」設定を行うことで選択できるようになります。<br>のちほど選択することも可能なので、気が向いたらお試しください。</p>
-          {/if}
+          {else}
             <div>
             {foreach from=$series_list key=k item=v_series}
               <span class="label tag-base tag-series tag-notselected tag-selectable clickable" value="{$v_series.id}">{$v_series.name}</span>
             {/foreach}
             </div>
+          {/if}
           </div>
         </div>
         <div class="modal-footer">
