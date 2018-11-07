@@ -42,6 +42,8 @@
               <a href="/public/character/detail.php?user={$character.login_id}&id={$character.id}">http://{$smarty.server.SERVER_NAME}/public/character/detail.php?user={$character.login_id}&id={$character.id}</a>
             </small>
           </div>
+        {else}
+          <p class="hint-box">このキャラクターを他人に公開したい場合は、名前の横の鍵マークをクリックしてください。</p>
         {/if}
 
           <div class="box">

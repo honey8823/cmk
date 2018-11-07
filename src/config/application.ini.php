@@ -93,7 +93,7 @@ const config = array(
 
 		array('value' =>  251, 'title' => "職業"),
 		array('value' =>  252, 'title' => "所属組織"),
-		array('value' =>  253, 'title' => "地位・肩書き"),
+		array('value' =>  253, 'title' => "階級・地位・肩書き"),
 
 		array('value' =>  401, 'title' => "趣味"),
 		array('value' =>  402, 'title' => "特技"),
@@ -107,10 +107,16 @@ const config = array(
 		array('value' =>  451, 'title' => "目的・目標"),
 		array('value' =>  452, 'title' => "戦う理由"),
 
-		array('value' =>  901, 'title' => "[メタ]キャラクター名の由来"),
-		array('value' =>  902, 'title' => "[メタ]CV・脳内CV"),
-		array('value' =>  903, 'title' => "[メタ]クラス・職業"),
-		array('value' =>  904, 'title' => "[メタ]イメージソング"),
+		array('value' =>  901, 'title' => "[メタ]外見"),
+		array('value' =>  902, 'title' => "[メタ]クラス・職業"),
+		array('value' =>  903, 'title' => "[メタ]CV・脳内CV"),
+
+		array('value' =>  911, 'title' => "[メタ]スキル構成"),
+		array('value' =>  912, 'title' => "[メタ]属性"),
+		array('value' =>  913, 'title' => "[メタ]パラメータ"),
+
+		array('value' =>  951, 'title' => "[メタ]名前の由来"),
+		array('value' =>  952, 'title' => "[メタ]イメージソング"),
 	),
 );
 

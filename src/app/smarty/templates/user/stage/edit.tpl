@@ -40,6 +40,8 @@
               <a href="/public/stage/detail.php?user={$stage.login_id}&id={$stage.id}">http://{$smarty.server.SERVER_NAME}/public/user/detail.php?user={$stage.login_id}&id={$stage.id}</a>
             </small>
           </div>
+        {else}
+          <p class="hint-box">このステージを他人に公開したい場合は、名前の横の鍵マークをクリックしてください。</p>
         {/if}
 
           <div class="box">
@@ -117,6 +119,7 @@
                   <button type="button" class="btn btn-warning btn-block sort_mode_on" onclick="readyEpisodeSort(0);"><i class="fa fa-fw fa-sort" aria-hidden="true"></i>並べ替えモード中（クリックで終了）</button>
                 </div>
                 <p class="hint-box sort_mode_on">並べ替えモード中：ドラッグ＆ドロップで並べ替えができます。</p>
+                <p class="hint-box">鍵マークで公開/非公開を切り替えることができます。</p>
                 <ul class="timeline template-for-copy" id="timeline_for_stage_template">
                   <li class="time-label timeline-editable timeline-label clickable template-for-copy" data-id="" data-toggle="modal" data-target="#modal-setEpisode">
                     <span class="timeline-label-title bg-red">
