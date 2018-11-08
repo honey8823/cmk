@@ -31,6 +31,10 @@
     <section class="content">
       <div class="row">
         <div class="col-md-12">
+          <p class="hint-box">
+            「ステージ」は物語や世界観の単位です。<br>
+            二次創作のジャンルごとに1つ作る、パラレルや分岐ルートで細かく分ける、などお好みでご利用ください。
+          </p>
           <div class="box-body">
             <div>
               <button type="button" class="btn btn-block btn-primary" data-toggle="modal" data-target="#modal-addStage">ステージを追加</button>
