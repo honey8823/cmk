@@ -25,6 +25,13 @@ function switchSidebar(){
 }
 
 /*
+ * サイドバーの折り畳みをセッションに保存
+ */
+$(document).on("click", ".sidebar-toggle", function(){
+	ajaxPost("user", "setSessionUserIsSidebarClose");
+});
+
+/*
  * 会員情報をHTMLにセット
  */
 function setUserData(){
@@ -35,6 +42,12 @@ function setUserData(){
 		if (isAjaxResultNoData(result.return_value['user']['id']) === true ){logout();return false;} // データがない場合はエラー表示
 
     	// 正常な場合
+
+		// サイドバーの折り畳み
+		if (result.return_value['user']['is_sidebar_close'] == 1){
+			$("body").addClass("sidebar-collapse");
+		}
+		// 名前のセット
     	$(".textdata-user-name").text(result.return_value['user']['name']);
     	return true;
     });

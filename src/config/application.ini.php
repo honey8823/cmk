@@ -103,6 +103,8 @@ const config = array(
 		array('value' =>  406, 'title' => "好きな食べ物"),
 		array('value' =>  407, 'title' => "嫌いな食べ物"),
 		array('value' =>  408, 'title' => "寝つき・寝起き"),
+		array('value' =>  409, 'title' => "飲酒"),
+		array('value' =>  410, 'title' => "煙草"),
 
 		array('value' =>  451, 'title' => "目的・目標"),
 		array('value' =>  452, 'title' => "戦う理由"),

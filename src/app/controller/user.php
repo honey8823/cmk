@@ -469,4 +469,20 @@ class UserController extends Common
 		$session_list = $this->getSession(array("user"));
 		return isset($session_list['user']['id']) && preg_match("/^[0-9]+$/", $session_list['user']['id']);
 	}
+
+	public function setSessionUserIsSidebarClose($param_list = array())
+	{
+		$user_session = $this->getSession(array("user"));
+		if (isset($user_session['user']['is_sidebar_close']) && $user_session['user']['is_sidebar_close'] == 1)
+		{
+			$user_session['user']['is_sidebar_close'] = 0;
+		}
+		else
+		{
+			$user_session['user']['is_sidebar_close'] = 1;
+		}
+		$this->setSession("user", $user_session['user']);
+
+		return true;
+	}
 }
