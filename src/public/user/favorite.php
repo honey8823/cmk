@@ -42,6 +42,9 @@ $smarty_param['favorite_type_list'] = $fc->table()['favorite_type_list'];
 // config
 $smarty_param['config'] = config;
 
+// ユーザーセッション情報
+$smarty_param['user_session'] = $user_session;
+
 // Smartyテンプレート呼び出し
 foreach ($smarty_param as $key => $val)
 {

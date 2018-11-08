@@ -65,6 +65,9 @@ $smarty_param['character_profile_q'] = $cc->getConfig("character_profile_q", "va
 // config
 $smarty_param['config'] = config;
 
+// ユーザーセッション情報
+$smarty_param['user_session'] = $user_session;
+
 // Smartyテンプレート呼び出し
 foreach ($smarty_param as $key => $val)
 {

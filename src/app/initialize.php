@@ -21,3 +21,8 @@ $smarty->template_dir = PATH_TEMPLATE . "templates/";
 $smarty->compile_dir  = PATH_TEMPLATE . "templates_c/";
 $smarty->config_dir   = PATH_TEMPLATE . "configs/";
 $smarty->cache_dir    = PATH_TEMPLATE . "cache/";
+
+// user session
+$cc = new Common();
+$session = $cc->getSession(array("user"));
+$user_session = isset($session['user']) ? $session['user'] : array();

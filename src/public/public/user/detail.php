@@ -48,6 +48,9 @@ $smarty_param['is_favorite']    = $user['is_favorite'];
 // config
 $smarty_param['config'] = config;
 
+// ユーザーセッション情報
+$smarty_param['user_session'] = $user_session;
+
 // Smartyテンプレート呼び出し
 foreach ($smarty_param as $key => $val)
 {

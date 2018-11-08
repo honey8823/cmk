@@ -1,0 +1,1 @@
+<body class="hold-transition skin-blue sidebar-mini{if isset($user_session.is_sidebar_close) && $user_session.is_sidebar_close == 1} sidebar-collapse{/if}">

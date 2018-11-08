@@ -8,7 +8,7 @@
   {include file='common/common_css.tpl'}
 </head>
 
-<body class="hold-transition skin-blue sidebar-mini">
+{include file='common/body.tpl'}
 <div class="wrapper">
 
   {include file='common/header.tpl'}

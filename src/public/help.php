@@ -30,6 +30,12 @@ $smarty_param['help_list'] = $help_list['help_list'];
 // Smartyデバッグ用
 //$smarty->debugging = true;
 
+// config
+$smarty_param['config'] = config;
+
+// ユーザーセッション情報
+$smarty_param['user_session'] = $user_session;
+
 // Smartyテンプレート呼び出し
 foreach ($smarty_param as $key => $val)
 {
