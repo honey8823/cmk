@@ -175,20 +175,34 @@
                 <div id="list-character" class="box">
                   <div class="box-body no-padding">
                     <ul class="nav nav-stacked ul-character stage-character-sort-area">
-                      <li class="character_list clickable template-for-copy" data-id="" data-toggle="modal" data-target="#modal-overrideStage">
+                      <li class="character_list clickable foldable template-for-copy">
                         <a>
-                          <span class="is_private">
-                            <span class="is_private_icon is_private_0 hide"><i class="fa fa-unlock fa-fw"></i></span>
-                            <span class="is_private_icon is_private_1 hide"><i class="fa fa-lock fa-fw"></i></span>
-                          </span>
-                          <span class="name"><span class="character_name"></span></span>
+                          <div>
+                            <span class="is_private">
+                              <span class="is_private_icon is_private_0 hide"><i class="fa fa-unlock fa-fw"></i></span>
+                              <span class="is_private_icon is_private_1 hide"><i class="fa fa-lock fa-fw"></i></span>
+                            </span>
+                            <span class="name"><span class="character_name"></span></span>
+                          </div>
+                          <div class="menu hidden">
+                            <button type="button" class="btn btn-xs btn-block btn-default btn-character_edit">キャラクターページへ移動</button>
+                            <button type="button" class="btn btn-xs btn-block btn-default btn-profile_view">このステージでのプロフィールを見る</button>
+                            <button type="button" class="btn btn-xs btn-block btn-default btn-override" data-id="{$v_character.id}" data-toggle="modal" data-target="#modal-overrideStage">プロフィールをオーバーライドする</button>
+                          </div>
                         </a>
                       </li>
                     {foreach from=$stage.character_list key=k item=v_character}
-                      <li class="character_list clickable" data-id="{$v_character.id}" data-toggle="modal" data-target="#modal-overrideStage">
+                      <li class="character_list clickable foldable">
                         <a>
-                          <span class="is_private"><span class="is_private_icon is_private_{$v_character.is_private}"><i class="fa {if $v_character.is_private == 1}fa-lock{else}fa-unlock{/if} fa-fw"></i></span></span>
-                          <span class="name"><span class="character_name">{$v_character.name|escape:'html'}</span></span>
+                          <div>
+                            <span class="is_private"><span class="is_private_icon is_private_{$v_character.is_private}"><i class="fa {if $v_character.is_private == 1}fa-lock{else}fa-unlock{/if} fa-fw"></i></span></span>
+                            <span class="name"><span class="character_name">{$v_character.name|escape:'html'}</span></span>
+                          </div>
+                          <div class="folder hidden">
+                            <button type="button" class="btn btn-xs btn-block btn-default btn-character_edit" onclick="location.href='/user/character/edit.php?id={$v_character.id}';">キャラクターページへ移動</button>
+                            <button type="button" class="btn btn-xs btn-block btn-default btn-profile_view">このステージでのプロフィールを見る</button>
+                            <button type="button" class="btn btn-xs btn-block btn-default btn-override" data-id="{$v_character.id}" data-toggle="modal" data-target="#modal-overrideStage">プロフィールをオーバーライドする</button>
+                          </div>
                         </a>
                       </li>
                     {/foreach}

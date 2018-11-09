@@ -1,5 +1,5 @@
 /* オーバーライドモーダルへの値セット発火 */
-$(document).on("click", ".character_list.clickable", function(){
+$(document).on("click", ".character_list .btn-override", function(){
 	setOverrideStageModal($(this).data("id"));
 });
 
