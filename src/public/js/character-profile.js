@@ -1,3 +1,29 @@
+// 詳細プロフィール：編集ボタン押下時（編集フォームに切り替える）
+$(document).on("click", ".character_profile_edit_icon.clickable", function(){
+	var q = $(this).parents(".li-character_profile").data("q");
+	showCharacterProfileForm(q);
+});
+
+// 詳細プロフィール：削除ボタン押下時（削除する）
+$(document).on("click", ".character_profile_delete_icon.clickable", function(){
+	var q = $(this).parents(".li-character_profile").data("q");
+	delCharacterProfile(q);
+});
+
+// 詳細プロフィール：保存ボタン押下時（新規登録or更新する）
+$(document).on("click", ".character_profile_save_icon.clickable", function(){
+	var q = $(this).parents(".li-character_profile").data("q");
+	var a = $(this).parents(".edit_mode").find(".character_profile_a textarea").val();
+
+	if (q == "0"){
+		q = $(this).parents(".edit_mode").find(".character_profile_q select").val();
+		addCharacterProfile(q, a);
+	}
+	else{
+		setCharacterProfile(q, a);
+	}
+});
+
 /*
  * キャラクタープロフィール項目入力欄を増やす
  */
