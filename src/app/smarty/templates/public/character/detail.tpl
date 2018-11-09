@@ -141,7 +141,6 @@
 
 <!-- JS start -->
 {include file='common/adminlte_js.tpl'}
-<script src="/js/lib/jquery.ui.touch-punch.min.js"></script>
 <script src="/js/common.js"></script>
 <script src="/js/sidebar.js"></script>
 <script src="/js/episode.js"></script>

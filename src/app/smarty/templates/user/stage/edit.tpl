@@ -4,6 +4,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>{$smarty.const.SITE_NAME_FULL}</title>
+  <link rel="stylesheet" href="/js/adminlte_2.4.5/bower_components/select2/dist/css/select2.min.css">
   {include file='common/adminlte_css.tpl'}
   {include file='common/common_css.tpl'}
 </head>
@@ -252,11 +253,13 @@
 
 <!-- JS start -->
 {include file='common/adminlte_js.tpl'}
+<script src="/js/adminlte_2.4.5/bower_components/select2/dist/js/select2.full.min.js"></script>
 <script src="/js/lib/jquery.ui.touch-punch.min.js"></script>
 <script src="/js/common.js"></script>
 <script src="/js/sidebar.js"></script>
 <script src="/js/stage.js"></script>
 <script src="/js/stage-character.js"></script>
+<script src="/js/character-profile.js"></script>
 <script src="/js/episode.js"></script>
 <script>
 // 読み込み完了時の処理

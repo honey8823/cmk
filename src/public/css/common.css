@@ -296,10 +296,16 @@ li a {
 	display: none !important;
 }
 
-/* ボタンの右寄せ */
+/* 右寄せ */
 .text-align-right{
 	text-align: right;
 }
+
+/* 中央寄せ */
+.text-align-center{
+	text-align: center;
+}
+text-align: center;
 
 /* カーソル変更：非リンク向け */
 .clickable{

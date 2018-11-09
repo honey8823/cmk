@@ -4,9 +4,8 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>{$smarty.const.SITE_NAME_FULL}</title>
-  {include file='common/adminlte_css.tpl'}
   <link rel="stylesheet" href="/js/adminlte_2.4.5/bower_components/select2/dist/css/select2.min.css">
-  <link rel="stylesheet" href="/js/adminlte_2.4.5/dist/css/AdminLTE.min.css">
+  {include file='common/adminlte_css.tpl'}
   {include file='common/common_css.tpl'}
 </head>
 
@@ -154,8 +153,8 @@
                           <i class="fa fa-fw fa-pencil-square-o clickable character_profile_edit_icon" aria-hidden="true"></i>
                           <i class="fa fa-fw fa-trash-o clickable character_profile_delete_icon" aria-hidden="true"></i>
                         </div>
-                        <div class="character_profile_q">本名・フルネーム</div>
-                        <div class="character_profile_a">なんとかかんとか</div>
+                        <div class="character_profile_q"></div>
+                        <div class="character_profile_a"></div>
                       </span>
 
                       <!-- 編集モード -->
@@ -290,6 +289,7 @@
 <script src="/js/common.js"></script>
 <script src="/js/sidebar.js"></script>
 <script src="/js/character.js"></script>
+<script src="/js/character-profile.js"></script>
 <script src="/js/episode.js"></script>
 <script>
 $(function(){
