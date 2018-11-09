@@ -113,7 +113,7 @@
             <div class="tab-content">
               <div class="tab-pane active" id="tab-content-profile">
                 <p class="hint-box">ステージごとに異なる項目や時間の経過で変わる項目は<br>「ステージ」内で別途設定することができます。</p>
-                <ul class="nav nav-stacked ul-character_profile">
+                <ul class="nav nav-stacked ul-character_profile" id="character_profile">
 
                 {foreach from=$character.profile_list key=k item=v_profile}
                   <li class="li-character_profile" data-q="{$v_profile.question}">
