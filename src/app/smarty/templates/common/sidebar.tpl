@@ -2,19 +2,24 @@
 
   <aside class="main-sidebar">
     <section class="sidebar">
-      <!-- Sidebar user panel (optional) -->
-      <div class="user-panel logged-in">
+
+    {* ユーザ情報 *}
+    {if isset($user_session.id)}
+      <div class="user-panel">
         <div class="pull-left image">
           <img src="/img/icon_noimage.png" class="img-circle" alt="User Image">
         </div>
         <div class="pull-left info">
-          <p class="textdata-user-name"></p>
+          <p class="textdata-user-name">{$user_session.name}</p>
           <p><a href="/user/notifications/"><i class="fa fa-bell-o fa-fw" aria-hidden="true"></i><span>0</span></a></p>
         </div>
       </div>
+    {/if}
 
-      <!-- Sidebar Menu -->
-      <ul class="sidebar-menu logged-in" data-widget="tree">
+    {* メニュー *}
+      <ul class="sidebar-menu" data-widget="tree">
+
+      {if isset($user_session.id)}
         <li class="header">うちのこタイムライン</li>
         <li>
           <a href="/user/stage/">
@@ -26,12 +31,22 @@
             <i class="fa fa-fw fa-user" aria-hidden="true"></i><span>キャラクター管理</span>
           </a>
         </li>
+      {/if}
+
         <li class="header">よそのこタイムライン</li>
+      {if isset($user_session.id)}
         <li>
           <a href="/user/favorite.php">
             <i class="fa fa-fw fa-heart" aria-hidden="true"></i><span>お気に入り</span>
           </a>
         </li>
+      {/if}
+        <li>
+          <a href="#">
+            <i class="fa fa-fw fa-search" aria-hidden="true"></i><span>検索<small>＜そのうち実装＞</small></span>
+          </a>
+        </li>
+
         <li class="header">その他</li>
         <li>
           <a href="/information.php">
@@ -48,6 +63,7 @@
             <i class="fa fa-fw fa-archive" aria-hidden="true"></i><span>リクエストボックス</span>
           </a>
         </li>
+      {if isset($user_session.id)}
         <li>
           <a href="/user/account.php">
             <i class="fa fa-fw fa-user-circle" aria-hidden="true"></i><span>アカウント管理</span>
@@ -58,18 +74,7 @@
             <i class="fa fa-fw fa-sign-out" aria-hidden="true"></i><span>ログアウト</span>
           </a>
         </li>
-      </ul>
-      <ul class="sidebar-menu logged-out" data-widget="tree">
-        <li>
-          <a href="/information.php">
-            <i class="fa fa-fw fa-exclamation-circle" aria-hidden="true"></i><span>お知らせ</span>
-          </a>
-        </li>
-        <li>
-          <a href="/help.php">
-            <i class="fa fa-fw fa-question-circle" aria-hidden="true"></i><span>ヘルプ</span>
-          </a>
-        </li>
+      {else}
         <li>
           <a href="#" data-toggle="modal" data-target="#modal-login">
             <i class="fa fa-fw fa-sign-in" aria-hidden="true"></i><span>ログイン</span>
@@ -80,6 +85,7 @@
             <i class="fa fa-fw fa-user-plus" aria-hidden="true"></i><span>新規登録</span>
           </a>
         </li>
+      {/if}
       </ul>
     </section>
   </aside>

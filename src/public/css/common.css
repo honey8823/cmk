@@ -1,11 +1,3 @@
-/* ログイン・ログアウト */
-.logged-in{ /* ログイン状態 */
-	display: none;
-}
-.logged-out{ /* ログアウト状態 */
-	display: none;
-}
-
 /* タグ */
 .label.tag-base{ /* タグ：基本 */
 	color: #FFFFFF;
