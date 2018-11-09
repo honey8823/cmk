@@ -1,3 +1,8 @@
+/* オーバーライドモーダルへの値セット発火 */
+$(document).on("click", ".character_list.clickable", function(){
+	setOverrideStageModal($(this).data("id"));
+});
+
 /*
  * ソートモード切替
  */
@@ -55,6 +60,9 @@ function sortableStageCharacter(mode) {
 	return true;
 }
 
+/*
+ * キャラクター割り当て
+ */
 function upsertStageCharacter(){
 	var character = [];
 	$("#modal-upsertStageCharacter").find(".badge.character-selectable:not(.character-notselected)").each(function(i, e){
@@ -91,6 +99,72 @@ function upsertStageCharacter(){
 		});
 
 		$('#modal-upsertStageCharacter').modal('hide');
+		return;
+	});
+}
+
+function setOverrideStageModal(id){
+	// now loading 表示
+	$("#modal-overrideStage .loading-complete").hide();
+	$("#modal-overrideStage .loading-now").show();
+
+	// 不要な項目の削除
+	$(".ul-character_profile > .li-character_profile:not(.template-for-copy)").remove();
+
+	var params = {
+			'character_id' : id,
+			'stage_id'     : $("#area-setStage .form-id").val(),
+		};
+	var result = ajaxPost("character", "getProfileStage", params);
+	result.done(function(){
+
+		if (isAjaxResultErrorRedirect(result.return_value) === true) {return false;}  // 必要ならエラーページへリダイレクト
+		if (isAjaxResultErrorMsg(result.return_value) === true ){return false;} // 必要ならエラーメッセージ表示
+
+		// 正常な場合
+
+		// リンク先URL書き換え
+		$("#modal-overrideStage").find("a.character_id").attr("href", $("#modal-overrideStage").find("a.character_id").attr("href") + $.param({id: result.return_value.character_id}));
+
+		// キャラクターID書き換え
+		$("#character_id").val(result.return_value.character_id);
+
+		// キャラクター名書き換え
+		$("#modal-overrideStage").find("span.character_name").text(result.return_value.character_name);
+
+		// 登録済みのプロフィール表示
+		$(result.return_value.character_profile_stage_list).each(function(i, e){
+			// テンプレートをコピー
+			var obj_base = $(".ul-character_profile > .li-character_profile.template-for-copy")[0];
+			var obj = $(obj_base).clone().appendTo($(".ul-character_profile"));
+
+			// データ書き換え
+			$(obj).data("q", e.question);
+			$(obj).attr("data-q", e.question);
+			$(obj).find(".view_mode .character_profile_q").text(e.question_title);
+			$(obj).find(".view_mode .character_profile_a").html(strToText(e.answer));
+			$(obj).find(".edit_mode .character_profile_q.set_mode").text(e.question_title);
+			$(obj).find(".edit_mode .character_profile_q.add_mode").remove();
+			$(obj).find(".edit_mode .character_profile_q.set_mode").removeClass("hidden");
+			$(obj).find(".edit_mode .character_profile_a textarea").val(e.answer);
+
+			// 表示モードに切り替え
+			$(obj).find(".edit_mode").addClass("hidden");
+			$(obj).find(".view_mode").removeClass("hidden");
+
+			// 表示する
+			$(obj).removeClass("template-for-copy");
+
+			// セレクトボックスから削除
+			$(".character_profile_q select > option[value='" + e.question + "']").remove();
+		});
+
+		// 次の入力フォームを増やす
+		copyCharacterProfileForm();
+
+		// now loading 表示解除
+		$("#modal-overrideStage .loading-now").hide();
+		$("#modal-overrideStage .loading-complete").show();
 		return;
 	});
 }

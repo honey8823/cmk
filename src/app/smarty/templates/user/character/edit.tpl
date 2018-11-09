@@ -166,7 +166,7 @@
                         <div class="character_profile_q add_mode">
                           <div>項目を新規追加</div>
                           <select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true">
-                          {foreach from=$character_profile_q key=k item=v_q}
+                          {foreach from=$config.character_profile_q key=k item=v_q}
                           {if !in_array($v_q.value, array_column($character.profile_list, "question"))}
                             <option value="{$v_q.value}">{$v_q.title}</option>
                           {/if}

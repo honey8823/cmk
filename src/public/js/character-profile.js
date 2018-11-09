@@ -1,5 +1,6 @@
 // 詳細プロフィール：編集ボタン押下時（編集フォームに切り替える）
-$(document).on("click", "#character_profile .character_profile_edit_icon.clickable", function(){
+// オーバーライドでも共通
+$(document).on("click", ".character_profile_edit_icon.clickable", function(){
 	var q = $(this).parents(".li-character_profile").data("q");
 	showCharacterProfileForm(q);
 });
@@ -24,16 +25,10 @@ $(document).on("click", "#character_profile .character_profile_save_icon.clickab
 	}
 });
 
-// オーバーライドプロフィール(ステージ)：編集ボタン押下時（編集フォームに切り替える）
-$(document).on("click", "#character_profile_stage .character_profile_edit_icon.clickable", function(){
-	var q = $(this).parents(".li-character_profile").data("q");
-	showCharacterProfileForm(q);
-});
-
 // オーバーライドプロフィール(ステージ)：削除ボタン押下時（削除する）
 $(document).on("click", "#character_profile_stage .character_profile_delete_icon.clickable", function(){
-	var q = $(this).parents(".li-character_profile").data("q");
-	delCharacterProfile(q);
+	var q   = $(this).parents(".li-character_profile").data("q");
+	delCharacterProfileStage(q);
 });
 
 // オーバーライドプロフィール(ステージ)：保存ボタン押下時（新規登録or更新する）
@@ -43,10 +38,10 @@ $(document).on("click", "#character_profile_stage .character_profile_save_icon.c
 
 	if (q == "0"){
 		q = $(this).parents(".edit_mode").find(".character_profile_q select").val();
-		addCharacterProfile(q, a);
+		addCharacterProfileStage(q, a);
 	}
 	else{
-		setCharacterProfile(q, a);
+		setCharacterProfileStage(q, a);
 	}
 });
 
@@ -74,7 +69,7 @@ function showCharacterProfileForm(q){
 }
 
 /*
- * 登録（キャラクタープロフィール項目）
+ * 登録
  */
 function addCharacterProfile(q, a){
 	var params = {
@@ -114,7 +109,7 @@ function addCharacterProfile(q, a){
 }
 
 /*
- * 更新（キャラクタープロフィール項目）
+ * 更新
  */
 function setCharacterProfile(q, a){
 	var params = {
@@ -142,7 +137,7 @@ function setCharacterProfile(q, a){
 }
 
 /*
- * 削除（キャラクタープロフィール項目）
+ * 削除
  */
 function delCharacterProfile(q){
     if (!confirm("本当にこの項目を削除してよろしいですか？")){
@@ -154,6 +149,103 @@ function delCharacterProfile(q){
 			'question'     : q,
 		};
 	var result = ajaxPost("character", "delProfile", params);
+    result.done(function(){
+		if (isAjaxResultErrorRedirect(result.return_value) === true) {return false;}  // 必要ならエラーページへリダイレクト
+		if (isAjaxResultErrorMsg(result.return_value) === true ){return false;} // 必要ならエラーメッセージ表示
+
+		// 正常な場合
+
+		// 表示部分を削除
+		$(".li-character_profile[data-q='" + q + "']").remove();
+
+		return true;
+    });
+}
+
+/*
+ * 登録（オーバーライド：ステージ）
+ */
+function addCharacterProfileStage(q, a){
+	var params = {
+			'character_id' : $("#character_id").val(),
+			'stage_id'     : $("#stage_id").val(),
+			'question'     : q,
+			'answer'       : a,
+		};
+	var result = ajaxPost("character", "addProfileStage", params);
+    result.done(function(){
+		if (isAjaxResultErrorRedirect(result.return_value) === true) {return false;}  // 必要ならエラーページへリダイレクト
+		if (isAjaxResultErrorMsg(result.return_value) === true ){return false;} // 必要ならエラーメッセージ表示
+
+		// 正常な場合
+
+		// 表示モード部分に値をセット
+		var obj = $(".li-character_profile[data-q='0']");
+		obj.data("q", result.return_value['question']);
+		obj.attr("data-q", result.return_value['question']);
+		obj.find(".view_mode .character_profile_q").text(result.return_value['question_title']);
+		obj.find(".view_mode .character_profile_a").html(strToText(result.return_value['answer']));
+		obj.find(".edit_mode .character_profile_q.set_mode").text(result.return_value['question_title']);
+		obj.find(".edit_mode .character_profile_q.add_mode").remove();
+		obj.find(".edit_mode .character_profile_q.set_mode").removeClass("hidden");
+
+		// 表示モードに切り替え
+		obj.find(".edit_mode").addClass("hidden");
+		obj.find(".view_mode").removeClass("hidden");
+
+		// 入力フォームから、今回登録した項目を削除する
+		$(".li-character_profile.template-for-copy .select2 option[value='" + q + "']").remove();
+
+		// 次の入力フォームを増やす
+		copyCharacterProfileForm();
+
+		return true;
+    });
+}
+
+/*
+ * 更新（キャラクタープロフィール項目）
+ */
+function setCharacterProfileStage(q, a){
+	var params = {
+			'character_id' : $("#character_id").val(),
+			'stage_id'     : $("#stage_id").val(),
+			'question'     : q,
+			'answer'       : a,
+		};
+	var result = ajaxPost("character", "setProfileStage", params);
+    result.done(function(){
+		if (isAjaxResultErrorRedirect(result.return_value) === true) {return false;}  // 必要ならエラーページへリダイレクト
+		if (isAjaxResultErrorMsg(result.return_value) === true ){return false;} // 必要ならエラーメッセージ表示
+
+		// 正常な場合
+
+		// 表示モード部分に値をセット
+		var obj = $(".li-character_profile[data-q='" + q + "']");
+		obj.find(".view_mode .character_profile_a").text(result.return_value['answer']);
+
+		// 表示モードに切り替え
+		obj.find(".edit_mode").addClass("hidden");
+		obj.find(".view_mode").removeClass("hidden");
+
+		return true;
+    });
+}
+
+/*
+ * 削除（キャラクタープロフィール項目）
+ */
+function delCharacterProfileStage(q){
+    if (!confirm("本当にこの項目を削除してよろしいですか？")){
+        return false;
+    }
+
+	var params = {
+			'character_id' : $("#character_id").val(),
+			'stage_id'     : $("#stage_id").val(),
+			'question'     : q,
+		};
+	var result = ajaxPost("character", "delProfileStage", params);
     result.done(function(){
 		if (isAjaxResultErrorRedirect(result.return_value) === true) {return false;}  // 必要ならエラーページへリダイレクト
 		if (isAjaxResultErrorMsg(result.return_value) === true ){return false;} // 必要ならエラーメッセージ表示

@@ -55,9 +55,6 @@ $smarty_param['stage_list'] = $sc->table()['stage_list'];
 // キャラクタータイムライン
 $smarty_param['timeline'] = $ec->timelineCharacter(array('character_id' => $id))['stage_list'];
 
-// キャラクタープロフィール項目名
-$smarty_param['character_profile_q'] = $cc->getConfig("character_profile_q", "value");
-
 // 必ず指定 //////////////////////////////
 // Smartyデバッグ用
 //$smarty->debugging = true;

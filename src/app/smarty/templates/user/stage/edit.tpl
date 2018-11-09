@@ -30,6 +30,7 @@
     </section>
 
     <!-- Main content -->
+    <input type="hidden" id="stage_id" value="{$stage.id}">
     <section class="content">
       <div class="row">
 
@@ -119,6 +120,7 @@
               <li class=""><a href="#tab-content-character" data-toggle="tab" aria-expanded="false">キャラクター</a></li>
             </ul>
             <div class="tab-content">
+
               <div class="tab-pane active" id="tab-content-timeline">
                 <div class="box-body">
                   <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#modal-addEpisode"><i class="fa fa-fw fa-plus" aria-hidden="true"></i>タイムラインにエピソードを追加</button>
@@ -160,6 +162,7 @@
                   <p class="clickable sort_mode_on" onclick="readyEpisodeSort(0);"><i class="fa fa-fw fa-check" aria-hidden="true"></i></p>
                 </div>
               </div>
+
               <div class="tab-pane" id="tab-content-character">
                 <div class="box-body">
                   <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#modal-upsertStageCharacter">このステージに属するキャラクターの割り当てを変更する</button>
@@ -172,20 +175,20 @@
                 <div id="list-character" class="box">
                   <div class="box-body no-padding">
                     <ul class="nav nav-stacked ul-character stage-character-sort-area">
-                      <li class="character_list template-for-copy" data-id="">
-                        <a href="/user/character/edit.php?" class="character_id">
-                        <span class="is_private">
-                          <span class="is_private_icon is_private_0 hide"><i class="fa fa-unlock fa-fw"></i></span>
-                          <span class="is_private_icon is_private_1 hide"><i class="fa fa-lock fa-fw"></i></span>
-                        </span>
-                        <span class="name"><span class="character_name"></span></span>
+                      <li class="character_list clickable template-for-copy" data-id="" data-toggle="modal" data-target="#modal-overrideStage">
+                        <a>
+                          <span class="is_private">
+                            <span class="is_private_icon is_private_0 hide"><i class="fa fa-unlock fa-fw"></i></span>
+                            <span class="is_private_icon is_private_1 hide"><i class="fa fa-lock fa-fw"></i></span>
+                          </span>
+                          <span class="name"><span class="character_name"></span></span>
                         </a>
                       </li>
                     {foreach from=$stage.character_list key=k item=v_character}
-                      <li class="character_list" data-id="{$v_character.id}">
-                        <a href="/user/character/edit.php?id={$v_character.id}" class="character_id">
-                        <span class="is_private"><span class="is_private_icon is_private_{$v_character.is_private}"><i class="fa {if $v_character.is_private == 1}fa-lock{else}fa-unlock{/if} fa-fw"></i></span></span>
-                        <span class="name"><span class="character_name">{$v_character.name|escape:'html'}</span></span>
+                      <li class="character_list clickable" data-id="{$v_character.id}" data-toggle="modal" data-target="#modal-overrideStage">
+                        <a>
+                          <span class="is_private"><span class="is_private_icon is_private_{$v_character.is_private}"><i class="fa {if $v_character.is_private == 1}fa-lock{else}fa-unlock{/if} fa-fw"></i></span></span>
+                          <span class="name"><span class="character_name">{$v_character.name|escape:'html'}</span></span>
                         </a>
                       </li>
                     {/foreach}
@@ -193,6 +196,7 @@
                   </div>
                 </div>
               </div>
+
             </div>
           </div>
         </div>
@@ -205,7 +209,7 @@
   {include file='common/episode_add_modal.tpl'}
   {include file='common/episode_set_modal.tpl'}
 
-    <!-- キャラクター割り当てmodal -->
+{* キャラクター割り当てmodal *}
   <div class="modal fade" id="modal-upsertStageCharacter">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -235,6 +239,80 @@
     </div>
   </div>
 
+{* オーバーライド(stage)modal *}
+  <div class="modal fade" id="modal-overrideStage">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">オーバーライド</h4>
+          <div><small><span>{$stage.name|escape:'html'}<span>&nbsp;&gt;&gt;&nbsp;<span class="character_name"><span></small></div>
+          <div class="text-align-right"><a href="/user/character/edit.php?" class="character_id">通常のプロフィールへ移動</a></div>
+        </div>
+        <div class="modal-body">
+          <p class="hint-box">
+            「オーバーライド」とは…<br>
+            通常のプロフィールの情報を、このステージ限定で上書きする機能です。<br>
+            このステージ内の途中から上書きしたい場合は、エピソードの追加からお試しください。
+          </p>
+
+          <input type="hidden" id="character_id" value="">
+
+          <div class="loading-complete">
+            <ul class="nav nav-stacked ul-character_profile" id="character_profile_stage">
+            {* コピー用 *}
+              <li class="li-character_profile template-for-copy">
+                <a>
+                {* 表示モード *}
+                  <span class="view_mode hidden">
+                    <div class="character_profile_button_area pull-right">
+                      <i class="fa fa-fw fa-pencil-square-o clickable character_profile_edit_icon" aria-hidden="true"></i>
+                      <i class="fa fa-fw fa-trash-o clickable character_profile_delete_icon" aria-hidden="true"></i>
+                    </div>
+                    <div class="character_profile_q"></div>
+                    <div class="character_profile_a"></div>
+                  </span>
+                {* 編集モード *}
+                  <span class="edit_mode">
+                    <div class="character_profile_button_area pull-right">
+                      <i class="fa fa-fw fa-floppy-o clickable character_profile_save_icon" aria-hidden="true"></i>
+                    </div>
+
+                    <div class="character_profile_q add_mode">
+                      <div>項目を新規追加</div>
+                      <select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true">
+                      {foreach from=$config.character_profile_q key=k item=v_q}
+                        <option value="{$v_q.value}">{$v_q.title}</option>
+                      {/foreach}
+                      </select>
+                    </div>
+                    <div class="character_profile_q set_mode hidden"></div>
+                    <div class="character_profile_a">
+                      <textarea class="form-control" rows="3"></textarea>
+                    </div>
+                  </span>
+                </a>
+              </li>
+
+            </ul>
+            <div class="text-align-right">
+              <a href="#" data-toggle="modal" data-target="#modal-request" onclick="setRequestCategory('character_profile');">
+                <small><i class="fa fa-fw fa-arrow-circle-right" aria-hidden="true"></i>欲しい項目がない！</small>
+              </a>
+            </div>
+
+          </div>
+          <div class="loading-now text-align-center">
+            <i class="fa fa-fw fa-spin fa-spinner" aria-hidden="true"></i><br>読み込み中...
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-dismiss="modal">完了</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
 {*** 試作メモ
   <!-- エピソード登録modal -->
