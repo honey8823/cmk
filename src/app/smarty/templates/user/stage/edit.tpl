@@ -175,7 +175,7 @@
                 <div id="list-character" class="box">
                   <div class="box-body no-padding">
                     <ul class="nav nav-stacked ul-character stage-character-sort-area">
-                      <li class="character_list clickable foldable template-for-copy">
+                      <li class="character_list clickable foldable template-for-copy" data-id="{$v_character.id}">
                         <a>
                           <div>
                             <span class="is_private">
@@ -184,23 +184,21 @@
                             </span>
                             <span class="name"><span class="character_name"></span></span>
                           </div>
-                          <div class="menu hidden">
-                            <button type="button" class="btn btn-xs btn-block btn-default btn-character_edit">キャラクターページへ移動</button>
-                            <button type="button" class="btn btn-xs btn-block btn-default btn-profile_view">このステージでのプロフィールを見る</button>
+                          <div class="folder hidden">
+                            <button type="button" class="btn btn-xs btn-block btn-default btn-character_edit" onclick="location.href='/user/character/edit.php?id={$v_character.id}';">キャラクターページへ移動</button>
                             <button type="button" class="btn btn-xs btn-block btn-default btn-override" data-id="{$v_character.id}" data-toggle="modal" data-target="#modal-overrideStage">プロフィールをオーバーライドする</button>
                           </div>
                         </a>
                       </li>
                     {foreach from=$stage.character_list key=k item=v_character}
-                      <li class="character_list clickable foldable">
+                      <li class="character_list clickable foldable" data-id="{$v_character.id}">
                         <a>
                           <div>
                             <span class="is_private"><span class="is_private_icon is_private_{$v_character.is_private}"><i class="fa {if $v_character.is_private == 1}fa-lock{else}fa-unlock{/if} fa-fw"></i></span></span>
                             <span class="name"><span class="character_name">{$v_character.name|escape:'html'}</span></span>
                           </div>
                           <div class="folder hidden">
-                            <button type="button" class="btn btn-xs btn-block btn-default btn-character_edit" onclick="location.href='/user/character/edit.php?id={$v_character.id}';">キャラクターページへ移動</button>
-                            <button type="button" class="btn btn-xs btn-block btn-default btn-profile_view">このステージでのプロフィールを見る</button>
+                            <button type="button" class="btn btn-xs btn-block btn-default btn-character_edit">キャラクターページへ移動</button>
                             <button type="button" class="btn btn-xs btn-block btn-default btn-override" data-id="{$v_character.id}" data-toggle="modal" data-target="#modal-overrideStage">プロフィールをオーバーライドする</button>
                           </div>
                         </a>
@@ -262,13 +260,12 @@
             <span aria-hidden="true">&times;</span></button>
           <h4 class="modal-title">オーバーライド</h4>
           <div><small><span>{$stage.name|escape:'html'}<span>&nbsp;&gt;&gt;&nbsp;<span class="character_name"><span></small></div>
-          <div class="text-align-right"><a href="/user/character/edit.php?" class="character_id">通常のプロフィールへ移動</a></div>
         </div>
         <div class="modal-body">
           <p class="hint-box">
             「オーバーライド」とは…<br>
             通常のプロフィールの情報を、このステージ限定で上書きする機能です。<br>
-            このステージ内の途中から上書きしたい場合は、エピソードの追加からお試しください。
+            タイムラインの途中から上書きしたい（ステージ内での変化を表したい）場合は、エピソードの追加からお試しください。
           </p>
 
           <input type="hidden" id="character_id" value="">
@@ -284,15 +281,22 @@
                       <i class="fa fa-fw fa-pencil-square-o clickable character_profile_edit_icon" aria-hidden="true"></i>
                       <i class="fa fa-fw fa-trash-o clickable character_profile_delete_icon" aria-hidden="true"></i>
                     </div>
+                    <div class="pull-left">
+                      <i class="fa fa-fw fa-sticky-note clickable character_profile_override_icon" aria-hidden="true"></i>
+                      <i class="fa fa-fw fa-sticky-note-o character_profile_original_icon" aria-hidden="true"></i>
+                    </div>
                     <div class="character_profile_q"></div>
-                    <div class="character_profile_a"></div>
+                    <div class="character_profile_a hidden"><small>（基本プロフィールでは設定されていない項目です）</small></div>
+                    <div class="character_profile_stage_a hidden">（オーバーライドしていない項目です）</div>
                   </span>
                 {* 編集モード *}
                   <span class="edit_mode">
                     <div class="character_profile_button_area pull-right">
                       <i class="fa fa-fw fa-floppy-o clickable character_profile_save_icon" aria-hidden="true"></i>
                     </div>
-
+                    <div class="pull-left">
+                      <i class="fa fa-fw fa-sticky-note character_profile_override_icon" aria-hidden="true"></i>
+                    </div>
                     <div class="character_profile_q add_mode">
                       <div>項目を新規追加</div>
                       <select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true">

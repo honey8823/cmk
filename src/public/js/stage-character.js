@@ -1,6 +1,16 @@
-/* オーバーライドモーダルへの値セット発火 */
+/* キャラクターページへの移動 */
+$(document).on("click", ".character_list .btn-character_edit", function(){
+	var id = $(this).parents("li").data("id");
+	location.href = "/user/character/edit.php?id=" + id;
+});
+/* オーバーライド(ステージ)モーダルへの値セット発火 */
 $(document).on("click", ".character_list .btn-override", function(){
-	setOverrideStageModal($(this).data("id"));
+	var id = $(this).parents("li").data("id");
+	setOverrideStageModal(id);
+});
+/* オーバーライド前の情報の表示/非表示切り替え */
+$(document).on("click", ".character_profile_override_icon.clickable", function(){
+	$(this).parents("li").find(".character_profile_a").toggleClass("hidden");
 });
 
 /*
@@ -87,7 +97,8 @@ function upsertStageCharacter(){
 		// 追加
 		$(result.return_value.add_character_list).each(function(i, e){
 			var obj_base = $(".ul-character > .character_list.template-for-copy")[0];
-			var obj = $(obj_base).clone().appendTo($(".ul-character"));
+			var obj = $(obj_base).clone(true).appendTo($(".ul-character"));
+			//var obj = $(".ul-character").append($(obj_base).clone(true));
 
 			$(obj).data("id", e);
 			$(obj).attr("data-id", e);
@@ -103,6 +114,9 @@ function upsertStageCharacter(){
 	});
 }
 
+/*
+ * オーバーライド(ステージ)モーダルへの値セット
+ */
 function setOverrideStageModal(id){
 	// now loading 表示
 	$("#modal-overrideStage .loading-complete").hide();
@@ -139,14 +153,51 @@ function setOverrideStageModal(id){
 			var obj = $(obj_base).clone().appendTo($(".ul-character_profile"));
 
 			// データ書き換え
+
+			// 項目ID
 			$(obj).data("q", e.question);
 			$(obj).attr("data-q", e.question);
+
+			// 項目名
 			$(obj).find(".view_mode .character_profile_q").text(e.question_title);
-			$(obj).find(".view_mode .character_profile_a").html(strToText(e.answer));
 			$(obj).find(".edit_mode .character_profile_q.set_mode").text(e.question_title);
-			$(obj).find(".edit_mode .character_profile_q.add_mode").remove();
 			$(obj).find(".edit_mode .character_profile_q.set_mode").removeClass("hidden");
-			$(obj).find(".edit_mode .character_profile_a textarea").val(e.answer);
+			$(obj).find(".edit_mode .character_profile_q.add_mode").remove();
+
+			// 内容・フラグ類
+			if (e.answer !== undefined && e.answer != ""){
+				// 基本プロフィールが存在する場合
+
+				$(obj).data("q_is_original", "1");
+				$(obj).attr("data-is_original", "1");
+
+				$(obj).find(".view_mode .character_profile_a").html(strToText(e.answer));
+				$(obj).find(".edit_mode .character_profile_a textarea").val(e.answer);
+			}
+			if (e.answer_stage !== undefined && e.answer_stage != ""){
+				// ステージプロフィールが存在する場合
+
+				$(obj).data("q_is_stage", "1");
+				$(obj).attr("data-is_stage", "1");
+
+				$(obj).find(".view_mode .character_profile_stage_a").html(strToText(e.answer_stage));
+				$(obj).find(".edit_mode .character_profile_a textarea").val(e.answer_stage);
+
+				$(obj).find(".view_mode .character_profile_a").addClass("hidden");
+				$(obj).find(".view_mode .character_profile_stage_a").removeClass("hidden");
+
+				$(obj).find(".character_profile_original_icon").addClass("hidden");
+				$(obj).find(".character_profile_override_icon").removeClass("hidden");
+			}
+			else{
+				// ステージプロフィールが存在しない場合
+
+				$(obj).find(".view_mode .character_profile_a").removeClass("hidden");
+				$(obj).find(".view_mode .character_profile_stage_a").addClass("hidden");
+
+				$(obj).find(".character_profile_override_icon").addClass("hidden");
+				$(obj).find(".character_profile_original_icon").removeClass("hidden");
+			}
 
 			// 表示モードに切り替え
 			$(obj).find(".edit_mode").addClass("hidden");

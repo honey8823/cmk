@@ -17,9 +17,6 @@ $(document).on("click", ".badge.character-selectable", function(){
 // liタグのclassに「foldable」を指定・li以下の開閉したいdivタグのclassに「folder」と「hidden」を指定
 $(document).on("click", "li.foldable", function(){
 	var is_close = $(this).find('div.folder').is(':hidden');
-
-	// todo::jqueryで複製した後のやつが反応しないので調べる clone
-console.log(is_close, $(this));
 	$(this).parents('ul').find('div.folder').addClass('hidden');
 	if (is_close == true){
 		$(this).find('div.folder').removeClass('hidden');

@@ -805,8 +805,18 @@ class CharacterController extends Common
 			$return_list['stage_id']       = $stage_id;
 			$return_list['stage_name']     = $r[0]['stage_name'];
 
-			// 取得（プロフィール：オーバーライド：ステージ）・整形
-			$q_list = $this->getConfig("character_profile_q", "value");
+			// 取得（プロフィール：基本）
+			$sql  = "SELECT     `character_profile`.`question` ";
+			$sql .= "          ,`character_profile`.`answer` ";
+			$sql .= "FROM       `character_profile` ";
+			$sql .= "WHERE      `character_profile`.`character_id` = ? ";
+			$sql .= "ORDER BY   `character_profile`.`sort` = 0 ASC ";
+			$sql .= "          ,`character_profile`.`sort` ASC ";
+			$sql .= "          ,`character_profile`.`create_stamp` ASC ";
+			$arg_list = array($character_id);
+			$profile_list = $this->setArrayKey($this->query($sql, $arg_list), "question");
+
+			// 取得（プロフィール：オーバーライド：ステージ）
 			$sql  = "SELECT     `character_profile_stage`.`question` ";
 			$sql .= "          ,`character_profile_stage`.`answer` ";
 			$sql .= "FROM       `character_profile_stage` ";
@@ -816,12 +826,24 @@ class CharacterController extends Common
 			$sql .= "          ,`character_profile_stage`.`sort` ASC ";
 			$sql .= "          ,`character_profile_stage`.`create_stamp` ASC ";
 			$arg_list = array($character_id, $stage_id);
-			$profile_list = $this->query($sql, $arg_list);
+			$profile_stage_list = $this->query($sql, $arg_list);
+
+			// プロフィールの整形（基本とステージのマージ）
+			foreach ($profile_stage_list as $v)
+			{
+				$profile_list[$v['question']]['question']     = $v['question'];
+				$profile_list[$v['question']]['answer_stage'] = $v['answer'];
+			}
+
+			// プロフィールの整形（項目名）
+			$q_list = $this->getConfig("character_profile_q", "value");
 			foreach ($profile_list as $k => $v)
 			{
-				$profile_list[$k]['question_title'] = $q_list[$v['question']]['title'];
+				$profile_list[$k]['question_title'] = $q_list[$k]['title'];
 			}
-			$return_list['character_profile_stage_list'] = $profile_list;
+
+			// キーの削除
+			$return_list['character_profile_stage_list'] = array_values($profile_list);
 
 			// 戻り値
 			return $return_list;

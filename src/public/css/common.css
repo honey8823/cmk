@@ -146,6 +146,9 @@
 .ul-character > li > span{
 	display: inline-block;
 }
+.ul-character .character_list .folder{
+	margin-top: 0.5em
+}
 .character_list > .is_private{
 	margin: -10px;
 	padding: 0px 15px 0 0;
@@ -201,6 +204,15 @@
 	margin: 0.5em;
 	background: #EEEEEE;
 	border-radius: 0.5em;
+}
+.ul-character_profile > li .view_mode div.character_profile_stage_a{
+	font-size: 0.85em;
+	padding: 0.5em;
+	margin: 0.5em;
+	color: #EEEEEE;
+	background: #666666;
+	border-radius: 0.5em;
+
 }
 .ul-character_profile .character_profile_button_area{
 	font-size: 1.2em;
@@ -281,7 +293,9 @@
 	font-size: 12px;
 }
 
-/* **************************************** */
+/********/
+/* 全般 */
+/********/
 
 /* リンクのクリック範囲を広げる */
 table a {
