@@ -8,6 +8,9 @@
 .label.tag-series{ /* シリーズタグ */
 	background-color: #53B44A;
 }
+.label.tag-caution{ /* 閲覧注意タグ */
+	background-color: #E44A53;
+}
 .label.tag-notselected{ /* 未選択タグ */
 	background-color: #CCCCCC;
 }
@@ -180,7 +183,7 @@
 }
 
 /* 管理用ステージ：タグ */
-.private-stage-tag{
+.detail-tag{
 	margin: 1em;
 }
 
@@ -212,7 +215,6 @@
 	color: #EEEEEE;
 	background: #666666;
 	border-radius: 0.5em;
-
 }
 .ul-character_profile .character_profile_button_area{
 	font-size: 1.2em;
@@ -239,6 +241,15 @@
 	color: #999999;
 	font-size: 0.7em;
 	margin-left: 0.5em;
+}
+
+/* タグ選択エリア */
+.form-group div.tag_category{
+	margin-left: 1em;
+}
+.form-group p{
+	margin-top: 0.5em;
+	margin-bottom: 0;
 }
 
 /****************/

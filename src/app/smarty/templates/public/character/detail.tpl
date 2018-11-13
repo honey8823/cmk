@@ -45,9 +45,11 @@
                 <i class="fa fa-fw fa-heart is_favorite_icon clickable is_favorite_1 {if $is_favorite != "1"}hidden{/if}" aria-hidden="true" data-favorite_type_key="character" data-id="{$character.id}"></i>
               {/if}
               </div>
-            {foreach from=$character.tag_list key=k item=v_tag}
-              <span class="label tag-base tag-series" value="{$v_tag.id}">{$v_tag.name}</span>
-            {/foreach}
+              <div class="detail-tag">
+              {foreach from=$character.tag_list key=k item=v_tag}
+                <span class="label tag-base tag-series" value="{$v_tag.id}">{$v_tag.name}</span>
+              {/foreach}
+              </div>
             </div>
           {if $character.remarks != ""}
             <div class="box-body public-character-remarks">

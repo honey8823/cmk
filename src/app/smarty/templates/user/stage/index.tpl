@@ -98,16 +98,18 @@
             <textarea class="form-control form-remarks" rows="3" name="remarks"></textarea>
           </div>
           <div class="form-group">
-            <label>関連するシリーズ（複数選択可）</label>
-          {if !isset($series_list) || !is_array($series_list) || count($series_list) == 0}
-            <p class="hint-box">アカウント管理から「ジャンル」設定を行うことで選択できるようになります。<br>のちほど選択することも可能なので、気が向いたらお試しください。</p>
-          {else}
-            <div>
-            {foreach from=$series_list key=k item=v_series}
-              <span class="label tag-base tag-series tag-notselected tag-selectable clickable" value="{$v_series.id}">{$v_series.name}</span>
+            <label>タグ</label>
+          {if !isset($tag_category_list.series.tag_list) || !is_array($tag_category_list.series.tag_list) || count($tag_category_list.series.tag_list) == 0}
+            <p class="hint-box">アカウント管理から「ジャンル」設定を行うことで、関連するタグを選択できるようになります。<br>のちほど選択することも可能なので、気が向いたらお試しください。</p>
+          {/if}
+          {foreach from=$tag_category_list key=category_key item=v_tag_category}
+            <div class="tag_category">
+              <p>{$v_tag_category.name}系</p>
+            {foreach from=$v_tag_category.tag_list key=k item=v_tag}
+              <span class="label tag-base tag-{$category_key} tag-notselected tag-selectable clickable" value="{$v_tag.id}">{$v_tag.name}</span>
             {/foreach}
             </div>
-          {/if}
+          {/foreach}
           </div>
         </div>
         <div class="modal-footer">

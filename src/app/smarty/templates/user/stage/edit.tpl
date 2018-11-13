@@ -57,10 +57,10 @@
                 </span>
                 <span><big>{$stage.name|escape:'html'}</big></span>
               </div>
-              <div class="private-stage-tag">
+              <div class="detail-tag">
                 {if isset($stage.tag_list) && is_array($stage.tag_list)}
                 {foreach from=$stage.tag_list key=k item=v_tag}
-                  <span class="label tag-base tag-series" value="{$v_tag.id}">{$v_tag.name|escape:'html'}</span>
+                  <span class="label tag-base tag-{$v_tag.category_key}" value="{$v_tag.id}">{$v_tag.name|escape:'html'}</span>
                 {/foreach}
                 {/if}
               </div>
@@ -76,25 +76,22 @@
                 <input type="text" name="name" class="form-control form-name" value="{$stage.name}" placeholder="※必須">
               </div>
               <div class="form-group">
-                <label>関連するシリーズ（複数選択可）</label>
-              {if !isset($series_list) || !is_array($series_list) || count($series_list) == 0}
-                <p class="hint-box">アカウント管理から「ジャンル」設定を行うことで選択できるようになります。<br>のちほど選択することも可能なので、気が向いたらお試しください。</p>
-              {else}
-                <div>
-                {foreach from=$series_list key=k item=v_series}
-                {if isset($stage.tag_list) && is_array($stage.tag_list) && in_array($v_series.id, array_column($stage.tag_list, 'id'))}
-                  <span class="label tag-base tag-series tag-selectable clickable" value="{$v_series.id}">{$v_series.name|escape:'html'}</span>
+                <label>タグ</label>
+              {if !isset($tag_category_list.series.tag_list) || !is_array($tag_category_list.series.tag_list) || count($tag_category_list.series.tag_list) == 0}
+                <p class="hint-box">アカウント管理から「ジャンル」設定を行うことで、関連するタグを選択できるようになります。<br>のちほど選択することも可能なので、気が向いたらお試しください。</p>
+              {/if}
+              {foreach from=$tag_category_list key=category_key item=v_tag_category}
+                <div class="tag_category">
+                  <p>{$v_tag_category.name}系</p>
+                {foreach from=$v_tag_category.tag_list key=k item=v_tag}
+                {if isset($stage.tag_list) && is_array($stage.tag_list) && in_array($v_tag.id, array_column($stage.tag_list, 'id'))}
+                  <span class="label tag-base tag-{$category_key} tag-selectable clickable" value="{$v_tag.id}">{$v_tag.name|escape:'html'}</span>
                 {else}
-                  <span class="label tag-base tag-series tag-notselected tag-selectable clickable" value="{$v_series.id}">{$v_series.name|escape:'html'}</span>
+                  <span class="label tag-base tag-{$category_key} tag-notselected tag-selectable clickable" value="{$v_tag.id}">{$v_tag.name|escape:'html'}</span>
                 {/if}
                 {/foreach}
                 </div>
-                <div class="text-align-right">
-                  <a href="#" data-toggle="modal" data-target="#modal-request" onclick="setRequestCategory('tag-series');">
-                    <small><i class="fa fa-fw fa-arrow-circle-right" aria-hidden="true"></i>欲しい作品タグがない！</small>
-                  </a>
-                </div>
-              {/if}
+              {/foreach}
               </div>
               <div class="form-group">
                 <label>説明文</label>

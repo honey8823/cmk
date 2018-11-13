@@ -42,10 +42,6 @@ $smarty_param['stage']       = $stage['stage'];
 $smarty_param['is_login']    = $stage['is_login'];
 $smarty_param['is_favorite'] = $stage['is_favorite'];
 
-// シリーズタグ一覧
-$tag_catgory_list = $tc->getConfig("tag_category", "key");
-$smarty_param['series_list'] = $tc->table(array('category_list' => array($tag_catgory_list['series']['value'])));
-
 // 必ず指定 //////////////////////////////
 // Smartyデバッグ用
 // $smarty->debugging = true;

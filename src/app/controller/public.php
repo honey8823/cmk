@@ -42,34 +42,9 @@ class PublicController extends Common
 			}
 
 			// 取得（タグ）・整形
-			$arg_list = array();
-			$sql  = "SELECT     `tag`.`id` ";
-			$sql .= "          ,`tag`.`category` ";
-			$sql .= "          ,`tag`.`name` ";
-			$sql .= "          ,`tag`.`name_short` ";
-			$sql .= "FROM       `stage_tag` ";
-			$sql .= "INNER JOIN `tag` ";
-			$sql .= "  ON       `stage_tag`.`tag_id` = `tag`.`id` ";
-			$sql .= "WHERE      `stage_tag`.`stage_id` = ? ";
-			$sql .= "ORDER BY   `tag`.`category` ASC ";
-			$sql .= "          ,`tag`.`sort` ASC ";
-			$arg_list = array($id);
-			$tag_list = $this->query($sql, $arg_list);
-			if (count($tag_list) > 0)
-			{
-				$category_list = $this->getConfig("tag_category", "value");
-				foreach ($tag_list as $v)
-				{
-					$stage_list[0]['tag_list'][] = array(
-						'id'            => $v['id'],
-						'category'      => $v['category'],
-						'category_key'  => $category_list[$v['category']]['key'],
-						'category_name' => $category_list[$v['category']]['name'],
-						'name'          => $v['name'],
-						'name_short'    => $v['name_short'],
-					);
-				}
-			}
+			$tc = new TagController();
+			$tc->init();
+			$stage_list[0]['tag_list'] = $tc->table(array('stage_id' => $id));
 
 			// 取得（エピソード）・整形
 			$sql  = "SELECT     `episode`.`id` ";
@@ -214,7 +189,7 @@ class PublicController extends Common
 			$character_list[0]['tag_list'] = array();
 			if (count($character_list[0]['stage_list']) > 0)
 			{
-				// 取得（タグ）
+				// 取得（ステージのタグ）
 				$arg_list = array();
 				$sql  = "SELECT          `tag`.`id` ";
 				$sql .= "               ,`tag`.`category` ";
@@ -225,7 +200,7 @@ class PublicController extends Common
 				$sql .= "FROM            `stage_tag` ";
 				$sql .= "INNER JOIN      `tag` ";
 				$sql .= "  ON            `stage_tag`.`tag_id` = `tag`.`id` ";
-				$sql .= "INNER JOIN      `genre` ";
+				$sql .= "LEFT JOIN       `genre` ";
 				$sql .= "  ON            `tag`.`genre_id` = `genre`.`id` ";
 				$sql .= "WHERE           `stage_tag`.`stage_id` IN (" . implode(",", array_fill(0, count($character_list[0]['stage_list']), "?")) . ") ";
 				$sql .= "ORDER BY        `tag`.`category` ASC ";
@@ -238,16 +213,20 @@ class PublicController extends Common
 					$category_list = $this->getConfig("tag_category", "value");
 					foreach ($tag_list as $v)
 					{
-						$character_list[0]['tag_list'][] = array(
-							'id'            => $v['id'],
-							'category'      => $v['category'],
-							'category_key'  => $category_list[$v['category']]['key'],
-							'category_name' => $category_list[$v['category']]['name'],
-							'genre_id'      => $v['genre_id'],
-							'genre_title'   => $v['genre_title'],
-							'name'          => $v['name'],
-							'name_short'    => $v['name_short'],
-						);
+						if ($category_list[$v['category']]['key'] == "series")
+						{
+							// シリーズタグのみ使用する
+							$character_list[0]['tag_list'][] = array(
+								'id'            => $v['id'],
+								'category'      => $v['category'],
+								'category_key'  => $category_list[$v['category']]['key'],
+								'category_name' => $category_list[$v['category']]['name'],
+								'genre_id'      => $v['genre_id'],
+								'genre_title'   => $v['genre_title'],
+								'name'          => $v['name'],
+								'name_short'    => $v['name_short'],
+							);
+						}
 					}
 				}
 
@@ -383,9 +362,12 @@ class PublicController extends Common
 				$sql .= "FROM       `stage_tag` ";
 				$sql .= "INNER JOIN `tag` ";
 				$sql .= "  ON       `stage_tag`.`tag_id` = `tag`.`id` ";
+				$sql .= "LEFT JOIN  `genre` ";
+				$sql .= "  ON       `tag`.`genre_id` = `genre`.`id` ";
 				$sql .= "WHERE      `stage_tag`.`stage_id` IN (" . implode(",", array_fill(0, count($stage_list), "?")) . ") ";
 				$sql .= "ORDER BY   `stage_tag`.`stage_id` ASC ";
 				$sql .= "          ,`tag`.`category` ASC ";
+				$sql .= "          ,`genre`.`sort` ASC ";
 				$sql .= "          ,`tag`.`sort` ASC ";
 				foreach ($stage_list as $v)
 				{

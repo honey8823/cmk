@@ -35,9 +35,8 @@ if ($user_id === false)
 	exit();
 }
 
-// シリーズタグ一覧
-$tag_catgory_list = $tc->getConfig("tag_category", "key");
-$smarty_param['series_list'] = $tc->table(array('category_list' => array($tag_catgory_list['series']['value']), 'user_id' => $user_id));
+// タグ一覧
+$smarty_param['tag_category_list'] = $tc->table(array('user_id' => $user_id, 'is_category_tree' => "1"));
 
 // ステージ一覧
 $smarty_param['stage_list'] = $sc->table()['stage_list'];

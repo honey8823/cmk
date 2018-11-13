@@ -26,8 +26,8 @@ const config = array(
 
 	// タグカテゴリ
 	'tag_category' => array(
-		array('value' => 1, 'key' => "series", 'name' => "シリーズ"),
-		array('value' => 2, 'key' => "test"  , 'name' => "テストカテゴリ"),
+		array('value' => 1, 'key' => "series"  , 'name' => "シリーズ"),
+		array('value' => 2, 'key' => "caution" , 'name' => "閲覧注意喚起"),
 	),
 
 	// エピソードカテゴリ

@@ -32,17 +32,20 @@ class StageController extends Common
 				$stage_list = $this->setArrayKey($stage_list, "id");
 
 				$arg_list = array();
-				$sql  = "SELECT    `stage_tag`.`stage_id` ";
-				$sql .= "         ,`tag`.`id` ";
-				$sql .= "         ,`tag`.`category` ";
-				$sql .= "         ,`tag`.`name` ";
-				$sql .= "         ,`tag`.`name_short` ";
-				$sql .= "FROM      `stage_tag` ";
+				$sql  = "SELECT     `stage_tag`.`stage_id` ";
+				$sql .= "          ,`tag`.`id` ";
+				$sql .= "          ,`tag`.`category` ";
+				$sql .= "          ,`tag`.`name` ";
+				$sql .= "          ,`tag`.`name_short` ";
+				$sql .= "FROM       `stage_tag` ";
 				$sql .= "INNER JOIN `tag` ";
 				$sql .= "  ON       `stage_tag`.`tag_id` = `tag`.`id` ";
+				$sql .= "LEFT JOIN  `genre` ";
+				$sql .= "  ON       `tag`.`genre_id` = `genre`.`id` ";
 				$sql .= "WHERE      `stage_tag`.`stage_id` IN (" . implode(",", array_fill(0, count($stage_list), "?")) . ") ";
 				$sql .= "ORDER BY   `stage_tag`.`stage_id` ASC ";
 				$sql .= "          ,`tag`.`category` ASC ";
+				$sql .= "          ,`genre`.`sort` ASC ";
 				$sql .= "          ,`tag`.`sort` ASC ";
 				foreach ($stage_list as $v)
 				{
@@ -119,34 +122,9 @@ class StageController extends Common
 			$stage_list[0]['login_id'] = $user_list[0]['login_id'];
 
 			// 取得（タグ）・整形
-			$arg_list = array();
-			$sql  = "SELECT     `tag`.`id` ";
-			$sql .= "          ,`tag`.`category` ";
-			$sql .= "          ,`tag`.`name` ";
-			$sql .= "          ,`tag`.`name_short` ";
-			$sql .= "FROM       `stage_tag` ";
-			$sql .= "INNER JOIN `tag` ";
-			$sql .= "  ON       `stage_tag`.`tag_id` = `tag`.`id` ";
-			$sql .= "WHERE      `stage_tag`.`stage_id` = ? ";
-			$sql .= "ORDER BY   `tag`.`category` ASC ";
-			$sql .= "          ,`tag`.`sort` ASC ";
-			$arg_list = array($id);
-			$tag_list = $this->query($sql, $arg_list);
-			if (count($tag_list) > 0)
-			{
-				$category_list = $this->getConfig("tag_category", "value");
-				foreach ($tag_list as $v)
-				{
-					$stage_list[0]['tag_list'][] = array(
-						'id'            => $v['id'],
-						'category'      => $v['category'],
-						'category_key'  => $category_list[$v['category']]['key'],
-						'category_name' => $category_list[$v['category']]['name'],
-						'name'          => $v['name'],
-						'name_short'    => $v['name_short'],
-					);
-				}
-			}
+			$tc = new TagController();
+			$tc->init();
+			$stage_list[0]['tag_list'] = $tc->table(array('stage_id' => $id));
 
 			// 取得（キャラクター）・整形
 			$arg_list = array();

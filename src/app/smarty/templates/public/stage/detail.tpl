@@ -45,11 +45,13 @@
                 <i class="fa fa-fw fa-heart is_favorite_icon clickable is_favorite_1 {if $is_favorite != "1"}hidden{/if}" aria-hidden="true" data-favorite_type_key="stage" data-id="{$stage.id}"></i>
               {/if}
               </div>
-            {foreach from=$series_list key=k item=v_series}
-            {if isset($stage.tag_list) && is_array($stage.tag_list) && in_array($v_series.id, array_column($stage.tag_list, 'id'))}
-              <span class="label tag-base tag-series" value="{$v_series.id}">{$v_series.name}</span>
-            {/if}
-            {/foreach}
+              <div class="detail-tag">
+                {if isset($stage.tag_list) && is_array($stage.tag_list)}
+                {foreach from=$stage.tag_list key=k item=v_tag}
+                  <span class="label tag-base tag-{$v_tag.category_key}" value="{$v_tag.id}">{$v_tag.name|escape:'html'}</span>
+                {/foreach}
+                {/if}
+              </div>
             </div>
           {if $stage.remarks != ""}
             <div class="box-body public-stage-remarks">
