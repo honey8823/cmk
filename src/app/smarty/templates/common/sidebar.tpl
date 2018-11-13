@@ -145,7 +145,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default pull-left" data-dismiss="modal">キャンセル</button>
-          <button type="button" class="btn btn-primary" onclick="login();">ログイン</button>
+          <button type="button" class="btn btn-primary btn-login" onclick="login();">ログイン</button>
         </div>
       </div>
     </div>

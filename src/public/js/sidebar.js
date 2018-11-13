@@ -6,6 +6,16 @@ $(document).on("click", ".sidebar-toggle", function(){
 });
 
 /*
+ * ログインフォーム内のEnter押下でログインボタンクリックしたことにする
+ */
+$(document).on("keyup", "#modal-login input", function(e){
+	if (e.keyCode == 13){
+		console.log($("#modal-login .btn-login"));
+		$("#modal-login .btn-login").trigger("click");
+	}
+});
+
+/*
  * ログイン処理
  */
 function login(){
