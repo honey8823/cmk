@@ -1,13 +1,3 @@
-// ラベルかどうかでフォームの表示切替
-$("#modal-addEpisode").find(".form-is_label").on("click", function(){
-	if ($(this).prop('checked')){
-		$("#modal-addEpisode").find(".not_use_for_label").hide();
-	}
-	else{
-		$("#modal-addEpisode").find(".not_use_for_label").show();
-	}
-});
-
 // URLクリック時は編集modalを開かない
 $(document).on("click", ".timeline-url", function(){
 	javascript_die(); // 強制終了
@@ -38,18 +28,31 @@ $(document).on("click", ".insert-read-more", function(){
 	obj_ta.get(0).selectionEnd = cursor + 5;
 });
 
+// 登録編集フォームの切り替え
+$(document).on("click", ".forms-switch", function(){
+	$("#add_forms-common").addClass("hidden");
+	$("#add_forms-label").addClass("hidden");
+	$("#add_forms-override").addClass("hidden");
+	$("#add_forms-" + $(this).data("target_forms_id")).removeClass("hidden");
+
+	$(".btn-form_common").removeClass("active");
+	$(".btn-form_label").removeClass("active");
+	$(".btn-form_override").removeClass("active");
+	$(this).addClass("active");
+});
+
 // 「続きを読む」の切り替え
 $(".timeline-free_text_show").on("click", function(){
-	  $(".timeline-free_text").addClass("hidden");
-	  $(".timeline-free_text_show").addClass("hidden");
-	  $(".timeline-free_text_full").removeClass("hidden");
-	  $(".timeline-free_text_hide").removeClass("hidden");
+	$(".timeline-free_text").addClass("hidden");
+	$(".timeline-free_text_show").addClass("hidden");
+	$(".timeline-free_text_full").removeClass("hidden");
+	$(".timeline-free_text_hide").removeClass("hidden");
 });
 $(".timeline-free_text_hide").on("click", function(){
-	  $(".timeline-free_text_full").addClass("hidden");
-	  $(".timeline-free_text_hide").addClass("hidden");
-	  $(".timeline-free_text").removeClass("hidden");
-	  $(".timeline-free_text_show").removeClass("hidden");
+	$(".timeline-free_text_full").addClass("hidden");
+	$(".timeline-free_text_hide").addClass("hidden");
+	$(".timeline-free_text").removeClass("hidden");
+	$(".timeline-free_text_show").removeClass("hidden");
 });
 
 /*
@@ -83,69 +86,157 @@ function timeline(params){
  * 登録
  */
 function addEpisode(){
+	// 区分ごとに関数を呼び分け
+	if (!$("#add_forms-common").hasClass("hidden")){
+		addEpisodeCommon();
+	}
+	if (!$("#add_forms-label").hasClass("hidden")){
+		addEpisodeLabel();
+	}
+	if (!$("#add_forms-override").hasClass("hidden")){
+		addEpisodeOverride();
+	}
+	return true;
+}
+function addEpisodeCommon(){
 	var character = [];
-	$("#modal-addEpisode").find(".badge.character-selectable:not(.character-notselected)").each(function(i, e){
+	$("#add_forms-common").find(".badge.character-selectable:not(.character-notselected)").each(function(i, e){
 		character.push($(e).attr("value"));
 	});
 	var params = {
 			'stage_id'       : $("#modal-addEpisode").find(".form-stage_id").val(),
-			'is_label'       : $("#modal-addEpisode").find(".form-is_label").prop("checked") ? "1" : "0",
-			'category'       : $("#modal-addEpisode").find(".form-category:checked").val(),
-			'title'          : $("#modal-addEpisode").find(".form-title").val(),
-			'url'            : $("#modal-addEpisode").find(".form-url").val(),
-			'free_text'      : $("#modal-addEpisode").find(".form-free_text").val(),
-			'is_r18'         : $("#modal-addEpisode").find(".form-is_r18").prop("checked") ? "1" : "0",
-			'is_private'     : $("#modal-addEpisode").find(".form-is_private:not(.hide)").data("is_private"),
+			'is_private'     : $("#modal-addEpisode .form-is_private:not(.hide)").data("is_private"),
+			'title'          : $("#add_forms-common .form-title").val(),
+			'url'            : $("#add_forms-common .form-url").val(),
+			'free_text'      : $("#add_forms-common .form-free_text").val(),
+			'is_r18'         : $("#add_forms-common .form-is_r18").prop("checked") ? "1" : "0",
 			'character_list' : character,
+			'type_key'       : "common",
 		};
-	var result = ajaxPost("episode", "add", params);
+	var result = ajaxPost("episode", "addCommon", params);
 	result.done(function(){
 		if (isAjaxResultErrorRedirect(result.return_value) === true) {return false;}  // 必要ならエラーページへリダイレクト
 		if (isAjaxResultErrorMsg(result.return_value) === true ){return false;} // 必要ならエラーメッセージ表示
 
 		// 正常な場合
+
+		// 描画
 		params['id'] = result.return_value.id;
+		params['url_view'] = result.return_value.url_view;
 		drawEpisodeList(params);
+
+		// モーダルを閉じる
 		$('#modal-addEpisode').modal('hide');
-		$("#modal-addEpisode").find("input:not([type=hidden]):not([type=radio]):not([type=checkbox])").val("");
-		$("#modal-addEpisode").find(".form-category").val(["1"]);
-		$("#modal-addEpisode").find("input[type=checkbox]").prop("checked", false);
-		$("#modal-addEpisode").find("textarea").val("");
-		$("#modal-addEpisode").find(".character-selectable:not(.character-notselected)").addClass("character-notselected");
-		$("#modal-addEpisode").find(".not_use_for_label").show();
+
+		// モーダルを初期化
+		initAddEpisodeModal();
 		return true;
 	});
+}
+function addEpisodeLabel(){
+	var params = {
+			'stage_id'       : $("#modal-addEpisode").find(".form-stage_id").val(),
+			'is_private'     : $("#modal-addEpisode .form-is_private:not(.hide)").data("is_private"),
+			'title'          : $("#add_forms-label .form-title").val(),
+			'type_key'       : "label",
+		};
+	var result = ajaxPost("episode", "addLabel", params);
+	result.done(function(){
+		if (isAjaxResultErrorRedirect(result.return_value) === true) {return false;}  // 必要ならエラーページへリダイレクト
+		if (isAjaxResultErrorMsg(result.return_value) === true ){return false;} // 必要ならエラーメッセージ表示
+
+		// 正常な場合
+
+		// 描画
+		params['id'] = result.return_value.id;
+		drawEpisodeList(params);
+
+		// モーダルを閉じる
+		$('#modal-addEpisode').modal('hide');
+
+		// モーダルを初期化
+		initAddEpisodeModal();
+		return true;
+	});
+}
+function addEpisodeOverride(){
+	console.log("character_override");
 }
 
 /*
  * 更新
  */
 function setEpisode(){
+	// 区分ごとに関数を呼び分け
+	if (!$("#set_forms-common").hasClass("hidden")){
+		setEpisodeCommon();
+	}
+	if (!$("#set_forms-label").hasClass("hidden")){
+		setEpisodeLabel();
+	}
+	if (!$("#set_forms-override").hasClass("hidden")){
+		setEpisodeOverride();
+	}
+	return true;
+}
+function setEpisodeCommon(){
 	var character = [];
-	$("#modal-setEpisode").find(".badge.character-selectable:not(.character-notselected)").each(function(i, e){
+	$("#set_forms-common").find(".badge.character-selectable:not(.character-notselected)").each(function(i, e){
 		character.push($(e).attr("value"));
 	});
 	var params = {
 			'id'             : $("#modal-setEpisode").find(".form-id").val(),
-			'category'       : $("#modal-setEpisode").find(".form-category:checked").val(),
-			'title'          : $("#modal-setEpisode").find(".form-title").val(),
-			'url'            : $("#modal-setEpisode").find(".form-url").val(),
-			'free_text'      : $("#modal-setEpisode").find(".form-free_text").val(),
-			'is_r18'         : $("#modal-setEpisode").find(".form-is_r18").prop("checked") ? "1" : "0",
 			'is_private'     : $("#modal-setEpisode").find(".form-is_private:not(.hide)").data("is_private"),
+			'title'          : $("#set_forms-common").find(".form-title").val(),
+			'url'            : $("#set_forms-common").find(".form-url").val(),
+			'free_text'      : $("#set_forms-common").find(".form-free_text").val(),
+			'is_r18'         : $("#set_forms-common").find(".form-is_r18").prop("checked") ? "1" : "0",
 			'character_list' : character,
 		};
 
-	var result = ajaxPost("episode", "set", params);
+	var result = ajaxPost("episode", "setCommon", params);
 	result.done(function(){
 		if (isAjaxResultErrorRedirect(result.return_value) === true) {return false;}  // 必要ならエラーページへリダイレクト
 		if (isAjaxResultErrorMsg(result.return_value) === true ){return false;} // 必要ならエラーメッセージ表示
 
 		// 正常な場合
+
+		// 描画
 		drawEpisodeList(params, params['id']);
+
+		// モーダルを閉じる
 		$('#modal-setEpisode').modal('hide');
-		return true;
+
+		// モーダルを初期化
+		initSetEpisodeModal();
 	});
+}
+function setEpisodeLabel(){
+	var params = {
+			'id'         : $("#modal-setEpisode").find(".form-id").val(),
+			'is_private' : $("#modal-setEpisode").find(".form-is_private:not(.hide)").data("is_private"),
+			'title'      : $("#set_forms-label").find(".form-title").val(),
+		};
+
+	var result = ajaxPost("episode", "setLabel", params);
+	result.done(function(){
+		if (isAjaxResultErrorRedirect(result.return_value) === true) {return false;}  // 必要ならエラーページへリダイレクト
+		if (isAjaxResultErrorMsg(result.return_value) === true ){return false;} // 必要ならエラーメッセージ表示
+
+		// 正常な場合
+
+		// 描画
+		drawEpisodeList(params, params['id']);
+
+		// モーダルを閉じる
+		$('#modal-setEpisode').modal('hide');
+
+		// モーダルを初期化
+		initSetEpisodeModal();
+	});
+}
+function setEpisodeOverride(){
+	console.log("setEpisodeOverride");
 }
 
 /*
@@ -213,11 +304,47 @@ function readyEpisodeSort(mode){
 }
 
 /*
+ * local::モーダルの初期化
+ */
+function initAddEpisodeModal(){
+	// タイプごとの切り替え
+	$("#add_forms-common").removeClass("hidden");
+	$("#add_forms-label").addClass("hidden");
+	$("#add_forms-override").addClass("hidden");
+
+	// ボタンのアクティブ状態
+	$("#modal-addEpisode").find(".btn-form_common").addClass("active");
+	$("#modal-addEpisode").find(".btn-form_label").removeClass("active");
+	$("#modal-addEpisode").find(".btn-form_override").removeClass("active");
+
+	// フォームの中身をクリア
+	$("#modal-addEpisode").find("input[type=text]").val("");
+	$("#modal-addEpisode").find("textarea").val("");
+	$("#modal-addEpisode").find("input[type=checkbox]").prop("checked", false);
+	$("#modal-addEpisode").find(".character-selectable:not(.character-notselected)").addClass("character-notselected");
+	$("#modal-addEpisode").find(".form-is_private[data-is_private=0]").addClass("hide");
+	$("#modal-addEpisode").find(".form-is_private[data-is_private=1]").removeClass("hide");
+}
+function initSetEpisodeModal(){
+	// タイプごとの切り替え
+	$("#set_forms-common").addClass("hidden");
+	$("#set_forms-label").addClass("hidden");
+	$("#set_forms-override").addClass("hidden");
+
+	// フォームの中身をクリア
+	$("#modal-setEpisode").find("input[type=text]").val("");
+	$("#modal-setEpisode").find("textarea").val("");
+	$("#modal-setEpisode").find("input[type=checkbox]").prop("checked", false);
+	$("#modal-setEpisode").find(".character-selectable:not(.character-notselected)").addClass("character-notselected");
+	$("#modal-setEpisode").find(".form-is_private[data-is_private=0]").addClass("hide");
+	$("#modal-setEpisode").find(".form-is_private[data-is_private=1]").removeClass("hide");
+}
+
+/*
  * local::一覧描画
  */
 function drawEpisodeList(dat, id){
-
-	if (dat.is_label == 1){
+	if (dat.type_key == "label"){
 		if (id == undefined){
 			// 新規：行をコピー
 			var obj_base = $("#timeline_for_stage_template").find(".timeline-label")[0];
@@ -251,7 +378,7 @@ function drawEpisodeList(dat, id){
 		$(obj).attr("data-id", dat.id);
 		$(obj).find(".is_private_icon.is_private_" + (dat.is_private == "1" ? "1" : "0")).removeClass("template-for-copy");
 		$(obj).find(".is_private_icon.is_private_" + (dat.is_private == "1" ? "0" : "1")).addClass("template-for-copy");
-		$(obj).find(".category_icon.category_" + dat.category).removeClass("template-for-copy");
+		$(obj).find(".type_icon.episode_type_" + dat.type_key).removeClass("template-for-copy");
 		if (dat.title != undefined && dat.title != ""){
 			$(obj).find(".timeline-title").text(dat.title);
 			$(obj).find(".timeline-title").removeClass("template-for-copy");
@@ -280,27 +407,6 @@ function drawEpisodeList(dat, id){
 		$(obj).find(".timeline-content").removeClass("template-for-copy");
 	}
 
-//	// タグ
-//	$(dat.tag_list).each(function(i_tag, e_tag){
-//		var obj_tag_base = $(obj).find(".td-tag > .tag-base.template-for-copy")[0];
-//		var obj_tag = $(obj_tag_base).clone().appendTo($(obj_tag_base).parent());
-//
-//		// タグ略称
-//		obj_tag.addClass("tag-" + e_tag.category_key);
-//		obj_tag.text(e_tag.name_short);
-//
-//		// テンプレート用クラスを外す
-//		obj_tag.removeClass("template-for-copy");
-//	});
-//
-//	// 公開/非公開
-//	if (dat.is_private == 1){
-//		$(obj).find(".stage_is_private_0").remove();
-//	}
-//	else {
-//		$(obj).find(".stage_is_private_1").remove();
-//	}
-//
 	// テンプレート用クラスを外す
 	obj.removeClass("template-for-copy");
 }
@@ -350,30 +456,36 @@ $(document).on("click", "li.timeline-editable", function(){
 		if (isAjaxResultNoData(result.return_value['episode']['id']) === true ){return false;} // データがない場合はエラー表示
 
 		// 正常な場合
-		$("#modal-setEpisode").find(".form-is_private:not([data-is_private='" + result.return_value['episode']['is_private'] + "'])").addClass("hide");
-		$("#modal-setEpisode").find(".form-is_private[data-is_private='" + result.return_value['episode']['is_private'] + "']").removeClass("hide");
-		$("#modal-setEpisode").find(".form-id").val(result.return_value['episode']['id']);
-		$("#modal-setEpisode").find(".form-is_label").val(result.return_value['episode']['is_label']);
-		$("#modal-setEpisode").find(".form-title").val(result.return_value['episode']['title']);
-		$("#modal-setEpisode").find(".character-selectable").addClass("character-notselected");
 
-		if (result.return_value['episode']['is_label'] == 1){
-			$("#modal-setEpisode").find(".not_use_for_label").hide();
-			$("#modal-setEpisode").find(".form-category").val([""]);
-			$("#modal-setEpisode").find(".form-url").val("");
-			$("#modal-setEpisode").find(".form-free_text").val("");
-			$("#modal-setEpisode").find(".form-is_r18").prop("checked", false);
+		// タイプごとの切り替え
+		$("#set_forms-common").addClass("hidden");
+		$("#set_forms-label").addClass("hidden");
+		$("#set_forms-override").addClass("hidden");
+		$("#set_forms-" + result.return_value['episode']['type_key']).removeClass("hidden");
+
+		// ボタンのアクティブ状態
+		$("#modal-setEpisode").find(".btn-form_common").removeClass("active");
+		$("#modal-setEpisode").find(".btn-form_label").removeClass("active");
+		$("#modal-setEpisode").find(".btn-form_override").removeClass("active");
+		$("#modal-setEpisode").find(".btn-form_" + result.return_value['episode']['type_key']).addClass("active");
+
+		// 取得したデータをセット
+		$("#modal-setEpisode").find(".form-id").val(result.return_value['episode']['id']);
+		if (result.return_value['episode']['is_private'] == "0"){
+			$("#modal-setEpisode").find(".form-is_private[data-is_private=0]").removeClass("hide");
+			$("#modal-setEpisode").find(".form-is_private[data-is_private=1]").addClass("hide");
 		}
 		else{
-			$("#modal-setEpisode").find(".not_use_for_label").show();
-			$("#modal-setEpisode").find(".form-category").val([result.return_value['episode']['category']]);
-			$("#modal-setEpisode").find(".form-url").val(result.return_value['episode']['url']);
-			$("#modal-setEpisode").find(".form-free_text").val(result.return_value['episode']['free_text']);
-			$("#modal-setEpisode").find(".form-is_r18").prop("checked", result.return_value['episode']['is_r18'] == "1" ? true : false);
-			$(result.return_value['episode']['character_list']).each(function(i, e){
-				$("#modal-setEpisode").find(".character-selectable[value='" + e.id + "']").removeClass("character-notselected");
-			});
+			$("#modal-setEpisode").find(".form-is_private[data-is_private=1]").removeClass("hide");
+			$("#modal-setEpisode").find(".form-is_private[data-is_private=0]").addClass("hide");
 		}
+		$("#modal-setEpisode").find(".form-title").val(result.return_value['episode']['title']);
+		$("#modal-setEpisode").find(".form-url").val(result.return_value['episode']['url']);
+		$("#modal-setEpisode").find(".form-free_text").val(result.return_value['episode']['free_text']);
+		$("#modal-setEpisode").find(".form-is_r18").prop("checked", result.return_value['episode']['is_r18'] == "1" ? true : false);
+		$(result.return_value['episode']['character_list']).each(function(i, e){
+			$("#modal-setEpisode").find(".character-selectable[value='" + e.id + "']").removeClass("character-notselected");
+		});
 
 		return true;
     });

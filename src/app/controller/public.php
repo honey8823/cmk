@@ -48,8 +48,7 @@ class PublicController extends Common
 
 			// 取得（エピソード）・整形
 			$sql  = "SELECT     `episode`.`id` ";
-			$sql .= "          ,`episode`.`is_label` ";
-			$sql .= "          ,`episode`.`category` ";
+			$sql .= "          ,`episode`.`type` ";
 			$sql .= "          ,`episode`.`title` ";
 			$sql .= "          ,`episode`.`url` ";
 			$sql .= "          ,`episode`.`free_text` ";
@@ -70,6 +69,7 @@ class PublicController extends Common
 			$episode_list = $this->query($sql, $arg_list);
 
 			// 整形
+			$category_list = $this->getConfig("episode_type", "value");
 			$stage_list[0]['episode_list'] = array();
 			if (count($episode_list) > 0)
 			{
@@ -86,6 +86,7 @@ class PublicController extends Common
 
 					// URL省略整形
 					$episode_list[$k]['url_view'] = $this->omitUrl($v['url']);
+					$episode_list[$k]['type_key'] = $category_list[$v['type']]['key'];
 				}
 				$stage_list[0]['episode_list'] = $episode_list;
 			}
@@ -232,17 +233,18 @@ class PublicController extends Common
 
 				// 取得（エピソード）
 				// 対象ステージのラベルはすべて取得、ラベルでないものは該当キャラクターのもののみ取得
+				$category_list = $this->getConfig("episode_type", "key");
 				$arg_list = array();
 				$sql  = "SELECT   `episode`.`id` ";
 				$sql .= "        ,`episode`.`stage_id` ";
-				$sql .= "        ,`episode`.`is_label` ";
-				$sql .= "        ,`episode`.`category` ";
+				$sql .= "        ,`episode`.`type` ";
 				$sql .= "        ,`episode`.`title` ";
 				$sql .= "        ,`episode`.`url` ";
 				$sql .= "        ,`episode`.`free_text` ";
 				$sql .= "FROM     `episode` ";
-				$sql .= "WHERE    (`episode`.`id` IN (SELECT `episode_id` FROM `episode_character` WHERE `character_id` = ?) OR `episode`.`is_label` = 1) ";
+				$sql .= "WHERE    (`episode`.`id` IN (SELECT `episode_id` FROM `episode_character` WHERE `character_id` = ?) OR `episode`.`type` = ?) ";
 				$arg_list[] = $id;
+				$arg_list[] = $category_list['label']['value'];
 				$sql .= "AND      `episode`.`is_delete` <> 1 ";
 				$sql .= "AND      `episode`.`is_private` <> 1 ";
 				if ($login_user_list['is_r18'] != 1)
@@ -258,9 +260,11 @@ class PublicController extends Common
 				$episode_list = $this->query($sql, $arg_list);
 
 				// 整形
+				$category_list = $this->getConfig("episode_type", "value");
 				foreach ($episode_list as $k => $v)
 				{
 					$v['url_view'] = $this->omitUrl($v['url']);
+					$v['type_key'] = $category_list[$v['type']]['key'];
 					$character_list[0]['stage_list'][$v['stage_id']]['episode_list'][] = $v;
 				}
 			}

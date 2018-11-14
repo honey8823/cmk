@@ -208,7 +208,7 @@
                   </li>
                 {if isset($v_tl.episode_list) && is_array($v_tl.episode_list)}
                 {foreach from=$v_tl.episode_list key=k_episode item=v_episode}
-                {if $v_episode.is_label == 1}
+                {if $v_episode.type_key == "label"}
                   <li class="time-label timeline-label timeline-label_title" data-id="{$v_episode.id}">
                     <span class="bg-red timeline-title">
                     {if $v_episode.is_private == 1}
@@ -226,9 +226,9 @@
                     {else}
                       <span class="is_private_icon is_private_0"><i class="fa fa-unlock fa-fw"></i></span>
                     {/if}
-                    {if $v_episode.category == "1"}<i class="fa fa-book bg-green"></i>{/if}
-                    {if $v_episode.category == "2"}<i class="fa fa-users bg-orange"></i>{/if}
-                    {if $v_episode.category == "3"}<i class="fa fa-user bg-yellow"></i>{/if}
+                    {if $v_episode.type_key == "common"}<i class="fa fa-book bg-green"></i>{/if}
+                    {* {if $v_episode.type_key == ""}<i class="fa fa-users bg-orange"></i>{/if} *}
+                    {if $v_episode.type_key == "override"}<i class="fa fa-user bg-yellow"></i>{/if}
                     <div class="timeline-item">
                     {if $v_episode.title != ""}
                       <h3 class="timeline-header timeline-title no-border">{$v_episode.title|escape:'html'}</h3>

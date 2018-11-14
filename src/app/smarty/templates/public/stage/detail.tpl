@@ -75,13 +75,13 @@
               <div class="tab-pane active" id="tab-content-timeline">
                 <ul class="timeline timeline-stage">
                 {foreach from=$stage.episode_list key=k item=v_episode}
-                {if $v_episode.is_label == "1"}
+                {if $v_episode.type_key == "label"}
                   <li class="time-label timeline-label"><span class="bg-red timeline-title">{$v_episode.title}</span></li>
                 {else}
                   <li class="timeline-content">
-                  {if $v_episode.category == "1"}<i class="fa fa-book bg-green"></i>{/if}
-                  {if $v_episode.category == "2"}<i class="fa fa-users bg-orange"></i>{/if}
-                  {if $v_episode.category == "3"}<i class="fa fa-user bg-yellow"></i>{/if}
+                  {if $v_episode.type_key == "common"}<i class="fa fa-book bg-green"></i>{/if}
+                  {*{if $v_episode.type_key == ""}<i class="fa fa-users bg-orange"></i>{/if}*}
+                  {if $v_episode.type_key == "override"}<i class="fa fa-user bg-yellow"></i>{/if}
                     <div class="timeline-item">
                       {if $v_episode.title != ""}<h3 class="timeline-header timeline-title no-border">{$v_episode.title|escape:'html'}</h3>{/if}
                     {if $v_episode.url != "" || $v_episode.free_text != ""}

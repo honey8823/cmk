@@ -30,11 +30,11 @@ const config = array(
 		array('value' => 2, 'key' => "caution" , 'name' => "閲覧注意喚起"),
 	),
 
-	// エピソードカテゴリ
-	'episode_category' => array(
-		array('value' => 1, 'key' => "event"    , 'name' => "できごと"),
-		array('value' => 2, 'key' => "relation" , 'name' => "キャラクター同士の関係について"),
-		array('value' => 3, 'key' => "profile"  , 'name' => "キャラクタープロフィールの変化"),
+	// エピソード区分
+	'episode_type' => array(
+		array('value' => 1, 'key' => "common"   , 'name' => "通常エピソード"),
+		array('value' => 2, 'key' => "label"    , 'name' => "ラベル"),
+		array('value' => 3, 'key' => "override" , 'name' => "オーバーライド"),
 	),
 
 	// お気に入りタイプ
