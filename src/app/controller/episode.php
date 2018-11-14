@@ -282,7 +282,7 @@ class EpisodeController extends Common
 		try
 		{
 			// ユーザID
-			$user_id    = $this->getLoginId();
+			$user_id = $this->getLoginId();
 			if ($user_id === false)
 			{
 				return array('error_redirect' => "session");
@@ -386,13 +386,12 @@ class EpisodeController extends Common
 			$this->exception($e);
 		}
 	}
-
 	public function addLabel($param_list = array())
 	{
 		try
 		{
 			// ユーザID
-			$user_id    = $this->getLoginId();
+			$user_id = $this->getLoginId();
 			if ($user_id === false)
 			{
 				return array('error_redirect' => "session");
@@ -442,6 +441,73 @@ class EpisodeController extends Common
 			$sql .= "VALUES                (?         , ?     , ?      ,  ?          ) ";
 			$arg_list[] = $stage_id;
 			$arg_list[] = $type_list['label']['value'];
+			$arg_list[] = $title      == "" ? null : $title;
+			$arg_list[] = $is_private == 0  ? 0 : 1;
+			$this->query($sql, $arg_list);
+			$id = $this->getLastInsertId();
+
+			// 戻り値
+			$return_list = array(
+				'id' => $id,
+			);
+			return $return_list;
+		}
+		catch (Exception $e)
+		{
+			$this->exception($e);
+		}
+	}
+	public function addOverride($param_list = array())
+	{
+		try
+		{
+			// ユーザID
+			$user_id = $this->getLoginId();
+			if ($user_id === false)
+			{
+				return array('error_redirect' => "session");
+			}
+
+			// 引数
+			$stage_id   = trim($param_list['stage_id']);
+			$title      = trim($param_list['title']);
+			$is_private = trim($param_list['is_private']);
+
+			// バリデート
+			$err_list = array();
+			if (!preg_match("/^[0-9]+$/", $stage_id))
+			{
+				$err_list[] = "エピソードの登録先ステージが選択されていません。";
+				return array('error_message_list' => $err_list);
+			}
+			else
+			{
+				$sql  = "SELECT `id` FROM `stage` WHERE `id` = ? AND `user_id` = ? AND `is_delete` <> 1 ";
+				$arg_list = array($stage_id, $user_id);
+				$r = $this->query($sql, $arg_list);
+				if (count($r) != 1)
+				{
+					$err_list[] = "無効なデータです。最初からやり直してください。";
+					return array('error_message_list' => $err_list);
+				}
+			}
+
+			if (mb_strlen($title) > 32)
+			{
+				$err_list[] = "タイトルは32文字以内で入力してください。";
+			}
+			if (count($err_list) > 0)
+			{
+				return array('error_message_list' => $err_list);
+			}
+
+			// 登録
+			$type_list = $this->getConfig("episode_type", "key");
+			$arg_list = array();
+			$sql  = "INSERT INTO `episode` (`stage_id`, `type`, `title`, `is_private`) ";
+			$sql .= "VALUES                (?         , ?     , ?      ,  ?          ) ";
+			$arg_list[] = $stage_id;
+			$arg_list[] = $type_list['override']['value'];
 			$arg_list[] = $title      == "" ? null : $title;
 			$arg_list[] = $is_private == 0  ? 0 : 1;
 			$this->query($sql, $arg_list);

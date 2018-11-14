@@ -28,7 +28,13 @@ $(document).on("click", ".insert-read-more", function(){
 	obj_ta.get(0).selectionEnd = cursor + 5;
 });
 
-// 登録編集フォームの切り替え
+//
+$(document).on("click", "#add_forms-override .character-selectable", function(){
+	$("#add_forms-override .character-selectable").removeClass("selected");
+	$(this).addClass("selected");
+});
+
+// 登録フォームの切り替え
 $(document).on("click", ".forms-switch", function(){
 	$("#add_forms-common").addClass("hidden");
 	$("#add_forms-label").addClass("hidden");
@@ -39,6 +45,11 @@ $(document).on("click", ".forms-switch", function(){
 	$(".btn-form_label").removeClass("active");
 	$(".btn-form_override").removeClass("active");
 	$(this).addClass("active");
+
+	$(".btn-add_common").addClass("hidden");
+	$(".btn-add_label").addClass("hidden");
+	$(".btn-add_override").addClass("hidden");
+	$(".btn-add_" + $(this).data("target_forms_id")).removeClass("hidden");
 });
 
 // 「続きを読む」の切り替え
@@ -85,19 +96,6 @@ function timeline(params){
 /*
  * 登録
  */
-function addEpisode(){
-	// 区分ごとに関数を呼び分け
-	if (!$("#add_forms-common").hasClass("hidden")){
-		addEpisodeCommon();
-	}
-	if (!$("#add_forms-label").hasClass("hidden")){
-		addEpisodeLabel();
-	}
-	if (!$("#add_forms-override").hasClass("hidden")){
-		addEpisodeOverride();
-	}
-	return true;
-}
 function addEpisodeCommon(){
 	var character = [];
 	$("#add_forms-common").find(".badge.character-selectable:not(.character-notselected)").each(function(i, e){
@@ -160,25 +158,39 @@ function addEpisodeLabel(){
 	});
 }
 function addEpisodeOverride(){
-	console.log("character_override");
+	var params = {
+			'stage_id'     : $("#modal-addEpisode").find(".form-stage_id").val(),
+			'is_private'   : $("#modal-addEpisode .form-is_private:not(.hide)").data("is_private"),
+			'title'        : $("#add_forms-override .form-title").val(),
+			'type_key'     : "override",
+		};
+	var result = ajaxPost("episode", "addOverride", params);
+	result.done(function(){
+		if (isAjaxResultErrorRedirect(result.return_value) === true) {return false;}  // 必要ならエラーページへリダイレクト
+		if (isAjaxResultErrorMsg(result.return_value) === true ){return false;} // 必要ならエラーメッセージ表示
+
+		// 正常な場合
+
+		// 描画
+		params['id'] = result.return_value.id;
+		drawEpisodeList(params);
+
+		// モーダルを閉じる
+		$('#modal-addEpisode').modal('hide');
+
+		// モーダルを初期化
+		initAddEpisodeModal();
+
+		// 編集モーダルを開く
+		$('li.timeline-editable.clickable[data-id=' + params['id'] + ']').trigger("click");
+
+		return true;
+	});
 }
 
 /*
  * 更新
  */
-function setEpisode(){
-	// 区分ごとに関数を呼び分け
-	if (!$("#set_forms-common").hasClass("hidden")){
-		setEpisodeCommon();
-	}
-	if (!$("#set_forms-label").hasClass("hidden")){
-		setEpisodeLabel();
-	}
-	if (!$("#set_forms-override").hasClass("hidden")){
-		setEpisodeOverride();
-	}
-	return true;
-}
 function setEpisodeCommon(){
 	var character = [];
 	$("#set_forms-common").find(".badge.character-selectable:not(.character-notselected)").each(function(i, e){
@@ -317,6 +329,11 @@ function initAddEpisodeModal(){
 	$("#modal-addEpisode").find(".btn-form_label").removeClass("active");
 	$("#modal-addEpisode").find(".btn-form_override").removeClass("active");
 
+	// 登録ボタンの切り替え
+	$(".btn-add_common").removeClass("hidden");
+	$(".btn-add_label").addClass("hidden");
+	$(".btn-add_override").addClass("hidden");
+
 	// フォームの中身をクリア
 	$("#modal-addEpisode").find("input[type=text]").val("");
 	$("#modal-addEpisode").find("textarea").val("");
@@ -330,6 +347,11 @@ function initSetEpisodeModal(){
 	$("#set_forms-common").addClass("hidden");
 	$("#set_forms-label").addClass("hidden");
 	$("#set_forms-override").addClass("hidden");
+
+	// 登録ボタンの切り替え
+	$(".btn-set_common").addClass("hidden");
+	$(".btn-set_label").addClass("hidden");
+	$(".btn-set_override").addClass("hidden");
 
 	// フォームの中身をクリア
 	$("#modal-setEpisode").find("input[type=text]").val("");
@@ -371,6 +393,21 @@ function drawEpisodeList(dat, id){
 		else{
 			// 更新：対象の行を取得
 			var obj = $("#timeline_for_stage > li[data-id='" + id + "']");
+		}
+
+		// オーバーライド時のテキスト生成
+		if (dat.type_key == "override"){
+			if (dat.override_character_list == undefined){
+				dat.free_text = "[未設定]";
+			}
+			else{
+				if (dat.override_character_list.length > 3){
+					dat.free_text = "A,B,C 他 n 人のオーバーライド"; // todo::
+				}
+				else{
+					dat.free_text = "A,B のオーバーライド"; // todo::
+				}
+			}
 		}
 
 		// データ貼り付け
@@ -468,6 +505,12 @@ $(document).on("click", "li.timeline-editable", function(){
 		$("#modal-setEpisode").find(".btn-form_label").removeClass("active");
 		$("#modal-setEpisode").find(".btn-form_override").removeClass("active");
 		$("#modal-setEpisode").find(".btn-form_" + result.return_value['episode']['type_key']).addClass("active");
+
+		// 登録ボタンの切り替え
+		$(".btn-set_common").addClass("hidden");
+		$(".btn-set_label").addClass("hidden");
+		$(".btn-set_override").addClass("hidden");
+		$(".btn-set_" + result.return_value['episode']['type_key']).removeClass("hidden");
 
 		// 取得したデータをセット
 		$("#modal-setEpisode").find(".form-id").val(result.return_value['episode']['id']);
