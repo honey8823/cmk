@@ -268,7 +268,7 @@
           <input type="hidden" id="character_id" value="">
 
           <div class="loading-complete">
-            <ul class="nav nav-stacked ul-character_profile" id="character_profile_stage">
+            <ul class="nav nav-stacked ul-character_profile character_profile_stage" id="character_profile_stage">
             {* コピー用 *}
               <li class="li-character_profile template-for-copy">
                 <a>
@@ -283,8 +283,8 @@
                       <i class="fa fa-fw fa-sticky-note-o character_profile_original_icon" aria-hidden="true"></i>
                     </div>
                     <div class="character_profile_q"></div>
-                    <div class="character_profile_a hidden"><small>（基本プロフィールでは設定されていない項目です）</small></div>
-                    <div class="character_profile_stage_a hidden">（オーバーライドしていない項目です）</div>
+                    <div class="character_profile_a profile_base not_override hidden"><small>（基本プロフィールでは設定されていない項目です）</small></div>
+                    <div class="character_profile_a profile_stage override hidden"></div>
                   </span>
                 {* 編集モード *}
                   <span class="edit_mode">
@@ -348,11 +348,10 @@
 {include file='common/adminlte_js.tpl'}
 <script src="/js/adminlte_2.4.5/bower_components/select2/dist/js/select2.full.min.js"></script>
 <script src="/js/lib/jquery.ui.touch-punch.min.js"></script>
-<script src="/js/common.js"></script>
-<script src="/js/sidebar.js"></script>
+{include file='common/common_js.tpl'}
 <script src="/js/stage.js"></script>
-<script src="/js/stage-character.js"></script>
 <script src="/js/character-profile.js"></script>
+<script src="/js/timeline.js"></script>
 <script src="/js/episode.js"></script>
 <script>
 // 読み込み完了時の処理

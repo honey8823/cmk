@@ -54,8 +54,7 @@
 
 <!-- JS start -->
 {include file='common/adminlte_js.tpl'}
-<script src="/js/common.js"></script>
-<script src="/js/sidebar.js"></script>
+{include file='common/common_js.tpl'}
 <script src="/js/information.js"></script>
 <script>
 // 読み込み完了時の処理

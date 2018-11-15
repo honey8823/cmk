@@ -113,7 +113,7 @@
             <div class="tab-content">
               <div class="tab-pane active" id="tab-content-profile">
                 <p class="hint-box">ステージごとに異なる項目や時間の経過で変わる項目は<br>「ステージ」内で別途設定することができます。</p>
-                <ul class="nav nav-stacked ul-character_profile" id="character_profile">
+                <ul class="nav nav-stacked ul-character_profile character_profile" id="character_profile">
 
                 {foreach from=$character.profile_list key=k item=v_profile}
                   <li class="li-character_profile" data-q="{$v_profile.question}">
@@ -126,7 +126,7 @@
                           <i class="fa fa-fw fa-trash-o clickable character_profile_delete_icon" aria-hidden="true"></i>
                         </div>
                         <div class="character_profile_q">{$v_profile.question_title}</div>
-                        <div class="character_profile_a">{$v_profile.answer|escape:'html'|nl2br}</div>
+                        <div class="character_profile_a profile_base">{$v_profile.answer|escape:'html'|nl2br}</div>
                       </span>
 
                       <!-- 編集モード -->
@@ -135,7 +135,7 @@
                           <i class="fa fa-fw fa-floppy-o clickable character_profile_save_icon" aria-hidden="true"></i>
                         </div>
                         <div class="character_profile_q set_mode">{$v_profile.question_title}</div>
-                        <div class="character_profile_a">
+                        <div class="character_profile_a profile_base">
                           <textarea class="form-control" rows="3">{$v_profile.answer}</textarea>
                         </div>
                       </span>
@@ -154,7 +154,7 @@
                           <i class="fa fa-fw fa-trash-o clickable character_profile_delete_icon" aria-hidden="true"></i>
                         </div>
                         <div class="character_profile_q"></div>
-                        <div class="character_profile_a"></div>
+                        <div class="character_profile_a profile_base"></div>
                       </span>
 
                       <!-- 編集モード -->
@@ -174,7 +174,7 @@
                           </select>
                         </div>
                         <div class="character_profile_q set_mode hidden"></div>
-                        <div class="character_profile_a">
+                        <div class="character_profile_a profile_base">
                           <textarea class="form-control" rows="3"></textarea>
                         </div>
                       </span>
@@ -286,15 +286,15 @@
 <!-- JS start -->
 {include file='common/adminlte_js.tpl'}
 <script src="/js/adminlte_2.4.5/bower_components/select2/dist/js/select2.full.min.js"></script>
-<script src="/js/common.js"></script>
-<script src="/js/sidebar.js"></script>
+{include file='common/common_js.tpl'}
 <script src="/js/character.js"></script>
 <script src="/js/character-profile.js"></script>
+<script src="/js/timeline.js"></script>
 <script src="/js/episode.js"></script>
 <script>
 $(function(){
 	// プロフィールのフォーム表示用
-	copyCharacterProfileForm();
+	copyCharacterProfileForm("#tab-content-profile .li-character_profile.template-for-copy");
 });
 </script>
 <!-- JS end -->

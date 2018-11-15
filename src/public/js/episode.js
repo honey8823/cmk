@@ -28,10 +28,16 @@ $(document).on("click", ".insert-read-more", function(){
 	obj_ta.get(0).selectionEnd = cursor + 5;
 });
 
-//
-$(document).on("click", "#add_forms-override .character-selectable", function(){
-	$("#add_forms-override .character-selectable").removeClass("selected");
-	$(this).addClass("selected");
+//エピソード更新フォームに値をセット
+$(document).on("click", "li.timeline-editable", function(){
+	setEpisodeModal($(this).data("id"));
+});
+
+// オーバーライド(エピソード)部分のキャラクター折り畳み
+$(document).on("click", "#set_forms-override .character-folder.clickable", function(){
+	$(this).parents(".character_block").find(".ul-character_profile").toggleClass("hidden");
+	$(this).find(".folder-close-icon").toggleClass("hidden");
+	$(this).find(".folder-open-icon").toggleClass("hidden");
 });
 
 // 登録フォームの切り替え
@@ -51,47 +57,6 @@ $(document).on("click", ".forms-switch", function(){
 	$(".btn-add_override").addClass("hidden");
 	$(".btn-add_" + $(this).data("target_forms_id")).removeClass("hidden");
 });
-
-// 「続きを読む」の切り替え
-$(".timeline-free_text_show").on("click", function(){
-	$(".timeline-free_text").addClass("hidden");
-	$(".timeline-free_text_show").addClass("hidden");
-	$(".timeline-free_text_full").removeClass("hidden");
-	$(".timeline-free_text_hide").removeClass("hidden");
-});
-$(".timeline-free_text_hide").on("click", function(){
-	$(".timeline-free_text_full").addClass("hidden");
-	$(".timeline-free_text_hide").addClass("hidden");
-	$(".timeline-free_text").removeClass("hidden");
-	$(".timeline-free_text_show").removeClass("hidden");
-});
-
-/*
- * 一覧取得
- */
-function timeline(params){
-	if (params == undefined)
-	{
-		//todo:: パラメータ未定義の場合
-		var params = {};
-	}
-
-	var result = ajaxPost("episode", "timeline", params);
-	result.done(function(){
-		if (isAjaxResultErrorRedirect(result.return_value) === true) {return false;}  // 必要ならエラーページへリダイレクト
-		if (isAjaxResultErrorMsg(result.return_value) === true ){return false;} // 必要ならエラーメッセージ表示
-
-		// 正常な場合
-		// テーブルに描画
-		if (result.return_value['episode_list'].length > 0){
-			$(result.return_value['episode_list']).each(function(i, e){
-				drawEpisodeList(e);
-			});
-		}
-
-		return true;
-    });
-}
 
 /*
  * 登録
@@ -118,7 +83,7 @@ function addEpisodeCommon(){
 
 		// 正常な場合
 
-		// 描画
+		// 描画(drawEpisodeList関数：timeline.js内に定義)
 		params['id'] = result.return_value.id;
 		params['url_view'] = result.return_value.url_view;
 		drawEpisodeList(params);
@@ -145,7 +110,7 @@ function addEpisodeLabel(){
 
 		// 正常な場合
 
-		// 描画
+		// 描画(drawEpisodeList関数：timeline.js内に定義)
 		params['id'] = result.return_value.id;
 		drawEpisodeList(params);
 
@@ -171,7 +136,7 @@ function addEpisodeOverride(){
 
 		// 正常な場合
 
-		// 描画
+		// 描画(drawEpisodeList関数：timeline.js内に定義)
 		params['id'] = result.return_value.id;
 		drawEpisodeList(params);
 
@@ -213,7 +178,7 @@ function setEpisodeCommon(){
 
 		// 正常な場合
 
-		// 描画
+		// 描画(drawEpisodeList関数：timeline.js内に定義)
 		drawEpisodeList(params, params['id']);
 
 		// モーダルを閉じる
@@ -237,7 +202,7 @@ function setEpisodeLabel(){
 
 		// 正常な場合
 
-		// 描画
+		// 描画(drawEpisodeList関数：timeline.js内に定義)
 		drawEpisodeList(params, params['id']);
 
 		// モーダルを閉じる
@@ -316,6 +281,38 @@ function readyEpisodeSort(mode){
 }
 
 /*
+ * local::ドラッグ＆ドロップでソート可能にする
+ */
+function sortableTimeline(mode) {
+	if (mode != 1){
+		$(".timeline-sort-area.sortable").sortable("destroy");
+		return true;
+	}
+
+	$(".timeline-sort-area.sortable").sortable({
+		update: function(){
+			var ids = [];
+			$("#timeline_for_stage").find("li").each(function(i, e){
+				ids.push($(e).data("id"));
+			});
+			var params = {
+				id_list : ids,
+			};
+
+			var result = ajaxPost("episode", "setSort", params);
+			result.done(function(){
+				if (isAjaxResultErrorRedirect(result.return_value) === true) {return false;}  // 必要ならエラーページへリダイレクト
+				if (isAjaxResultErrorMsg(result.return_value) === true ){return false;} // 必要ならエラーメッセージ表示
+
+				// 正常な場合
+				return true;
+			});
+		}
+	});
+	return true;
+}
+
+/*
  * local::モーダルの初期化
  */
 function initAddEpisodeModal(){
@@ -360,132 +357,15 @@ function initSetEpisodeModal(){
 	$("#modal-setEpisode").find(".character-selectable:not(.character-notselected)").addClass("character-notselected");
 	$("#modal-setEpisode").find(".form-is_private[data-is_private=0]").addClass("hide");
 	$("#modal-setEpisode").find(".form-is_private[data-is_private=1]").removeClass("hide");
+
+	// オーバーライドの中身をクリア
+	$("#set_forms-override ul.ul-character_profile").empty();
 }
 
 /*
- * local::一覧描画
+ * local::エピソード更新モーダルに値をセット
  */
-function drawEpisodeList(dat, id){
-	if (dat.type_key == "label"){
-		if (id == undefined){
-			// 新規：行をコピー
-			var obj_base = $("#timeline_for_stage_template").find(".timeline-label")[0];
-			var obj = $(obj_base).clone().appendTo($("#timeline_for_stage"));
-		}
-		else{
-			// 更新：対象の行を取得
-			var obj = $("#timeline_for_stage > li[data-id='" + id + "']");
-		}
-
-		// データ貼り付け
-		$(obj).data("id", dat.id);
-		$(obj).attr("data-id", dat.id);
-		$(obj).find(".timeline-title").text(dat.title);
-		$(obj).find(".is_private_icon.is_private_" + (dat.is_private == "1" ? "1" : "0")).removeClass("template-for-copy");
-		$(obj).find(".timeline-label").removeClass("template-for-copy");
-	}
-	else{
-		if (id == undefined){
-			// 新規：行をコピー
-			var obj_base = $("#timeline_for_stage_template").find(".timeline-content")[0];
-			var obj = $(obj_base).clone().appendTo($("#timeline_for_stage"));
-		}
-		else{
-			// 更新：対象の行を取得
-			var obj = $("#timeline_for_stage > li[data-id='" + id + "']");
-		}
-
-		// オーバーライド時のテキスト生成
-		if (dat.type_key == "override"){
-			if (dat.override_character_list == undefined){
-				dat.free_text = "[未設定]";
-			}
-			else{
-				if (dat.override_character_list.length > 3){
-					dat.free_text = "A,B,C 他 n 人のオーバーライド"; // todo::
-				}
-				else{
-					dat.free_text = "A,B のオーバーライド"; // todo::
-				}
-			}
-		}
-
-		// データ貼り付け
-		$(obj).data("id", dat.id);
-		$(obj).attr("data-id", dat.id);
-		$(obj).find(".is_private_icon.is_private_" + (dat.is_private == "1" ? "1" : "0")).removeClass("template-for-copy");
-		$(obj).find(".is_private_icon.is_private_" + (dat.is_private == "1" ? "0" : "1")).addClass("template-for-copy");
-		$(obj).find(".type_icon.episode_type_" + dat.type_key).removeClass("template-for-copy");
-		if (dat.title != undefined && dat.title != ""){
-			$(obj).find(".timeline-title").text(dat.title);
-			$(obj).find(".timeline-title").removeClass("template-for-copy");
-		}
-		else{
-			$(obj).find(".timeline-title").text("");
-			$(obj).find(".timeline-title").addClass("template-for-copy");
-		}
-		if (dat.url != undefined && dat.url != ""){
-			$(obj).find(".timeline-url > a").attr("href", dat.url);
-			$(obj).find(".timeline-url > a").text(dat.url_view);
-			$(obj).find(".timeline-url").removeClass("template-for-copy");
-		}
-		else{
-			$(obj).find(".timeline-url").text("");
-			$(obj).find(".timeline-url").addClass("template-for-copy");
-		}
-		if (dat.free_text != undefined && dat.free_text != ""){
-			$(obj).find(".timeline-free_text").html(strToText(dat.free_text));
-			$(obj).find(".timeline-free_text").removeClass("template-for-copy");
-		}
-		else{
-			$(obj).find(".timeline-free_text").text("");
-			$(obj).find(".timeline-free_text").addClass("template-for-copy");
-		}
-		$(obj).find(".timeline-content").removeClass("template-for-copy");
-	}
-
-	// テンプレート用クラスを外す
-	obj.removeClass("template-for-copy");
-}
-
-/*
- * local::ドラッグ＆ドロップでソート可能にする
- */
-function sortableTimeline(mode) {
-	if (mode != 1){
-		$(".timeline-sort-area.sortable").sortable("destroy");
-		return true;
-	}
-
-	$(".timeline-sort-area.sortable").sortable({
-		update: function(){
-			var ids = [];
-			$("#timeline_for_stage").find("li").each(function(i, e){
-				ids.push($(e).data("id"));
-			});
-			var params = {
-				id_list : ids,
-			};
-
-			var result = ajaxPost("episode", "setSort", params);
-			result.done(function(){
-				if (isAjaxResultErrorRedirect(result.return_value) === true) {return false;}  // 必要ならエラーページへリダイレクト
-				if (isAjaxResultErrorMsg(result.return_value) === true ){return false;} // 必要ならエラーメッセージ表示
-
-				// 正常な場合
-				return true;
-			});
-		}
-	});
-	return true;
-}
-
-/*
- * エピソード更新フォームに値をセット
- */
-$(document).on("click", "li.timeline-editable", function(){
-	var id = $(this).data("id");
-
+function setEpisodeModal(id){
 	var result = ajaxPost("episode", "get", {id: id});
     result.done(function(){
 		if (isAjaxResultErrorRedirect(result.return_value) === true) {return false;}  // 必要ならエラーページへリダイレクト
@@ -512,7 +392,7 @@ $(document).on("click", "li.timeline-editable", function(){
 		$(".btn-set_override").addClass("hidden");
 		$(".btn-set_" + result.return_value['episode']['type_key']).removeClass("hidden");
 
-		// 取得したデータをセット
+		// 取得したデータをセット（共通）
 		$("#modal-setEpisode").find(".form-id").val(result.return_value['episode']['id']);
 		if (result.return_value['episode']['is_private'] == "0"){
 			$("#modal-setEpisode").find(".form-is_private[data-is_private=0]").removeClass("hide");
@@ -522,14 +402,144 @@ $(document).on("click", "li.timeline-editable", function(){
 			$("#modal-setEpisode").find(".form-is_private[data-is_private=1]").removeClass("hide");
 			$("#modal-setEpisode").find(".form-is_private[data-is_private=0]").addClass("hide");
 		}
-		$("#modal-setEpisode").find(".form-title").val(result.return_value['episode']['title']);
-		$("#modal-setEpisode").find(".form-url").val(result.return_value['episode']['url']);
-		$("#modal-setEpisode").find(".form-free_text").val(result.return_value['episode']['free_text']);
-		$("#modal-setEpisode").find(".form-is_r18").prop("checked", result.return_value['episode']['is_r18'] == "1" ? true : false);
-		$(result.return_value['episode']['character_list']).each(function(i, e){
-			$("#modal-setEpisode").find(".character-selectable[value='" + e.id + "']").removeClass("character-notselected");
-		});
+
+		// 取得したデータをセット（区分によって分岐）
+		if (result.return_value['episode']['type_key'] == "common"){
+			$("#set_forms-common").find(".form-title").val(result.return_value['episode']['title']);
+			$("#set_forms-common").find(".form-url").val(result.return_value['episode']['url']);
+			$("#set_forms-common").find(".form-free_text").val(result.return_value['episode']['free_text']);
+			$("#set_forms-common").find(".form-is_r18").prop("checked", result.return_value['episode']['is_r18'] == "1" ? true : false);
+			$(result.return_value['episode']['character_list']).each(function(i, e){
+				$("#set_forms-common").find(".character-selectable[value='" + e.id + "']").removeClass("character-notselected");
+			});
+		}
+		else if (result.return_value['episode']['type_key'] == "label"){
+			$("#set_forms-label").find(".form-title").val(result.return_value['episode']['title']);
+		}
+		else if (result.return_value['episode']['type_key'] == "override"){
+			setEpisodeModalOverride(id);
+		}
 
 		return true;
     });
-});
+}
+function setEpisodeModalOverride(id){
+
+	var character = [];
+	$("#set_forms-override div.character_block").each(function(i, e){
+		character.push($(e).data("id"));
+	});
+
+	var params = {
+			'character_list' : character,
+			'episode_id'     : id,
+		};
+	var result = ajaxPost("character", "getProfileEpisode", params);
+	result.done(function(){
+
+		if (isAjaxResultErrorRedirect(result.return_value) === true) {return false;}  // 必要ならエラーページへリダイレクト
+		if (isAjaxResultErrorMsg(result.return_value) === true ){return false;} // 必要ならエラーメッセージ表示
+
+		// 正常な場合
+		$(result.return_value.character_list).each(function(i_character, e_character){
+			$(e_character.profile_episode_list).each(function(i_episode, e_episode){
+
+				// テンプレートをコピー
+				var obj_base = $("#set_forms-override .character_block[data-id=" + e_character.id + "] .ul-character_profile > .li-character_profile.template-for-copy")[0];
+				var obj = $(obj_base).clone().appendTo($("#set_forms-override .character_block[data-id=" + e_character.id + "] .ul-character_profile"));
+
+				// データ書き換え
+
+				// 項目ID
+				$(obj).data("q", e_episode.question);
+				$(obj).attr("data-q", e_episode.question);
+
+				// 項目名
+				$(obj).find(".view_mode .character_profile_q").text(e_episode.question_title);
+				$(obj).find(".edit_mode .character_profile_q.set_mode").text(e_episode.question_title);
+				$(obj).find(".edit_mode .character_profile_q.set_mode").removeClass("hidden");
+				$(obj).find(".edit_mode .character_profile_q.add_mode").remove();
+
+				// 内容・フラグ類・表示制御
+				var is_override = false;
+				if (e_episode.answer !== undefined && e_episode.answer != null && e_episode.answer != ""){
+					// 基本プロフィールが存在する場合
+
+					$(obj).find(".view_mode .character_profile_a.profile_base").html(strToText(e_episode.answer));
+					$(obj).find(".edit_mode .character_profile_a textarea").val(e_episode.answer);
+
+					$(obj).find(".view_mode .character_profile_a.profile_base").removeClass("hidden");
+				}
+				if (e_episode.answer_stage !== undefined && e_episode.answer_stage != null && e_episode.answer_stage != ""){
+					// ステージプロフィールが存在する場合
+					is_override = true;
+
+					$(obj).find(".view_mode .character_profile_a.profile_stage").html(strToText(e_episode.answer_stage));
+					$(obj).find(".edit_mode .character_profile_a textarea").val(e_episode.answer_stage);
+
+					$(obj).find(".view_mode .character_profile_a.profile_base").addClass("hidden");
+					$(obj).find(".view_mode .character_profile_a.profile_stage").addClass("current");
+					$(obj).find(".view_mode .character_profile_a.profile_stage").removeClass("hidden");
+				}
+//				$(e_episode.answer_next_episode_list).each(function(i_next, e_next){
+//					// 未来のエピソードプロフィールが存在する場合
+//					if (e_next.answer != null && e_next.answer != ""){
+//						// todo::未来用の枠をコピーして埋める
+//
+//						$(obj).find(".view_mode .character_profile_a.profile_base").addClass("hidden");
+//						$(obj).find(".view_mode .character_profile_a.profile_stage").addClass("hidden");
+//						// todo::未来のエピソード部分をすべて非表示　addClass("hidden");
+//					}
+//				});
+//				$(e_episode.answer_prev_episode_list).each(function(i_prev, e_prev){
+//					// 過去のエピソードプロフィールが存在する場合
+//					if (e_prev.answer != null && e_prev.answer != ""){
+//						// todo::過去用の枠をコピーして埋める
+//
+//						$(obj).find(".view_mode .character_profile_a").addClass("hidden");
+//						$(obj).find(".view_mode .character_profile_stage_a").addClass("hidden");
+//						// todo::過去のエピソード部分を一旦すべて非表示　addClass("hidden");
+//						// todo::今回のエピソードを表示　removeClass("hidden");
+//					}
+//				});
+				if (e_episode.answer_episode !== undefined && e_episode.answer_episode != null && e_episode.answer_episode != ""){
+					// エピソードプロフィールが存在する場合
+					is_override = true;
+
+					$(obj).find(".view_mode .character_profile_a.profile_episode").html(strToText(e_episode.answer_episode));
+					$(obj).find(".edit_mode .character_profile_a textarea").val(e_episode.answer_episode);
+
+					$(obj).find(".view_mode .character_profile_a.profile_base").removeClass("current");
+					$(obj).find(".view_mode .character_profile_a.profile_base").addClass("hidden");
+					$(obj).find(".view_mode .character_profile_a.profile_stage").removeClass("current");
+					$(obj).find(".view_mode .character_profile_a.profile_stage").addClass("hidden");
+					$(obj).find(".view_mode .character_profile_a.profile_episode").removeClass("hidden");
+				}
+
+				if (is_override == true){
+					$(obj).find(".character_profile_original_icon").addClass("hidden");
+					$(obj).find(".character_profile_override_icon").removeClass("hidden");
+				}
+				else{
+					$(obj).find(".character_profile_override_icon").addClass("hidden");
+					$(obj).find(".character_profile_original_icon").removeClass("hidden");
+				}
+
+				// 表示モードに切り替え
+				$(obj).find(".edit_mode").addClass("hidden");
+				$(obj).find(".view_mode").removeClass("hidden");
+
+				// 表示する
+				$(obj).removeClass("template-for-copy");
+
+				// セレクトボックスから削除
+				$("#set_forms-override .character_profile_q select.character_" + e_character.id + " > option[value='" + e_episode.question + "']").remove();
+			});
+
+			// 次の入力フォームを増やす(copyCharacterProfileForm関数：character-profile.js内に定義)
+			copyCharacterProfileForm("#set_forms-override .character_block[data-id=" + e_character.id + "] .ul-character_profile > .li-character_profile.template-for-copy");
+		});
+
+		return;
+	});
+}

@@ -200,20 +200,26 @@
 }
 
 /* 管理用キャラクター：詳細プロフィール */
-.ul-character_profile > li .view_mode div.character_profile_a{
+.ul-character_profile > li .view_mode div.character_profile_a {
 	font-size: 0.85em;
 	padding: 0.5em;
 	margin: 0.5em;
 	background: #EEEEEE;
 	border-radius: 0.5em;
 }
-.ul-character_profile > li .view_mode div.character_profile_stage_a{
-	font-size: 0.85em;
-	padding: 0.5em;
-	margin: 0.5em;
+.ul-character_profile > li .view_mode div.override{
 	color: #EEEEEE;
 	background: #666666;
-	border-radius: 0.5em;
+}
+.ul-character_profile > li .view_mode div.profile_indent_1{
+	margin-left: 1em;
+}
+.ul-character_profile > li .view_mode div.profile_indent_2{
+	margin-left: 2em;
+}
+.ul-character_profile > li .view_mode div.current{
+	margin-left: 0.5em;
+	border: solid 1px #666666;
 }
 .ul-character_profile .character_profile_button_area{
 	font-size: 1.2em;
@@ -249,6 +255,15 @@
 .form-group p{
 	margin-top: 0.5em;
 	margin-bottom: 0;
+}
+
+/* オーバーライド：エピソード */
+#set_forms-override .character-folder.clickable{
+	color: white;
+	background-color: #4A53B4;
+	margin: 1em;
+	border-radius: 2px;
+	padding: 0.3em;
 }
 
 /****************/

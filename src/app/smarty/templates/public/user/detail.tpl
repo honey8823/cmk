@@ -112,8 +112,7 @@
 
 <!-- JS start -->
 {include file='common/adminlte_js.tpl'}
-<script src="/js/common.js"></script>
-<script src="/js/sidebar.js"></script>
+{include file='common/common_js.tpl'}
 <script src="/js/favorite.js"></script>
 <!-- JS end -->
 </body>

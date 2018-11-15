@@ -93,16 +93,123 @@
                   このページの「キャラクター」タブ、もしくはキャラクター自身のページで設定できます。
                 </p>
               {else}
-                <ul class="nav nav-stacked">
-                {foreach from=$stage.character_list key=k item=v_character}
-                  <li class="character-selectable clickable" data-id="{$v_character.id}">
-                    <a>{$v_character.name|escape:'html'}</a>
-                  </li>
-                {/foreach}
-                {foreach from=$stage.character_list key=k item=v_character}
-                  <big><span class="badge character character-selectable character-notselected clickable" value="{$v_character.id}">{$v_character.name|escape:'html'}</span></big>
-                {/foreach}
-                </ul>
+              {foreach from=$stage.character_list key=k item=v_character}
+                <div class="character_block" data-id="{$v_character.id}">
+                  <p class="character-folder clickable">
+                    <big><i class="fa fa-fw fa-caret-right folder-close-icon" aria-hidden="true"></i></big>
+                    <big><i class="fa fa-fw fa-caret-down folder-open-icon hidden" aria-hidden="true"></i></big>
+                    <span>{$v_character.name|escape:'html'}</span>
+                  </p>
+                  <ul class="nav nav-stacked ul-character_profile character_profile_episode hidden" style="margin: 1.5em;">
+
+
+{* サンプルここから *}
+                    <li class="li-character_profile">
+                      <a>
+                      {* 表示モード *}
+                        <span class="view_mode">
+                          <div class="character_profile_button_area pull-right">
+                            <i class="fa fa-fw fa-pencil-square-o clickable character_profile_edit_icon" aria-hidden="true"></i>
+                            <i class="fa fa-fw fa-trash-o clickable character_profile_delete_icon" aria-hidden="true"></i>
+                          </div>
+                          <div class="pull-left">
+                            <i class="fa fa-fw fa-sticky-note clickable character_profile_override_icon" aria-hidden="true"></i>
+                          </div>
+                          <div class="character_profile_q">項目名</div>
+                          <div class="character_profile_a profile_base not_override hidden"><small>（基本プロフィールで設定されていない項目です）</small></div>
+                          <div class="character_profile_a profile_stage not_override profile_indent_1 hidden"><small>（ステージ内でオーバーライドしていない項目です）</small></div>
+                          <div>
+                            <div class="character_profile_a profile_prev_episode not_override profile_indent_2 hidden">prev_1</div>
+                            <div class="character_profile_a profile_prev_episode not_override profile_indent_2 hidden">prev_2</div>
+                          </div>
+                          <div class="character_profile_a profile_episode override">今回のオーバーライド</div>
+                          <div>
+                            <div class="character_profile_a profile_prev_episode not_override profile_indent_2 hidden">next_1</div>
+                            <div class="character_profile_a profile_prev_episode not_override profile_indent_2 hidden">next_2</div>
+                          </div>
+                        </span>
+                      </a>
+                    </li>
+
+                    <li class="li-character_profile">
+                      <a>
+                      {* 表示モード *}
+                        <span class="view_mode">
+                          <div class="character_profile_button_area pull-right">
+                            <i class="fa fa-fw fa-pencil-square-o clickable character_profile_edit_icon" aria-hidden="true"></i>
+                            <i class="fa fa-fw fa-trash-o clickable character_profile_delete_icon" aria-hidden="true"></i>
+                          </div>
+                          <div class="pull-left">
+                            <i class="fa fa-fw fa-sticky-note clickable character_profile_override_icon" aria-hidden="true"></i>
+                          </div>
+                          <div class="character_profile_q">項目名</div>
+                          <div class="character_profile_a profile_base not_override hidden"><small>（基本プロフィールで設定されていない項目です）</small></div>
+                          <div class="character_profile_a profile_stage not_override profile_indent_1 hidden"><small>（ステージ内でオーバーライドしていない項目です）</small></div>
+                          <div>
+                            <div class="character_profile_a profile_prev_episode not_override profile_indent_2 hidden">prev_1</div>
+                            <div class="character_profile_a profile_prev_episode not_override profile_indent_2 current">prev_2</div>
+                          </div>
+                          <div class="character_profile_a profile_episode override hidden"></div>
+                          <div>
+                            <div class="character_profile_a profile_prev_episode not_override profile_indent_2 hidden">next_1</div>
+                            <div class="character_profile_a profile_prev_episode not_override profile_indent_2 hidden">next_2</div>
+                          </div>
+                        </span>
+                      </a>
+                    </li>
+{* サンプルここまで *}
+
+                  {* コピー用 *}
+                    <li class="li-character_profile template-for-copy">
+                      <a>
+                      {* 表示モード *}
+                        <span class="view_mode hidden">
+                          <div class="character_profile_button_area pull-right">
+                            <i class="fa fa-fw fa-pencil-square-o clickable character_profile_edit_icon" aria-hidden="true"></i>
+                            <i class="fa fa-fw fa-trash-o clickable character_profile_delete_icon" aria-hidden="true"></i>
+                          </div>
+                          <div class="pull-left">
+                            <i class="fa fa-fw fa-sticky-note clickable character_profile_override_icon" aria-hidden="true"></i>
+                            <i class="fa fa-fw fa-sticky-note-o character_profile_original_icon" aria-hidden="true"></i>
+                          </div>
+                          <div class="character_profile_q"></div>
+                          <div class="character_profile_a profile_base not_override hidden"><small>（基本プロフィールで設定されていない項目です）</small></div>
+                          <div class="character_profile_a profile_stage not_override profile_indent_1 hidden"><small>（ステージ内でオーバーライドしていない項目です）</small></div>
+                          <div>
+                            <div class="character_profile_a profile_prev_episode not_override profile_indent_2 hidden template-for-copy"></div>
+                          </div>
+                          <div class="character_profile_a profile_episode override hidden"></div>
+                          <div>
+                            <div class="character_profile_a profile_prev_episode not_override profile_indent_2 hidden template-for-copy"></div>
+                          </div>
+                        </span>
+                      {* 編集モード *}
+                        <span class="edit_mode">
+                          <div class="character_profile_button_area pull-right">
+                            <i class="fa fa-fw fa-floppy-o clickable character_profile_save_icon" aria-hidden="true"></i>
+                          </div>
+                          <div class="pull-left">
+                            <i class="fa fa-fw fa-sticky-note character_profile_override_icon" aria-hidden="true"></i>
+                          </div>
+                          <div class="character_profile_q add_mode">
+                            <div>項目を新規追加</div>
+                            <select class="form-control select2 select2-hidden-accessible character_{$v_character.id}" style="width: 100%;" tabindex="-1" aria-hidden="true">
+                            {foreach from=$config.character_profile_q key=k item=v_q}
+                              <option value="{$v_q.value}">{$v_q.title}</option>
+                            {/foreach}
+                            </select>
+                          </div>
+                          <div class="character_profile_q set_mode hidden"></div>
+                          <div class="character_profile_a">
+                            <textarea class="form-control" rows="3"></textarea>
+                          </div>
+                        </span>
+                      </a>
+                    </li>
+
+                  </ul>
+                </div>
+              {/foreach}
               {/if}
               </div>
             </div>

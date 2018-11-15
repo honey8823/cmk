@@ -75,6 +75,7 @@ const config = array(
 		array('value' =>  104, 'title' => "年齢"),
 		array('value' =>  105, 'title' => "出身地"),
 		array('value' =>  106, 'title' => "種族"),
+		array('value' =>  107, 'title' => "血液型"),
 
 		array('value' =>  301, 'title' => "外見"),
 		array('value' =>  302, 'title' => "体格"),
@@ -82,6 +83,8 @@ const config = array(
 		array('value' =>  304, 'title' => "目"),
 		array('value' =>  305, 'title' => "肌"),
 		array('value' =>  306, 'title' => "声"),
+		array('value' =>  307, 'title' => "利き手"),
+		array('value' =>  308, 'title' => "体質"),
 
 		array('value' =>  201, 'title' => "通称・ニックネーム"),
 		array('value' =>  202, 'title' => "称号・二つ名"),
@@ -94,6 +97,7 @@ const config = array(
 		array('value' =>  251, 'title' => "職業"),
 		array('value' =>  252, 'title' => "所属組織"),
 		array('value' =>  253, 'title' => "階級・地位・肩書き"),
+		array('value' =>  254, 'title' => "経歴"),
 
 		array('value' =>  401, 'title' => "趣味"),
 		array('value' =>  402, 'title' => "特技"),
@@ -105,6 +109,9 @@ const config = array(
 		array('value' =>  408, 'title' => "寝つき・寝起き"),
 		array('value' =>  409, 'title' => "飲酒"),
 		array('value' =>  410, 'title' => "煙草"),
+		array('value' =>  411, 'title' => "人あたりのよさ"),
+
+		array('value' =>  431, 'title' => "戦い方"),
 
 		array('value' =>  451, 'title' => "目的・目標"),
 		array('value' =>  452, 'title' => "戦う理由"),
@@ -116,12 +123,9 @@ const config = array(
 		array('value' =>  911, 'title' => "[メタ]スキル構成"),
 		array('value' =>  912, 'title' => "[メタ]属性"),
 		array('value' =>  913, 'title' => "[メタ]パラメータ"),
+		array('value' =>  914, 'title' => "[メタ]武器"),
 
 		array('value' =>  951, 'title' => "[メタ]名前の由来"),
 		array('value' =>  952, 'title' => "[メタ]イメージソング"),
 	),
 );
-
-
-
-
