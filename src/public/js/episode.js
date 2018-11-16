@@ -468,6 +468,7 @@ function setEpisodeModalOverride(id){
 					$(obj).find(".view_mode .character_profile_a.profile_base").html(strToText(e_episode.answer));
 
 					$(obj).find(".view_mode .character_profile_a.profile_base").removeClass("hidden");
+					$(obj).find(".view_mode .character_profile_a.profile_base").addClass("pre_current");
 				}
 				if (e_episode.answer_stage !== undefined && e_episode.answer_stage != null && e_episode.answer_stage != ""){
 					// ステージプロフィールが存在する場合
@@ -476,6 +477,7 @@ function setEpisodeModalOverride(id){
 					$(obj).find(".view_mode .character_profile_a.profile_stage").html(strToText(e_episode.answer_stage));
 
 					$(obj).find(".view_mode .character_profile_a.profile_base").addClass("hidden");
+					$(obj).find(".view_mode .character_profile_a.profile_stage").addClass("pre_current");
 					$(obj).find(".view_mode .character_profile_a.profile_stage").addClass("current");
 					$(obj).find(".view_mode .character_profile_a.profile_stage").removeClass("hidden");
 				}
@@ -507,7 +509,6 @@ function setEpisodeModalOverride(id){
 					$(obj).find(".view_mode .character_profile_a.profile_episode").html(strToText(e_episode.answer_episode));
 					$(obj).find(".edit_mode .character_profile_a textarea").val(e_episode.answer_episode);
 
-					$(obj).find(".view_mode .character_profile_a.profile_base").removeClass("current");
 					$(obj).find(".view_mode .character_profile_a.profile_base").addClass("hidden");
 					$(obj).find(".view_mode .character_profile_a.profile_stage").removeClass("current");
 					$(obj).find(".view_mode .character_profile_a.profile_stage").addClass("hidden");

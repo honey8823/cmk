@@ -1377,5 +1377,279 @@ class CharacterController extends Common
 		}
 	}
 
+	public function addProfileEpisode($param_list = array())
+	{
+		try
+		{
+			// ユーザID
+			$user_id    = $this->getLoginId();
+			if ($user_id === false)
+			{
+				return array('error_redirect' => "session");
+			}
+
+			// 引数
+			$character_id = trim($param_list['character_id']);
+			$episode_id   = trim($param_list['episode_id']);
+			$question     = trim($param_list['question']);
+			$answer       = trim($param_list['answer']);
+
+			// キャラクタープロフィール項目
+			$q_list = $this->getConfig("character_profile_q", "value");
+
+			// バリデート
+			$err_list = array();
+			if (!preg_match("/^[0-9]+$/", $character_id))
+			{
+				$err_list[] = "エラーが発生しました。一旦画面をリロードしてやり直してください。";
+				return array('error_message_list' => $err_list);
+			}
+			elseif (!preg_match("/^[0-9]+$/", $episode_id))
+			{
+				$err_list[] = "エラーが発生しました。一旦画面をリロードしてやり直してください。";
+				return array('error_message_list' => $err_list);
+			}
+			else
+			{
+				$type_list = $this->getConfig("episode_type", "key");
+				$sql  = "SELECT     `episode`.`id` ";
+				$sql .= "          ,`episode`.`stage_id` ";
+				$sql .= "FROM       `episode` ";
+				$sql .= "INNER JOIN `stage` ON  `episode`.`stage_id` = `stage`.`id` ";
+				$sql .= "                   AND `stage`.`user_id` = ? ";
+				$sql .= "                   AND `stage`.`is_delete` <> 1 ";
+				$sql .= "WHERE      `episode`.`id` = ? ";
+				$sql .= "AND        `episode`.`type` = ? ";
+				$sql .= "AND        `episode`.`is_delete` <> 1 ";
+				$arg_list = array(
+					$user_id,
+					$episode_id,
+					$type_list['override']['value'],
+				);
+				$r = $this->query($sql, $arg_list);
+				if (count($r) != 1)
+				{
+					return array('error_message_list' => array("エラーが発生しました。一旦画面をリロードしてやり直してください。"));
+				}
+			}
+			if (!isset($q_list[$question]))
+			{
+				$err_list[] = "エラーが発生しました。一旦画面をリロードしてやり直してください。";
+				return array('error_message_list' => $err_list);
+			}
+			if (mb_strlen($answer) == 0)
+			{
+				$err_list[] = "内容を入力してください。";
+			}
+			elseif (mb_strlen($answer) > 1000)
+			{
+				$err_list[] = "内容は1000文字以内で入力してください。";
+			}
+			if (count($err_list) > 0)
+			{
+				return array('error_message_list' => $err_list);
+			}
+
+			// 登録
+			$arg_list = array();
+			$sql  = "INSERT INTO `character_profile_episode` (`character_id`, `episode_id`, `question`, `answer`) ";
+			$sql .= "VALUES                                  (?             , ?           , ?         , ?       ) ";
+			$arg_list[] = $character_id;
+			$arg_list[] = $episode_id;
+			$arg_list[] = $question;
+			$arg_list[] = $answer;
+			$this->query($sql, $arg_list);
+
+			// 戻り値
+			$return_list = array(
+				'question'       => $question,
+				'question_title' => $q_list[$question]['title'],
+				'answer'         => $answer,
+			);
+			return $return_list;
+		}
+		catch (Exception $e)
+		{
+			$this->exception($e);
+		}
+	}
+
+	public function setProfileEpisode($param_list = array())
+	{
+		try
+		{
+			// ユーザID
+			$user_id    = $this->getLoginId();
+			if ($user_id === false)
+			{
+				return array('error_redirect' => "session");
+			}
+
+			// 引数
+			$character_id = trim($param_list['character_id']);
+			$episode_id   = trim($param_list['episode_id']);
+			$question     = trim($param_list['question']);
+			$answer       = trim($param_list['answer']);
+
+			// キャラクタープロフィール項目
+			$q_list = $this->getConfig("character_profile_q", "value");
+
+			// バリデート
+			$err_list = array();
+			if (!preg_match("/^[0-9]+$/", $character_id))
+			{
+				$err_list[] = "エラーが発生しました。一旦画面をリロードしてやり直してください。";
+				return array('error_message_list' => $err_list);
+			}
+			elseif (!preg_match("/^[0-9]+$/", $episode_id))
+			{
+				$err_list[] = "エラーが発生しました。一旦画面をリロードしてやり直してください。";
+				return array('error_message_list' => $err_list);
+			}
+			else
+			{
+				$type_list = $this->getConfig("episode_type", "key");
+				$sql  = "SELECT     `episode`.`id` ";
+				$sql .= "          ,`episode`.`stage_id` ";
+				$sql .= "FROM       `episode` ";
+				$sql .= "INNER JOIN `stage` ON  `episode`.`stage_id` = `stage`.`id` ";
+				$sql .= "                   AND `stage`.`user_id` = ? ";
+				$sql .= "                   AND `stage`.`is_delete` <> 1 ";
+				$sql .= "WHERE      `episode`.`id` = ? ";
+				$sql .= "AND        `episode`.`type` = ? ";
+				$sql .= "AND        `episode`.`is_delete` <> 1 ";
+				$arg_list = array(
+					$user_id,
+					$episode_id,
+					$type_list['override']['value'],
+				);
+				$r = $this->query($sql, $arg_list);
+				if (count($r) != 1)
+				{
+					return array('error_message_list' => array("エラーが発生しました。一旦画面をリロードしてやり直してください。"));
+				}
+			}
+			if (!isset($q_list[$question]))
+			{
+				$err_list[] = "エラーが発生しました。一旦画面をリロードしてやり直してください。";
+				return array('error_message_list' => $err_list);
+			}
+			if (mb_strlen($answer) == 0)
+			{
+				$err_list[] = "内容を入力してください。";
+			}
+			elseif (mb_strlen($answer) > 1000)
+			{
+				$err_list[] = "内容は1000文字以内で入力してください。";
+			}
+			if (count($err_list) > 0)
+			{
+				return array('error_message_list' => $err_list);
+			}
+
+			// 登録
+			$arg_list = array();
+			$sql  = "UPDATE `character_profile_episode` ";
+			$sql .= "SET    `answer` = ? ";
+			$sql .= "WHERE  `character_id` = ? ";
+			$sql .= "AND    `episode_id` = ? ";
+			$sql .= "AND    `question` = ? ";
+			$arg_list[] = $answer;
+			$arg_list[] = $character_id;
+			$arg_list[] = $episode_id;
+			$arg_list[] = $question;
+			$this->query($sql, $arg_list);
+
+			// 戻り値
+			$return_list = array(
+				'answer' => $answer,
+			);
+			return $return_list;
+		}
+		catch (Exception $e)
+		{
+			$this->exception($e);
+		}
+	}
+
+	public function delProfileEpisode($param_list = array())
+	{
+		try
+		{
+			// ユーザID
+			$user_id = $this->getLoginId();
+			if ($user_id === false)
+			{
+				return array('error_redirect' => "session");
+			}
+
+			// 引数
+			$character_id = trim($param_list['character_id']);
+			$episode_id   = trim($param_list['episode_id']);
+			$question     = trim($param_list['question']);
+
+			// キャラクタープロフィール項目
+			$q_list = $this->getConfig("character_profile_q", "value");
+
+			// バリデート
+			$err_list = array();
+			if (!preg_match("/^[0-9]+$/", $character_id))
+			{
+				$err_list[] = "エラーが発生しました。一旦画面をリロードしてやり直してください。";
+				return array('error_message_list' => $err_list);
+			}
+			else
+			{
+				$type_list = $this->getConfig("episode_type", "key");
+				$sql  = "SELECT     `episode`.`id` ";
+				$sql .= "          ,`episode`.`stage_id` ";
+				$sql .= "FROM       `episode` ";
+				$sql .= "INNER JOIN `stage` ON  `episode`.`stage_id` = `stage`.`id` ";
+				$sql .= "                   AND `stage`.`user_id` = ? ";
+				$sql .= "                   AND `stage`.`is_delete` <> 1 ";
+				$sql .= "WHERE      `episode`.`id` = ? ";
+				$sql .= "AND        `episode`.`type` = ? ";
+				$sql .= "AND        `episode`.`is_delete` <> 1 ";
+				$arg_list = array(
+					$user_id,
+					$episode_id,
+					$type_list['override']['value'],
+				);
+				$r = $this->query($sql, $arg_list);
+				if (count($r) != 1)
+				{
+					return array('error_message_list' => array("エラーが発生しました。一旦画面をリロードしてやり直してください。"));
+				}
+			}
+			if (!isset($q_list[$question]))
+			{
+				$err_list[] = "エラーが発生しました。一旦画面をリロードしてやり直してください。";
+				return array('error_message_list' => $err_list);
+			}
+			if (count($err_list) > 0)
+			{
+				return array('error_message_list' => $err_list);
+			}
+
+			// 登録
+			$arg_list = array();
+			$sql  = "DELETE FROM `character_profile_episode` ";
+			$sql .= "WHERE       `character_id` = ? ";
+			$sql .= "AND         `episode_id` = ? ";
+			$sql .= "AND         `question` = ? ";
+			$arg_list[] = $character_id;
+			$arg_list[] = $episode_id;
+			$arg_list[] = $question;
+			$this->query($sql, $arg_list);
+
+			// 戻り値
+			$return_list = array();
+			return $return_list;
+		}
+		catch (Exception $e)
+		{
+			$this->exception($e);
+		}
+	}
 
 }

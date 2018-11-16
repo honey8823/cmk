@@ -14,7 +14,10 @@ $(document).on("click", ".character_profile_delete_icon.clickable", function(){
 	var q = $(this).parents(".li-character_profile").data("q");
 	if (obj.hasClass("character_profile")){delCharacterProfile(q);}
 	else if (obj.hasClass("character_profile_stage")){delCharacterProfileStage(q);}
-	else if (obj.hasClass("character_profile_episode")){delCharacterProfileEpisode(q);}
+	else if (obj.hasClass("character_profile_episode")){
+		var character_id = $(this).parents(".character_block").data("id");
+		delCharacterProfileEpisode(q, character_id);
+	}
 });
 
 // 保存ボタン（新規登録or更新関数をコール）
@@ -36,10 +39,11 @@ $(document).on("click", ".character_profile_save_icon.clickable", function(){
 		}
 	}
 	else if (obj.hasClass("character_profile_episode")){
-		if (q == "0"){addCharacterProfileEpisode(new_q, a);}
+		var character_id = $(this).parents(".character_block").data("id");
+		if (q == "0"){addCharacterProfileEpisode(new_q, a, character_id);}
 		else{
-			if ($(this).parents("li").find(".override").hasClass("hidden")){addCharacterProfileEpisode(q, a);}
-			else{setCharacterProfileEpisode(q, a);}
+			if ($(this).parents("li").find(".override").hasClass("hidden")){addCharacterProfileEpisode(q, a, character_id);}
+			else{setCharacterProfileEpisode(q, a, character_id);}
 		}
 	}
 });
@@ -238,7 +242,7 @@ function setCharacterProfileStage(q, a){
 		if (isAjaxResultErrorMsg(result.return_value) === true){return false;} // 必要ならエラーメッセージ表示
 
 		// 正常な場合
-		var obj = $(".li-character_profile[data-q='" + q + "']");
+		var obj = $("#character_profile_stage .li-character_profile[data-q='" + q + "']");
 
 		// 表示モード部分に値をセット
 		obj.find(".view_mode .character_profile_a.profile_stage").html(strToText(result.return_value['answer']));
@@ -307,39 +311,44 @@ function delCharacterProfileStage(q){
 /*
  * 登録
  */
-function addCharacterProfileEpisode(q, a){
+function addCharacterProfileEpisode(q, a, character_id){
 	var params = {
-			'character_id' : $("#character_id").val(),
-			'stage_id'     : $("#stage_id").val(),
+			'character_id' : character_id,
+			'episode_id'   : $("#modal-setEpisode .form-id").val(),
 			'question'     : q,
 			'answer'       : a,
 		};
-	var result = ajaxPost("character", "addProfileStage", params);
+	var result = ajaxPost("character", "addProfileEpisode", params);
 	result.done(function(){
 		if (isAjaxResultErrorRedirect(result.return_value) === true) {return false;}  // 必要ならエラーページへリダイレクト
 		if (isAjaxResultErrorMsg(result.return_value) === true){return false;} // 必要ならエラーメッセージ表示
 
 		// 正常な場合
+		var obj_character_selector = "#set_forms-override .character_block[data-id='" + character_id + "']";
+		if ($(obj_character_selector).length != 1){
+			return false;
+		}
+
 		var is_form_update = 0;
-		if ($("#character_profile_stage .li-character_profile[data-q='" + q + "']").length == 1){
-			var obj = $(".li-character_profile[data-q='" + q + "']");
+		if ($(obj_character_selector + " .li-character_profile[data-q='" + q + "']").length == 1){
+			var obj = $(obj_character_selector + " .li-character_profile[data-q='" + q + "']");
 			is_form_update = 1;
 		}
 		else{
-			var obj = $("#character_profile_stage .li-character_profile[data-q='0']");
+			var obj = $(obj_character_selector + " .li-character_profile[data-q='0']");
 		}
+
 		obj.data("q", result.return_value['question']);
 		obj.attr("data-q", result.return_value['question']);
-		obj.data("is_stage", "1");
-		obj.attr("data-is_stage", "1");
 		obj.find(".character_profile_original_icon").addClass("hidden");
 		obj.find(".character_profile_override_icon").removeClass("hidden");
 
 		// 表示モード部分に値をセット
 		obj.find(".view_mode .character_profile_q").text(result.return_value['question_title']);
-		obj.find(".view_mode .character_profile_a.profile_stage").html(strToText(result.return_value['answer']));
-		obj.find(".view_mode .character_profile_a.profile_base").addClass("hidden");
-		obj.find(".view_mode .character_profile_a.profile_stage").removeClass("hidden");
+		obj.find(".view_mode .character_profile_a.profile_episode").html(strToText(result.return_value['answer']));
+		obj.find(".view_mode .character_profile_a:not(.profile_episode)").addClass("hidden");
+		obj.find(".view_mode .character_profile_a.profile_episode").removeClass("hidden");
+		obj.find(".view_mode .current").removeClass("current");
 
 		// 編集モード部分に値をセット
 		obj.find(".edit_mode .character_profile_q.set_mode").text(result.return_value['question_title']);
@@ -351,11 +360,11 @@ function addCharacterProfileEpisode(q, a){
 		obj.find(".view_mode").removeClass("hidden");
 
 		// 入力フォームから、今回登録した項目を削除する
-		$("#character_profile_stage .li-character_profile.template-for-copy .select2 option[value='" + q + "']").remove();
+		$(obj_character_selector + " .li-character_profile.template-for-copy .select2 option[value='" + q + "']").remove();
 
 		// 次の入力フォームを増やす
 		if (is_form_update != 1){
-			copyCharacterProfileForm("#character_profile_stage .li-character_profile.template-for-copy");
+			copyCharacterProfileForm(obj_character_selector + " .li-character_profile.template-for-copy");
 		}
 
 		return true;
@@ -365,24 +374,23 @@ function addCharacterProfileEpisode(q, a){
 /*
  * 更新
  */
-function setCharacterProfileEpisode(q, a){
-	alert("setCharacterProfileEpisode 未実装です");return false;
+function setCharacterProfileEpisode(q, a, character_id){
 	var params = {
-			'character_id' : $("#character_id").val(),
-			'stage_id'     : $("#stage_id").val(),
+			'character_id' : character_id,
+			'episode_id'   : $("#modal-setEpisode .form-id").val(),
 			'question'     : q,
 			'answer'       : a,
 		};
-	var result = ajaxPost("character", "setProfileStage", params);
+	var result = ajaxPost("character", "setProfileEpisode", params);
 	result.done(function(){
 		if (isAjaxResultErrorRedirect(result.return_value) === true) {return false;}  // 必要ならエラーページへリダイレクト
 		if (isAjaxResultErrorMsg(result.return_value) === true){return false;} // 必要ならエラーメッセージ表示
 
 		// 正常な場合
-		var obj = $(".li-character_profile[data-q='" + q + "']");
+		var obj = $("#set_forms-override .character_block[data-id='" + character_id + "'] .li-character_profile[data-q='" + q + "']");
 
 		// 表示モード部分に値をセット
-		obj.find(".view_mode .character_profile_a.profile_stage").html(strToText(result.return_value['answer']));
+		obj.find(".view_mode .character_profile_a.profile_episode").html(strToText(result.return_value['answer']));
 
 		// 表示モードに切り替え
 		obj.find(".edit_mode").addClass("hidden");
@@ -395,42 +403,41 @@ function setCharacterProfileEpisode(q, a){
 /*
  * 削除
  */
-function delCharacterProfileEpisode(q){
+function delCharacterProfileEpisode(q, character_id){
 	if (!confirm("本当にこの項目を削除してよろしいですか？")){
 		return false;
 	}
-alert("delCharacterProfileEpisode 未実装です");return false;
 	var params = {
-			'character_id' : $("#character_id").val(),
-			'stage_id'     : $("#stage_id").val(),
+			'character_id' : character_id,
+			'episode_id'   : $("#modal-setEpisode .form-id").val(),
 			'question'     : q,
 		};
-	var result = ajaxPost("character", "delProfileStage", params);
+	var result = ajaxPost("character", "delProfileEpisode", params);
 	result.done(function(){
 		if (isAjaxResultErrorRedirect(result.return_value) === true) {return false;}  // 必要ならエラーページへリダイレクト
 		if (isAjaxResultErrorMsg(result.return_value) === true){return false;} // 必要ならエラーメッセージ表示
 
 		// 正常な場合
-		var obj = $(".li-character_profile[data-q='" + q + "']");
+		var obj = $("#set_forms-override .character_block[data-id='" + character_id + "'] .li-character_profile[data-q='" + q + "']");
 
 		// 基本プロフィールが存在する場合は切り替え
-		if (obj.data("is_base") == "1"){
-
-			// ステージフラグを消す
-			obj.data("is_stage", "0");
-			obj.attr("data-is_stage", "0");
+		if (obj.find(".view_mode .character_profile_a.pre_current").length == 1){
 
 			// 編集用テキストエリアをクリア
 			obj.find(".edit_mode .character_profile_a textarea").val("");
 
-			// ステージの値を消す
-			$(obj).find(".view_mode .character_profile_a.profile_stage").html("");
+			// オーバーライドの値を消す
+			obj.find(".view_mode .character_profile_a.profile_episode").html("");
 
 			// 表示/非表示の切り替え
-			$(obj).find(".view_mode .character_profile_a.profile_base").removeClass("hidden");
-			$(obj).find(".view_mode .character_profile_a.profile_stage").addClass("hidden");
-			$(obj).find(".character_profile_override_icon").addClass("hidden");
-			$(obj).find(".character_profile_original_icon").removeClass("hidden");
+			if (obj.find(".view_mode .character_profile_a.pre_current").hasClass("profile_base")){}
+			else{obj.find(".view_mode .character_profile_a.pre_current").addClass("current");}
+			obj.find(".view_mode .character_profile_a.pre_current").removeClass("hidden");
+			obj.find(".view_mode .character_profile_a.profile_episode").addClass("hidden");
+
+			// todo::ステージ等でオーバーライドしてる場合を考慮する必要あり
+			obj.find(".character_profile_override_icon").addClass("hidden");
+			obj.find(".character_profile_original_icon").removeClass("hidden");
 		}
 		// 基本プロフィールが存在しない場合は削除
 		else{
