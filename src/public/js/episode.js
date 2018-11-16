@@ -213,7 +213,29 @@ function setEpisodeLabel(){
 	});
 }
 function setEpisodeOverride(){
-	console.log("setEpisodeOverride");
+	var params = {
+			'id'         : $("#modal-setEpisode").find(".form-id").val(),
+			'is_private' : $("#modal-setEpisode").find(".form-is_private:not(.hide)").data("is_private"),
+			'title'      : $("#set_forms-override").find(".form-title").val(),
+			'type_key'     : "override",
+		};
+
+	var result = ajaxPost("episode", "setOverride", params);
+	result.done(function(){
+		if (isAjaxResultErrorRedirect(result.return_value) === true) {return false;}  // 必要ならエラーページへリダイレクト
+		if (isAjaxResultErrorMsg(result.return_value) === true){return false;} // 必要ならエラーメッセージ表示
+
+		// 正常な場合
+
+		// 描画(drawEpisodeList関数：timeline.js内に定義)
+		drawEpisodeList(params, params['id']);
+
+		// モーダルを閉じる
+		$('#modal-setEpisode').modal('hide');
+
+		// モーダルを初期化
+		initSetEpisodeModal();
+	});
 }
 
 /*
@@ -359,7 +381,8 @@ function initSetEpisodeModal(){
 	$("#modal-setEpisode").find(".form-is_private[data-is_private=1]").removeClass("hide");
 
 	// オーバーライドの中身をクリア
-	$("#set_forms-override ul.ul-character_profile").empty();
+	$("#set_forms-override ul.ul-character_profile li:not(.template-for-copy)").empty();
+	console.log("clear");
 }
 
 /*
@@ -373,6 +396,9 @@ function setEpisodeModal(id){
 		if (isAjaxResultNoData(result.return_value['episode']['id']) === true){return false;} // データがない場合はエラー表示
 
 		// 正常な場合
+
+		// 一度リセットする
+		initSetEpisodeModal();
 
 		// タイプごとの切り替え
 		$("#set_forms-common").addClass("hidden");
@@ -417,6 +443,7 @@ function setEpisodeModal(id){
 			$("#set_forms-label").find(".form-title").val(result.return_value['episode']['title']);
 		}
 		else if (result.return_value['episode']['type_key'] == "override"){
+			$("#set_forms-override").find(".form-title").val(result.return_value['episode']['title']);
 			setEpisodeModalOverride(id);
 		}
 

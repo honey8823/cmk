@@ -650,7 +650,6 @@ class EpisodeController extends Common
 			$this->exception($e);
 		}
 	}
-
 	public function setLabel($param_list = array())
 	{
 		try
@@ -700,6 +699,82 @@ class EpisodeController extends Common
 			{
 				$err_list[] = "タイトルは必須です。";
 			}
+			if (mb_strlen($title) > 32)
+			{
+				$err_list[] = "タイトルは32文字以内で入力してください。";
+			}
+			if (count($err_list) > 0)
+			{
+				return array('error_message_list' => $err_list);
+			}
+
+			// 登録
+			$arg_list = array();
+			$sql  = "UPDATE `episode` ";
+			$sql .= "SET    `title`      = ? ";
+			$sql .= "      ,`is_private` = ? ";
+			$sql .= "WHERE  `id` = ? ";
+			$arg_list[] = $title      == "" ? null : $title;
+			$arg_list[] = $is_private == 0  ? 0 : 1;
+			$arg_list[] = $id;
+			$this->query($sql, $arg_list);
+
+			// 戻り値
+			$return_list = array(
+				'id' => $id,
+			);
+			return $return_list;
+		}
+		catch (Exception $e)
+		{
+			$this->exception($e);
+		}
+	}
+	public function setOverride($param_list = array())
+	{
+		try
+		{
+			// ユーザID
+			$user_id = $this->getLoginId();
+			if ($user_id === false)
+			{
+				return array('error_redirect' => "session");
+			}
+
+			// 引数
+			$id             = trim($param_list['id']);
+			$title          = trim($param_list['title']);
+			$is_private     = trim($param_list['is_private']);
+
+			// バリデート
+			$err_list = array();
+			if (!preg_match("/^[0-9]+$/", $id))
+			{
+				$err_list[] = "無効なデータです。最初からやり直してください。";
+				return array('error_message_list' => $err_list);
+			}
+			else
+			{
+				$type_list = $this->getConfig("episode_type", "key");
+				$sql  = "SELECT `id` ";
+				$sql .= "FROM   `episode` ";
+				$sql .= "WHERE  `id` = ? ";
+				$sql .= "AND    `is_delete` <> 1 ";
+				$sql .= "AND    `stage_id` IN (SELECT `id` FROM `stage` WHERE `user_id` = ?) ";
+				$sql .= "AND    `type` = ? ";
+				$arg_list = array(
+					$id,
+					$user_id,
+					$type_list['override']['value'],
+				);
+				$r = $this->query($sql, $arg_list);
+				if (count($r) != 1)
+				{
+					$err_list[] = "無効なデータです。最初からやり直してください。";
+					return array('error_message_list' => $err_list);
+				}
+			}
+
 			if (mb_strlen($title) > 32)
 			{
 				$err_list[] = "タイトルは32文字以内で入力してください。";

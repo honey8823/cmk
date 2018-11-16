@@ -103,10 +103,9 @@
                   <ul class="nav nav-stacked ul-character_profile character_profile_episode hidden" style="margin: 1.5em;">
 
 
-{* サンプルここから *}
+{* サンプルここから
                     <li class="li-character_profile">
                       <a>
-                      {* 表示モード *}
                         <span class="view_mode">
                           <div class="character_profile_button_area pull-right">
                             <i class="fa fa-fw fa-pencil-square-o clickable character_profile_edit_icon" aria-hidden="true"></i>
@@ -133,7 +132,6 @@
 
                     <li class="li-character_profile">
                       <a>
-                      {* 表示モード *}
                         <span class="view_mode">
                           <div class="character_profile_button_area pull-right">
                             <i class="fa fa-fw fa-pencil-square-o clickable character_profile_edit_icon" aria-hidden="true"></i>
@@ -157,7 +155,7 @@
                         </span>
                       </a>
                     </li>
-{* サンプルここまで *}
+サンプルここまで *}
 
                   {* コピー用 *}
                     <li class="li-character_profile template-for-copy">
@@ -187,6 +185,7 @@
                         <span class="edit_mode">
                           <div class="character_profile_button_area pull-right">
                             <i class="fa fa-fw fa-floppy-o clickable character_profile_save_icon" aria-hidden="true"></i>
+                            <i class="fa fa-fw fa-times clickable character_profile_clear_icon" aria-hidden="true"></i>
                           </div>
                           <div class="pull-left">
                             <i class="fa fa-fw fa-sticky-note character_profile_override_icon" aria-hidden="true"></i>

@@ -179,7 +179,7 @@
                               <span class="is_private_icon is_private_0 hide"><i class="fa fa-unlock fa-fw"></i></span>
                               <span class="is_private_icon is_private_1 hide"><i class="fa fa-lock fa-fw"></i></span>
                             </span>
-                            <span class="name"><span class="character_name"></span></span>
+                            <span><span class="character_name"></span></span>
                           </div>
                           <div class="folder hidden">
                             <button type="button" class="btn btn-xs btn-block btn-default btn-character_edit" onclick="location.href='/user/character/edit.php?id={$v_character.id}';">キャラクターページへ移動</button>
@@ -192,7 +192,7 @@
                         <a>
                           <div>
                             <span class="is_private"><span class="is_private_icon is_private_{$v_character.is_private}"><i class="fa {if $v_character.is_private == 1}fa-lock{else}fa-unlock{/if} fa-fw"></i></span></span>
-                            <span class="name"><span class="character_name">{$v_character.name|escape:'html'}</span></span>
+                            <span><span class="character_name">{$v_character.name|escape:'html'}</span></span>
                           </div>
                           <div class="folder hidden">
                             <button type="button" class="btn btn-xs btn-block btn-default btn-character_edit">キャラクターページへ移動</button>
@@ -290,6 +290,7 @@
                   <span class="edit_mode">
                     <div class="character_profile_button_area pull-right">
                       <i class="fa fa-fw fa-floppy-o clickable character_profile_save_icon" aria-hidden="true"></i>
+                      <i class="fa fa-fw fa-times clickable character_profile_clear_icon" aria-hidden="true"></i>
                     </div>
                     <div class="pull-left">
                       <i class="fa fa-fw fa-sticky-note character_profile_override_icon" aria-hidden="true"></i>

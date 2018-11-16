@@ -59,7 +59,7 @@
               <div class="private-character-stage">
                 {foreach from=$stage_list key=k item=v_stage}
                 {if isset($character.stage_list) && is_array($character.stage_list) && in_array($v_stage.id, array_column($character.stage_list, 'id'))}
-                  <span class="badge stage" value="{$v_stage.id}">{$v_stage.name}</span>
+                  <span class="badge stage" value="{$v_stage.id}">{$v_stage.name|escape:'html'}</span>
                 {/if}
                 {/foreach}
               </div>
@@ -83,9 +83,9 @@
                 <div>
                 {foreach from=$stage_list key=k item=v_stage}
                 {if isset($character.stage_list) && is_array($character.stage_list) && in_array($v_stage.id, array_column($character.stage_list, 'id'))}
-                  <span class="badge stage stage-selectable clickable" value="{$v_stage.id}">{$v_stage.name}</span>
+                  <span class="badge stage stage-selectable clickable" value="{$v_stage.id}">{$v_stage.name|escape:'html'}</span>
                 {else}
-                  <span class="badge stage stage-notselected stage-selectable clickable" value="{$v_stage.id}">{$v_stage.name}</span>
+                  <span class="badge stage stage-notselected stage-selectable clickable" value="{$v_stage.id}">{$v_stage.name|escape:'html'}</span>
                 {/if}
                 {/foreach}
                 </div>
@@ -133,6 +133,7 @@
                       <span class="edit_mode hidden">
                         <div class="character_profile_button_area pull-right">
                           <i class="fa fa-fw fa-floppy-o clickable character_profile_save_icon" aria-hidden="true"></i>
+                          <i class="fa fa-fw fa-times clickable character_profile_clear_icon" aria-hidden="true"></i>
                         </div>
                         <div class="character_profile_q set_mode">{$v_profile.question_title}</div>
                         <div class="character_profile_a profile_base">
@@ -161,6 +162,7 @@
                       <span class="edit_mode">
                         <div class="character_profile_button_area pull-right">
                           <i class="fa fa-fw fa-floppy-o clickable character_profile_save_icon" aria-hidden="true"></i>
+                          <i class="fa fa-fw fa-times clickable character_profile_clear_icon" aria-hidden="true"></i>
                         </div>
 
                         <div class="character_profile_q add_mode">

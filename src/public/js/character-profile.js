@@ -20,6 +20,20 @@ $(document).on("click", ".character_profile_delete_icon.clickable", function(){
 	}
 });
 
+// クリアボタン
+// ・完全新規ならテキストエリアをクリア
+// ・編集なら表示モードに切り替える
+$(document).on("click", ".character_profile_clear_icon.clickable", function(){
+	var q = $(this).parents(".li-character_profile").data("q");
+	if (q == "0"){
+		$(this).parents(".edit_mode").find(".character_profile_a textarea").val("");
+	}
+	else{
+		$(this).parents(".li-character_profile").find(".edit_mode").addClass("hidden");
+		$(this).parents(".li-character_profile").find(".view_mode").removeClass("hidden");
+	}
+});
+
 // 保存ボタン（新規登録or更新関数をコール）
 $(document).on("click", ".character_profile_save_icon.clickable", function(){
 	var obj = $(this).parents("ul");
