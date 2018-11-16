@@ -14,7 +14,7 @@ function addCharacter(){
 	var result = ajaxPost("character", "add", params);
     result.done(function(){
 		if (isAjaxResultErrorRedirect(result.return_value) === true) {return false;}  // 必要ならエラーページへリダイレクト
-		if (isAjaxResultErrorMsg(result.return_value) === true ){return false;} // 必要ならエラーメッセージ表示
+		if (isAjaxResultErrorMsg(result.return_value) === true){return false;} // 必要ならエラーメッセージ表示
 
 		// 正常な場合
 		$('#modal-addCharacter').modal('hide');
@@ -43,7 +43,7 @@ function setCharacter(){
 	var result = ajaxPost("character", "set", params);
     result.done(function(){
 		if (isAjaxResultErrorRedirect(result.return_value) === true) {return false;}  // 必要ならエラーページへリダイレクト
-		if (isAjaxResultErrorMsg(result.return_value) === true ){return false;} // 必要ならエラーメッセージ表示
+		if (isAjaxResultErrorMsg(result.return_value) === true){return false;} // 必要ならエラーメッセージ表示
 
 		// 正常な場合
 		location.reload();
@@ -62,7 +62,7 @@ function setCharacterIsPrivate(is_private){
 	var result = ajaxPost("character", "setIsPrivate", params);
     result.done(function(){
 		if (isAjaxResultErrorRedirect(result.return_value) === true) {return false;}  // 必要ならエラーページへリダイレクト
-		if (isAjaxResultErrorMsg(result.return_value) === true ){return false;} // 必要ならエラーメッセージ表示
+		if (isAjaxResultErrorMsg(result.return_value) === true){return false;} // 必要ならエラーメッセージ表示
 
 		// 正常な場合
 		location.reload();
@@ -83,7 +83,7 @@ function delCharacter(){
 	var result = ajaxPost("character", "del", params);
     result.done(function(){
 		if (isAjaxResultErrorRedirect(result.return_value) === true) {return false;}  // 必要ならエラーページへリダイレクト
-		if (isAjaxResultErrorMsg(result.return_value) === true ){return false;} // 必要ならエラーメッセージ表示
+		if (isAjaxResultErrorMsg(result.return_value) === true){return false;} // 必要ならエラーメッセージ表示
 
 		// 正常な場合
 		location.href = "/user/character/";
@@ -136,7 +136,7 @@ function sortableCharacter(mode) {
 			var result = ajaxPost("character", "setSort", params);
 			result.done(function(){
 				if (isAjaxResultErrorRedirect(result.return_value) === true) {return false;}  // 必要ならエラーページへリダイレクト
-				if (isAjaxResultErrorMsg(result.return_value) === true ){return false;} // 必要ならエラーメッセージ表示
+				if (isAjaxResultErrorMsg(result.return_value) === true){return false;} // 必要ならエラーメッセージ表示
 
 				// 正常な場合
 				// 何もしない

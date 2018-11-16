@@ -79,7 +79,7 @@ function addEpisodeCommon(){
 	var result = ajaxPost("episode", "addCommon", params);
 	result.done(function(){
 		if (isAjaxResultErrorRedirect(result.return_value) === true) {return false;}  // 必要ならエラーページへリダイレクト
-		if (isAjaxResultErrorMsg(result.return_value) === true ){return false;} // 必要ならエラーメッセージ表示
+		if (isAjaxResultErrorMsg(result.return_value) === true){return false;} // 必要ならエラーメッセージ表示
 
 		// 正常な場合
 
@@ -106,7 +106,7 @@ function addEpisodeLabel(){
 	var result = ajaxPost("episode", "addLabel", params);
 	result.done(function(){
 		if (isAjaxResultErrorRedirect(result.return_value) === true) {return false;}  // 必要ならエラーページへリダイレクト
-		if (isAjaxResultErrorMsg(result.return_value) === true ){return false;} // 必要ならエラーメッセージ表示
+		if (isAjaxResultErrorMsg(result.return_value) === true){return false;} // 必要ならエラーメッセージ表示
 
 		// 正常な場合
 
@@ -132,7 +132,7 @@ function addEpisodeOverride(){
 	var result = ajaxPost("episode", "addOverride", params);
 	result.done(function(){
 		if (isAjaxResultErrorRedirect(result.return_value) === true) {return false;}  // 必要ならエラーページへリダイレクト
-		if (isAjaxResultErrorMsg(result.return_value) === true ){return false;} // 必要ならエラーメッセージ表示
+		if (isAjaxResultErrorMsg(result.return_value) === true){return false;} // 必要ならエラーメッセージ表示
 
 		// 正常な場合
 
@@ -174,7 +174,7 @@ function setEpisodeCommon(){
 	var result = ajaxPost("episode", "setCommon", params);
 	result.done(function(){
 		if (isAjaxResultErrorRedirect(result.return_value) === true) {return false;}  // 必要ならエラーページへリダイレクト
-		if (isAjaxResultErrorMsg(result.return_value) === true ){return false;} // 必要ならエラーメッセージ表示
+		if (isAjaxResultErrorMsg(result.return_value) === true){return false;} // 必要ならエラーメッセージ表示
 
 		// 正常な場合
 
@@ -198,7 +198,7 @@ function setEpisodeLabel(){
 	var result = ajaxPost("episode", "setLabel", params);
 	result.done(function(){
 		if (isAjaxResultErrorRedirect(result.return_value) === true) {return false;}  // 必要ならエラーページへリダイレクト
-		if (isAjaxResultErrorMsg(result.return_value) === true ){return false;} // 必要ならエラーメッセージ表示
+		if (isAjaxResultErrorMsg(result.return_value) === true){return false;} // 必要ならエラーメッセージ表示
 
 		// 正常な場合
 
@@ -227,7 +227,7 @@ function setEpisodeIsPrivate(id, is_private){
 	var result = ajaxPost("episode", "setIsPrivate", params);
     result.done(function(){
 		if (isAjaxResultErrorRedirect(result.return_value) === true) {return false;}  // 必要ならエラーページへリダイレクト
-		if (isAjaxResultErrorMsg(result.return_value) === true ){return false;} // 必要ならエラーメッセージ表示
+		if (isAjaxResultErrorMsg(result.return_value) === true){return false;} // 必要ならエラーメッセージ表示
 
 		// 正常な場合
 		$(".timeline-editable[data-id='" + id + "']").find(".is_private_icon.is_private_" + (is_private == "1" ? "0" : "1")).addClass("template-for-copy");
@@ -250,7 +250,7 @@ function delEpisode(){
 	var result = ajaxPost("episode", "del", params);
     result.done(function(){
 		if (isAjaxResultErrorRedirect(result.return_value) === true) {return false;}  // 必要ならエラーページへリダイレクト
-		if (isAjaxResultErrorMsg(result.return_value) === true ){return false;} // 必要ならエラーメッセージ表示
+		if (isAjaxResultErrorMsg(result.return_value) === true){return false;} // 必要ならエラーメッセージ表示
 
 		// 正常な場合
 		$("#timeline_for_stage > li[data-id='" + id + "']").remove();
@@ -302,7 +302,7 @@ function sortableTimeline(mode) {
 			var result = ajaxPost("episode", "setSort", params);
 			result.done(function(){
 				if (isAjaxResultErrorRedirect(result.return_value) === true) {return false;}  // 必要ならエラーページへリダイレクト
-				if (isAjaxResultErrorMsg(result.return_value) === true ){return false;} // 必要ならエラーメッセージ表示
+				if (isAjaxResultErrorMsg(result.return_value) === true){return false;} // 必要ならエラーメッセージ表示
 
 				// 正常な場合
 				return true;
@@ -369,8 +369,8 @@ function setEpisodeModal(id){
 	var result = ajaxPost("episode", "get", {id: id});
     result.done(function(){
 		if (isAjaxResultErrorRedirect(result.return_value) === true) {return false;}  // 必要ならエラーページへリダイレクト
-		if (isAjaxResultErrorMsg(result.return_value) === true ){return false;} // 必要ならエラーメッセージ表示
-		if (isAjaxResultNoData(result.return_value['episode']['id']) === true ){return false;} // データがない場合はエラー表示
+		if (isAjaxResultErrorMsg(result.return_value) === true){return false;} // 必要ならエラーメッセージ表示
+		if (isAjaxResultNoData(result.return_value['episode']['id']) === true){return false;} // データがない場合はエラー表示
 
 		// 正常な場合
 
@@ -438,7 +438,7 @@ function setEpisodeModalOverride(id){
 	result.done(function(){
 
 		if (isAjaxResultErrorRedirect(result.return_value) === true) {return false;}  // 必要ならエラーページへリダイレクト
-		if (isAjaxResultErrorMsg(result.return_value) === true ){return false;} // 必要ならエラーメッセージ表示
+		if (isAjaxResultErrorMsg(result.return_value) === true){return false;} // 必要ならエラーメッセージ表示
 
 		// 正常な場合
 		$(result.return_value.character_list).each(function(i_character, e_character){
@@ -466,7 +466,6 @@ function setEpisodeModalOverride(id){
 					// 基本プロフィールが存在する場合
 
 					$(obj).find(".view_mode .character_profile_a.profile_base").html(strToText(e_episode.answer));
-					$(obj).find(".edit_mode .character_profile_a textarea").val(e_episode.answer);
 
 					$(obj).find(".view_mode .character_profile_a.profile_base").removeClass("hidden");
 				}
@@ -475,7 +474,6 @@ function setEpisodeModalOverride(id){
 					is_override = true;
 
 					$(obj).find(".view_mode .character_profile_a.profile_stage").html(strToText(e_episode.answer_stage));
-					$(obj).find(".edit_mode .character_profile_a textarea").val(e_episode.answer_stage);
 
 					$(obj).find(".view_mode .character_profile_a.profile_base").addClass("hidden");
 					$(obj).find(".view_mode .character_profile_a.profile_stage").addClass("current");

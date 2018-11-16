@@ -25,7 +25,7 @@ function timeline(params){
 	var result = ajaxPost("episode", "timeline", params);
 	result.done(function(){
 		if (isAjaxResultErrorRedirect(result.return_value) === true) {return false;}  // 必要ならエラーページへリダイレクト
-		if (isAjaxResultErrorMsg(result.return_value) === true ){return false;} // 必要ならエラーメッセージ表示
+		if (isAjaxResultErrorMsg(result.return_value) === true){return false;} // 必要ならエラーメッセージ表示
 
 		// 正常な場合
 		// テーブルに描画

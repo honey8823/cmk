@@ -25,7 +25,7 @@ function login(){
 		};
 	var result = ajaxPost("user", "login", params);
     result.done(function(){
-		if (isAjaxResultErrorMsg(result.return_value) === true ){return false;} // 必要ならエラーメッセージ表示
+		if (isAjaxResultErrorMsg(result.return_value) === true){return false;} // 必要ならエラーメッセージ表示
 
 		// 正常な場合
 		$('#modal-login').modal('hide');
@@ -67,7 +67,7 @@ function addUser(){
 		};
 	var result = ajaxPost("user", "add", params);
     result.done(function(){
-		if (isAjaxResultErrorMsg(result.return_value) === true ){return false;} // 必要ならエラーメッセージ表示
+		if (isAjaxResultErrorMsg(result.return_value) === true){return false;} // 必要ならエラーメッセージ表示
 
 		// 正常な場合
 		alert("会員登録が完了しました。入力いただいた情報でログインしてください。");
@@ -94,7 +94,7 @@ function addContactRequest(){
 	var result = ajaxPost("contact", "add", params);
     result.done(function(){
 		if (isAjaxResultErrorRedirect(result.return_value) === true) {return false;}  // 必要ならエラーページへリダイレクト
-		if (isAjaxResultErrorMsg(result.return_value) === true ){return false;} // 必要ならエラーメッセージ表示
+		if (isAjaxResultErrorMsg(result.return_value) === true){return false;} // 必要ならエラーメッセージ表示
 
 		// 正常な場合
 		$('#modal-request').modal("hide");

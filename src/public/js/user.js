@@ -17,7 +17,7 @@ function setUserProfile(){
 	var result = ajaxPost("user", "setProfile", params);
     result.done(function(){
 		if (isAjaxResultErrorRedirect(result.return_value) === true) {return false;};  // 必要ならエラーページへリダイレクト
-		if (isAjaxResultErrorMsg(result.return_value) === true ){return false;} // 必要ならエラーメッセージ表示
+		if (isAjaxResultErrorMsg(result.return_value) === true){return false;} // 必要ならエラーメッセージ表示
 
 		// 正常な場合
 		location.reload();
@@ -34,7 +34,7 @@ function setUserAccount(){
 	var result = ajaxPost("user", "setAccount", params);
     result.done(function(){
 		if (isAjaxResultErrorRedirect(result.return_value) === true) {return false;};  // 必要ならエラーページへリダイレクト
-		if (isAjaxResultErrorMsg(result.return_value) === true ){return false;} // 必要ならエラーメッセージ表示
+		if (isAjaxResultErrorMsg(result.return_value) === true){return false;} // 必要ならエラーメッセージ表示
 
 		// 正常な場合
 		location.reload();
@@ -51,7 +51,7 @@ function setUserPassword(){
 	var result = ajaxPost("user", "setPassword", params);
     result.done(function(){
 		if (isAjaxResultErrorRedirect(result.return_value) === true) {return false;};  // 必要ならエラーページへリダイレクト
-		if (isAjaxResultErrorMsg(result.return_value) === true ){return false;} // 必要ならエラーメッセージ表示
+		if (isAjaxResultErrorMsg(result.return_value) === true){return false;} // 必要ならエラーメッセージ表示
 
 		// 正常な場合
 		location.reload();
@@ -73,7 +73,7 @@ function delUser(){
 	var result = ajaxPost("user", "del", []);
     result.done(function(){
 		if (isAjaxResultErrorRedirect(result.return_value) === true) {return false;};  // 必要ならエラーページへリダイレクト
-		if (isAjaxResultErrorMsg(result.return_value) === true ){return false;} // 必要ならエラーメッセージ表示
+		if (isAjaxResultErrorMsg(result.return_value) === true){return false;} // 必要ならエラーメッセージ表示
 
 		// 正常な場合
 		alert("ご利用ありがとうございました。");

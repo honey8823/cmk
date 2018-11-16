@@ -29,7 +29,7 @@ function addStage(){
 	var result = ajaxPost("stage", "add", params);
     result.done(function(){
 		if (isAjaxResultErrorRedirect(result.return_value) === true) {return false;}  // 必要ならエラーページへリダイレクト
-		if (isAjaxResultErrorMsg(result.return_value) === true ){return false;} // 必要ならエラーメッセージ表示
+		if (isAjaxResultErrorMsg(result.return_value) === true){return false;} // 必要ならエラーメッセージ表示
 
 		// 正常な場合
 		$('#modal-addStage').modal('hide');
@@ -58,7 +58,7 @@ function setStage(){
 	var result = ajaxPost("stage", "set", params);
     result.done(function(){
 		if (isAjaxResultErrorRedirect(result.return_value) === true) {return false;}  // 必要ならエラーページへリダイレクト
-		if (isAjaxResultErrorMsg(result.return_value) === true ){return false;} // 必要ならエラーメッセージ表示
+		if (isAjaxResultErrorMsg(result.return_value) === true){return false;} // 必要ならエラーメッセージ表示
 
 		// 正常な場合
 		location.reload();
@@ -77,7 +77,7 @@ function setStageIsPrivate(is_private){
 	var result = ajaxPost("stage", "setIsPrivate", params);
     result.done(function(){
 		if (isAjaxResultErrorRedirect(result.return_value) === true) {return false;}  // 必要ならエラーページへリダイレクト
-		if (isAjaxResultErrorMsg(result.return_value) === true ){return false;} // 必要ならエラーメッセージ表示
+		if (isAjaxResultErrorMsg(result.return_value) === true){return false;} // 必要ならエラーメッセージ表示
 
 		// 正常な場合
 		location.reload();
@@ -98,7 +98,7 @@ function delStage(){
 	var result = ajaxPost("stage", "del", params);
     result.done(function(){
 		if (isAjaxResultErrorRedirect(result.return_value) === true) {return false;}  // 必要ならエラーページへリダイレクト
-		if (isAjaxResultErrorMsg(result.return_value) === true ){return false;} // 必要ならエラーメッセージ表示
+		if (isAjaxResultErrorMsg(result.return_value) === true){return false;} // 必要ならエラーメッセージ表示
 
 		// 正常な場合
 		location.href = "/user/stage/";
@@ -151,7 +151,7 @@ function sortableStage(mode) {
 			var result = ajaxPost("stage", "setSort", params);
 			result.done(function(){
 				if (isAjaxResultErrorRedirect(result.return_value) === true) {return false;}  // 必要ならエラーページへリダイレクト
-				if (isAjaxResultErrorMsg(result.return_value) === true ){return false;} // 必要ならエラーメッセージ表示
+				if (isAjaxResultErrorMsg(result.return_value) === true){return false;} // 必要ならエラーメッセージ表示
 
 				// 正常な場合
 				// 何もしない
@@ -212,7 +212,7 @@ function sortableStageCharacter(mode) {
 			var result = ajaxPost("stage", "setCharacterSort", params);
 			result.done(function(){
 				if (isAjaxResultErrorRedirect(result.return_value) === true) {return false;}  // 必要ならエラーページへリダイレクト
-				if (isAjaxResultErrorMsg(result.return_value) === true ){return false;} // 必要ならエラーメッセージ表示
+				if (isAjaxResultErrorMsg(result.return_value) === true){return false;} // 必要ならエラーメッセージ表示
 
 				// 正常な場合
 				// 何もしない
@@ -238,7 +238,7 @@ function upsertStageCharacter(){
 	var result = ajaxPost("stage", "upsertCharacter", params);
 	result.done(function(){
 		if (isAjaxResultErrorRedirect(result.return_value) === true) {return false;}  // 必要ならエラーページへリダイレクト
-		if (isAjaxResultErrorMsg(result.return_value) === true ){return false;} // 必要ならエラーメッセージ表示
+		if (isAjaxResultErrorMsg(result.return_value) === true){return false;} // 必要ならエラーメッセージ表示
 
 		// 正常な場合
 
@@ -286,7 +286,7 @@ function setOverrideStageModal(id){
 	result.done(function(){
 
 		if (isAjaxResultErrorRedirect(result.return_value) === true) {return false;}  // 必要ならエラーページへリダイレクト
-		if (isAjaxResultErrorMsg(result.return_value) === true ){return false;} // 必要ならエラーメッセージ表示
+		if (isAjaxResultErrorMsg(result.return_value) === true){return false;} // 必要ならエラーメッセージ表示
 
 		// 正常な場合
 
@@ -325,7 +325,6 @@ function setOverrideStageModal(id){
 				$(obj).attr("data-is_base", "1");
 
 				$(obj).find(".view_mode .character_profile_a.profile_base").html(strToText(e.answer));
-				$(obj).find(".edit_mode .character_profile_a textarea").val(e.answer);
 			}
 			if (e.answer_stage !== undefined && e.answer_stage != ""){
 				// ステージプロフィールが存在する場合
