@@ -106,7 +106,7 @@ function addCharacterProfile(q, a){
 		obj.attr("data-q", result.return_value['question']);
 		obj.find(".view_mode .character_profile_q").text(result.return_value['question_title']);
 		obj.find(".view_mode .character_profile_a.profile_base").html(strToText(result.return_value['answer']));
-		obj.find(".edit_mode .character_profile_q.set_mode").text(result.return_value['question_title']);
+		obj.find(".edit_mode .character_profile_q.set_mode > span").text(result.return_value['question_title']);
 		obj.find(".edit_mode .character_profile_q.add_mode").remove();
 		obj.find(".edit_mode .character_profile_q.set_mode").removeClass("hidden");
 
@@ -210,8 +210,10 @@ function addCharacterProfileStage(q, a){
 		obj.attr("data-q", result.return_value['question']);
 		obj.data("is_stage", "1");
 		obj.attr("data-is_stage", "1");
-		obj.find(".character_profile_original_icon").addClass("hidden");
-		obj.find(".character_profile_override_icon").removeClass("hidden");
+		obj.find(".view_mode .character_profile_original_icon").addClass("hidden");
+		obj.find(".view_mode .character_profile_override_icon").removeClass("hidden");
+		obj.find(".view_mode .character_profile_delete_icon").removeClass("disabled");
+		obj.find(".view_mode .character_profile_delete_icon").addClass("clickable");
 
 		// 表示モード部分に値をセット
 		obj.find(".view_mode .character_profile_q").text(result.return_value['question_title']);
@@ -220,7 +222,7 @@ function addCharacterProfileStage(q, a){
 		obj.find(".view_mode .character_profile_a.profile_stage").removeClass("hidden");
 
 		// 編集モード部分に値をセット
-		obj.find(".edit_mode .character_profile_q.set_mode").text(result.return_value['question_title']);
+		obj.find(".edit_mode .character_profile_q.set_mode > span").text(result.return_value['question_title']);
 		obj.find(".edit_mode .character_profile_q.set_mode").removeClass("hidden");
 		obj.find(".edit_mode .character_profile_q.add_mode").remove();
 
@@ -306,8 +308,10 @@ function delCharacterProfileStage(q){
 			// 表示/非表示の切り替え
 			$(obj).find(".view_mode .character_profile_a.profile_base").removeClass("hidden");
 			$(obj).find(".view_mode .character_profile_a.profile_stage").addClass("hidden");
-			$(obj).find(".character_profile_override_icon").addClass("hidden");
-			$(obj).find(".character_profile_original_icon").removeClass("hidden");
+			$(obj).find(".view_mode .character_profile_override_icon").addClass("hidden");
+			$(obj).find(".view_mode .character_profile_original_icon").removeClass("hidden");
+			obj.find(".view_mode .character_profile_delete_icon").addClass("disabled");
+			obj.find(".view_mode .character_profile_delete_icon").removeClass("clickable");
 		}
 		// 基本プロフィールが存在しない場合は削除
 		else{
@@ -354,8 +358,10 @@ function addCharacterProfileEpisode(q, a, character_id){
 
 		obj.data("q", result.return_value['question']);
 		obj.attr("data-q", result.return_value['question']);
-		obj.find(".character_profile_original_icon").addClass("hidden");
-		obj.find(".character_profile_override_icon").removeClass("hidden");
+		obj.find(".view_mode .character_profile_original_icon").addClass("hidden");
+		obj.find(".view_mode .character_profile_override_icon").removeClass("hidden");
+		obj.find(".view_mode .character_profile_delete_icon").removeClass("disabled");
+		obj.find(".view_mode .character_profile_delete_icon").addClass("clickable");
 
 		// 表示モード部分に値をセット
 		obj.find(".view_mode .character_profile_q").text(result.return_value['question_title']);
@@ -365,7 +371,7 @@ function addCharacterProfileEpisode(q, a, character_id){
 		obj.find(".view_mode .current").removeClass("current");
 
 		// 編集モード部分に値をセット
-		obj.find(".edit_mode .character_profile_q.set_mode").text(result.return_value['question_title']);
+		obj.find(".edit_mode .character_profile_q.set_mode > span").text(result.return_value['question_title']);
 		obj.find(".edit_mode .character_profile_q.set_mode").removeClass("hidden");
 		obj.find(".edit_mode .character_profile_q.add_mode").remove();
 
@@ -434,7 +440,7 @@ function delCharacterProfileEpisode(q, character_id){
 		// 正常な場合
 		var obj = $("#set_forms-override .character_block[data-id='" + character_id + "'] .li-character_profile[data-q='" + q + "']");
 
-		// 基本プロフィールが存在する場合は切り替え
+		// オーバーライド元のプロフィールが存在する場合は切り替え
 		if (obj.find(".view_mode .character_profile_a.pre_current").length == 1){
 
 			// 編集用テキストエリアをクリア
@@ -444,16 +450,19 @@ function delCharacterProfileEpisode(q, character_id){
 			obj.find(".view_mode .character_profile_a.profile_episode").html("");
 
 			// 表示/非表示の切り替え
-			if (obj.find(".view_mode .character_profile_a.pre_current").hasClass("profile_base")){}
-			else{obj.find(".view_mode .character_profile_a.pre_current").addClass("current");}
+			if (obj.find(".view_mode .character_profile_a.pre_current").hasClass("profile_base")){
+				obj.find(".view_mode .character_profile_override_icon").addClass("hidden");
+				obj.find(".view_mode .character_profile_original_icon").removeClass("hidden");
+			}
+			else{
+				obj.find(".view_mode .character_profile_a.pre_current").addClass("current");
+			}
+			obj.find(".view_mode .character_profile_delete_icon").addClass("disabled");
+			obj.find(".view_mode .character_profile_delete_icon").removeClass("clickable");
 			obj.find(".view_mode .character_profile_a.pre_current").removeClass("hidden");
 			obj.find(".view_mode .character_profile_a.profile_episode").addClass("hidden");
-
-			// todo::ステージ等でオーバーライドしてる場合を考慮する必要あり
-			obj.find(".character_profile_override_icon").addClass("hidden");
-			obj.find(".character_profile_original_icon").removeClass("hidden");
 		}
-		// 基本プロフィールが存在しない場合は削除
+		// オーバーライド元のプロフィールが存在しない場合は削除
 		else{
 			obj.remove();
 		}

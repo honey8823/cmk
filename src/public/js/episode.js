@@ -483,7 +483,7 @@ function setEpisodeModalOverride(id){
 
 				// 項目名
 				$(obj).find(".view_mode .character_profile_q").text(e_episode.question_title);
-				$(obj).find(".edit_mode .character_profile_q.set_mode").text(e_episode.question_title);
+				$(obj).find(".edit_mode .character_profile_q.set_mode > span").text(e_episode.question_title);
 				$(obj).find(".edit_mode .character_profile_q.set_mode").removeClass("hidden");
 				$(obj).find(".edit_mode .character_profile_q.add_mode").remove();
 
@@ -504,6 +504,7 @@ function setEpisodeModalOverride(id){
 					$(obj).find(".view_mode .character_profile_a.profile_stage").html(strToText(e_episode.answer_stage));
 
 					$(obj).find(".view_mode .character_profile_a.profile_base").addClass("hidden");
+					$(obj).find(".view_mode .character_profile_a.profile_base").removeClass("pre_current");
 					$(obj).find(".view_mode .character_profile_a.profile_stage").addClass("pre_current");
 					$(obj).find(".view_mode .character_profile_a.profile_stage").addClass("current");
 					$(obj).find(".view_mode .character_profile_a.profile_stage").removeClass("hidden");
@@ -533,22 +534,26 @@ function setEpisodeModalOverride(id){
 					// エピソードプロフィールが存在する場合
 					is_override = true;
 
+					$(obj).find(".view_mode .character_profile_delete_icon").removeClass("disabled");
+					$(obj).find(".view_mode .character_profile_delete_icon").addClass("clickable");
+
 					$(obj).find(".view_mode .character_profile_a.profile_episode").html(strToText(e_episode.answer_episode));
 					$(obj).find(".edit_mode .character_profile_a textarea").val(e_episode.answer_episode);
 
 					$(obj).find(".view_mode .character_profile_a.profile_base").addClass("hidden");
+					$(obj).find(".view_mode .character_profile_a.profile_base").removeClass("pre_current");
 					$(obj).find(".view_mode .character_profile_a.profile_stage").removeClass("current");
 					$(obj).find(".view_mode .character_profile_a.profile_stage").addClass("hidden");
 					$(obj).find(".view_mode .character_profile_a.profile_episode").removeClass("hidden");
 				}
 
 				if (is_override == true){
-					$(obj).find(".character_profile_original_icon").addClass("hidden");
-					$(obj).find(".character_profile_override_icon").removeClass("hidden");
+					$(obj).find(".view_mode .character_profile_original_icon").addClass("hidden");
+					$(obj).find(".view_mode .character_profile_override_icon").removeClass("hidden");
 				}
 				else{
-					$(obj).find(".character_profile_override_icon").addClass("hidden");
-					$(obj).find(".character_profile_original_icon").removeClass("hidden");
+					$(obj).find(".view_mode .character_profile_override_icon").addClass("hidden");
+					$(obj).find(".view_mode .character_profile_original_icon").removeClass("hidden");
 				}
 
 				// 表示モードに切り替え

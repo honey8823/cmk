@@ -313,7 +313,7 @@ function setOverrideStageModal(id){
 
 			// 項目名
 			$(obj).find(".view_mode .character_profile_q").text(e.question_title);
-			$(obj).find(".edit_mode .character_profile_q.set_mode").text(e.question_title);
+			$(obj).find(".edit_mode .character_profile_q.set_mode > span").text(e.question_title);
 			$(obj).find(".edit_mode .character_profile_q.set_mode").removeClass("hidden");
 			$(obj).find(".edit_mode .character_profile_q.add_mode").remove();
 
@@ -338,8 +338,10 @@ function setOverrideStageModal(id){
 				$(obj).find(".view_mode .character_profile_a.profile_base").addClass("hidden");
 				$(obj).find(".view_mode .character_profile_a.profile_stage").removeClass("hidden");
 
-				$(obj).find(".character_profile_original_icon").addClass("hidden");
-				$(obj).find(".character_profile_override_icon").removeClass("hidden");
+				$(obj).find(".view_mode .character_profile_original_icon").addClass("hidden");
+				$(obj).find(".view_mode .character_profile_override_icon").removeClass("hidden");
+				$(obj).find(".view_mode .character_profile_delete_icon").removeClass("disabled");
+				$(obj).find(".view_mode .character_profile_delete_icon").addClass("clickable");
 			}
 			else{
 				// ステージプロフィールが存在しない場合

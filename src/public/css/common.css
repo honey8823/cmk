@@ -257,6 +257,10 @@
 	margin-bottom: 0;
 }
 
+.character_profile_delete_icon.disabled{
+	color: #CCCCCC;
+}
+
 /* オーバーライド：エピソード */
 #set_forms-override .character-folder.clickable{
 	color: white;

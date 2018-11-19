@@ -102,61 +102,6 @@
                   </p>
                   <ul class="nav nav-stacked ul-character_profile character_profile_episode hidden" style="margin: 1.5em;">
 
-
-{* サンプルここから
-                    <li class="li-character_profile">
-                      <a>
-                        <span class="view_mode">
-                          <div class="character_profile_button_area pull-right">
-                            <i class="fa fa-fw fa-pencil-square-o clickable character_profile_edit_icon" aria-hidden="true"></i>
-                            <i class="fa fa-fw fa-trash-o clickable character_profile_delete_icon" aria-hidden="true"></i>
-                          </div>
-                          <div class="pull-left">
-                            <i class="fa fa-fw fa-sticky-note clickable character_profile_override_icon" aria-hidden="true"></i>
-                          </div>
-                          <div class="character_profile_q">項目名</div>
-                          <div class="character_profile_a profile_base not_override hidden"><small>（基本プロフィールで設定されていない項目です）</small></div>
-                          <div class="character_profile_a profile_stage not_override profile_indent_1 hidden"><small>（ステージ内でオーバーライドしていない項目です）</small></div>
-                          <div>
-                            <div class="character_profile_a profile_prev_episode not_override profile_indent_2 hidden">prev_1</div>
-                            <div class="character_profile_a profile_prev_episode not_override profile_indent_2 hidden">prev_2</div>
-                          </div>
-                          <div class="character_profile_a profile_episode override">今回のオーバーライド</div>
-                          <div>
-                            <div class="character_profile_a profile_prev_episode not_override profile_indent_2 hidden">next_1</div>
-                            <div class="character_profile_a profile_prev_episode not_override profile_indent_2 hidden">next_2</div>
-                          </div>
-                        </span>
-                      </a>
-                    </li>
-
-                    <li class="li-character_profile">
-                      <a>
-                        <span class="view_mode">
-                          <div class="character_profile_button_area pull-right">
-                            <i class="fa fa-fw fa-pencil-square-o clickable character_profile_edit_icon" aria-hidden="true"></i>
-                            <i class="fa fa-fw fa-trash-o clickable character_profile_delete_icon" aria-hidden="true"></i>
-                          </div>
-                          <div class="pull-left">
-                            <i class="fa fa-fw fa-sticky-note clickable character_profile_override_icon" aria-hidden="true"></i>
-                          </div>
-                          <div class="character_profile_q">項目名</div>
-                          <div class="character_profile_a profile_base not_override hidden"><small>（基本プロフィールで設定されていない項目です）</small></div>
-                          <div class="character_profile_a profile_stage not_override profile_indent_1 hidden"><small>（ステージ内でオーバーライドしていない項目です）</small></div>
-                          <div>
-                            <div class="character_profile_a profile_prev_episode not_override profile_indent_2 hidden">prev_1</div>
-                            <div class="character_profile_a profile_prev_episode not_override profile_indent_2 current">prev_2</div>
-                          </div>
-                          <div class="character_profile_a profile_episode override hidden"></div>
-                          <div>
-                            <div class="character_profile_a profile_prev_episode not_override profile_indent_2 hidden">next_1</div>
-                            <div class="character_profile_a profile_prev_episode not_override profile_indent_2 hidden">next_2</div>
-                          </div>
-                        </span>
-                      </a>
-                    </li>
-サンプルここまで *}
-
                   {* コピー用 *}
                     <li class="li-character_profile template-for-copy">
                       <a>
@@ -164,7 +109,7 @@
                         <span class="view_mode hidden">
                           <div class="character_profile_button_area pull-right">
                             <i class="fa fa-fw fa-pencil-square-o clickable character_profile_edit_icon" aria-hidden="true"></i>
-                            <i class="fa fa-fw fa-trash-o clickable character_profile_delete_icon" aria-hidden="true"></i>
+                            <i class="fa fa-fw fa-trash-o disabled character_profile_delete_icon" aria-hidden="true"></i>
                           </div>
                           <div class="pull-left">
                             <i class="fa fa-fw fa-sticky-note clickable character_profile_override_icon" aria-hidden="true"></i>
@@ -198,7 +143,7 @@
                             {/foreach}
                             </select>
                           </div>
-                          <div class="character_profile_q set_mode hidden"></div>
+                          <div class="character_profile_q set_mode hidden"><span></span></div>
                           <div class="character_profile_a">
                             <textarea class="form-control" rows="3"></textarea>
                           </div>

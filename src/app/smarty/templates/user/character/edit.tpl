@@ -175,7 +175,7 @@
                           {/foreach}
                           </select>
                         </div>
-                        <div class="character_profile_q set_mode hidden"></div>
+                        <div class="character_profile_q set_mode hidden"><span></span></div>
                         <div class="character_profile_a profile_base">
                           <textarea class="form-control" rows="3"></textarea>
                         </div>

@@ -276,7 +276,7 @@
                   <span class="view_mode hidden">
                     <div class="character_profile_button_area pull-right">
                       <i class="fa fa-fw fa-pencil-square-o clickable character_profile_edit_icon" aria-hidden="true"></i>
-                      <i class="fa fa-fw fa-trash-o clickable character_profile_delete_icon" aria-hidden="true"></i>
+                      <i class="fa fa-fw fa-trash-o disabled character_profile_delete_icon" aria-hidden="true"></i>
                     </div>
                     <div class="pull-left">
                       <i class="fa fa-fw fa-sticky-note clickable character_profile_override_icon" aria-hidden="true"></i>
@@ -303,7 +303,7 @@
                       {/foreach}
                       </select>
                     </div>
-                    <div class="character_profile_q set_mode hidden"></div>
+                    <div class="character_profile_q set_mode hidden"><span></span></div>
                     <div class="character_profile_a">
                       <textarea class="form-control" rows="3"></textarea>
                     </div>
