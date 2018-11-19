@@ -807,7 +807,7 @@ class CharacterController extends Common
 
 			// 取得（プロフィール：基本）
 			$sql  = "SELECT     `character_profile`.`question` ";
-			$sql .= "          ,`character_profile`.`answer` ";
+			$sql .= "          ,`character_profile`.`answer` AS `answer_base` ";
 			$sql .= "FROM       `character_profile` ";
 			$sql .= "WHERE      `character_profile`.`character_id` = ? ";
 			$sql .= "ORDER BY   `character_profile`.`sort` = 0 ASC ";
@@ -831,11 +831,11 @@ class CharacterController extends Common
 			// プロフィールの整形（基本とステージのマージ）
 			foreach ($profile_stage_list as $v)
 			{
-				$profile_list[$v['question']]['question']     = $v['question'];
-				$profile_list[$v['question']]['answer_stage'] = $v['answer'];
+				$profile_list[$v['question']]['question'] = $v['question'];
+				$profile_list[$v['question']]['answer']   = $v['answer'];
 			}
 
-			// プロフィールの整形（項目名）
+			// プロフィールの整形
 			$q_list = $this->getConfig("character_profile_q", "value");
 			foreach ($profile_list as $k => $v)
 			{

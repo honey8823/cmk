@@ -269,6 +269,23 @@
 	border-radius: 2px;
 	padding: 0.3em;
 }
+.profile_reference{
+	padding: 1em;
+}
+.not_override .profile_reference .profile_reference_title{
+	background: #CCCCCC;
+}
+.override .profile_reference .profile_reference_title{
+	background: #999999;
+}
+.profile_reference .profile_reference_title{
+	padding: 2px;
+	border-radius: 5px;
+}
+.profile_reference .profile_reference_content{
+	padding: 5px 5px 10px 10px;
+}
+
 
 /****************/
 /* 公開ページ用 */

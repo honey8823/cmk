@@ -12,6 +12,7 @@ $(document).on("click", ".character_profile_edit_icon.clickable", function(){
 $(document).on("click", ".character_profile_delete_icon.clickable", function(){
 	var obj = $(this).parents("ul");
 	var q = $(this).parents(".li-character_profile").data("q");
+
 	if (obj.hasClass("character_profile")){delCharacterProfile(q);}
 	else if (obj.hasClass("character_profile_stage")){delCharacterProfileStage(q);}
 	else if (obj.hasClass("character_profile_episode")){
@@ -69,15 +70,75 @@ $(document).on("click", ".character_profile_override_icon.clickable", function()
 
 // キャラクタープロフィール項目入力欄を増やす
 // 引数はセレクタ文字列（コピーするliにあたる部分）
-function copyCharacterProfileForm(template_selector){
-	var obj_base = $(template_selector)[0];
-	var obj = $(obj_base).clone().appendTo($(template_selector).parents("ul"));
+function copyCharacterProfileForm(template_li_obj){
+	var obj = $(template_li_obj).clone().appendTo($(template_li_obj).parents("ul"));
 	$(obj).data("q", "0");
 	$(obj).attr("data-q", "0");
 	$(obj).removeClass("template-for-copy");
 
 	// セレクトボックス用
 	$(obj).find('.select2').select2();
+}
+
+
+
+/*
+ * local::プロフィールの追加/更新描画
+ */
+function drawCharacterProfile(base_li_obj, is_update, params){
+	console.log(params);
+	var q  = params['question'];
+	var qt = params['question_title'];
+	var a  = params['answer'];
+	var ab = params['answer_base'];
+
+	var obj = base_li_obj;
+
+	// 表示モードに切り替え
+	obj.find(".edit_mode").addClass("hidden");
+	obj.find(".view_mode").removeClass("hidden");
+
+	// 内容があればセット
+	if (a !== undefined && a != ""){
+		// メインの内容
+		obj.find(".view_mode .character_profile_a div.profile_main").html(strToText(a));
+
+		// テキストエリア
+		obj.find(".edit_mode .character_profile_a textarea").val(a);
+
+		// 削除アイコンを有効にする
+		obj.find(".view_mode .character_profile_delete_icon").removeClass("disabled");
+		obj.find(".view_mode .character_profile_delete_icon").addClass("clickable");
+	}
+
+	if (is_update == true){
+		// 内容の更新時のみ
+	}
+	else{
+		// 新規登録時か描画時のみ
+		obj.attr("data-q", q);
+		obj.data("q", q);
+		obj.find(".view_mode .character_profile_q").text(qt);
+		obj.find(".edit_mode .character_profile_q.set_mode").text(qt);
+		obj.find(".edit_mode .character_profile_q.add_mode").remove();
+		obj.find(".edit_mode .character_profile_q.set_mode").removeClass("hidden");
+
+		if (ab !== undefined && ab != ""){
+			$(obj).find(".view_mode .character_profile_a .profile_base .profile_reference_content").html(strToText(ab));
+		}
+
+		// 入力フォームから、今回登録した項目を削除する
+		obj.parents("ul").find(".li-character_profile.template-for-copy .select2 option[value='" + q + "']").remove();
+	}
+
+	obj.removeClass("template-for-copy");
+}
+/*
+ * local::プロフィールの削除描画
+ */
+function removeCharacterProfile(base_li_obj){
+	var obj = base_li_obj;
+	obj.remove();
 }
 
 /********/
@@ -101,24 +162,10 @@ function addCharacterProfile(q, a){
 		// 正常な場合
 
 		// 表示モード部分に値をセット
-		var obj = $(".li-character_profile[data-q='0']");
-		obj.data("q", result.return_value['question']);
-		obj.attr("data-q", result.return_value['question']);
-		obj.find(".view_mode .character_profile_q").text(result.return_value['question_title']);
-		obj.find(".view_mode .character_profile_a.profile_base").html(strToText(result.return_value['answer']));
-		obj.find(".edit_mode .character_profile_q.set_mode > span").text(result.return_value['question_title']);
-		obj.find(".edit_mode .character_profile_q.add_mode").remove();
-		obj.find(".edit_mode .character_profile_q.set_mode").removeClass("hidden");
-
-		// 表示モードに切り替え
-		obj.find(".edit_mode").addClass("hidden");
-		obj.find(".view_mode").removeClass("hidden");
-
-		// 入力フォームから、今回登録した項目を削除する
-		$(".li-character_profile.template-for-copy .select2 option[value='" + q + "']").remove();
+		drawCharacterProfile($("#character_profile .li-character_profile[data-q='0']"), false, result.return_value);
 
 		// 次の入力フォームを増やす
-		copyCharacterProfileForm("#tab-content-profile .li-character_profile.template-for-copy");
+		copyCharacterProfileForm($("#character_profile .li-character_profile[data-q='0']").parents("ul").find("li.template-for-copy"));
 
 		return true;
     });
@@ -141,12 +188,7 @@ function setCharacterProfile(q, a){
 		// 正常な場合
 
 		// 表示モード部分に値をセット
-		var obj = $(".li-character_profile[data-q='" + q + "']");
-		obj.find(".view_mode .character_profile_a.profile_base").html(strToText(result.return_value['answer']));
-
-		// 表示モードに切り替え
-		obj.find(".edit_mode").addClass("hidden");
-		obj.find(".view_mode").removeClass("hidden");
+		drawCharacterProfile($("#character_profile .li-character_profile[data-q='" + q + "']"), true, result.return_value);
 
 		return true;
     });
@@ -172,7 +214,7 @@ function delCharacterProfile(q){
 		// 正常な場合
 
 		// 表示部分を削除
-		$(".li-character_profile[data-q='" + q + "']").remove();
+		removeCharacterProfile($("#character_profile .li-character_profile[data-q='" + q + "']"));
 
 		return true;
     });
@@ -200,43 +242,45 @@ function addCharacterProfileStage(q, a){
 		// 正常な場合
 		var is_form_update = 0;
 		if ($("#character_profile_stage .li-character_profile[data-q='" + q + "']").length == 1){
-			var obj = $(".li-character_profile[data-q='" + q + "']");
-			is_form_update = 1;
+			drawCharacterProfile($("#character_profile_stage .li-character_profile[data-q='" + q + "']"), true, result.return_value);
+//			var obj = $(".li-character_profile[data-q='" + q + "']");
+//			is_form_update = 1;
 		}
 		else{
-			var obj = $("#character_profile_stage .li-character_profile[data-q='0']");
+			drawCharacterProfile($("#character_profile_stage .li-character_profile[data-q='0']"), false, result.return_value);
+//			var obj = $("#character_profile_stage .li-character_profile[data-q='0']");
 		}
-		obj.data("q", result.return_value['question']);
-		obj.attr("data-q", result.return_value['question']);
-		obj.data("is_stage", "1");
-		obj.attr("data-is_stage", "1");
-		obj.find(".view_mode .character_profile_original_icon").addClass("hidden");
-		obj.find(".view_mode .character_profile_override_icon").removeClass("hidden");
-		obj.find(".view_mode .character_profile_delete_icon").removeClass("disabled");
-		obj.find(".view_mode .character_profile_delete_icon").addClass("clickable");
-
-		// 表示モード部分に値をセット
-		obj.find(".view_mode .character_profile_q").text(result.return_value['question_title']);
-		obj.find(".view_mode .character_profile_a.profile_stage").html(strToText(result.return_value['answer']));
-		obj.find(".view_mode .character_profile_a.profile_base").addClass("hidden");
-		obj.find(".view_mode .character_profile_a.profile_stage").removeClass("hidden");
-
-		// 編集モード部分に値をセット
-		obj.find(".edit_mode .character_profile_q.set_mode > span").text(result.return_value['question_title']);
-		obj.find(".edit_mode .character_profile_q.set_mode").removeClass("hidden");
-		obj.find(".edit_mode .character_profile_q.add_mode").remove();
-
-		// 表示モードに切り替え
-		obj.find(".edit_mode").addClass("hidden");
-		obj.find(".view_mode").removeClass("hidden");
-
-		// 入力フォームから、今回登録した項目を削除する
-		$("#character_profile_stage .li-character_profile.template-for-copy .select2 option[value='" + q + "']").remove();
-
-		// 次の入力フォームを増やす
-		if (is_form_update != 1){
-			copyCharacterProfileForm("#character_profile_stage .li-character_profile.template-for-copy");
-		}
+//		obj.data("q", result.return_value['question']);
+//		obj.attr("data-q", result.return_value['question']);
+//		obj.data("is_stage", "1");
+//		obj.attr("data-is_stage", "1");
+//		obj.find(".view_mode .character_profile_original_icon").addClass("hidden");
+//		obj.find(".view_mode .character_profile_override_icon").removeClass("hidden");
+//		obj.find(".view_mode .character_profile_delete_icon").removeClass("disabled");
+//		obj.find(".view_mode .character_profile_delete_icon").addClass("clickable");
+//
+//		// 表示モード部分に値をセット
+//		obj.find(".view_mode .character_profile_q").text(result.return_value['question_title']);
+//		obj.find(".view_mode .character_profile_a.profile_stage").html(strToText(result.return_value['answer']));
+//		obj.find(".view_mode .character_profile_a.profile_base").addClass("hidden");
+//		obj.find(".view_mode .character_profile_a.profile_stage").removeClass("hidden");
+//
+//		// 編集モード部分に値をセット
+//		obj.find(".edit_mode .character_profile_q.set_mode > span").text(result.return_value['question_title']);
+//		obj.find(".edit_mode .character_profile_q.set_mode").removeClass("hidden");
+//		obj.find(".edit_mode .character_profile_q.add_mode").remove();
+//
+//		// 表示モードに切り替え
+//		obj.find(".edit_mode").addClass("hidden");
+//		obj.find(".view_mode").removeClass("hidden");
+//
+//		// 入力フォームから、今回登録した項目を削除する
+//		$("#character_profile_stage .li-character_profile.template-for-copy .select2 option[value='" + q + "']").remove();
+//
+//		// 次の入力フォームを増やす
+//		if (is_form_update != 1){
+//			copyCharacterProfileForm("#character_profile_stage .li-character_profile.template-for-copy");
+//		}
 
 		return true;
 	});
@@ -343,10 +387,10 @@ function addCharacterProfileEpisode(q, a, character_id){
 
 		// 正常な場合
 		var obj_character_selector = "#set_forms-override .character_block[data-id='" + character_id + "']";
+console.log($(obj_character_selector));
 		if ($(obj_character_selector).length != 1){
 			return false;
 		}
-
 		var is_form_update = 0;
 		if ($(obj_character_selector + " .li-character_profile[data-q='" + q + "']").length == 1){
 			var obj = $(obj_character_selector + " .li-character_profile[data-q='" + q + "']");

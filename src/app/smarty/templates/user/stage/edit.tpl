@@ -269,48 +269,7 @@
 
           <div class="loading-complete">
             <ul class="nav nav-stacked ul-character_profile character_profile_stage" id="character_profile_stage">
-            {* コピー用 *}
-              <li class="li-character_profile template-for-copy">
-                <a>
-                {* 表示モード *}
-                  <span class="view_mode hidden">
-                    <div class="character_profile_button_area pull-right">
-                      <i class="fa fa-fw fa-pencil-square-o clickable character_profile_edit_icon" aria-hidden="true"></i>
-                      <i class="fa fa-fw fa-trash-o disabled character_profile_delete_icon" aria-hidden="true"></i>
-                    </div>
-                    <div class="pull-left">
-                      <i class="fa fa-fw fa-sticky-note clickable character_profile_override_icon" aria-hidden="true"></i>
-                      <i class="fa fa-fw fa-sticky-note-o character_profile_original_icon" aria-hidden="true"></i>
-                    </div>
-                    <div class="character_profile_q"></div>
-                    <div class="character_profile_a profile_base not_override hidden"><small>（基本プロフィールでは設定されていない項目です）</small></div>
-                    <div class="character_profile_a profile_stage override hidden"></div>
-                  </span>
-                {* 編集モード *}
-                  <span class="edit_mode">
-                    <div class="character_profile_button_area pull-right">
-                      <i class="fa fa-fw fa-floppy-o clickable character_profile_save_icon" aria-hidden="true"></i>
-                      <i class="fa fa-fw fa-times clickable character_profile_clear_icon" aria-hidden="true"></i>
-                    </div>
-                    <div class="pull-left">
-                      <i class="fa fa-fw fa-sticky-note character_profile_override_icon" aria-hidden="true"></i>
-                    </div>
-                    <div class="character_profile_q add_mode">
-                      <div>項目を新規追加</div>
-                      <select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true">
-                      {foreach from=$config.character_profile_q key=k item=v_q}
-                        <option value="{$v_q.value}">{$v_q.title}</option>
-                      {/foreach}
-                      </select>
-                    </div>
-                    <div class="character_profile_q set_mode hidden"><span></span></div>
-                    <div class="character_profile_a">
-                      <textarea class="form-control" rows="3"></textarea>
-                    </div>
-                  </span>
-                </a>
-              </li>
-
+            {include file='common/template-li-profile.tpl'}
             </ul>
             <div class="text-align-right">
               <a href="#" data-toggle="modal" data-target="#modal-request" onclick="setRequestCategory('character_profile');">

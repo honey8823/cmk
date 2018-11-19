@@ -276,7 +276,7 @@ function setOverrideStageModal(id){
 	$("#modal-overrideStage .loading-now").show();
 
 	// 不要な項目の削除
-	$("#modal-overrideStage .ul-character_profile > .li-character_profile:not(.template-for-copy)").remove();
+	$("#modal-overrideStage .li-character_profile:not(.template-for-copy)").remove();
 
 	var params = {
 			'character_id' : id,
@@ -290,9 +290,6 @@ function setOverrideStageModal(id){
 
 		// 正常な場合
 
-		// リンク先URL書き換え
-		$("#modal-overrideStage").find("a.character_id").attr("href", $("#modal-overrideStage").find("a.character_id").attr("href") + $.param({id: result.return_value.character_id}));
-
 		// キャラクターID書き換え
 		$("#character_id").val(result.return_value.character_id);
 
@@ -302,68 +299,11 @@ function setOverrideStageModal(id){
 		// 登録済みのプロフィール表示
 		$(result.return_value.character_profile_stage_list).each(function(i, e){
 			// テンプレートをコピー
-			var obj_base = $("#modal-overrideStage .ul-character_profile > .li-character_profile.template-for-copy")[0];
-			var obj = $(obj_base).clone().appendTo($(".ul-character_profile"));
+			var obj_base = $("#modal-overrideStage .li-character_profile.template-for-copy")[0];
+			var obj = $(obj_base).clone().appendTo($("#character_profile_stage"));
 
-			// データ書き換え
-
-			// 項目ID
-			$(obj).data("q", e.question);
-			$(obj).attr("data-q", e.question);
-
-			// 項目名
-			$(obj).find(".view_mode .character_profile_q").text(e.question_title);
-			$(obj).find(".edit_mode .character_profile_q.set_mode > span").text(e.question_title);
-			$(obj).find(".edit_mode .character_profile_q.set_mode").removeClass("hidden");
-			$(obj).find(".edit_mode .character_profile_q.add_mode").remove();
-
-			// 内容・フラグ類
-			if (e.answer !== undefined && e.answer != ""){
-				// 基本プロフィールが存在する場合
-
-				$(obj).data("is_base", "1");
-				$(obj).attr("data-is_base", "1");
-
-				$(obj).find(".view_mode .character_profile_a.profile_base").html(strToText(e.answer));
-			}
-			if (e.answer_stage !== undefined && e.answer_stage != ""){
-				// ステージプロフィールが存在する場合
-
-				$(obj).data("is_stage", "1");
-				$(obj).attr("data-is_stage", "1");
-
-				$(obj).find(".view_mode .character_profile_a.profile_stage").html(strToText(e.answer_stage));
-				$(obj).find(".edit_mode .character_profile_a textarea").val(e.answer_stage);
-
-				$(obj).find(".view_mode .character_profile_a.profile_base").addClass("hidden");
-				$(obj).find(".view_mode .character_profile_a.profile_stage").removeClass("hidden");
-
-				$(obj).find(".view_mode .character_profile_original_icon").addClass("hidden");
-				$(obj).find(".view_mode .character_profile_override_icon").removeClass("hidden");
-				$(obj).find(".view_mode .character_profile_delete_icon").removeClass("disabled");
-				$(obj).find(".view_mode .character_profile_delete_icon").addClass("clickable");
-			}
-			else{
-				// ステージプロフィールが存在しない場合
-
-				$(obj).find(".view_mode .character_profile_a.profile_base").removeClass("hidden");
-				$(obj).find(".view_mode .character_profile_a.profile_stage").addClass("hidden");
-
-				$(obj).find(".character_profile_override_icon").addClass("hidden");
-				$(obj).find(".character_profile_original_icon").removeClass("hidden");
-			}
-
-			// 表示モードに切り替え
-			$(obj).find(".edit_mode").addClass("hidden");
-			$(obj).find(".view_mode").removeClass("hidden");
-
-			// 表示する
-			$(obj).removeClass("template-for-copy");
-
-			// セレクトボックスから削除
-			$("#modal-overrideStage .character_profile_q select > option[value='" + e.question + "']").remove();
+			drawCharacterProfile($(obj), false, e);
 		});
-
 		// 次の入力フォームを増やす
 		copyCharacterProfileForm("#character_profile_stage .li-character_profile.template-for-copy");
 
