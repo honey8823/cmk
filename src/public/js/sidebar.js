@@ -10,7 +10,6 @@ $(document).on("click", ".sidebar-toggle", function(){
  */
 $(document).on("keyup", "#modal-login input", function(e){
 	if (e.keyCode == 13){
-		console.log($("#modal-login .btn-login"));
 		$("#modal-login .btn-login").trigger("click");
 	}
 });

@@ -441,7 +441,7 @@ function delCharacterProfileEpisode(q, character_id){
 		var obj = $("#set_forms-override .character_block[data-id='" + character_id + "'] .li-character_profile[data-q='" + q + "']");
 
 		// オーバーライド元のプロフィールが存在する場合は切り替え
-		if (obj.find(".view_mode .character_profile_a.pre_current").length == 1){
+		if (obj.find(".view_mode .character_profile_a.pre_current").length >= 1){
 
 			// 編集用テキストエリアをクリア
 			obj.find(".edit_mode .character_profile_a textarea").val("");

@@ -110,8 +110,10 @@ const config = array(
 		array('value' =>  409, 'title' => "飲酒"),
 		array('value' =>  410, 'title' => "煙草"),
 		array('value' =>  411, 'title' => "人あたりのよさ"),
+		array('value' =>  412, 'title' => "苦手なもの"),
 
 		array('value' =>  431, 'title' => "戦い方"),
+		array('value' =>  432, 'title' => "武器"),
 
 		array('value' =>  451, 'title' => "目的・目標"),
 		array('value' =>  452, 'title' => "戦う理由"),

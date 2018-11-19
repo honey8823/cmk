@@ -123,7 +123,7 @@
                           </div>
                           <div class="character_profile_a profile_episode override hidden"></div>
                           <div>
-                            <div class="character_profile_a profile_prev_episode not_override profile_indent_2 hidden template-for-copy"></div>
+                            <div class="character_profile_a profile_next_episode not_override profile_indent_2 hidden template-for-copy"></div>
                           </div>
                         </span>
                       {* 編集モード *}

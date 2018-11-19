@@ -382,7 +382,6 @@ function initSetEpisodeModal(){
 
 	// オーバーライドの中身をクリア
 	$("#set_forms-override ul.ul-character_profile li:not(.template-for-copy)").empty();
-	console.log("clear");
 }
 
 /*
@@ -509,27 +508,40 @@ function setEpisodeModalOverride(id){
 					$(obj).find(".view_mode .character_profile_a.profile_stage").addClass("current");
 					$(obj).find(".view_mode .character_profile_a.profile_stage").removeClass("hidden");
 				}
-//				$(e_episode.answer_next_episode_list).each(function(i_next, e_next){
-//					// 未来のエピソードプロフィールが存在する場合
-//					if (e_next.answer != null && e_next.answer != ""){
-//						// todo::未来用の枠をコピーして埋める
-//
-//						$(obj).find(".view_mode .character_profile_a.profile_base").addClass("hidden");
-//						$(obj).find(".view_mode .character_profile_a.profile_stage").addClass("hidden");
-//						// todo::未来のエピソード部分をすべて非表示　addClass("hidden");
-//					}
-//				});
-//				$(e_episode.answer_prev_episode_list).each(function(i_prev, e_prev){
-//					// 過去のエピソードプロフィールが存在する場合
-//					if (e_prev.answer != null && e_prev.answer != ""){
-//						// todo::過去用の枠をコピーして埋める
-//
-//						$(obj).find(".view_mode .character_profile_a").addClass("hidden");
-//						$(obj).find(".view_mode .character_profile_stage_a").addClass("hidden");
-//						// todo::過去のエピソード部分を一旦すべて非表示　addClass("hidden");
-//						// todo::今回のエピソードを表示　removeClass("hidden");
-//					}
-//				});
+				$(e_episode.answer_next_episode_list).each(function(i_next, e_next){
+					// 未来のエピソードプロフィールが存在する場合
+					if (e_next.answer != null && e_next.answer != ""){
+						is_override = true;
+						var obj_next_base = $(obj).find(".view_mode .character_profile_a.profile_next_episode.template-for-copy")[0];
+						var obj_next = $(obj_next_base).clone().insertAfter(obj_next_base);
+
+						$(obj_next).text(e_next.answer);
+						$(obj_next).removeClass("template-for-copy");
+					}
+				});
+				$(e_episode.answer_prev_episode_list).each(function(i_prev, e_prev){
+					// 過去のエピソードプロフィールが存在する場合
+					if (e_prev.answer != null && e_prev.answer != ""){
+						is_override = true;
+						var obj_prev_base = $(obj).find(".view_mode .character_profile_a.profile_prev_episode.template-for-copy")[0];
+						var obj_prev = $(obj_prev_base).clone().insertAfter(obj_prev_base);
+
+						$(obj_prev).text(e_prev.answer);
+						$(obj_prev).removeClass("template-for-copy");
+
+						$(obj).find(".view_mode .character_profile_a.profile_base").addClass("hidden");
+						$(obj).find(".view_mode .character_profile_a.profile_base").removeClass("pre_current");
+						$(obj).find(".view_mode .character_profile_a.profile_stage").addClass("hidden");
+						$(obj).find(".view_mode .character_profile_a.profile_stage").removeClass("pre_current");
+						$(obj).find(".view_mode .character_profile_a.profile_stage").removeClass("current");
+						$(obj).find(".view_mode .character_profile_a.profile_prev_episode").addClass("hidden");
+						$(obj).find(".view_mode .character_profile_a.profile_prev_episode").removeClass("pre_current");
+
+						$(obj_prev).addClass("pre_current");
+						$(obj_prev).addClass("current");
+						$(obj_prev).removeClass("hidden");
+					}
+				});
 				if (e_episode.answer_episode !== undefined && e_episode.answer_episode != null && e_episode.answer_episode != ""){
 					// エピソードプロフィールが存在する場合
 					is_override = true;
@@ -544,6 +556,8 @@ function setEpisodeModalOverride(id){
 					$(obj).find(".view_mode .character_profile_a.profile_base").removeClass("pre_current");
 					$(obj).find(".view_mode .character_profile_a.profile_stage").removeClass("current");
 					$(obj).find(".view_mode .character_profile_a.profile_stage").addClass("hidden");
+					$(obj).find(".view_mode .character_profile_a.profile_prev_episode").removeClass("current");
+					$(obj).find(".view_mode .character_profile_a.profile_prev_episode").addClass("hidden");
 					$(obj).find(".view_mode .character_profile_a.profile_episode").removeClass("hidden");
 				}
 
