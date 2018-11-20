@@ -1262,7 +1262,7 @@ class CharacterController extends Common
 				$return_list['character_list'][$v['character_id']]['profile_episode_list'][$v['question']] = array(
 					'question'                 => $v['question'],
 					'question_title'           => $q_list[$v['question']]['title'],
-					'answer'                   => $v['answer'],
+					'answer_base'              => $v['answer'],
 					'answer_stage'             => null,
 					'answer_episode'           => null,
 					'answer_prev_episode_list' => $prev_episode_list,
@@ -1294,7 +1294,7 @@ class CharacterController extends Common
 					$return_list['character_list'][$v['character_id']]['profile_episode_list'][$v['question']] = array(
 						'question'                 => $v['question'],
 						'question_title'           => $q_list[$v['question']]['title'],
-						'answer'                   => null,
+						'answer_base'              => null,
 						'answer_stage'             => $v['answer'],
 						'answer_episode'           => null,
 						'answer_prev_episode_list' => $prev_episode_list,
@@ -1335,7 +1335,7 @@ class CharacterController extends Common
 					$return_list['character_list'][$v['character_id']]['profile_episode_list'][$v['question']] = array(
 						'question'                 => $v['question'],
 						'question_title'           => $q_list[$v['question']]['title'],
-						'answer'                   => null,
+						'answer_base'              => null,
 						'answer_stage'             => null,
 						'answer_episode'           => null,
 						'answer_prev_episode_list' => $prev_episode_list,
@@ -1344,7 +1344,7 @@ class CharacterController extends Common
 				}
 				if ($v['episode_id'] == $episode_id)
 				{
-					$return_list['character_list'][$v['character_id']]['profile_episode_list'][$v['question']]['answer_episode'] = $v['answer'];
+					$return_list['character_list'][$v['character_id']]['profile_episode_list'][$v['question']]['answer'] = $v['answer'];
 				}
 				elseif (isset($prev_episode_list[$v['episode_id']]))
 				{
@@ -1356,11 +1356,26 @@ class CharacterController extends Common
 				}
 			}
 
-			// キーを削除
+			// 前後のエピソードが空の場合枠ごと削除
+			// 配列のキーを削除
 			foreach ($return_list['character_list'] as $k_character => $v_character)
 			{
 				foreach ($v_character['profile_episode_list'] as $k_question => $v_question)
 				{
+					foreach ($return_list['character_list'][$k_character]['profile_episode_list'][$k_question]['answer_prev_episode_list'] as $k_prev => $v_prev)
+					{
+						if ($v_prev['answer'] == "")
+						{
+							unset($return_list['character_list'][$k_character]['profile_episode_list'][$k_question]['answer_prev_episode_list'][$k_prev]);
+						}
+					}
+					foreach ($return_list['character_list'][$k_character]['profile_episode_list'][$k_question]['answer_next_episode_list'] as $k_next => $v_next)
+					{
+						if ($v_next['answer'] == "")
+						{
+							unset($return_list['character_list'][$k_character]['profile_episode_list'][$k_question]['answer_next_episode_list'][$k_next]);
+						}
+					}
 					$return_list['character_list'][$k_character]['profile_episode_list'][$k_question]['answer_prev_episode_list'] = array_values($return_list['character_list'][$k_character]['profile_episode_list'][$k_question]['answer_prev_episode_list']);
 					$return_list['character_list'][$k_character]['profile_episode_list'][$k_question]['answer_next_episode_list'] = array_values($return_list['character_list'][$k_character]['profile_episode_list'][$k_question]['answer_next_episode_list']);
 				}

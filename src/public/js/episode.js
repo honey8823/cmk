@@ -468,117 +468,14 @@ function setEpisodeModalOverride(id){
 
 		// 正常な場合
 		$(result.return_value.character_list).each(function(i_character, e_character){
+			// 折り畳みを閉じる
+			$("#set_forms-override .character_block[data-id=" + e_character.id + "] .ul-character_profile").addClass("hidden");
+			$("#set_forms-override .character_block[data-id=" + e_character.id + "] .folder-close-icon").removeClass("hidden");
+			$("#set_forms-override .character_block[data-id=" + e_character.id + "] .folder-open-icon").addClass("hidden");
+
 			$(e_character.profile_episode_list).each(function(i_episode, e_episode){
-
-				// テンプレートをコピー
-				var obj_base = $("#set_forms-override .character_block[data-id=" + e_character.id + "] .ul-character_profile > .li-character_profile.template-for-copy")[0];
-				var obj = $(obj_base).clone().appendTo($("#set_forms-override .character_block[data-id=" + e_character.id + "] .ul-character_profile"));
-
-				// データ書き換え
-
-				// 項目ID
-				$(obj).data("q", e_episode.question);
-				$(obj).attr("data-q", e_episode.question);
-
-				// 項目名
-				$(obj).find(".view_mode .character_profile_q").text(e_episode.question_title);
-				$(obj).find(".edit_mode .character_profile_q.set_mode > span").text(e_episode.question_title);
-				$(obj).find(".edit_mode .character_profile_q.set_mode").removeClass("hidden");
-				$(obj).find(".edit_mode .character_profile_q.add_mode").remove();
-
-				// 内容・フラグ類・表示制御
-				var is_override = false;
-				if (e_episode.answer !== undefined && e_episode.answer != null && e_episode.answer != ""){
-					// 基本プロフィールが存在する場合
-
-					$(obj).find(".view_mode .character_profile_a.profile_base").html(strToText(e_episode.answer));
-
-					$(obj).find(".view_mode .character_profile_a.profile_base").removeClass("hidden");
-					$(obj).find(".view_mode .character_profile_a.profile_base").addClass("pre_current");
-				}
-				if (e_episode.answer_stage !== undefined && e_episode.answer_stage != null && e_episode.answer_stage != ""){
-					// ステージプロフィールが存在する場合
-					is_override = true;
-
-					$(obj).find(".view_mode .character_profile_a.profile_stage").html(strToText(e_episode.answer_stage));
-
-					$(obj).find(".view_mode .character_profile_a.profile_base").addClass("hidden");
-					$(obj).find(".view_mode .character_profile_a.profile_base").removeClass("pre_current");
-					$(obj).find(".view_mode .character_profile_a.profile_stage").addClass("pre_current");
-					$(obj).find(".view_mode .character_profile_a.profile_stage").addClass("current");
-					$(obj).find(".view_mode .character_profile_a.profile_stage").removeClass("hidden");
-				}
-				$(e_episode.answer_next_episode_list).each(function(i_next, e_next){
-					// 未来のエピソードプロフィールが存在する場合
-					if (e_next.answer != null && e_next.answer != ""){
-						is_override = true;
-						var obj_next_base = $(obj).find(".view_mode .character_profile_a.profile_next_episode.template-for-copy")[0];
-						var obj_next = $(obj_next_base).clone().insertAfter(obj_next_base);
-
-						$(obj_next).text(e_next.answer);
-						$(obj_next).removeClass("template-for-copy");
-					}
-				});
-				$(e_episode.answer_prev_episode_list).each(function(i_prev, e_prev){
-					// 過去のエピソードプロフィールが存在する場合
-					if (e_prev.answer != null && e_prev.answer != ""){
-						is_override = true;
-						var obj_prev_base = $(obj).find(".view_mode .character_profile_a.profile_prev_episode.template-for-copy")[0];
-						var obj_prev = $(obj_prev_base).clone().insertAfter(obj_prev_base);
-
-						$(obj_prev).text(e_prev.answer);
-						$(obj_prev).removeClass("template-for-copy");
-
-						$(obj).find(".view_mode .character_profile_a.profile_base").addClass("hidden");
-						$(obj).find(".view_mode .character_profile_a.profile_base").removeClass("pre_current");
-						$(obj).find(".view_mode .character_profile_a.profile_stage").addClass("hidden");
-						$(obj).find(".view_mode .character_profile_a.profile_stage").removeClass("pre_current");
-						$(obj).find(".view_mode .character_profile_a.profile_stage").removeClass("current");
-						$(obj).find(".view_mode .character_profile_a.profile_prev_episode").addClass("hidden");
-						$(obj).find(".view_mode .character_profile_a.profile_prev_episode").removeClass("pre_current");
-
-						$(obj_prev).addClass("pre_current");
-						$(obj_prev).addClass("current");
-						$(obj_prev).removeClass("hidden");
-					}
-				});
-				if (e_episode.answer_episode !== undefined && e_episode.answer_episode != null && e_episode.answer_episode != ""){
-					// エピソードプロフィールが存在する場合
-					is_override = true;
-
-					$(obj).find(".view_mode .character_profile_delete_icon").removeClass("disabled");
-					$(obj).find(".view_mode .character_profile_delete_icon").addClass("clickable");
-
-					$(obj).find(".view_mode .character_profile_a.profile_episode").html(strToText(e_episode.answer_episode));
-					$(obj).find(".edit_mode .character_profile_a textarea").val(e_episode.answer_episode);
-
-					$(obj).find(".view_mode .character_profile_a.profile_base").addClass("hidden");
-					$(obj).find(".view_mode .character_profile_a.profile_base").removeClass("pre_current");
-					$(obj).find(".view_mode .character_profile_a.profile_stage").removeClass("current");
-					$(obj).find(".view_mode .character_profile_a.profile_stage").addClass("hidden");
-					$(obj).find(".view_mode .character_profile_a.profile_prev_episode").removeClass("current");
-					$(obj).find(".view_mode .character_profile_a.profile_prev_episode").addClass("hidden");
-					$(obj).find(".view_mode .character_profile_a.profile_episode").removeClass("hidden");
-				}
-
-				if (is_override == true){
-					$(obj).find(".view_mode .character_profile_original_icon").addClass("hidden");
-					$(obj).find(".view_mode .character_profile_override_icon").removeClass("hidden");
-				}
-				else{
-					$(obj).find(".view_mode .character_profile_override_icon").addClass("hidden");
-					$(obj).find(".view_mode .character_profile_original_icon").removeClass("hidden");
-				}
-
-				// 表示モードに切り替え
-				$(obj).find(".edit_mode").addClass("hidden");
-				$(obj).find(".view_mode").removeClass("hidden");
-
-				// 表示する
-				$(obj).removeClass("template-for-copy");
-
-				// セレクトボックスから削除
-				$("#set_forms-override .character_profile_q select.character_" + e_character.id + " > option[value='" + e_episode.question + "']").remove();
+				// 登録済みのプロフィール表示
+				drawCharacterProfile($($("#set_forms-override .character_block[data-id=" + e_character.id + "] .ul-character_profile > .li-character_profile.template-for-copy")[0]), "new", "episode", e_episode);
 			});
 
 			// 次の入力フォームを増やす(copyCharacterProfileForm関数：character-profile.js内に定義)

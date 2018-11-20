@@ -298,14 +298,11 @@ function setOverrideStageModal(id){
 
 		// 登録済みのプロフィール表示
 		$(result.return_value.character_profile_stage_list).each(function(i, e){
-			// テンプレートをコピー
-			var obj_base = $("#modal-overrideStage .li-character_profile.template-for-copy")[0];
-			var obj = $(obj_base).clone().appendTo($("#character_profile_stage"));
-
-			drawCharacterProfile($(obj), false, e);
+			drawCharacterProfile($($("#modal-overrideStage .li-character_profile.template-for-copy")[0]), "new", "stage", e);
 		});
+
 		// 次の入力フォームを増やす
-		copyCharacterProfileForm("#character_profile_stage .li-character_profile.template-for-copy");
+		copyCharacterProfileForm("#modal-overrideStage .li-character_profile.template-for-copy");
 
 		// now loading 表示解除
 		$("#modal-overrideStage .loading-now").hide();

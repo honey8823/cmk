@@ -85,6 +85,8 @@ const config = array(
 		array('value' =>  306, 'title' => "声"),
 		array('value' =>  307, 'title' => "利き手"),
 		array('value' =>  308, 'title' => "体質"),
+		array('value' =>  309, 'title' => "病気"),
+		array('value' =>  310, 'title' => "怪我"),
 
 		array('value' =>  201, 'title' => "通称・ニックネーム"),
 		array('value' =>  202, 'title' => "称号・二つ名"),
@@ -99,6 +101,7 @@ const config = array(
 		array('value' =>  253, 'title' => "階級・地位・肩書き"),
 		array('value' =>  254, 'title' => "経歴"),
 
+		array('value' =>  400, 'title' => "性格"),
 		array('value' =>  401, 'title' => "趣味"),
 		array('value' =>  402, 'title' => "特技"),
 		array('value' =>  403, 'title' => "服装"),
@@ -111,6 +114,8 @@ const config = array(
 		array('value' =>  410, 'title' => "煙草"),
 		array('value' =>  411, 'title' => "人あたりのよさ"),
 		array('value' =>  412, 'title' => "苦手なもの"),
+		array('value' =>  413, 'title' => "トラウマ"),
+		array('value' =>  414, 'title' => "悩み"),
 
 		array('value' =>  431, 'title' => "戦い方"),
 		array('value' =>  432, 'title' => "武器"),
