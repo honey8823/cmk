@@ -93,13 +93,27 @@
                         {if $v_episode.free_text_full != ""}
                           <p class="timeline-free_text_full hidden">{$v_episode.free_text_full|escape:'html'|nl2br}</p>
                           <div style="padding: 0.7em;">
-                            <a class="timeline-free_text_show clickable">&gt;&gt;クリックで全文を表示</a>
-                            <a class="timeline-free_text_hide clickable hidden">&gt;&gt;クリックで折り畳む</a>
+                            <a class="timeline-free_text_show clickable"><i class="fa fa-fw fa-caret-right" aria-hidden="true"></i>クリックで全文を表示</a>
+                            <a class="timeline-free_text_hide clickable hidden"><i class="fa fa-fw fa-caret-up" aria-hidden="true"></i>クリックで折り畳む</a>
                           </div>
                         {/if}
                         {if $v_episode.url != ""}
                           <p class="timeline-url"><a href="{$v_episode.url}" target="_blank">{$v_episode.url_view|escape:'html'}</a></p>
                         {/if}
+                        </small>
+                      </div>
+                    {/if}
+                    {if $v_episode.type_key == "override" && is_array($v_episode.character_id_list) && count($v_episode.character_id_list) > 0}
+                      <div class="timeline-body">
+                        <small>
+                        {foreach from=$stage.character_list key=k item=v_character}
+                        {if in_array($v_character.id, $v_episode.character_id_list)}
+                          <p><a href="/public/character/override.php?user={$stage.user_login_id}&id={$v_character.id}&s={$stage.id}&e={$v_episode.id}">
+                            <i class="fa fa-fw fa-user" aria-hidden="true"></i>
+                            この時点の「{$v_character.name|escape:'html'}」のプロフィール
+                          </a></p>
+                        {/if}
+                        {/foreach}
                         </small>
                       </div>
                     {/if}
@@ -115,7 +129,10 @@
                   <ul class="nav nav-stacked ul-character">
                   {foreach from=$stage.character_list key=k item=v_character}
                     <li class="character_list" data-id="{$v_character.id}">
-                      <a href="/public/character/detail.php?user={$stage.user_login_id}&id={$v_character.id}" class="character_id"><span class="name"><span class="character_name">{$v_character.name|escape:'html'}</span></span></a>
+                      {* <a href="/public/character/detail.php?user={$stage.user_login_id}&id={$v_character.id}" class="character_id"> *}
+                      <a href="/public/character/override.php?user={$stage.user_login_id}&id={$v_character.id}&s={$stage.id}" class="character_id">
+                        <span class="name"><span class="character_name">{$v_character.name|escape:'html'}</span></span>
+                      </a>
                     </li>
                   {/foreach}
                   </ul>

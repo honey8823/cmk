@@ -1,15 +1,16 @@
 // 「続きを読む」の切り替え
 $(".timeline-free_text_show").on("click", function(){
-	$(".timeline-free_text").addClass("hidden");
-	$(".timeline-free_text_show").addClass("hidden");
-	$(".timeline-free_text_full").removeClass("hidden");
-	$(".timeline-free_text_hide").removeClass("hidden");
+	$(this).parents("li").find
+	$(this).parents("li").find(".timeline-free_text").addClass("hidden");
+	$(this).parents("li").find(".timeline-free_text_show").addClass("hidden");
+	$(this).parents("li").find(".timeline-free_text_full").removeClass("hidden");
+	$(this).parents("li").find(".timeline-free_text_hide").removeClass("hidden");
 });
 $(".timeline-free_text_hide").on("click", function(){
-	$(".timeline-free_text_full").addClass("hidden");
-	$(".timeline-free_text_hide").addClass("hidden");
-	$(".timeline-free_text").removeClass("hidden");
-	$(".timeline-free_text_show").removeClass("hidden");
+	$(this).parents("li").find(".timeline-free_text_full").addClass("hidden");
+	$(this).parents("li").find(".timeline-free_text_hide").addClass("hidden");
+	$(this).parents("li").find(".timeline-free_text").removeClass("hidden");
+	$(this).parents("li").find(".timeline-free_text_show").removeClass("hidden");
 });
 
 /*

@@ -55,7 +55,12 @@ class PublicController extends Common
 			$sql .= "          ,`episode`.`is_r18` ";
 			$sql .= "          ,`episode`.`create_stamp` ";
 			$sql .= "          ,`episode`.`update_stamp` ";
+			$sql .= "          ,`character_episode`.`character_id_list` ";
 			$sql .= "FROM       `episode` ";
+			$sql .= "LEFT JOIN  ( SELECT   `character_profile_episode`.`episode_id`, GROUP_CONCAT(`character_profile_episode`.`character_id`) AS `character_id_list` ";
+			$sql .= "             FROM     `character_profile_episode` ";
+			$sql .= "             GROUP BY `episode_id` ";
+			$sql .= "           ) AS `character_episode` ON `episode`.`id` = `character_episode`.`episode_id` ";
 			$sql .= "WHERE      `episode`.`stage_id` = ? ";
 			$sql .= "AND        `episode`.`is_delete` <> 1 ";
 			$sql .= "AND        `episode`.`is_private` <> 1 ";
@@ -87,6 +92,9 @@ class PublicController extends Common
 					// URL省略整形
 					$episode_list[$k]['url_view'] = $this->omitUrl($v['url']);
 					$episode_list[$k]['type_key'] = $category_list[$v['type']]['key'];
+
+					// オーバーライドされているキャラクター
+					$episode_list[$k]['character_id_list'] = array_unique(explode(",", $v['character_id_list']));
 				}
 				$stage_list[0]['episode_list'] = $episode_list;
 			}
@@ -406,6 +414,7 @@ class PublicController extends Common
 				$sql .= "FROM     `episode` ";
 				$sql .= "WHERE    `episode`.`stage_id` = ? ";
 				$sql .= "AND      `episode`.`is_delete` <> 1 ";
+				$sql .= "AND      `episode`.`is_private` <> 1 ";
 				$sql .= "ORDER BY `episode`.`sort` = 0 ASC ";
 				$sql .= "        ,`episode`.`sort` ASC ";
 				$sql .= "        ,`episode`.`id` ASC ";
