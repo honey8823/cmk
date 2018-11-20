@@ -26,7 +26,7 @@
     <!-- Main content -->
     <section class="content container-fluid">
       <div class="callout callout-info">
-        <h4>なにこれ</h4>
+        <h4>「うちのこタイムライン」とは？</h4>
         <p><small>
           キャラメイクゲーやTRPGで作ったキャラクターやストーリーをまとめるツールです。（β版）<br>
           一次創作二次創作問わず、ご自由にご利用ください。<br>
@@ -37,14 +37,8 @@
         </small></p>
       </div>
 
-      <a href="/tutorial.php">
-        <div class="callout callout-success">
-          <h4><i class="fa fa-fw fa-arrow-right" aria-hidden="true"></i>はじめての方はこちら＜チュートリアル＞</h4>
-        </div>
-      </a>
-
       <div class="callout callout-info">
-        <h4>お知らせ</h4>
+        <h4>最新のお知らせ</h4>
       {foreach from=$information_list key=k item=v_inforamtion}
         <p>
           {$v_inforamtion.create_stamp|date_format:"%Y-%m-%d"}<br>
@@ -54,6 +48,13 @@
         </p>
       {/foreach}
       </div>
+
+      <a href="/tutorial.php">
+        <div class="callout callout-success">
+          <h4><i class="fa fa-fw fa-arrow-right" aria-hidden="true"></i>チュートリアル</h4>
+          <p>はじめての方、何をしていいかわからない方はこちらへどうぞ。</p>
+        </div>
+      </a>
 
       <div>
         <div class="form-group">

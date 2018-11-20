@@ -28,7 +28,8 @@
 
       <a href="/tutorial.php">
       <div class="callout callout-success">
-        <h4><i class="fa fa-fw fa-arrow-right" aria-hidden="true"></i>はじめての方はこちら＜チュートリアル＞</h4>
+        <h4><i class="fa fa-fw fa-arrow-right" aria-hidden="true"></i>チュートリアル</h4>
+        <p>はじめての方、何をしていいかわからない方はこちらへどうぞ。</p>
       </div>
       </a>
 

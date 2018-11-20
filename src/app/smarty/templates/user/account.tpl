@@ -34,7 +34,7 @@
 
           <div class="private-url">
             <small>
-              {$user.name|escape:'html'}さんの公開ページは以下のURLです。<br>
+              {if $user.name == ""}-&nbsp;{else}{$user.name|escape:'html'}{/if}さんの公開ページは以下のURLです。<br>
               <a href="/public/user/detail.php?u={$user.login_id}">http://{$smarty.server.SERVER_NAME}/public/user/detail.php?u={$user.login_id}</a>
             </small>
           </div>
@@ -91,23 +91,28 @@
             </div>
             <div class="box-body" id="area-setUserAccount">
               <div class="form-group">
-                <label>ログインID（公開 / 必須）</label>
-                <input type="text" name="login_id" class="form-control form-login_id" value="{$user.login_id}">
+                <label>ログインID</label>
+                <input type="text" name="login_id" class="form-control form-login_id" value="{$user.login_id}" placeholder="※必須">
               </div>
               <div class="form-group">
-                <label>メールアドレス（非公開）</label>
-                <span class="menu-tooltip">
+                <label>メールアドレス（他のユーザーには公開されません）</label>
+                <span class="hint-box-toggle">
                   <i class="fa fa-question-circle fa-fw" aria-hidden="true"></i>
-                  <span class="menu-tooltiptext">{$config.tooltip.mail_address}</span>
+                  <p class="hint-box hidden">メールアドレスを入力いただいた場合、ログイン情報をお忘れの場合などに対応が可能となります。<br>詳しくはヘルプをご覧ください。</p>
                 </span>
                 <input type="text" name="mail_address" class="form-control form-mail_address" value="{$user.mail_address}">
               </div>
               <div class="form-group">
+                <label>その他の設定</label>
                 <div class="checkbox">
                   <label>
                     <input type="checkbox" name="is_r18" class="form-is_r18"{if $user.is_r18 == "1"} checked{/if}>
                     R18設定のコンテンツ表示を許可する
                   </label>
+                  <span class="hint-box-toggle">
+                    <i class="fa fa-question-circle fa-fw" aria-hidden="true"></i>
+                    <p class="hint-box hidden">ここにチェックが入っている場合のみ、R18設定されたコンテンツが表示されます。<br>18歳未満の方はチェックされないようご協力をお願いいたします。</p>
+                  </span>
                 </div>
               </div>
             </div>

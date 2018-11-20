@@ -162,7 +162,14 @@
 
               <div class="tab-pane" id="tab-content-character">
                 <div class="box-body">
+                {if count($character_list) == 0}
+                  <p class="hint-box">
+                    キャラクターが登録されていません。<br>
+                    「キャラクター管理」から登録したキャラクターが選択できるようになります。
+                  </p>
+                {else}
                   <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#modal-upsertStageCharacter">このステージに属するキャラクターの割り当てを変更する</button>
+                {/if}
                 {if count($stage.character_list) > 1}
                   <button type="button" class="btn btn-block btn-primary sort_mode_off" onclick="readyStageCharacterSort(1);">並べ替えモードにする</button>
                   <button type="button" class="btn btn-block btn-warning sort_mode_on" onclick="readyStageCharacterSort(0);">並べ替えモードを終了</button>
@@ -187,6 +194,7 @@
                           </div>
                         </a>
                       </li>
+                    {if count($stage.character_list) > 0}
                     {foreach from=$stage.character_list key=k item=v_character}
                       <li class="character_list clickable foldable" data-id="{$v_character.id}">
                         <a>
@@ -201,6 +209,7 @@
                         </a>
                       </li>
                     {/foreach}
+                    {/if}
                     </ul>
                   </div>
                 </div>

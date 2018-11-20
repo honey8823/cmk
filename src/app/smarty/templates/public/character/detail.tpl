@@ -38,11 +38,18 @@
           <p class="hint-box">ログインするとお気に入り機能がご利用いただけます。</p>
         {/if}
           <div class="box">
-            <div class="box-body">
-              <div class="text-align-right">
+            <div class="box-header with-border">
+              <h3 class="box-title">基本情報</h3>
+              <div class="pull-right">
               {if $is_login == "1"}
                 <i class="fa fa-fw fa-heart-o is_favorite_icon clickable is_favorite_0 {if $is_favorite == "1"}hidden{/if}" aria-hidden="true" data-favorite_type_key="character" data-id="{$character.id}"></i>
                 <i class="fa fa-fw fa-heart is_favorite_icon clickable is_favorite_1 {if $is_favorite != "1"}hidden{/if}" aria-hidden="true" data-favorite_type_key="character" data-id="{$character.id}"></i>
+              {/if}
+              </div>
+            </div>
+            <div class="box-body">
+              <div class="text-align-right">
+              {if $is_login == "1"}
               {/if}
               </div>
               <div class="detail-tag">
@@ -51,11 +58,13 @@
               {/foreach}
               </div>
             </div>
-          {if $character.remarks != ""}
             <div class="box-body public-character-remarks">
-              {$character.remarks|escape:'html'|nl2br}
+              {if $character.remarks != ""}
+                {$character.remarks|escape:'html'|nl2br}
+              {else}
+                (説明文は登録されていません)
+              {/if}
             </div>
-          {/if}
             <div class="public-info-box text-align-right" style="padding: 1em;">
               <p>登録日：{strtotime($character.create_stamp)|date_format:"%Y-%m-%d %H:%M"}</p>
             </div>
@@ -71,6 +80,7 @@
             <div class="tab-content">
 
               <div class="tab-pane active" id="tab-content-profile">
+              {if isset($character.profile_list) && is_array($character.profile_list) && count($character.profile_list) > 0}
                 <ul class="nav nav-stacked ul-character_profile character_profile">
                 {foreach from=$character.profile_list key=k item=v_profile}
                   <li class="li-character_profile" data-q="{$v_profile.question}">
@@ -83,9 +93,13 @@
                   </li>
                 {/foreach}
                 </ul>
+              {else}
+                <p class="hint-box">まだ公開されているプロフィールがありません。</p>
+              {/if}
               </div>
 
               <div class="tab-pane" id="tab-content-timeline">
+              {if count($character.stage_list) > 0}
                 <ul class="timeline">
                 {foreach from=$character.stage_list key=k_stage item=v_stage}
                   <li class="time-label timeline-stage_name clickable" onclick="location.href='/public/stage/detail.php?user={$character.user_login_id}&id={$v_stage.id}';">
@@ -129,6 +143,9 @@
                 {/if}
                 {/foreach}
                 </ul>
+              {else}
+                <p class="hint-box">まだ公開されているエピソードがありません。</p>
+              {/if}
               </div>
 
             </div>

@@ -17,7 +17,7 @@
             <button type="button" class="forms-switch btn btn-block btn-lg btn-success btn-form_common active" data-target_forms_id="common">通常エピソード</button>
             <button type="button" class="forms-switch btn btn-block btn-xs btn-success btn-form_label" data-target_forms_id="label">ラベル</button>
           {if !isset($stage.character_list) || !is_array($stage.character_list) || count($stage.character_list) == 0}
-            <button type="button" class="btn btn-block btn-xs btn-success btn-form_override disabled" data-target_forms_id="override">キャラクターのオーバーライド</button>
+            {*<button type="button" class="btn btn-block btn-xs btn-success btn-form_override disabled" data-target_forms_id="override">キャラクターのオーバーライド</button>*}
           {else}
             <button type="button" class="forms-switch btn btn-block btn-xs btn-success btn-form_override" data-target_forms_id="override">キャラクターのオーバーライド</button>
           {/if}
@@ -34,18 +34,10 @@
             </div>
             <div class="form-group">
               <label>外部サイトURL</label>
-              <span class="menu-tooltip">
-                <i class="fa fa-question-circle fa-fw" aria-hidden="true"></i>
-                <span class="menu-tooltiptext">{$config.tooltip.episode_url}</span>
-              </span>
               <input type="text" name="url" class="form-control form-url">
             </div>
             <div class="form-group">
               <label>フリーテキスト</label>
-              <span class="menu-tooltip">
-                <i class="fa fa-question-circle fa-fw" aria-hidden="true"></i>
-                <span class="menu-tooltiptext">{$config.tooltip.episode_free_text}</span>
-              </span>
               <button type="button" class="btn btn-default btn-xs pull-right insert-read-more">「続きを読む」の挿入</button>
               <textarea class="form-control form-free_text" rows="3" name="form-control free_text"></textarea>
             </div>
@@ -55,17 +47,17 @@
                   <input type="checkbox" name="is_r18" class="form-is_r18">
                   R18
                 </label>
-                <span class="menu-tooltip">
+                <span class="hint-box-toggle">
                   <i class="fa fa-question-circle fa-fw" aria-hidden="true"></i>
-                  <span class="menu-tooltiptext">{$config.tooltip.episode_is_r18}</span>
+                  <p class="hint-box hidden">内容がアダルトコンテンツになる場合はチェックを入れてください。<br>ご協力をお願いいたします。</p>
                 </span>
               </div>
             </div>
             <div class="form-group">
               <label>このエピソードに関連するキャラクター</label>
-              <span class="menu-tooltip">
+              <span class="hint-box-toggle">
                 <i class="fa fa-question-circle fa-fw" aria-hidden="true"></i>
-                <span class="menu-tooltiptext">{$config.tooltip.episode_character}</span>
+                <p class="hint-box hidden">選択すると、そのキャラクターのタイムラインにも表示されるようになります。</p>
               </span>
               <div>
               {if !isset($stage.character_list) || !is_array($stage.character_list) || count($stage.character_list) == 0}

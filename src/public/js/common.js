@@ -23,6 +23,10 @@ $(document).on("click", "li.foldable", function(){
 	}
 });
 
+$(document).on("click", ".hint-box-toggle", function(){
+	$(this).find(".hint-box").toggleClass("hidden");
+});
+
 /*
  * メッセージのアラート
  */

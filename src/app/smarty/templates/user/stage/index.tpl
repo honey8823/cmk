@@ -45,11 +45,11 @@
             {/if}
             </div>
           </div>
+        {if count($stage_list) > 0}
           <div id="list-stage" class="box">
             <div class="box-body no-padding">
               <ul class="nav nav-stacked ul-stage stage-sort-area">
               {foreach from=$stage_list key=k item=v_stage}
-
                 <li class="stage_list" data-id="{$v_stage.id}">
                   <a href="/user/stage/edit.php?id={$v_stage.id}" class="stage_id">
                     <span class="is_private"><span class="is_private_icon is_private_{$v_stage.is_private}"><i class="fa {if $v_stage.is_private == 1}fa-lock{else}fa-unlock{/if} fa-fw"></i></span></span>
@@ -63,11 +63,11 @@
                     </span>
                   </a>
                 </li>
-
               {/foreach}
               </ul>
             </div>
           </div>
+        {/if}
         </div>
       </div>
     </section>
@@ -91,9 +91,9 @@
           </div>
           <div class="form-group">
             <label>説明文</label>
-            <span class="menu-tooltip">
+            <span class="hint-box-toggle">
               <i class="fa fa-question-circle fa-fw" aria-hidden="true"></i>
-              <span class="menu-tooltiptext">{$config.tooltip.stage_remarks}</span>
+              <p class="hint-box hidden">このステージの簡単な説明です。具体的な内容は「エピソード」機能での追加をおすすめします。</p>
             </span>
             <textarea class="form-control form-remarks" rows="3" name="remarks"></textarea>
           </div>

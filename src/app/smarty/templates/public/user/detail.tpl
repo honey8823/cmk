@@ -36,35 +36,45 @@
           <p class="hint-box">ログインするとお気に入り機能がご利用いただけます。</p>
         {/if}
           <div class="box">
-            <div class="box-body">
+            <div class="box-body public-user-panel">
               <div class="text-align-right">
               {if $is_login == "1"}
                 <i class="fa fa-fw fa-heart-o is_favorite_icon clickable is_favorite_0 {if $is_favorite == "1"}hidden{/if}" aria-hidden="true" data-favorite_type_key="user" data-id="{$user.id}"></i>
                 <i class="fa fa-fw fa-heart is_favorite_icon clickable is_favorite_1 {if $is_favorite != "1"}hidden{/if}" aria-hidden="true" data-favorite_type_key="user" data-id="{$user.id}"></i>
               {/if}
               </div>
-              <div>
-              {foreach from=$genre_list key=k item=v_genre}
-                <span class="label tag-base tag-genre" value="{$v_genre.id}">{$v_genre.title}</span>
-              {/foreach}
+              <div class="col-md-2 text-align-center">
+                <img src="/img/icon_noimage.png" class="img-circle img-user" alt="User Image">
               </div>
-            {if $user.remarks != ""}
-              <div class="public-user-remarks">
-                {$user.remarks|escape:'html'|nl2br}
+              <div class="col-md-10">
+                <div>
+                  <h4>{if $user.name != ""}{$user.name|escape:'html'}{else}(ユーザー名未設定){/if}</h4>
+                </div>
+                <div>
+                {foreach from=$genre_list key=k item=v_genre}
+                  <span class="label tag-base tag-genre" value="{$v_genre.id}">{$v_genre.title}</span>
+                {/foreach}
+                </div>
+                <div class="public-user-remarks">
+                  {if $user.remarks != ""}{$user.remarks|escape:'html'|nl2br}{else}(コメント未設定){/if}
+                </div>
+                <div>
+                  <label>Twitter</label>
+                {if $user.twitter_id != ""}
+                  <span><a href="//twitter.com/{$user.twitter_id}" target="_blank">@{$user.twitter_id}</a></span>
+                {else}
+                  <span>-</span>
+                {/if}
+                </div>
+                <div>
+                  <label>Pixiv</label>
+                {if $user.pixiv_id != ""}
+                  <span><a href="//pixiv.me/{$user.pixiv_id}" target="_blank">@{$user.pixiv_id}</a></span>
+                {else}
+                  <span>-</span>
+                {/if}
+                </div>
               </div>
-            {/if}
-            {if $user.twitter_id != ""}
-              <div>
-                <label>Twitter</label>
-                <span><a href="//twitter.com/{$user.twitter_id}" target="_blank">@{$user.twitter_id}</a></span>
-              </div>
-            {/if}
-            {if $user.pixiv_id != ""}
-              <div>
-                <label>Pixiv</label>
-                <span><a href="//pixiv.me/{$user.pixiv_id}" target="_blank">@{$user.pixiv_id}</a></span>
-              </div>
-            {/if}
             </div>
           </div>
         </div>
@@ -77,6 +87,9 @@
             </ul>
             <div class="tab-content">
               <div class="tab-pane active" id="tab-content-stage">
+              {if count($stage_list) == 0}
+                <p class="hint-box">まだ公開されているステージがありません。</p>
+              {else}
                 <ul class="nav nav-stacked stage_list">
                 {foreach from=$stage_list key=k item=v_stage}
                   <li>
@@ -91,8 +104,12 @@
                   </li>
                 {/foreach}
                 </ul>
+              {/if}
               </div>
               <div class="tab-pane" id="tab-content-character">
+              {if count($stage_list) == 0}
+                <p class="hint-box">まだ公開されているキャラクターがいません。</p>
+              {else}
                 <ul class="nav nav-stacked character_list">
                 {foreach from=$character_list key=k item=v_character}
                   <li>
@@ -100,6 +117,7 @@
                   </li>
                 {/foreach}
                 </ul>
+              {/if}
               </div>
             </div>
           </div>

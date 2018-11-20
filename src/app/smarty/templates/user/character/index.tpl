@@ -41,11 +41,11 @@
             {/if}
             </div>
           </div>
+        {if count($character_list) > 0}
           <div id="list-character" class="box">
             <div class="box-body no-padding">
               <ul class="nav nav-stacked ul-character character-sort-area">
               {foreach from=$character_list key=k item=v_character}
-
                 <li class="character_list" data-id="{$v_character.id}">
                   <a href="/user/character/edit.php?id={$v_character.id}" class="character_id">
                     <span class="is_private"><span class="is_private_icon is_private_{$v_character.is_private}"><i class="fa {if $v_character.is_private == 1}fa-lock{else}fa-unlock{/if} fa-fw"></i></span></span>
@@ -59,11 +59,11 @@
                     </span>
                   </a>
                 </li>
-
               {/foreach}
               </ul>
             </div>
           </div>
+        {/if}
         </div>
       </div>
     </section>
@@ -79,25 +79,26 @@
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span></button>
           <h4 class="modal-title">キャラクター登録</h4>
-<!--
-          <small>詳細なプロフィールは登録後の編集となります。</small>
--->
         </div>
         <div class="modal-body">
           <div class="form-group">
             <label>キャラクター名</label>
-            <span class="menu-tooltip">
+            <span class="hint-box-toggle">
               <i class="fa fa-question-circle fa-fw" aria-hidden="true"></i>
-              <span class="menu-tooltiptext">{$config.tooltip.character_name}</span>
+              <p class="hint-box hidden">一覧などで表示します。普段の呼び名などでの登録をおすすめします。</p>
             </span>
             <input type="text" name="name" class="form-control form-name">
           </div>
           <div class="form-group">
             <label>属するステージ（複数選択可）</label>
             <div>
+            {if !isset($stage_list) || !is_array($stage_list) || count($stage_list) == 0}
+            <p class="hint-box">ステージ管理から「ステージ」を追加することで選択できるようになります。<br>のちほど選択することも可能なので、気が向いたらお試しください。</p>
+            {else}
             {foreach from=$stage_list key=k item=v_stage}
               <span class="badge stage stage-notselected stage-selectable clickable" value="{$v_stage.id}">{$v_stage.name}</span>
             {/foreach}
+            {/if}
             </div>
           </div>
         </div>

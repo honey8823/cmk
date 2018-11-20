@@ -38,26 +38,31 @@
           <p class="hint-box">ログインするとお気に入り機能がご利用いただけます。</p>
         {/if}
           <div class="box">
-            <div class="box-body">
-              <div class="text-align-right">
+            <div class="box-header with-border">
+              <h3 class="box-title">基本情報</h3>
+              <div class="pull-right">
               {if $is_login == "1"}
                 <i class="fa fa-fw fa-heart-o is_favorite_icon clickable is_favorite_0 {if $is_favorite == "1"}hidden{/if}" aria-hidden="true" data-favorite_type_key="stage" data-id="{$stage.id}"></i>
                 <i class="fa fa-fw fa-heart is_favorite_icon clickable is_favorite_1 {if $is_favorite != "1"}hidden{/if}" aria-hidden="true" data-favorite_type_key="stage" data-id="{$stage.id}"></i>
               {/if}
               </div>
+            </div>
+          {if isset($stage.tag_list) && is_array($stage.tag_list)}
+            <div class="box-body">
               <div class="detail-tag">
-                {if isset($stage.tag_list) && is_array($stage.tag_list)}
-                {foreach from=$stage.tag_list key=k item=v_tag}
-                  <span class="label tag-base tag-{$v_tag.category_key}" value="{$v_tag.id}">{$v_tag.name|escape:'html'}</span>
-                {/foreach}
-                {/if}
+              {foreach from=$stage.tag_list key=k item=v_tag}
+                <span class="label tag-base tag-{$v_tag.category_key}" value="{$v_tag.id}">{$v_tag.name|escape:'html'}</span>
+              {/foreach}
               </div>
             </div>
-          {if $stage.remarks != ""}
-            <div class="box-body public-stage-remarks">
-              {$stage.remarks|escape:'html'|nl2br}
-            </div>
           {/if}
+            <div class="box-body public-stage-remarks">
+            {if $stage.remarks != ""}
+              {$stage.remarks|escape:'html'|nl2br}
+            {else}
+              (説明文は登録されていません)
+            {/if}
+            </div>
             <div class="public-info-box text-align-right" style="padding: 1em;">
               <p>登録日：{strtotime($stage.create_stamp)|date_format:"%Y-%m-%d %H:%M"}</p>
             </div>
@@ -73,6 +78,9 @@
             <div class="tab-content">
 
               <div class="tab-pane active" id="tab-content-timeline">
+              {if count($stage.episode_list) == 0}
+                <p class="hint-box">まだ公開されているエピソードがありません。</p>
+              {else}
                 <ul class="timeline timeline-stage">
                 {foreach from=$stage.episode_list key=k item=v_episode}
                 {if $v_episode.type_key == "label"}
@@ -122,10 +130,14 @@
                 {/if}
                 {/foreach}
                 </ul>
+              {/if}
               </div>
 
               <div class="tab-pane" id="tab-content-character">
                 <div class="box-body no-padding">
+                {if count($stage.character_list) == 0}
+                  <p class="hint-box">まだ公開されているキャラクターがいません。</p>
+                {else}
                   <ul class="nav nav-stacked ul-character">
                   {foreach from=$stage.character_list key=k item=v_character}
                     <li class="character_list" data-id="{$v_character.id}">
@@ -136,6 +148,7 @@
                     </li>
                   {/foreach}
                   </ul>
+                {/if}
                 </div>
               </div>
             </div>
