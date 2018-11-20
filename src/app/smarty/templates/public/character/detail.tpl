@@ -65,14 +65,27 @@
         <div class="col-md-12">
           <div class="nav-tabs-custom">
             <ul class="nav nav-tabs">
-              <li class="active"><a href="#tab-content-timeline" data-toggle="tab" aria-expanded="true">タイムライン</a></li>
-{***
-              <li class=""><a href="#tab-content-character" data-toggle="tab" aria-expanded="false">ステージ</a></li>
-***}
+              <li class="active"><a href="#tab-content-profile" data-toggle="tab" aria-expanded="false">プロフィール</a></li>
+              <li class=""><a href="#tab-content-timeline" data-toggle="tab" aria-expanded="true">タイムライン</a></li>
             </ul>
             <div class="tab-content">
 
-              <div class="tab-pane active" id="tab-content-timeline">
+              <div class="tab-pane active" id="tab-content-profile">
+                <ul class="nav nav-stacked ul-character_profile character_profile">
+                {foreach from=$character.profile_list key=k item=v_profile}
+                  <li class="li-character_profile" data-q="{$v_profile.question}">
+                    <a>
+                      <span class="view_mode">
+                        <div class="character_profile_q">{$v_profile.question_title}</div>
+                        <div class="character_profile_a">{$v_profile.answer|escape:'html'|nl2br}</div>
+                      </span>
+                    </a>
+                  </li>
+                {/foreach}
+                </ul>
+              </div>
+
+              <div class="tab-pane" id="tab-content-timeline">
                 <ul class="timeline">
                 {foreach from=$character.stage_list key=k_stage item=v_stage}
                   <li class="time-label timeline-stage_name clickable" onclick="location.href='/public/stage/detail.php?user={$character.user_login_id}&id={$v_stage.id}';">
@@ -117,15 +130,7 @@
                 {/foreach}
                 </ul>
               </div>
-{***
-              <div class="tab-pane" id="tab-content-character">
-                <ul>
-                {foreach from=$character.stage_list key=k item=v_stage}
-                  <li><a href="/public/stage/detail.php?user={$character.user_login_id}&id={$v_stage.id}">{$v_stage.name|escape:'html'}</a></li>
-                {/foreach}
-                </ul>
-              </div>
-***}
+
             </div>
           </div>
         </div>

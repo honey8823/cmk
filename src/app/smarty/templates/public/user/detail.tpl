@@ -48,17 +48,23 @@
                 <span class="label tag-base tag-genre" value="{$v_genre.id}">{$v_genre.title}</span>
               {/foreach}
               </div>
+            {if $user.remarks != ""}
               <div class="public-user-remarks">
                 {$user.remarks|escape:'html'|nl2br}
               </div>
+            {/if}
+            {if $user.twitter_id != ""}
               <div>
                 <label>Twitter</label>
                 <span><a href="//twitter.com/{$user.twitter_id}" target="_blank">@{$user.twitter_id}</a></span>
               </div>
+            {/if}
+            {if $user.pixiv_id != ""}
               <div>
                 <label>Pixiv</label>
                 <span><a href="//pixiv.me/{$user.pixiv_id}" target="_blank">@{$user.pixiv_id}</a></span>
               </div>
+            {/if}
             </div>
           </div>
         </div>
