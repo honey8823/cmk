@@ -135,7 +135,7 @@ class PublicController extends Common
 		try
 		{
 			// 引数
-			$id = trim($param_list['id']);
+			$id       = trim($param_list['id']);
 			$login_id = trim($param_list['login_id']);
 
 			$return_list = array();
@@ -297,6 +297,196 @@ class PublicController extends Common
 			$return_list['character'] = $character_list[0];
 			$return_list['is_login']    = $login_user_list['is_login'];
 			$return_list['is_favorite'] = $login_user_list['is_favorite'];
+
+			return $return_list;
+		}
+		catch (Exception $e)
+		{
+			$this->exception($e);
+		}
+	}
+
+	public function getCharacterOverride($param_list = array())
+	{
+		try
+		{
+			// 引数
+			$id         = trim($param_list['id']);
+			$login_id   = trim($param_list['login_id']);
+			$stage_id   = trim($param_list['stage']);
+			$episode_id = trim($param_list['episode']);
+
+			if (!preg_match("/^[0-9]+$/", $stage_id))
+			{
+				return array('error_redirect' => "notfound");
+			}
+
+			$return_list = array();
+
+			// 取得（キャラクター）
+			$sql  = "SELECT     `character`.`id` ";
+			$sql .= "          ,`character`.`name` ";
+			$sql .= "          ,`character`.`remarks` ";
+			$sql .= "          ,`character`.`create_stamp` ";
+			$sql .= "          ,`character`.`update_stamp` ";
+			$sql .= "          ,`user`.`id` AS `user_id` ";
+			$sql .= "          ,`user`.`name` AS `user_name` ";
+			$sql .= "          ,`user`.`login_id` AS `user_login_id` ";
+			$sql .= "FROM       `character` ";
+			$sql .= "INNER JOIN `user` ON  `character`.`user_id` = `user`.`id` ";
+			$sql .= "                  AND `user`.`login_id` = ? ";
+			$sql .= "                  AND `user`.`is_delete` <> 1 ";
+			$sql .= "WHERE     `character`.`id` = ? ";
+			$sql .= "AND       `character`.`is_private` <> 1 ";
+			$sql .= "AND       `character`.`is_delete` <> 1 ";
+			$arg_list = array(
+				$login_id,
+				$id,
+			);
+			$character_list = $this->query($sql, $arg_list);
+			if(count($character_list) != 1)
+			{
+				return array('error_redirect' => "notfound");
+			}
+
+			// 取得（ステージ）
+			$sql  = "SELECT     `stage`.`id` ";
+			$sql .= "          ,`stage`.`name` ";
+			$sql .= "          ,`stage`.`create_stamp` ";
+			$sql .= "          ,`stage`.`update_stamp` ";
+			$sql .= "FROM       `stage` ";
+			$sql .= "INNER JOIN `stage_character` ON  `stage`.`id` = `stage_character`.`stage_id` ";
+			$sql .= "                             AND `stage_character`.`character_id` = ? ";
+			$sql .= "WHERE      `stage`.`id` = ? ";
+			$sql .= "AND        `stage`.`is_private` <> 1 ";
+			$sql .= "AND        `stage`.`is_delete` <> 1 ";
+			$arg_list = array(
+				$id,
+				$stage_id,
+			);
+			$stage_list = $this->query($sql, $arg_list);
+			if (count($stage_list) != 1)
+			{
+				return array('error_redirect' => "notfound");
+			}
+
+			// 取得（プロフィール：基本）
+			$sql  = "SELECT     `character_profile`.`question` ";
+			$sql .= "          ,`character_profile`.`answer` ";
+			$sql .= "FROM       `character_profile` ";
+			$sql .= "WHERE      `character_profile`.`character_id` = ? ";
+			$sql .= "ORDER BY   `character_profile`.`sort` = 0 ASC ";
+			$sql .= "          ,`character_profile`.`sort` ASC ";
+			$sql .= "          ,`character_profile`.`create_stamp` ASC ";
+			$arg_list = array($id);
+			$profile_list = $this->setArrayKey($this->query($sql, $arg_list), "question");
+
+			// 取得（プロフィール：オーバーライド：ステージ）・マージ
+			$sql  = "SELECT     `character_profile_stage`.`question` ";
+			$sql .= "          ,`character_profile_stage`.`answer` ";
+			$sql .= "FROM       `character_profile_stage` ";
+			$sql .= "WHERE      `character_profile_stage`.`character_id` = ? ";
+			$sql .= "AND        `character_profile_stage`.`stage_id` = ? ";
+			$sql .= "ORDER BY   `character_profile_stage`.`sort` = 0 ASC ";
+			$sql .= "          ,`character_profile_stage`.`sort` ASC ";
+			$sql .= "          ,`character_profile_stage`.`create_stamp` ASC ";
+			$arg_list = array($id, $stage_id);
+			$profile_stage_list = $this->query($sql, $arg_list);
+			foreach ($profile_stage_list as $v)
+			{
+				$profile_list[$v['question']]['question'] = $v['question'];
+				$profile_list[$v['question']]['answer']   = $v['answer'];
+			}
+
+			// エピソードIDの指定がある場合はさらに取得・マージ
+			if (preg_match("/^[0-9]+$/", $episode_id))
+			{
+				$sql  = "SELECT   `episode`.`id` ";
+				$sql .= "        ,`episode`.`type` ";
+				$sql .= "FROM     `episode` ";
+				$sql .= "WHERE    `episode`.`stage_id` = ? ";
+				$sql .= "AND      `episode`.`is_delete` <> 1 ";
+				$sql .= "ORDER BY `episode`.`sort` = 0 ASC ";
+				$sql .= "        ,`episode`.`sort` ASC ";
+				$sql .= "        ,`episode`.`id` ASC ";
+				$arg_list = array(
+					$stage_id,
+				);
+				$episode_list = $this->query($sql, $arg_list);
+
+				// 指定ID以前の時系列、かつオーバーライド区分であるエピソードのIDのみに絞り込む
+				$type_list = $this->getConfig("episode_type", "key");
+				$is_found = false;
+				$episode_id_list = array();
+				foreach ($episode_list as $k => $v)
+				{
+					if ($is_found != true && $v['type'] == $type_list['override']['value'])
+					{
+						$episode_id_list[] = $v['id'];
+					}
+					if ($v['id'] == $episode_id)
+					{
+						$is_found = true;
+					}
+				}
+
+				// 指定IDが正しく指定されていた場合のみ、対象エピソードのプロフィールを取得・マージ
+				if ($is_found == true && count($episode_id_list) > 0)
+				{
+					// エピソードIDの並び順の配列をつくる
+					$episode_layer_list = array_combine($episode_id_list, array_fill(0, count($episode_id_list), array()));
+
+					// 取得（プロフィール：オーバーライド：エピソード）
+					$arg_list = array();
+					$sql  = "SELECT     `character_profile_episode`.`episode_id` ";
+					$sql .= "          ,`character_profile_episode`.`question` ";
+					$sql .= "          ,`character_profile_episode`.`answer` ";
+					$sql .= "FROM       `character_profile_episode` ";
+					$sql .= "WHERE      `character_profile_episode`.`character_id` = ? ";
+					$sql .= "AND        `character_profile_episode`.`episode_id` IN (" . implode(",", array_fill(0, count($episode_id_list), "?")) . ") ";
+					$sql .= "ORDER BY   `character_profile_episode`.`sort` = 0 ASC ";
+					$sql .= "          ,`character_profile_episode`.`sort` ASC ";
+					$sql .= "          ,`character_profile_episode`.`create_stamp` ASC ";
+					$arg_list[] = $id;
+					$arg_list = array_merge($arg_list, $episode_id_list);
+
+					// エピソード順に整理
+					// 時系列順で最新のものをマージしたいため
+					$profile_episode_list = $this->query($sql, $arg_list);
+					foreach ($profile_episode_list as $v)
+					{
+						$episode_layer_list[$v['episode_id']][] = array(
+							'question' => $v['question'],
+							'answer'   => $v['answer'],
+						);
+					}
+
+					// マージ
+					foreach ($episode_layer_list as $episode)
+					{
+						foreach ($episode as $v)
+						{
+							$profile_list[$v['question']]['question'] = $v['question'];
+							$profile_list[$v['question']]['answer']   = $v['answer'];
+						}
+					}
+				}
+			}
+
+			// プロフィールの整形
+			$q_list = $this->getConfig("character_profile_q", "value");
+			foreach ($profile_list as $k => $v)
+			{
+				$profile_list[$k]['question_title'] = $q_list[$k]['title'];
+			}
+
+			// キーの削除
+			$profile_list = array_values($profile_list);
+
+			// 戻り値
+			$return_list['character']    = $character_list[0];
+			$return_list['stage']        = $stage_list[0];
+			$return_list['profile_list'] = $profile_list;
 
 			return $return_list;
 		}

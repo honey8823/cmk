@@ -327,6 +327,10 @@
 	color: #fe416b;
 }
 
+.li-character_profile.public{
+	padding: 0.5em;
+}
+
 /****************/
 /* 一般ページ用 */
 /****************/

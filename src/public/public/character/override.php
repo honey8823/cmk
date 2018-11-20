@@ -6,7 +6,7 @@ require_once("../../../app/initialize.php");
 // --------------
 // テンプレート名
 // --------------
-$template_name = "public/character/detail";
+$template_name = "public/character/override";
 
 // --------------------
 // コントローラ読み込み
@@ -24,10 +24,12 @@ $pc->init();
 // ----------------------------------
 $smarty_param = array();
 
-// キャラクター
-$id   = isset($_GET['id'])   ? $_GET['id'] : "";
-$user = isset($_GET['user']) ? $_GET['user'] : "";
-$character = $pc->getCharacter(array('id' => $id, 'login_id' => $user));
+// キャラクター（オーバーライド情報）
+$id      = isset($_GET['id'])   ? $_GET['id'] : "";
+$user    = isset($_GET['user']) ? $_GET['user'] : "";
+$stage   = isset($_GET['s']) ? $_GET['s'] : "";
+$episode = isset($_GET['e']) ? $_GET['e'] : "";
+$character = $pc->getCharacterOverride(array('id' => $id, 'login_id' => $user, 'stage' => $stage, 'episode' => $episode));
 
 if (isset($character['error_redirect']) && $character['error_redirect'] != "")
 {
@@ -35,9 +37,9 @@ if (isset($character['error_redirect']) && $character['error_redirect'] != "")
 	exit();
 }
 
-$smarty_param['character']   = $character['character'];
-$smarty_param['is_login']    = $character['is_login'];
-$smarty_param['is_favorite'] = $character['is_favorite'];
+$smarty_param['character']    = $character['character'];
+$smarty_param['stage']        = $character['stage'];
+$smarty_param['profile_list'] = $character['profile_list'];
 
 // 必ず指定 //////////////////////////////
 // Smartyデバッグ用
