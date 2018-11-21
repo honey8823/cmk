@@ -54,7 +54,7 @@ function drawInformationList(dat){
 	$(obj).find(".information-date").text(dat.date);
 
 	// 本文
-	$(obj).find(".information-content").html(dat.content.replace(/\r?\n/g, "<br>"));
+	$(obj).find(".information-content").html(strToText(dat.content));
 
 	// テンプレート用クラスを外す
 	obj.removeClass("template-for-copy");

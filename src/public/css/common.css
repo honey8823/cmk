@@ -349,6 +349,14 @@
 	margin: 1em;
 }
 
+/* 通知ページ */
+.notice-icon.unread{
+	color: #dd4b39;
+}
+.notice-icon.read{
+	color: #CCCCCC;
+}
+
 /********/
 /* 全般 */
 /********/

@@ -16,6 +16,19 @@
       </a>
 
       <div class="navbar-custom-menu">
+
+        <ul class="nav navbar-nav">
+          <li class="dropdown notifications-menu">
+            <a href="/user/notice/">
+            {if isset($user_session.unread_count) && $user_session.unread_count > 0}
+              <i class="fa fa-bell"></i>
+              <span class="label label-danger">{$user_session.unread_count}</span>
+            {else}
+              <i class="fa fa-bell-o"></i>
+            {/if}
+            </a>
+          </li>
+        </ul>
 {***
         <!-- search form (Optional) -->
         <form action="#" method="get" class="navbar-form">

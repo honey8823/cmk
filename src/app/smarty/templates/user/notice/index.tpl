@@ -28,17 +28,26 @@
     </section>
 
     <!-- Main content -->
-    <section class="content">
-      <div class="row">
-        <div class="col-md-12">
-          <div id="list-stage" class="box">
-            <div class="box-body no-padding">
-              <table class="table table-hover">
-                <tr>
-                  <td>通知はありません<small>（β版実装）</small></td>
-                </tr>
-              </table>
+    <section class="content container-fluid">
+      <div class="row" style="margin-top: 10px;">
+        <div class="col-md-12" id="list-notice">
+          <div>
+
+            <div class="box box-primary notice_list template-for-copy">
+              <a href="#">
+                <div class="box-body">
+                  <i class="fa fa-fw fa-exclamation-circle notice-icon unread" aria-hidden="true"></i>
+                  <i class="fa fa-fw fa-exclamation-circle notice-icon read hidden" aria-hidden="true"></i>
+                  <span class="notice-date"></span>
+                </div>
+                <div class="box-body notice-content"></div>
+              </a>
             </div>
+
+          </div>
+          <div class="box-body no-padding">
+            <button type="button" class="btn btn-default btn-block btn-more disabled" onclick="tableNotice();">もっとみる</button>
+            <input type="hidden" class="offset" value="0">
           </div>
         </div>
       </div>
@@ -56,6 +65,15 @@
 <!-- JS start -->
 {include file='common/adminlte_js.tpl'}
 {include file='common/common_js.tpl'}
+<script src="/js/notice.js"></script>
+<script>
+// 読み込み完了時の処理
+$(function(){
+	// データ読み込み
+	$("#list-notice").find("input.offset").val(0);
+	tableNotice();
+});
+</script>
 <!-- JS end -->
 </body>
 </html>
