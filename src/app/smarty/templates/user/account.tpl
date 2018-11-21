@@ -90,21 +90,26 @@
             <div class="box-header with-border clickable" data-widget="collapse">
               <h3 class="box-title">ユーザーアイコンをアップロードする</h3>
             </div>
-            <form method="POST" enctype="multipart/form-data" action="/user/account.php">
-              <div class="box-body" id="area-setUserProfile">
+            <div class="box-body" id="area-setUserProfile">
+              <form method="POST" enctype="multipart/form-data" action="/user/account.php">
+                <div style="margin: 1em;">
+                {if !isset($user_session.image) || $user_session.image == ""}
+                  （アイコンは設定されていません）
+                {else}
+                  <img src="data:image/png;base64,{$user_session.image}" class="img-circle" alt="User Image">
+                {/if}
+                </div>
                 <div class="form-group">
                   <input type="file" id="input-user_image" name="image">
-                  <img id="select-image" style="max-width:1000px;">
+                  <img id="select-image" style="max-width:100%; max-height: 50vh;">
                   <input type="hidden" id="upload-image-x" name="image_x" value="0">
                   <input type="hidden" id="upload-image-y" name="image_y" value="0">
                   <input type="hidden" id="upload-image-w" name="image_w" value="0">
                   <input type="hidden" id="upload-image-h" name="image_h" value="0">
                 </div>
-              </div>
-              <div class="box-body text-align-right">
-                <input type="submit" class="btn btn-primary" value="更新する">
-              </div>
-            </form>
+                <input type="submit" class="btn btn-primary pull-right" value="更新する">
+              </form>
+            </div>
           </div>
 
           <div class="box box-primary collapsed-box">

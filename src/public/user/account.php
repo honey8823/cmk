@@ -32,12 +32,6 @@ if ($user_id === false)
 	exit();
 }
 
-// ユーザ
-$smarty_param['user'] = $uc->get()['user'];
-
-// ジャンル一覧
-$smarty_param['genre_list'] = $tc->tableGenre()['genre_list'];
-
 // ファイルがアップロードされている場合は更新を行う
 if (isset($_FILES['image']['error']) && $_FILES['image']['error'] === UPLOAD_ERR_OK)
 {
@@ -49,7 +43,16 @@ if (isset($_FILES['image']['error']) && $_FILES['image']['error'] === UPLOAD_ERR
 		'size' => isset($_POST['image_w']) ? $_POST['image_w'] : 200,
 	);
 	$uc->setImage($param_list);
+
+	header('Location: /user/account.php');
+	exit();
 }
+
+// ユーザ
+$smarty_param['user'] = $uc->get()['user'];
+
+// ジャンル一覧
+$smarty_param['genre_list'] = $tc->tableGenre()['genre_list'];
 
 // 必ず指定 //////////////////////////////
 // Smartyデバッグ用

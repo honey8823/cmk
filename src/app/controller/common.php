@@ -106,6 +106,10 @@ class Common
 	public function getSession($key_list = array())
 	{
 		@session_start();
+		header('Expires:-1');
+		header('Cache-Control:');
+		header('Pragma:');
+
 		if (count($key_list) > 0)
 		{
 			$return_list = array();
@@ -127,12 +131,20 @@ class Common
 	public function setSession($key, $params = array())
 	{
 		@session_start();
+		header('Expires:-1');
+		header('Cache-Control:');
+		header('Pragma:');
+
 		$_SESSION[$key] = $params;
 	}
 
 	public function delSession()
 	{
 		@session_start();
+		header('Expires:-1');
+		header('Cache-Control:');
+		header('Pragma:');
+		
 		$_SESSION = array();
 		session_destroy();
 	}
@@ -193,5 +205,3 @@ class Common
 		return $url;
 	}
 }
-
-

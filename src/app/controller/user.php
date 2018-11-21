@@ -292,6 +292,12 @@ class UserController extends Common
 			$user = $this->getSession(array("user"))['user'];
 			$user['image'] = $img_base64;
 			$this->setSession("user", $user);
+
+			// 戻り値
+			$return_list = array(
+				'image' => $img_base64,
+			);
+			return $return_list;
 		}
 		catch (Exception $e)
 		{

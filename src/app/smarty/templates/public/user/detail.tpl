@@ -43,14 +43,14 @@
                 <i class="fa fa-fw fa-heart is_favorite_icon clickable is_favorite_1 {if $is_favorite != "1"}hidden{/if}" aria-hidden="true" data-favorite_type_key="user" data-id="{$user.id}"></i>
               {/if}
               </div>
-              <div class="col-md-2 text-align-center">
-              {if $user_session.image == ""}
-                <img src="/img/icon_noimage.png" class="img-circle" alt="User Image">
+              <div class="col-md-3 text-align-center">
+              {if $user.image == ""}
+                <img src="/img/icon_noimage.png" class="img-circle" alt="User Image" style="max-width: 90%; padding: 1em;">
               {else}
-                <img src="data:image/png;base64,{$user.image}" class="img-circle" alt="User Image">
+                <img src="data:image/png;base64,{$user.image}" class="img-circle" alt="User Image" style="max-width: 90%; padding: 1em;">
               {/if}
               </div>
-              <div class="col-md-10">
+              <div class="col-md-9">
                 <div>
                   <h4>{if $user.name != ""}{$user.name|escape:'html'}{else}(ユーザー名未設定){/if}</h4>
                 </div>
@@ -99,11 +99,13 @@
                   <li>
                     <a href="/public/stage/detail.php?user={$user.login_id}&id={$v_stage.id}">
                       <span class="name">{$v_stage.name|escape:'html'}</span>
+                    {if isset($v_stage.tag_list) && is_array($v_stage.tag_list) && count($v_stage.tag_list) > 0}
                       <span class="tag">
                       {foreach from=$v_stage.tag_list key=k item=v_tag}
                         <span class="label tag-base tag-{$v_tag.category_key}">{$v_tag.name_short|escape:'html'}</span>
                       {/foreach}
                       </span>
+                    {/if}
                     </a>
                   </li>
                 {/foreach}

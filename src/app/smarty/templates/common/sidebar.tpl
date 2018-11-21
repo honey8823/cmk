@@ -7,7 +7,7 @@
     {if isset($user_session.id)}
       <div class="user-panel">
         <div class="pull-left image">
-        {if $user_session.image == ""}
+        {if !isset($user_session.image) || $user_session.image == ""}
           <img src="/img/icon_noimage.png" class="img-circle" alt="User Image">
         {else}
           <img src="data:image/png;base64,{$user_session.image}" class="img-circle" alt="User Image">
