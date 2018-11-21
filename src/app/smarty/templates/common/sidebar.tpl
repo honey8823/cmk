@@ -7,7 +7,11 @@
     {if isset($user_session.id)}
       <div class="user-panel">
         <div class="pull-left image">
+        {if $user_session.image == ""}
           <img src="/img/icon_noimage.png" class="img-circle" alt="User Image">
+        {else}
+          <img src="data:image/png;base64,{$user_session.image}" class="img-circle" alt="User Image">
+        {/if}
         </div>
         <div class="pull-left info">
           <p class="textdata-user-name"><a href="/public/user/detail.php?u={$user_session.login_id}">{if $user_session.name == ""}(ユーザー名未設定){else}{$user_session.name}{/if}</a></p>

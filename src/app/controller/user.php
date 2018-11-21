@@ -1,6 +1,8 @@
 <?php
 class UserController extends Common
 {
+	const IMAGE_SIZE = 200;
+
 	public function get($param_list = array())
 	{
 		try
@@ -216,6 +218,86 @@ class UserController extends Common
 		}
 	}
 
+	public function setImage($param_list = array())
+	{
+		try
+		{
+			// ユーザID
+			$id = $this->getLoginId();
+			if ($id === false)
+			{
+				return array('error_redirect' => "session");
+			}
+
+			// 引数
+			$tmp_file_name = trim($param_list['tmp_file_name']);
+			$tmp_file_type = trim($param_list['tmp_file_type']);
+			$x             = trim($param_list['x']);
+			$y             = trim($param_list['y']);
+			$size          = trim($param_list['size']);
+
+			// 一時ファイルのパス
+			$tmp_filename = PATH_IMAGES . date("YmdHis") . "_" . mt_rand() . ".png";
+
+			// 元ファイルを読み込む
+			if ($tmp_file_type == "image/png")
+			{
+				$base_img = imagecreatefrompng($tmp_file_name);
+			}
+			elseif ($tmp_file_type == "image/jpeg")
+			{
+				$base_img = imagecreatefromjpeg($tmp_file_name);
+			}
+			elseif ($tmp_file_type == "image/gif")
+			{
+				$base_img = imagecreatefromgif($tmp_file_name);
+			}
+			else
+			{
+				// 対応していないフォーマット：無視して終了
+				return false;
+			}
+
+			// 新しいキャンバスを作成する
+			$new_img = imagecreatetruecolor(self::IMAGE_SIZE, self::IMAGE_SIZE);
+
+			// 画像を縮小・トリミングする
+			imagecopyresampled($new_img, $base_img, 0, 0, $x, $y, self::IMAGE_SIZE, self::IMAGE_SIZE, $size, $size);
+
+			// 画像をpng化する
+			imagepng($new_img, $tmp_filename);
+
+			// base64化する
+			$img_base64 = base64_encode(file_get_contents($tmp_filename));
+
+			// 画像を削除する
+			unlink($tmp_filename);
+
+			// base64化に失敗した場合は無視して終了
+			if ($img_base64 === false)
+			{
+				return false;
+			}
+
+			// 更新
+			$arg_list = array();
+			$sql  = "UPDATE `user` ";
+			$sql .= "SET    `image` = ? ";
+			$arg_list[] = $img_base64;
+			$sql .= "WHERE  `id` = ? ";
+			$arg_list[] = $id;
+			$this->query($sql, $arg_list);
+
+			// セッションにセット
+			$user = $this->getSession(array("user"))['user'];
+			$user['image'] = $img_base64;
+			$this->setSession("user", $user);
+		}
+		catch (Exception $e)
+		{
+			$this->exception($e);
+		}
+	}
 	public function setAccount($param_list = array())
 	{
 		try

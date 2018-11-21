@@ -6,6 +6,7 @@ define("PATH_PUBLIC"    , realpath(PATH_ROOT . "/public")         . "/");
 define("PATH_TEMPLATE"  , realpath(PATH_ROOT . "/app/smarty")     . "/");
 define("PATH_LIBS"      , realpath(PATH_ROOT . "/app/libs")       . "/");
 define("PATH_LOGS"      , realpath(PATH_ROOT . "/app/logs")       . "/");
+define("PATH_IMAGES"    , realpath(PATH_ROOT . "/public/img")     . "/");
 
 define("SITE_NAME_FULL" , "うちのこタイムライン");
 define("SITE_NAME_SHORT", "UTL");

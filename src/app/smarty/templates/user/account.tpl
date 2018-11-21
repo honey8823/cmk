@@ -6,6 +6,7 @@
   <title>{$smarty.const.SITE_NAME_FULL}</title>
   {include file='common/adminlte_css.tpl'}
   {include file='common/common_css.tpl'}
+  <link href="/js/lib/cropper.css" rel="stylesheet">
 </head>
 
 {include file='common/body.tpl'}
@@ -83,6 +84,27 @@
             <div class="box-body text-align-right">
               <button type="button" class="btn btn-primary" onclick="setUserProfile();">更新する</button>
             </div>
+          </div>
+
+          <div class="box box-primary collapsed-box">
+            <div class="box-header with-border clickable" data-widget="collapse">
+              <h3 class="box-title">ユーザーアイコンをアップロードする</h3>
+            </div>
+            <form method="POST" enctype="multipart/form-data" action="/user/account.php">
+              <div class="box-body" id="area-setUserProfile">
+                <div class="form-group">
+                  <input type="file" id="input-user_image" name="image">
+                  <img id="select-image" style="max-width:1000px;">
+                  <input type="hidden" id="upload-image-x" name="image_x" value="0">
+                  <input type="hidden" id="upload-image-y" name="image_y" value="0">
+                  <input type="hidden" id="upload-image-w" name="image_w" value="0">
+                  <input type="hidden" id="upload-image-h" name="image_h" value="0">
+                </div>
+              </div>
+              <div class="box-body text-align-right">
+                <input type="submit" class="btn btn-primary" value="更新する">
+              </div>
+            </form>
           </div>
 
           <div class="box box-primary collapsed-box">
@@ -169,6 +191,33 @@
 {include file='common/adminlte_js.tpl'}
 {include file='common/common_js.tpl'}
 <script src="/js/user.js"></script>
+<script src="/js/lib/cropper.js"></script>
+<script>
+$(function(){
+	// 初期設定
+	var options = {
+		aspectRatio: 1 / 1,
+		viewMode: 1,
+		crop: function(e) {
+			cropData = $('#select-image').cropper("getData");
+			$("#upload-image-x").val(Math.floor(cropData.x));
+			$("#upload-image-y").val(Math.floor(cropData.y));
+			$("#upload-image-w").val(Math.floor(cropData.width));
+			$("#upload-image-h").val(Math.floor(cropData.height));
+		},
+		zoomable: true,
+		minCropBoxWidth: 100,
+		minCropBoxHeight: 100
+	}
+
+	// 初期設定をセットする
+	$('#select-image').cropper(options);
+	$("#input-user_image").change(function(){
+		// ファイル選択変更時に、選択した画像をCropperに設定する
+		$('#select-image').cropper('replace', URL.createObjectURL(this.files[0]));
+	});
+});
+</script>
 <!-- JS end -->
 </body>
 </html>
