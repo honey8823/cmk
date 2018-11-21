@@ -6,7 +6,7 @@ require_once("../../../app/initialize.php");
 // --------------
 // テンプレート名
 // --------------
-$template_name = "user/notifications/index";
+$template_name = "user/notice/index";
 
 // --------------------
 // コントローラ読み込み

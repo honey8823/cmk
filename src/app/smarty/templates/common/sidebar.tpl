@@ -11,7 +11,7 @@
         </div>
         <div class="pull-left info">
           <p class="textdata-user-name"><a href="/public/user/detail.php?u={$user_session.login_id}">{if $user_session.name == ""}(ユーザー名未設定){else}{$user_session.name}{/if}</a></p>
-          <p><a href="/user/notifications/"><i class="fa fa-bell-o fa-fw" aria-hidden="true"></i><span>0</span></a></p>
+          <p><a href="/user/notice/"><i class="fa fa-bell-o fa-fw" aria-hidden="true"></i><span>0</span></a></p>
         </div>
       </div>
     {/if}
