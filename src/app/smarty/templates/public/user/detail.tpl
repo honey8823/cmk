@@ -44,7 +44,11 @@
               {/if}
               </div>
               <div class="col-md-2 text-align-center">
-                <img src="/img/icon_noimage.png" class="img-circle img-user" alt="User Image">
+              {if $user_session.image == ""}
+                <img src="/img/icon_noimage.png" class="img-circle" alt="User Image">
+              {else}
+                <img src="data:image/png;base64,{$user.image}" class="img-circle" alt="User Image">
+              {/if}
               </div>
               <div class="col-md-10">
                 <div>

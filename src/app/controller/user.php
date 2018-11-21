@@ -505,7 +505,7 @@ class UserController extends Common
 			else
 			{
 				// 既に存在するIDでないかチェック＆ユーザ情報取得
-				$sql  = "SELECT    `user`.`id`, `user`.`name`, `user`.`login_id`, `notice`.`unread_count` ";
+				$sql  = "SELECT    `user`.`id`, `user`.`name`, `user`.`login_id`, `user`.`image`, `notice`.`unread_count` ";
 				$sql .= "FROM      `user` ";
 				$sql .= "LEFT JOIN ( SELECT   `user_id`, COUNT(*) AS `unread_count` ";
 				$sql .= "            FROM     `notice` ";
