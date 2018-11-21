@@ -42,7 +42,7 @@
             </div>
           </div>
         {if count($character_list) > 0}
-          <div id="list-character" class="box">
+          <div id="list-character" class="box box-no-border">
             <div class="box-body no-padding">
               <ul class="nav nav-stacked ul-character character-sort-area">
               {foreach from=$character_list key=k item=v_character}

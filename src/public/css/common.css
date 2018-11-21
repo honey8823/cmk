@@ -348,9 +348,16 @@
 	max-width: 150px;
 	margin: 1em;
 }
+
 /********/
 /* 全般 */
 /********/
+
+/* .boxの枠線消し */
+.box.box-no-border{
+	border-top: 0;
+	box-shadow: none;
+}
 
 /* リンクのクリック範囲を広げる */
 table a {

@@ -248,7 +248,7 @@
                           <p class="timeline-free_text">{$v_episode.free_text|escape:'html'|nl2br}</p>
                         {/if}
                         {if $v_episode.url != ""}
-                          <p class="timeline-url"><a href="{$v_episode.url}" target="_blank">{$v_episode.url_view}</a></p>
+                          <p class="timeline-url"><a href="{$v_episode.url}" target="_blank"><i class="fa fa-fw fa-external-link" aria-hidden="true"></i> <span>{$v_episode.url_view}</span></a></p>
                         {/if}
                         </small>
                       </div>
@@ -259,22 +259,6 @@
                 {/foreach}
                 {/if}
                 {/foreach}
-
-{*** コピペ用
-                  <li class="time-label timeline-editable timeline-label clickable template-for-copy" data-id="" data-toggle="modal" data-target="#modal-setEpisode"><span class="bg-red timeline-title"></span></li>
-                  <li class="timeline-content timeline-editable clickable template-for-copy" data-id="" data-toggle="modal" data-target="#modal-setEpisode">
-                    <i class="fa fa-arrow-right bg-blue"></i>
-                    <div class="timeline-item">
-                      <h3 class="timeline-header timeline-title no-border"></h3>
-                      <div class="timeline-body">
-                        <small>
-                          <p class="timeline-free_text"></p>
-                          <p class="timeline-url"><a href="" target="_blank"></a></p>
-                        </small>
-                      </div>
-                    </div>
-                  </li>
-***}
                 </ul>
               </div>
             </div>

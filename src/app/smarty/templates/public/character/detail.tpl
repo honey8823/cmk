@@ -131,7 +131,7 @@
                           <p class="timeline-free_text">{$v_episode.free_text|escape:'html'|nl2br}</p>
                         {/if}
                         {if $v_episode.url != ""}
-                          <p class="timeline-url"><a href="{$v_episode.url}" target="_blank">{$v_episode.url_view|escape:'html'}</a></p>
+                          <p class="timeline-url"><a href="{$v_episode.url}" target="_blank"><i class="fa fa-fw fa-external-link" aria-hidden="true"></i> <span>{$v_episode.url_view|escape:'html'}</span></a></p>
                         {/if}
                         </small>
                       </div>

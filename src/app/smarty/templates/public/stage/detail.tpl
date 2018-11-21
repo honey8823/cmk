@@ -106,22 +106,29 @@
                           </div>
                         {/if}
                         {if $v_episode.url != ""}
-                          <p class="timeline-url"><a href="{$v_episode.url}" target="_blank">{$v_episode.url_view|escape:'html'}</a></p>
+                          <p class="timeline-url"><a href="{$v_episode.url}" target="_blank"><i class="fa fa-fw fa-external-link" aria-hidden="true"></i> <span>{$v_episode.url_view|escape:'html'}</span></a></p>
                         {/if}
                         </small>
                       </div>
                     {/if}
-                    {if $v_episode.type_key == "override" && is_array($v_episode.character_id_list) && count($v_episode.character_id_list) > 0}
+                    {if $v_episode.type_key == "override"}
                       <div class="timeline-body">
                         <small>
+                        {$is_link = false}
+                        {if is_array($v_episode.character_id_list) && count($v_episode.character_id_list) > 0}
                         {foreach from=$stage.character_list key=k item=v_character}
                         {if in_array($v_character.id, $v_episode.character_id_list)}
+                          {$is_link = true}
                           <p><a href="/public/character/override.php?user={$stage.user_login_id}&id={$v_character.id}&s={$stage.id}&e={$v_episode.id}">
                             <i class="fa fa-fw fa-user" aria-hidden="true"></i>
                             この時点の「{$v_character.name|escape:'html'}」のプロフィール
                           </a></p>
                         {/if}
                         {/foreach}
+                        {/if}
+                        {if $is_link == false}
+                          <p>[未設定]</p>
+                        {/if}
                         </small>
                       </div>
                     {/if}
@@ -143,7 +150,7 @@
                     <li class="character_list" data-id="{$v_character.id}">
                       {* <a href="/public/character/detail.php?user={$stage.user_login_id}&id={$v_character.id}" class="character_id"> *}
                       <a href="/public/character/override.php?user={$stage.user_login_id}&id={$v_character.id}&s={$stage.id}" class="character_id">
-                        <span class="name"><span class="character_name">{$v_character.name|escape:'html'}</span></span>
+                        <span class="character_name">{$v_character.name|escape:'html'}</span>
                       </a>
                     </li>
                   {/foreach}

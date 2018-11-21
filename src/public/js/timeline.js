@@ -75,16 +75,8 @@ function drawEpisodeList(dat, id){
 
 		// オーバーライド時のテキスト生成
 		if (dat.type_key == "override"){
-			if (dat.override_character_list == undefined){
-				dat.free_text = "[未設定]";
-			}
-			else{
-				if (dat.override_character_list.length > 3){
-					dat.free_text = "A,B,C 他 n 人のオーバーライド"; // todo::
-				}
-				else{
-					dat.free_text = "A,B のオーバーライド"; // todo::
-				}
+			if (dat.title == undefined || dat.title == null || dat.title == ""){
+				dat.free_text = "[タイトルなし]";
 			}
 		}
 
@@ -104,7 +96,7 @@ function drawEpisodeList(dat, id){
 		}
 		if (dat.url != undefined && dat.url != ""){
 			$(obj).find(".timeline-url > a").attr("href", dat.url);
-			$(obj).find(".timeline-url > a").text(dat.url_view);
+			$(obj).find(".timeline-url > a > span").text(dat.url_view);
 			$(obj).find(".timeline-url").removeClass("template-for-copy");
 		}
 		else{

@@ -46,7 +46,7 @@
             </div>
           </div>
         {if count($stage_list) > 0}
-          <div id="list-stage" class="box">
+          <div id="list-stage" class="box box-no-border">
             <div class="box-body no-padding">
               <ul class="nav nav-stacked ul-stage stage-sort-area">
               {foreach from=$stage_list key=k item=v_stage}

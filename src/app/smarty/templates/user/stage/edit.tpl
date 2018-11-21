@@ -146,7 +146,7 @@
                       <div class="timeline-body">
                         <small>
                           <p class="timeline-free_text template-for-copy"></p>
-                          <p class="timeline-url template-for-copy"><a href="" target="_blank"></a></p>
+                          <p class="timeline-url template-for-copy"><a href="" target="_blank"><i class="fa fa-fw fa-external-link" aria-hidden="true"></i> <span></span></a></p>
                         </small>
                       </div>
                     </div>
@@ -176,7 +176,7 @@
                   <p class="hint-box sort_mode_on">並べ替えモード中：ドラッグ＆ドロップで並べ替えができます。<br>また、これはこのステージ内での並べ替えであり、キャラクター一覧ページ等には影響しません。</p>
                 {/if}
                 </div>
-                <div id="list-character" class="box">
+                <div id="list-character" class="box box-no-border">
                   <div class="box-body no-padding">
                     <ul class="nav nav-stacked ul-character stage-character-sort-area">
                       <li class="character_list clickable foldable template-for-copy" data-id="{$v_character.id}">
