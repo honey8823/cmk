@@ -129,7 +129,7 @@
                 <ul class="timeline template-for-copy" id="timeline_for_stage_template">
                   <li class="time-label timeline-editable timeline-label clickable template-for-copy" data-id="" data-toggle="modal" data-target="#modal-setEpisode">
                     <span class="timeline-label-title bg-red">
-                      <span class="is_private_icon is_private_0 clickable et_episode-is_private template-for-copy"><i class="fa fa-unlock fa-fw"></i></span>
+                      <span class="is_private_icon is_private_0 clickable set_episode-is_private template-for-copy"><i class="fa fa-unlock fa-fw"></i></span>
                       <span class="is_private_icon is_private_1 clickable set_episode-is_private template-for-copy"><i class="fa fa-lock fa-fw"></i></span>
                       <span class="timeline-title"></span>
                     </span>

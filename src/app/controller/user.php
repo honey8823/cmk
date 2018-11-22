@@ -255,7 +255,7 @@ class UserController extends Common
 			else
 			{
 				// 対応していないフォーマット：無視して終了
-				return false;
+				return array('error_message' => "対応していないファイルタイプです。JPEG, GIF, PNGのいずれかでお試しください。");
 			}
 
 			// 新しいキャンバスを作成する
@@ -276,7 +276,7 @@ class UserController extends Common
 			// base64化に失敗した場合は無視して終了
 			if ($img_base64 === false)
 			{
-				return false;
+				return array('error_message' => "画像の保存に失敗しました。別のファイルでお試しください。");
 			}
 
 			// 更新

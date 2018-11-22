@@ -42,10 +42,20 @@ if (isset($_FILES['image']['error']) && $_FILES['image']['error'] === UPLOAD_ERR
 		'y'    => isset($_POST['image_y']) ? $_POST['image_y'] : 0,
 		'size' => isset($_POST['image_w']) ? $_POST['image_w'] : 200,
 	);
-	$uc->setImage($param_list);
-
-	header('Location: /user/account.php');
-	exit();
+	$r = $uc->setImage($param_list);
+	if (isset($r['error_message']) && $r['error_message'] != "")
+	{
+		$smarty_param['error_message'] = $r['error_message'];
+	}
+	else
+	{
+		header('Location: /user/account.php');
+		exit();
+	}
+}
+elseif (isset($_FILES['image']['error']))
+{
+	$smarty_param['error_message'] = "画像のアップロードに失敗しました。ファイルサイズが大きすぎるかもしれません。";
 }
 
 // ユーザ

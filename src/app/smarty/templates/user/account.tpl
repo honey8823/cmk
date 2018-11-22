@@ -33,6 +33,11 @@
       <div class="row">
         <div class="col-md-12">
 
+        {* post結果のエラーメッセージエリア *}
+        {if isset($error_message) && $error_message != ""}
+          <div class="div-error callout callout-danger">{$error_message}</div>
+        {/if}
+
           <div class="private-url">
             <small>
               {if $user.name == ""}-&nbsp;{else}{$user.name|escape:'html'}{/if}さんの公開ページは以下のURLです。<br>

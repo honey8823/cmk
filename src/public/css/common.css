@@ -357,14 +357,15 @@
 }
 
 /* チュートリアルページ */
-.tutorial-title {
-	height: 100px;
+.tutorial-title-img {
+	height: 200px;
 	background-repeat: no-repeat;
 	background-position: bottom 0px right 0px;
+	background-size: contain;
 }
 .tutorial-talk{
 	padding: 8px;
-	font-size: 0.85em;
+	font-size: 0.9em;
 }
 .tutorial-talk .icon-talk{
 	height: 45px;
