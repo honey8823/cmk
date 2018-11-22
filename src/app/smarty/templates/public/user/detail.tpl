@@ -43,11 +43,11 @@
                 <i class="fa fa-fw fa-heart is_favorite_icon clickable is_favorite_1 {if $is_favorite != "1"}hidden{/if}" aria-hidden="true" data-favorite_type_key="user" data-id="{$user.id}"></i>
               {/if}
               </div>
-              <div class="col-md-3 text-align-center">
+              <div class="col-md-3 text-align-center" style="margin: 1em; padding: 1em;">
               {if $user.image == ""}
-                <img src="/img/icon_noimage.png" class="img-circle" alt="User Image" style="max-width: 90%; padding: 1em;">
+                <img src="/img/icon_noimage.png" class="img-circle" alt="User Image" style="max-width: 90%; max-height: 150px;">
               {else}
-                <img src="data:image/png;base64,{$user.image}" class="img-circle" alt="User Image" style="max-width: 90%; padding: 1em;">
+                <img src="data:image/png;base64,{$user.image}" class="img-circle" alt="User Image" style="max-width: 90%; max-height: 150px;">
               {/if}
               </div>
               <div class="col-md-9">

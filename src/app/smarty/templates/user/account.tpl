@@ -92,11 +92,11 @@
             </div>
             <div class="box-body" id="area-setUserProfile">
               <form method="POST" enctype="multipart/form-data" action="/user/account.php">
-                <div style="margin: 1em;">
+                <div style="margin: 1em; padding: 1em;">
                 {if !isset($user_session.image) || $user_session.image == ""}
-                  （アイコンは設定されていません）
+                  <img src="/img/icon_noimage.png" class="img-circle" alt="User Image" style="max-width: 90%; max-height: 150px;">
                 {else}
-                  <img src="data:image/png;base64,{$user_session.image}" class="img-circle" alt="User Image">
+                  <img src="data:image/png;base64,{$user_session.image}" class="img-circle" alt="User Image" style="max-width: 90%; max-height: 150px;">
                 {/if}
                 </div>
                 <div class="form-group">

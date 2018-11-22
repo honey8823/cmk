@@ -19,10 +19,11 @@ class Common
 		$this->dsn .= "charset=" . config['db']['charset'] . ";";
 		$this->pdo = new PDO($this->dsn, config['db']['user'], config['db']['pass']);
 
-		// 通知の未読数を更新
+		// ログイン中の場合の処理
 		$user_id = $this->getLoginId();
 		if ($user_id !== false)
 		{
+			// 通知の未読数を更新
 			$this->setSessionNoticeUnread($user_id);
 		}
 	}
@@ -144,7 +145,7 @@ class Common
 		header('Expires:-1');
 		header('Cache-Control:');
 		header('Pragma:');
-		
+
 		$_SESSION = array();
 		session_destroy();
 	}
