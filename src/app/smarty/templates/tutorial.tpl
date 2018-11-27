@@ -68,8 +68,7 @@
             <span class="text-talk">
               これは「ステージ」。<br>
               これが何かと言われると使い方によって変わってくるんだけど、<br>
-              ある世界観の単位、くらいに考えるのがいいんじゃないかな。<br>
-              ひとつの話を「ifルート」「バッドエンド版」みたいに分割してもいいと思うよ。
+              <b>ある世界観の単位</b>、くらいに考えるのがいいんじゃないかな。
             </span>
           </div>
           <div class="tutorial-talk">
@@ -83,7 +82,7 @@
             <span class="text-talk">
               これは今ボクが考えた話。<br>
               この画像の下半分は「タイムライン」機能といって、<br>
-              こうやって、ちょっとしたストーリーや外部サイトへのリンクをまとめることができるんだ。<br>
+              こうやって、<b>ちょっとしたストーリーや外部サイトへのリンクをまとめることができる</b>んだ。<br>
               タイムラインという名前のとおり時系列に並べておいてもいいし、<br>
               赤い「ラベル」を使って何かのカテゴリごとに分けるのもいいと思うよ。
             </span>
@@ -298,7 +297,7 @@
           <div class="tutorial-talk">
             <img class="icon-talk img-circle" src="/img/tutorial/elena_1.png">
             <span class="text-talk">
-              ふむふむ。……あ、タイムラインに出てきた。
+              それだけでいいのね。……あ、タイムラインに出てきた。
             </span>
           </div>
           <div class="tutorial-talk">
@@ -321,7 +320,7 @@
               「フリーテキスト」は「タイトル」と違って改行ができるから、長文を書くのに向いてるね。<br>
               「タイトル」「外部サイトURL」「フリーテキスト」はどれかひとつ入力すればOKだから、例えばURLのみ登録ということもできるよ。<br>
               あと、フリーテキスト内に「=====」と半角イコールを5個続けて入力すると、他人から見たときにそこから先が省略されて、「クリックすると続きを見る」ことができるようになる。<br>
-              単純に長すぎて省略したいときや、ワンクッション置きたいときに使うといいよ。<br>
+              単純に長すぎて省略したいときや、警告を入れてワンクッション置きたいときなんかに使うといいよ。<br>
               <small>
                 ※注意<br>
                 フォーム右上のボタンからも「=====」を挿入することができますが、それより前の編集について「元に戻す(Ctrl+z など)」が効かなくなってしまいますのでご注意ください。<br>
@@ -428,10 +427,10 @@
           <div class="tutorial-talk">
             <img class="icon-talk img-circle" src="/img/tutorial/selena_1.png">
             <span class="text-talk">
-              ……ボク以外にも見えちゃうから、不特定多数に見せたくない情報が載ったステージは公開しちゃダメだよ。<br>
+              ……ボク以外にも見えちゃうから、<b>不特定多数に見せたくない情報が載ったステージは公開しちゃダメ</b>だよ。<br>
               <br>
               さて、ステージを公開する前に、まずはエピソードを公開状態にしよう。<br>
-              ステージとエピソードのそれぞれが「公開するかどうか」の情報を持っているから、両方が公開されていないと他人からは見えないよ。
+              ステージとエピソードのそれぞれが「公開するかどうか」の情報を持っているから、<b>両方が公開されていないと他人からは見えない</b>よ。
             </span>
           </div>
           <div class="tutorial-talk">
@@ -664,18 +663,11 @@
         </div>
       </div>
 
-      <div>
-        <p class="hint-box">
-          応用編は後日掲載予定です。<br>
-          しばらくお待ちください。
-        </p>
-      </div>
-{*
       <div class="box box-primary collapsed-box">
         <div class="box-header with-border tutorial-title clickable" data-widget="collapse">
           <h3 class="box-title">
             <i class="fa fa-check fa-fw"></i>
-            【応用編】もっと詳しい設定をしてみる
+            【基本編＋】ステージに「シリーズ別タグ」を設定できるようにする
           </h3>
         </div>
         <div class="box-body">
@@ -683,29 +675,81 @@
           <div class="tutorial-talk">
             <img class="icon-talk img-circle" src="/img/tutorial/selena_1.png">
             <span class="text-talk">
-              じゃ、さっそくだけど応用編だね。<br>
+              さて、応用編に入る前に……<br>
               まずは、ここまでの使い方のうち、説明していなかったところから補足していこうか。
             </span>
           </div>
-
+          <div class="tutorial-talk">
+            <img class="icon-talk img-circle" src="/img/tutorial/elena_1.png">
+            <span class="text-talk">
+              うん、気になるところはいくつかあったし。<br>
+              例えば、ステージに付けられるタグだけど……使えるタグはこれだけなの？
+            </span>
+          </div>
+          <div class="tutorial-talk">
+            <img class="icon-talk img-circle" src="/img/tutorial/selena_1.png">
+            <span class="text-talk">
+              ううん、そんなことはないよ。<br>
+              使えるタグは、実はアカウントの設定によっても変わってくるんだ。
+            </span>
+          </div>
+          <div class="tutorial-talk">
+            <img class="icon-talk img-circle" src="/img/tutorial/yuki_1.png">
+            <span class="text-talk">
+              アカウントの設定？
+            </span>
+          </div>
+          <div class="tutorial-talk">
+            <img class="icon-talk img-circle" src="/img/tutorial/selena_1.png">
+            <span class="text-talk">
+              うん、「ステージ管理」や「キャラクター管理」より少し下に<br>
+              「アカウント管理」があるから、それを押してみて。<br>
+              アカウントの情報変更ができるページが出てくるから、「プロフィールを変更する」を選んで。
+              こんな画面になると思うんだけど……<br><br>
+              <img class="image-talk" src="/img/tutorial/content_6_1.png">
+            </span>
+          </div>
+          <div class="tutorial-talk">
+            <img class="icon-talk img-circle" src="/img/tutorial/yuki_1.png">
+            <span class="text-talk">
+              お、見れたぞ。<br>
+              もしかして、この「ジャンル設定」が関係あるのか？
+            </span>
+          </div>
+          <div class="tutorial-talk">
+            <img class="icon-talk img-circle" src="/img/tutorial/selena_1.png">
+            <span class="text-talk">
+              そういうこと！<br>
+              これを設定しておくと、関連するタグがステージにも設定できるようになるんだ。<br>
+              複数設定できるから、使うジャンルは全部ONにしておくといいよ。
+            </span>
+          </div>
+          <div class="tutorial-talk">
+            <img class="icon-talk img-circle" src="/img/tutorial/elena_1.png">
+            <span class="text-talk">
+              なるほどね。じゃあまずは試しに「オリジナル」を設定して、っと。<br>
+              それからステージを作成しようとすると……<br>
+              あ、設定できるタグが増えたわ。<br><br>
+              <img class="image-talk" src="/img/tutorial/content_6_2.png">
+            </span>
+          </div>
+          <div class="tutorial-talk">
+            <img class="icon-talk img-circle" src="/img/tutorial/selena_1.png">
+            <span class="text-talk">
+              これでシリーズ系タグが設定できるようになったね。<br>
+              タグは自由に入力することはできない代わりに、<br>
+              <b>欲しいジャンルやタグは気軽にリクエストしていいみたいだから、リクエストボックスから送ってみよう。</b>
+            </span>
+          </div>
 
         </div>
       </div>
 
-*}
-{*
-ステージとキャラクターの並べ替え
-アカウントとステージタグ
-ステージとキャラクターの関連付け（ステージ側から設定・キャラクター側から設定）
-エピソードにキャラクターを紐付け（キャラクタータイムライン）
-*}
-
-{*
       <div class="box box-primary collapsed-box">
         <div class="box-header with-border tutorial-title clickable" data-widget="collapse">
           <h3 class="box-title">
             <i class="fa fa-check fa-fw"></i>
-            【応用編】もっと詳しい設定をしてみる
+            【基本編＋】ステージとキャラクターを関連付ける
           </h3>
         </div>
         <div class="box-body">
@@ -713,8 +757,224 @@
           <div class="tutorial-talk">
             <img class="icon-talk img-circle" src="/img/tutorial/selena_1.png">
             <span class="text-talk">
-              もう一度言うけど、普通に使う分にはここまでの内容で充分だよ。<br>
-              ここから先は、めんどくさい設定……じゃないな、こじらせた人……でもなくって、ええと……複雑な設定を作る人向けだね。
+              あとは、ステージとキャラクターを関連付けておかないとね。
+            </span>
+          </div>
+          <div class="tutorial-talk">
+            <img class="icon-talk img-circle" src="/img/tutorial/elena_1.png">
+            <span class="text-talk">
+              あ、やっぱりそういう機能があるのね。
+            </span>
+          </div>
+          <div class="tutorial-talk">
+            <img class="icon-talk img-circle" src="/img/tutorial/selena_1.png">
+            <span class="text-talk">
+              もちろん、タイムラインとキャラクターを別々に使うこともできるよ。<br>
+              シンプルに管理しやすいかもしれないし、そういう使い方もいいんじゃないかな。
+            </span>
+          </div>
+          <div class="tutorial-talk">
+            <img class="icon-talk img-circle" src="/img/tutorial/yuki_1.png">
+            <span class="text-talk">
+              関連付けると何かトクすることはあるのか？
+            </span>
+          </div>
+          <div class="tutorial-talk">
+            <img class="icon-talk img-circle" src="/img/tutorial/selena_1.png">
+            <span class="text-talk">
+              そうだね、メリットといえば……<br>
+              ・そのステージにいるキャラクターが簡単に把握できる<br>
+              ・キャラクターごとのタイムラインを作ることができる<br>
+              ・「ステージごとのキャラクタープロフィール」や<br>
+              　「タイムライン内のキャラクタープロフィールの変化」に対応できる<br>
+              ってところかな。
+            </span>
+          </div>
+          <div class="tutorial-talk">
+            <img class="icon-talk img-circle" src="/img/tutorial/elena_1.png">
+            <span class="text-talk">
+              最初のは分かるけど……あとの二つはどういうこと？
+            </span>
+          </div>
+          <div class="tutorial-talk">
+            <img class="icon-talk img-circle" src="/img/tutorial/yuki_1.png">
+            <span class="text-talk">
+              キャラクターのタイムラインっていうのは、もしかして、<br>
+              キャラクターページにあった「タイムライン」のタブか？
+            </span>
+          </div>
+          <div class="tutorial-talk">
+            <img class="icon-talk img-circle" src="/img/tutorial/selena_1.png">
+            <span class="text-talk">
+              そうそう。勘がいいじゃないか。<br>
+              両方とも話せば長くなるから、後から応用編できちんと見せるよ。<br>
+              まずは関連付ける方法だけ説明するね。<br>
+              <br>
+              関連付ける方法は、実は二つあるんだ。<br>
+              どちらも同じ状態になるから、使いやすい方を使うといいよ。<br>
+              まずは、キャラクターを作る時や情報を変更する時に設定する方法から。
+            </span>
+          </div>
+          <div class="tutorial-talk">
+            <img class="icon-talk img-circle" src="/img/tutorial/elena_1.png">
+            <span class="text-talk">
+              もしかして、さっきのコレかしら？<br><br>
+              <img class="image-talk" src="/img/tutorial/content_5_2.png">
+            </span>
+          </div>
+          <div class="tutorial-talk">
+            <img class="icon-talk img-circle" src="/img/tutorial/selena_1.png">
+            <span class="text-talk">
+              そう、それそれ。<br>
+              これは「キャラクター管理」の「キャラクターを追加」で出てくるフォームだね。<br>
+              ステージを既に追加してある場合は、ここで選ぶことができるんだ。<br>
+              関連付けたいステージを選ぶだけ、だから簡単でしょ。<br>
+              既に追加されているキャラクターについて変更したいときは、キャラクターページの「内容を編集する」で同じように選べるよ。<br>
+            </span>
+          </div>
+          <div class="tutorial-talk">
+            <img class="icon-talk img-circle" src="/img/tutorial/yuki_1.png">
+            <span class="text-talk">
+              なるほどー。<br>
+              もう一つの方法っていうのは？
+            </span>
+          </div>
+          <div class="tutorial-talk">
+            <img class="icon-talk img-circle" src="/img/tutorial/selena_1.png">
+            <span class="text-talk">
+              ステージの方からもキャラクターを選ぶことができるんだよ。<br>
+              さっき作ったステージのページを開いて、「キャラクター」タブを押してみて。
+            </span>
+          </div>
+          <div class="tutorial-talk">
+            <img class="icon-talk img-circle" src="/img/tutorial/yuki_1.png">
+            <span class="text-talk">
+              こんなボタンが出てきたぞ。<br><br>
+              <img class="image-talk" src="/img/tutorial/content_7_1.png">
+            </span>
+          </div>
+          <div class="tutorial-talk">
+            <img class="icon-talk img-circle" src="/img/tutorial/selena_1.png">
+            <span class="text-talk">
+              そう。それを押してみると、キャラクターを選ぶ画面が出てくるよ。
+            </span>
+          </div>
+          <div class="tutorial-talk">
+            <img class="icon-talk img-circle" src="/img/tutorial/elena_1.png">
+            <span class="text-talk">
+              あら、ホント。<br>
+              これも、さっきの画面と同じような感じで、キャラクターを選んで保存すればいいのかしら？<br><br>
+              <img class="image-talk" src="/img/tutorial/content_7_2.png">
+            </span>
+          </div>
+          <div class="tutorial-talk">
+            <img class="icon-talk img-circle" src="/img/tutorial/selena_1.png">
+            <span class="text-talk">
+              その通り。
+            </span>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="box box-primary collapsed-box">
+        <div class="box-header with-border tutorial-title clickable" data-widget="collapse">
+          <h3 class="box-title">
+            <i class="fa fa-check fa-fw"></i>
+            【基本編＋】エピソードとキャラクターを関連付ける
+          </h3>
+        </div>
+        <div class="box-body">
+
+          <div class="tutorial-talk">
+            <img class="icon-talk img-circle" src="/img/tutorial/selena_1.png">
+            <span class="text-talk">
+              実は、エピソードとキャラクターを関連付けることもできるんだ。
+            </span>
+          </div>
+          <div class="tutorial-talk">
+            <img class="icon-talk img-circle" src="/img/tutorial/elena_1.png">
+            <span class="text-talk">
+              もしかして、<b>キャラクターに関連のあるエピソードだけを並べたのが、さっき言ってた「キャラクターのタイムライン」になる</b>ってこと？
+            </span>
+          </div>
+          <div class="tutorial-talk">
+            <img class="icon-talk img-circle" src="/img/tutorial/selena_1.png">
+            <span class="text-talk">
+              そう！ そういうこと。<br>
+              さっき、ステージにキャラクターを関連付けてたよね？<br>
+              そのステージを開いて、エピソードの追加画面を出してみて。
+            </span>
+          </div>
+          <div class="tutorial-talk">
+            <img class="icon-talk img-circle" src="/img/tutorial/yuki_1.png">
+            <span class="text-talk">
+              えーと、「ステージの管理」からステージを選んで、「タイムラインにエピソードを追加」……っと。<br>
+              お、これだな。<br><br>
+              <img class="image-talk" src="/img/tutorial/content_8_1.png">
+            </span>
+          </div>
+          <div class="tutorial-talk">
+            <img class="icon-talk img-circle" src="/img/tutorial/elena_1.png">
+            <span class="text-talk">
+              ステージに関連付けてあるキャラクターだけがエピソードにも関連付けることができるのかしら？
+            </span>
+          </div>
+          <div class="tutorial-talk">
+            <img class="icon-talk img-circle" src="/img/tutorial/selena_1.png">
+            <span class="text-talk">
+              そうそう。<br>
+              内容は何でもいいから、選んで登録してみてよ。
+            </span>
+          </div>
+          <div class="tutorial-talk">
+            <img class="icon-talk img-circle" src="/img/tutorial/yuki_1.png">
+            <span class="text-talk">
+              じゃあとりあえずタイトルだけ埋めて、キャラクターを選んで、登録……っと。<br>
+              ステージに出てくるタイムラインはいつも通りだな？
+            </span>
+          </div>
+          <div class="tutorial-talk">
+            <img class="icon-talk img-circle" src="/img/tutorial/selena_1.png">
+            <span class="text-talk">
+              うん、そこはキャラクターの設定に関係なく表示されるよ。<br>
+              じゃあ、今度はそのキャラクターのページに移動してみて。
+            </span>
+          </div>
+          <div class="tutorial-talk">
+            <img class="icon-talk img-circle" src="/img/tutorial/yuki_1.png">
+            <span class="text-talk">
+              今度は「キャラクター管理」からキャラクターを選んで……この「タイムライン」タブを見ればいいんだな？<br>
+              ……お、さっき登録したエピソードが出てきたぞ。<br><br>
+              <img class="image-talk" src="/img/tutorial/content_8_2.png">
+            </span>
+          </div>
+          <div class="tutorial-talk">
+            <img class="icon-talk img-circle" src="/img/tutorial/selena_1.png">
+            <span class="text-talk">
+              何だよ、デザートって。ボクに買って来いって？<br>
+              まあそれはいいとして、キャラクターと関連付いているエピソードがこうやってキャラクターページにも出てくるようになっているんだ。<br>
+              ただし、赤い「ラベル」にはキャラクターが設定できず、見ての通り、必ず表示されるようになっているよ。
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="box box-primary collapsed-box">
+        <div class="box-header with-border tutorial-title clickable" data-widget="collapse">
+          <h3 class="box-title">
+            <i class="fa fa-check fa-fw"></i>
+            【応用編】「めんどくさい」使い方のヒント
+          </h3>
+        </div>
+        <div class="box-body">
+
+          <div class="tutorial-talk">
+            <img class="icon-talk img-circle" src="/img/tutorial/selena_1.png">
+            <span class="text-talk">
+              じゃ、今度こそ応用編だね。<br>
+              もう一度言うけど、普通に使う分にはここまでの内容でも充分だよ。<br>
+              ここから先は、めんどくさい設定……じゃないな、こじらせた人……でもなくって、ええと……複雑な設定を作る人向けかな。
             </span>
           </div>
           <div class="tutorial-talk">
@@ -724,38 +984,292 @@
               例えばどういう感じの使い方？
             </span>
           </div>
+          <div class="tutorial-talk">
+            <img class="icon-talk img-circle" src="/img/tutorial/selena_1.png">
+            <span class="text-talk">
+              例えばさ、マルチエンディングのゲームってやったことあるかい？
+            </span>
+          </div>
+          <div class="tutorial-talk">
+            <img class="icon-talk img-circle" src="/img/tutorial/elena_1.png">
+            <span class="text-talk">
+              マルチエンディング……？
+            </span>
+          </div>
+          <div class="tutorial-talk">
+            <img class="icon-talk img-circle" src="/img/tutorial/yuki_1.png">
+            <span class="text-talk">
+              わかるわかる。元々は一つのストーリーだけど、選択や進行具合によって複数のエンディングが用意されてるやつだろ？
+            </span>
+          </div>
+          <div class="tutorial-talk">
+            <img class="icon-talk img-circle" src="/img/tutorial/selena_1.png">
+            <span class="text-talk">
+              それそれ。<br>
+              それってつまり、ある二つのエンディングを比べてみると、少なくとも途中からは異なるエピソードが起こってるってことだよね？
+            </span>
+          </div>
+          <div class="tutorial-talk">
+            <img class="icon-talk img-circle" src="/img/tutorial/elena_1.png">
+            <span class="text-talk">
+              まあ、そうなるわよね。
+            </span>
+          </div>
+          <div class="tutorial-talk">
+            <img class="icon-talk img-circle" src="/img/tutorial/selena_1.png">
+            <span class="text-talk">
+              そういう世界を表現したいとき、それぞれを独立したステージとして作ってしまえば、それぞれのタイムラインを作れるでしょ？
+            </span>
+          </div>
+          <div class="tutorial-talk">
+            <img class="icon-talk img-circle" src="/img/tutorial/elena_1.png">
+            <span class="text-talk">
+              ……なるほどね。わかってきたかも。<br>
+              なんでステージとキャラクターはバラバラに作るようになってるんだろう、って思ってたけど……<br>
+              <b>ある一人のキャラクターを複数のステージに関連付けて、それぞれでルートを作れるようになってる</b>ってことなのね……。
+            </span>
+          </div>
+          <div class="tutorial-talk">
+            <img class="icon-talk img-circle" src="/img/tutorial/selena_1.png">
+            <span class="text-talk">
+              その通り。<br>
+              だって、複数のステージに同じキャラクターが出てくるとき、ステージ別にキャラクターを登録し直すのも大変でしょ？<br>
+              もちろん、ラベルなんかを駆使して一つのステージで済ませることもできるから、作る人の匙加減だけどね。
+            </span>
+          </div>
 
         </div>
       </div>
-*}
 
-{*
-ステージオーバーライド
-エピソードオーバーライド
-*}
-
-{*
-      <div class="box box-primary">
-        <div class="box-header with-border"><h3 class="box-title"><i class="fa fa-check fa-fw"></i>ステージへ情報を追加する＜ジャンル編＞</h3></div>
+      <div class="box box-primary collapsed-box">
+        <div class="box-header with-border tutorial-title clickable" data-widget="collapse">
+          <h3 class="box-title">
+            <i class="fa fa-check fa-fw"></i>
+            【応用編】キャラクタープロフィールの「オーバーライド」
+          </h3>
+        </div>
         <div class="box-body">
-          <h4>【STEP1】アカウント情報を変更する</h4>
-          <small>
-            アカウント情報から「ジャンル設定」が可能です。<br>
-            このサイトで使うジャンルを選んで保存してください。<br>
-            ※ジャンルの自由入力に対応する予定はありません。<br>
-            　追加希望はいつでも受け付けていますので、<br>
-            　<a href="/">トップページの匿名フォーム</a>や<a href="https://twitter.com/smtk_tks">作者Twitter</a>にてお気軽にお知らせください。
-          </small>
-          <h4>【STEP2】ステージに関連作品を設定する</h4>
-          <small>
-            ステージにて、STEP1で設定したジャンルに応じた関連作品を選ぶことができます。<br>
-            自分の作ったステージに関連する作品を選んで設定してください。<br>
-            ※関連作品の自由入力に対応する予定もありません。<br>
-            　同じく追加希望はフォーム等からお気軽にお知らせください。
-          </small>
+
+          <div class="tutorial-talk">
+            <img class="icon-talk img-circle" src="/img/tutorial/selena_1.png">
+            <span class="text-talk">
+              じゃあ一番めんどくさいのやるけど、心の準備はいいかい？
+            </span>
+          </div>
+          <div class="tutorial-talk">
+            <img class="icon-talk img-circle" src="/img/tutorial/elena_1.png">
+            <span class="text-talk">
+              心の準備……
+            </span>
+          </div>
+          <div class="tutorial-talk">
+            <img class="icon-talk img-circle" src="/img/tutorial/selena_1.png">
+            <span class="text-talk">
+              キャラクタープロフィールの「オーバーライド」っていう機能があるんだ。<br>
+              たとえばここに、普通のキャラクタープロフィールがあるでしょ。<br><br>
+              <img class="image-talk" src="/img/tutorial/content_10_1.png">
+            </span>
+          </div>
+          <div class="tutorial-talk">
+            <img class="icon-talk img-circle" src="/img/tutorial/yuki_1.png">
+            <span class="text-talk">
+              ふむふむ。
+            </span>
+          </div>
+          <div class="tutorial-talk">
+            <img class="icon-talk img-circle" src="/img/tutorial/selena_1.png">
+            <span class="text-talk">
+              で、このキャラクターを関連付けしているステージでは、<br>
+              「そのステージでしか使わないプロフィール」でこれを上書きすることができるんだ。
+            </span>
+          </div>
+          <div class="tutorial-talk">
+            <img class="icon-talk img-circle" src="/img/tutorial/elena_1.png">
+            <span class="text-talk">
+              どういうこと……？
+            </span>
+          </div>
+          <div class="tutorial-talk">
+            <img class="icon-talk img-circle" src="/img/tutorial/selena_1.png">
+            <span class="text-talk">
+              ステージのキャラクタータブに、そこに関連付けされているキャラクターの一覧が表示されるよね？<br>
+              キャラクターの名前をクリックすると、メニューが出てくるはずだ。<br>
+              そこから「プロフィールをオーバーライドする」を選ぶと、またプロフィールの設定画面が出てくる。<br><br>
+              <img class="image-talk" src="/img/tutorial/content_10_2.png">
+            </span>
+          </div>
+          <div class="tutorial-talk">
+            <img class="icon-talk img-circle" src="/img/tutorial/elena_1.png">
+            <span class="text-talk">
+              うーんと、これね。<br><br>
+              <img class="image-talk" src="/img/tutorial/content_10_3.png">
+            </span>
+          </div>
+          <div class="tutorial-talk">
+            <img class="icon-talk img-circle" src="/img/tutorial/selena_1.png">
+            <span class="text-talk">
+              うん。操作方法は普通のプロフィール設定と同じだけど、<b>ここで設定した項目は、このステージ内でのみ有効になる</b>んだ。<br>
+              ここで設定されていない項目は、自動的に元のプロフィールが使われるようになっているよ。
+            </span>
+          </div>
+          <div class="tutorial-talk">
+            <img class="icon-talk img-circle" src="/img/tutorial/elena_1.png">
+            <span class="text-talk">
+              「ステージによってちょっと設定が違うキャラクター」なら、<b>共通してる項目を全部設定し直す必要がない</b>ってことね。
+            </span>
+          </div>
+          <div class="tutorial-talk">
+            <img class="icon-talk img-circle" src="/img/tutorial/yuki_1.png">
+            <span class="text-talk">
+              なるほどなあ。ほら、設定を追加してみたぞ。<br><br>
+              <img class="image-talk" src="/img/tutorial/content_10_4.png">
+            </span>
+          </div>
+          <div class="tutorial-talk">
+            <img class="icon-talk img-circle" src="/img/tutorial/elena_1.png">
+            <span class="text-talk">
+              ちょっと！ アタシの設定で遊ばないでよ。
+            </span>
+          </div>
+          <div class="tutorial-talk">
+            <img class="icon-talk img-circle" src="/img/tutorial/selena_1.png">
+            <span class="text-talk">
+              背景が黒くなっている項目は「このステージでオーバーライドされている」というしるしだよ。<br>
+              オーバーライドの操作はこれだけ。<br>
+              <br>
+              あ、キャラクターとステージの両方が「公開」設定になっている場合は、ステージの公開用ページのここから見てもらうことができるよ。<br>
+              もちろんこの先のURLを直接誰かに教えてもいいし。<br><br>
+              <img class="image-talk" src="/img/tutorial/content_10_5.png">
+            </span>
+          </div>
+          <div class="tutorial-talk">
+            <img class="icon-talk img-circle" src="/img/tutorial/elena_1.png">
+            <span class="text-talk">
+              え、これだけ？<br>
+              てっきり、もっとめんどくさいものかと。
+            </span>
+          </div>
+          <div class="tutorial-talk">
+            <img class="icon-talk img-circle" src="/img/tutorial/selena_1.png">
+            <span class="text-talk">
+              めんどくさいのは操作じゃなくてオーバーライドの概念だから……。<br>
+              <br>
+              <b>ステージによってちょっと違う設定があるキャラクターについて、<br>
+              全く別のプロフィールを用意したり書き換えるんじゃなくて、上に重ねる概念</b>だってことが分かってもらえればいいよ。<br>
+              デジタルの絵を描く人なら「レイヤー」みたいなイメージだって言っても伝わるかな？
+            </span>
+          </div>
+          <div class="tutorial-talk">
+            <img class="icon-talk img-circle" src="/img/tutorial/yuki_1.png">
+            <span class="text-talk">
+              おう、わかった気がする。<br>
+              ところでさっき、「タイムライン内のキャラクタープロフィールの変化に対応できる」って言ってなかったか？
+            </span>
+          </div>
+          <div class="tutorial-talk">
+            <img class="icon-talk img-circle" src="/img/tutorial/selena_1.png">
+            <span class="text-talk">
+              よく覚えてたね。そう、オーバーライドにはもう一つあるんだ。<br>
+              そうだね、例えば……一番簡単なところだと、「年齢」ってもちろん時間の経過で変わるでしょ？
+            </span>
+          </div>
+          <div class="tutorial-talk">
+            <img class="icon-talk img-circle" src="/img/tutorial/yuki_1.png">
+            <span class="text-talk">
+              そりゃそうだな。<br>
+              あ、さっき「17歳」って書いちまったな……
+            </span>
+          </div>
+          <div class="tutorial-talk">
+            <img class="icon-talk img-circle" src="/img/tutorial/selena_1.png">
+            <span class="text-talk">
+              そのステージのタイムラインが始まった時点を17歳とすればいいんだよ。<br>
+              ということで、「2年後のある時点のプロフィール」を作ってみようか。<br>
+              まずはエピソードの追加画面を開いてみて。
+            </span>
+          </div>
+          <div class="tutorial-talk">
+            <img class="icon-talk img-circle" src="/img/tutorial/elena_1.png">
+            <span class="text-talk">
+              開いたわよ。……あ、「キャラクターのオーバーライド」ってボタンがあるわね。
+            </span>
+          </div>
+          <div class="tutorial-talk">
+            <img class="icon-talk img-circle" src="/img/tutorial/selena_1.png">
+            <span class="text-talk">
+              そう。それを押すとこうなるでしょ。<br>
+              タイトルは入れても入れなくてもいいから、次に進んでみて。<br><br>
+              <img class="image-talk" src="/img/tutorial/content_10_6.png">
+            </span>
+          </div>
+          <div class="tutorial-talk">
+            <img class="icon-talk img-circle" src="/img/tutorial/yuki_1.png">
+            <span class="text-talk">
+              お、別の画面になった。<br>
+              紫色のキャラクターの名前のところを押したら、またプロフィール設定ができそうなところが出てきたぞ。<br><br>
+              <img class="image-talk" src="/img/tutorial/content_10_7.png">
+            </span>
+          </div>
+          <div class="tutorial-talk">
+            <img class="icon-talk img-circle" src="/img/tutorial/selena_1.png">
+            <span class="text-talk">
+              それそれ。<br>
+              ここで設定したプロフィールは「この時点のプロフィール」として、ステージのオーバーライドに対して、さらにオーバーライドすることができるんだ。
+            </span>
+          </div>
+          <div class="tutorial-talk">
+            <img class="icon-talk img-circle" src="/img/tutorial/yuki_1.png">
+            <span class="text-talk">
+              よし、適当に設定を追加して、っと。<br>
+              これを他の人に見せたいときはどうすればいいんだ？<br><br>
+              <img class="image-talk" src="/img/tutorial/content_10_8.png">
+            </span>
+          </div>
+          <div class="tutorial-talk">
+            <img class="icon-talk img-circle" src="/img/tutorial/selena_1.png">
+            <span class="text-talk">
+              まず、この<b>ステージ・エピソード・キャラクターの全部が「公開」設定になっていないと他の人からは見えない</b>から注意してね。<br>
+              ステージの公開ページ内のタイムラインで、こんな風に表示されるから、ここから見てもらうことができるよ。<br><br>
+              <img class="image-talk" src="/img/tutorial/content_10_9.png">
+            </span>
+          </div>
+          <div class="tutorial-talk">
+            <img class="icon-talk img-circle" src="/img/tutorial/elena_1.png">
+            <span class="text-talk">
+              なるほど……って、そんなの公開しないでよ！
+            </span>
+          </div>
+
         </div>
       </div>
-*}
+
+      <div class="box box-primary collapsed-box">
+        <div class="box-header with-border tutorial-title clickable" data-widget="collapse">
+          <h3 class="box-title">
+            <i class="fa fa-check fa-fw"></i>
+            最後に
+          </h3>
+        </div>
+        <div class="box-body">
+
+          <div class="tutorial-talk">
+            <img class="icon-talk img-circle" src="/img/tutorial/selena_1.png">
+            <span class="text-talk">
+              ということで、チュートリアルはここまでだよ。<br>
+              全部の機能を説明したわけじゃないから、もし分からないことがあれば、気軽に作者に聞いちゃってね。
+              <p style="background: #999999; border-radius: 5px; padding: 10px; margin: 5px;">
+                ◆個別にお返事が必要な場合<br>
+                <small>　　Twitter <a href="http://twitter.com/smtk_tks/">@smtk_tks</a></small><br>
+                ◆お返事が不要な場合・匿名にしたい場合<br>
+                <small>　　トップページにあるフォーム または メニュー内の「リクエストボックス」</small><br>
+                <br>
+                あくまで、趣味で作った個人サイトです。応えきれない場合は申し訳ありませんがご了承ください。
+              </p>
+            </span>
+          </div>
+
+        </div>
+      </div>
 
     </section>
 
