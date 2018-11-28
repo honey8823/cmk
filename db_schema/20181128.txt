@@ -1,0 +1,294 @@
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
+
+CREATE TABLE `character` (
+  `id` int(11) NOT NULL COMMENT 'ID',
+  `user_id` int(11) NOT NULL COMMENT 'ユーザID',
+  `name` varchar(64) NOT NULL COMMENT '名前',
+  `remarks` text COMMENT '備考',
+  `sort` int(11) NOT NULL DEFAULT '0',
+  `is_private` tinyint(1) NOT NULL DEFAULT '1' COMMENT '非表示フラグ',
+  `is_delete` tinyint(4) NOT NULL DEFAULT '0' COMMENT '削除フラグ',
+  `create_stamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '作成日',
+  `update_stamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新日'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='キャラクター';
+
+CREATE TABLE `character_profile` (
+  `character_id` int(11) NOT NULL COMMENT 'キャラクターID',
+  `question` int(11) NOT NULL COMMENT '質問',
+  `answer` text NOT NULL COMMENT '回答',
+  `sort` int(11) NOT NULL DEFAULT '0' COMMENT '並び順',
+  `create_stamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '登録日時',
+  `update_stamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新日時'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='キャラクタープロフィール';
+
+CREATE TABLE `character_profile_episode` (
+  `character_id` int(11) NOT NULL COMMENT 'キャラクターID ',
+  `episode_id` int(11) NOT NULL COMMENT 'エピソードID',
+  `question` int(11) NOT NULL COMMENT '質問',
+  `answer` text NOT NULL COMMENT '回答',
+  `sort` int(11) NOT NULL DEFAULT '0' COMMENT '並び順',
+  `create_stamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '登録日時',
+  `update_stamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新日時'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE `character_profile_stage` (
+  `character_id` int(11) NOT NULL COMMENT 'キャラクターID ',
+  `stage_id` int(11) NOT NULL COMMENT 'ステージID',
+  `question` int(11) NOT NULL COMMENT '質問',
+  `answer` text NOT NULL COMMENT '回答',
+  `sort` int(11) NOT NULL DEFAULT '0' COMMENT '並び順',
+  `create_stamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '登録日時',
+  `update_stamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新日時'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE `character_tag` (
+  `character_id` int(11) NOT NULL,
+  `tag_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='キャラクター(タグ)';
+
+CREATE TABLE `contact` (
+  `id` int(11) NOT NULL,
+  `content` text NOT NULL,
+  `create_stamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `update_stamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE `episode` (
+  `id` int(11) NOT NULL COMMENT 'ID',
+  `stage_id` int(11) NOT NULL COMMENT 'ステージID',
+  `type` int(11) NOT NULL DEFAULT '1' COMMENT '区分',
+  `is_label` tinyint(1) NOT NULL DEFAULT '0',
+  `category` int(11) NOT NULL,
+  `title` varchar(32) DEFAULT NULL COMMENT 'タイトル',
+  `url` text COMMENT 'URL',
+  `free_text` text COMMENT 'フリーテキスト',
+  `sort` int(11) NOT NULL DEFAULT '0',
+  `is_r18` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'R18フラグ',
+  `is_private` tinyint(1) NOT NULL DEFAULT '1' COMMENT '非公開フラグ',
+  `is_delete` tinyint(1) NOT NULL DEFAULT '0' COMMENT '削除フラグ',
+  `create_stamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '登録日時',
+  `update_stamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新日時'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='エピソード';
+
+CREATE TABLE `episode_character` (
+  `episode_id` int(11) NOT NULL COMMENT 'エピソードID',
+  `character_id` int(11) NOT NULL COMMENT 'キャラクターID',
+  `sort` int(11) NOT NULL DEFAULT '0' COMMENT '並び順'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE `favorite` (
+  `user_id` int(11) NOT NULL COMMENT 'ユーザID',
+  `type` int(11) NOT NULL COMMENT '区分',
+  `id` int(11) NOT NULL COMMENT '対象ID',
+  `create_stamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '登録日時'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='お気に入り';
+
+CREATE TABLE `genre` (
+  `id` int(11) NOT NULL,
+  `title` varchar(16) NOT NULL,
+  `remarks` text NOT NULL,
+  `sort` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+INSERT INTO `genre` (`id`, `title`, `remarks`, `sort`) VALUES
+(1, 'セブンスドラゴンシリーズ', 'セガのRPG', 1),
+(2, '世界樹の迷宮シリーズ', 'セガ/アトラスのRPG', 2),
+(3, 'オリジナル', '一次創作', 0),
+(4, 'その他二次創作', '', 999),
+(5, '歴史創作', '', 5);
+
+CREATE TABLE `help` (
+  `id` int(11) NOT NULL COMMENT 'ID',
+  `title` varchar(128) NOT NULL COMMENT 'タイトル',
+  `content` text NOT NULL COMMENT '本文',
+  `sort` int(11) NOT NULL COMMENT '並び順',
+  `is_pickup` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'ピックアップ',
+  `create_stamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '登録日時',
+  `update_stamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新日時'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='ヘルプ';
+
+CREATE TABLE `information` (
+  `id` int(11) NOT NULL COMMENT 'ID',
+  `content` text NOT NULL COMMENT '本文',
+  `create_stamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '登録日時',
+  `update_stamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新日時'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE `notice` (
+  `id` int(11) NOT NULL COMMENT 'ID',
+  `user_id` int(11) NOT NULL COMMENT 'ユーザID',
+  `content` text NOT NULL COMMENT '本文',
+  `uri` text COMMENT '誘導先URI',
+  `read_stamp` timestamp NULL DEFAULT NULL COMMENT '既読日時',
+  `create_stamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '作成日時'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE `stage` (
+  `id` int(11) NOT NULL COMMENT 'ID',
+  `user_id` int(11) NOT NULL COMMENT 'ユーザID',
+  `name` varchar(16) NOT NULL COMMENT '名前',
+  `remarks` text COMMENT '備考',
+  `sort` int(11) NOT NULL DEFAULT '0' COMMENT '並び順',
+  `is_private` tinyint(1) NOT NULL DEFAULT '1' COMMENT '非公開フラグ',
+  `is_delete` tinyint(1) NOT NULL DEFAULT '0' COMMENT '削除フラグ',
+  `create_stamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '登録日時',
+  `update_stamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新日時'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='ステージ';
+
+CREATE TABLE `stage_character` (
+  `stage_id` int(11) NOT NULL,
+  `character_id` int(11) NOT NULL,
+  `sort` int(11) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='キャラクター(タグ)';
+
+CREATE TABLE `stage_tag` (
+  `stage_id` int(11) NOT NULL,
+  `tag_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='キャラクター(タグ)';
+
+CREATE TABLE `tag` (
+  `id` int(11) NOT NULL COMMENT 'ID',
+  `category` int(11) NOT NULL COMMENT 'タグカテゴリ',
+  `genre_id` int(11) DEFAULT NULL,
+  `name` varchar(32) NOT NULL COMMENT '名称',
+  `name_short` varchar(16) NOT NULL COMMENT '略称',
+  `sort` int(11) NOT NULL COMMENT 'カテゴリ内並び順'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='タグ';
+
+INSERT INTO `tag` (`id`, `category`, `genre_id`, `name`, `name_short`, `sort`) VALUES
+(7, 1, 1, 'セブンスドラゴン', '7D無印', 1),
+(8, 1, 1, 'セブンスドラゴン2020', '7D2020', 2),
+(9, 1, 1, 'セブンスドラゴン2020-Ⅱ', '7D2021', 3),
+(10, 1, 1, 'セブンスドラゴンⅢ', '7DⅢ', 4),
+(11, 1, 1, 'ゲーム未登場の時代/世界', '7Dその他', 5),
+(13, 1, 1, '[仮]セブンスドラゴン以外', '非7D', 99),
+(14, 1, 2, '世界樹の迷宮/新世界樹の迷宮', 'SQ1/SSQ1', 1),
+(15, 1, 2, '世界樹の迷宮Ⅱ/新世界樹の迷宮Ⅱ', 'SQ2/SSQ2', 2),
+(16, 1, 2, '世界樹の迷宮Ⅲ', 'SQ3', 3),
+(17, 1, 2, '世界樹の迷宮Ⅳ', 'SQ4', 4),
+(18, 1, 2, '世界樹の迷宮Ⅴ', 'SQ5', 5),
+(19, 1, 2, '世界樹の迷宮Ⅹ', 'SQX', 6),
+(20, 1, 2, '世界樹と不思議のダンジョン', 'セカダン1', 7),
+(21, 1, 2, '世界樹と不思議のダンジョン2', 'セカダン2', 8),
+(22, 1, 3, 'オリジナル', 'オリジナル', 0),
+(23, 1, 4, 'その他二次創作', 'その他二次創作', 999),
+(24, 1, 5, '歴史創作', '歴史創作', 1),
+(25, 2, NULL, 'NL', 'NL', 1),
+(26, 2, NULL, 'BL', 'BL', 2),
+(27, 2, NULL, 'GL', 'GL', 3),
+(28, 2, NULL, 'R18', 'R18', 4),
+(29, 2, NULL, 'R18G', 'R18G', 5),
+(30, 2, NULL, 'ネタバレ', 'ネタバレ', 6);
+
+CREATE TABLE `user` (
+  `id` int(11) NOT NULL COMMENT 'ID',
+  `name` varchar(32) DEFAULT NULL COMMENT '名前',
+  `login_id` varchar(32) NOT NULL COMMENT 'ログインID',
+  `password` varchar(32) NOT NULL COMMENT 'パスワード',
+  `twitter_id` varchar(32) DEFAULT NULL COMMENT 'twitterID',
+  `pixiv_id` varchar(32) DEFAULT NULL COMMENT 'pixivid',
+  `remarks` text COMMENT 'フリーテキスト',
+  `image` longtext COMMENT '画像',
+  `mail_address` varchar(256) DEFAULT NULL COMMENT 'メールアドレス',
+  `is_r18` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'R18許可フラグ',
+  `is_delete` tinyint(1) NOT NULL DEFAULT '0' COMMENT '退会済み',
+  `login_stamp` timestamp NULL DEFAULT NULL COMMENT '最終ログイン日時',
+  `create_stamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '作成日時',
+  `update_stamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新日時'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='ユーザ';
+
+CREATE TABLE `user_genre` (
+  `user_id` int(11) NOT NULL,
+  `genre_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+ALTER TABLE `character`
+  ADD PRIMARY KEY (`id`);
+
+ALTER TABLE `character_profile`
+  ADD PRIMARY KEY (`character_id`,`question`);
+
+ALTER TABLE `character_profile_episode`
+  ADD PRIMARY KEY (`character_id`,`episode_id`,`question`);
+
+ALTER TABLE `character_profile_stage`
+  ADD PRIMARY KEY (`character_id`,`stage_id`,`question`);
+
+ALTER TABLE `character_tag`
+  ADD PRIMARY KEY (`character_id`,`tag_id`);
+
+ALTER TABLE `contact`
+  ADD PRIMARY KEY (`id`);
+
+ALTER TABLE `episode`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `user_id` (`stage_id`);
+
+ALTER TABLE `episode_character`
+  ADD PRIMARY KEY (`episode_id`,`character_id`);
+
+ALTER TABLE `favorite`
+  ADD PRIMARY KEY (`user_id`,`type`,`id`);
+
+ALTER TABLE `genre`
+  ADD PRIMARY KEY (`id`);
+
+ALTER TABLE `help`
+  ADD PRIMARY KEY (`id`);
+
+ALTER TABLE `information`
+  ADD PRIMARY KEY (`id`);
+
+ALTER TABLE `notice`
+  ADD PRIMARY KEY (`id`);
+
+ALTER TABLE `stage`
+  ADD PRIMARY KEY (`id`);
+
+ALTER TABLE `stage_character`
+  ADD PRIMARY KEY (`character_id`,`stage_id`);
+
+ALTER TABLE `stage_tag`
+  ADD PRIMARY KEY (`stage_id`,`tag_id`);
+
+ALTER TABLE `tag`
+  ADD PRIMARY KEY (`id`);
+
+ALTER TABLE `user`
+  ADD PRIMARY KEY (`id`);
+
+ALTER TABLE `user_genre`
+  ADD PRIMARY KEY (`user_id`,`genre_id`);
+
+
+ALTER TABLE `character`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID';
+
+ALTER TABLE `contact`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE `episode`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID';
+
+ALTER TABLE `genre`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE `help`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID';
+
+ALTER TABLE `information`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID';
+
+ALTER TABLE `notice`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID';
+
+ALTER TABLE `stage`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID';
+
+ALTER TABLE `tag`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID';
+
+ALTER TABLE `user`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID';
