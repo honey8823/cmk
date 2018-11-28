@@ -8,7 +8,7 @@
           <h4 class="modal-title">エピソード更新</h4>
         </div>
         <div class="modal-body">
-          <input type="hidden" name="id" class="form-id" value="">
+          <input type="hidden" id="episode_id" name="id" class="form-id" value="">
           <div class="form-group clickable" onclick="$(this).children().toggleClass('hide');">
             <span class="form-is_private" data-is_private="1"><span class="is_private_icon clickable is_private_1"><i class="fa fa-lock fa-fw"></i></span>非公開<small>（クリックで公開に切り替え）</small></span>
             <span class="form-is_private" data-is_private="0"><span class="is_private_icon clickable is_private_0"><i class="fa fa-unlock fa-fw"></i></span>公開<small>（クリックで非公開に切り替え）</small></span>
@@ -87,25 +87,25 @@
             <div class="form-group">
               <label>オーバーライド</label>
               <div>
-              {if !isset($stage.character_list) || !is_array($stage.character_list) || count($stage.character_list) == 0}
-                <p class="hint-box">
+                <p class="hint-box no_character hidden">
                   このステージにはキャラクターが割り当てられていません。<br>
                   このページの「キャラクター」タブ、もしくはキャラクター自身のページで設定できます。
                 </p>
-              {else}
-              {foreach from=$stage.character_list key=k item=v_character}
-                <div class="character_block" data-id="{$v_character.id}">
-                  <p class="character-folder clickable">
-                    <big><i class="fa fa-fw fa-caret-right folder-close-icon" aria-hidden="true"></i></big>
-                    <big><i class="fa fa-fw fa-caret-down folder-open-icon hidden" aria-hidden="true"></i></big>
-                    <span>{$v_character.name|escape:'html'}</span>
-                  </p>
-                  <ul class="nav nav-stacked ul-character_profile character_profile_episode hidden" style="margin: 1.5em;">
-                  {include file='common/template-li-profile.tpl'}
-                  </ul>
+                <div class="character_block_group">
+                  <div class="character_block template-for-copy" data-id="">
+                    <p class="character-folder clickable">
+                      <big><i class="fa fa-fw fa-caret-right folder-close-icon" aria-hidden="true"></i></big>
+                      <big><i class="fa fa-fw fa-caret-down folder-open-icon hidden" aria-hidden="true"></i></big>
+                      <span class="character_name"></span>
+                    </p>
+                    <div class="link-character_override_episode text-align-right clickable hidden">
+                      <a><small><i class="fa fa-fw fa-user" aria-hidden="true"></i>オーバーライド後の公開用ページへ移動</small></a>
+                    </div>
+                    <ul class="nav nav-stacked ul-character_profile character_profile_episode hidden" style="margin: 1.5em;">
+                      {include file='common/template-li-profile.tpl'}
+                    </ul>
+                  </div>
                 </div>
-              {/foreach}
-              {/if}
               </div>
             </div>
           </div>

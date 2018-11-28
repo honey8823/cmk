@@ -265,7 +265,7 @@
 #set_forms-override .character-folder.clickable{
 	color: white;
 	background-color: #4A53B4;
-	margin: 1em;
+	margin-top: 1em;
 	border-radius: 2px;
 	padding: 0.3em;
 }
@@ -284,6 +284,9 @@
 }
 .profile_reference .profile_reference_content{
 	padding: 5px 5px 10px 10px;
+}
+.profile_reference ul > li{
+	margin-left: -2em;
 }
 
 /* 通知ページ */

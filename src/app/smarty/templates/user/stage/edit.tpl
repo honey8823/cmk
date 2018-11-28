@@ -31,6 +31,8 @@
 
     <!-- Main content -->
     <input type="hidden" id="stage_id" value="{$stage.id}">
+    <input type="hidden" id="login_id" value="{$stage.login_id}">
+    <input type="hidden" id="stage_is_private" value="{$stage.is_private}">
     <section class="content">
       <div class="row">
 
@@ -189,8 +191,11 @@
                             <span><span class="character_name"></span></span>
                           </div>
                           <div class="folder hidden">
-                            <button type="button" class="btn btn-xs btn-block btn-default btn-character_edit" onclick="location.href='/user/character/edit.php?id={$v_character.id}';">キャラクターページへ移動</button>
-                            <button type="button" class="btn btn-xs btn-block btn-default btn-override" data-id="{$v_character.id}" data-toggle="modal" data-target="#modal-overrideStage">プロフィールをオーバーライドする</button>
+                            <button type="button" class="btn btn-xs btn-block btn-default btn-character_edit">キャラクターページへ移動</button>
+                            <button type="button" class="btn btn-xs btn-block btn-default btn-override" data-id="" data-toggle="modal" data-target="#modal-overrideStage">プロフィールをオーバーライドする</button>
+                          {if $stage.is_private != 1}
+                            <button type="button" class="btn btn-xs btn-block btn-default btn-character_override">オーバーライド後の公開用ページへ移動</button>
+                          {/if}
                           </div>
                         </a>
                       </li>
@@ -205,6 +210,9 @@
                           <div class="folder hidden">
                             <button type="button" class="btn btn-xs btn-block btn-default btn-character_edit">キャラクターページへ移動</button>
                             <button type="button" class="btn btn-xs btn-block btn-default btn-override" data-id="{$v_character.id}" data-toggle="modal" data-target="#modal-overrideStage">プロフィールをオーバーライドする</button>
+                          {if $stage.is_private != 1 && $v_character.is_private != 1}
+                            <button type="button" class="btn btn-xs btn-block btn-default btn-character_override">オーバーライド後の公開用ページへ移動</button>
+                          {/if}
                           </div>
                         </a>
                       </li>

@@ -13,7 +13,7 @@
     {* 項目名 *}
       <div class="character_profile_q"></div>
     {* 内容 *}
-      <div class="character_profile_a not_override">
+      <div class="character_profile_a not_override clickable">
         <div class="profile_main"></div>
         <div class="profile_sub hidden"></div>
         <div class="profile_reference hidden">
@@ -30,12 +30,12 @@
           <div class="profile_episode_prev hidden">
             <div class="profile_reference_title">このエピソードより前のオーバーライド</div>
             <div class="profile_reference_content is_empty">-</div>
-            <div class="profile_reference_content is_fill hidden"><ul><li class="hidden"></li></ul></div>
+            <div class="profile_reference_content is_fill hidden"><ul></ul></div>
           </div>
           <div class="profile_episode_next hidden">
             <div class="profile_reference_title">このエピソードより後のオーバーライド</div>
             <div class="profile_reference_content is_empty">-</div>
-            <div class="profile_reference_content is_fill hidden"><ul><li class="hidden"></li></ul></div>
+            <div class="profile_reference_content is_fill hidden"><ul></ul></div>
           </div>
         </div>
       </div>

@@ -139,6 +139,7 @@ class StageController extends Common
 			$sql .= "AND        `character`.`is_delete` <> 1 ";
 			$sql .= "ORDER BY   `stage_character`.`sort` = 0 ASC ";
 			$sql .= "          ,`stage_character`.`sort` ASC ";
+			$sql .= "          ,`stage_character`.`character_id` ASC ";
 			$arg_list = array($id, $user_id);
 			$character_list = $this->query($sql, $arg_list);
 			$stage_list[0]['character_list'] = array();

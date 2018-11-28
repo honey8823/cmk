@@ -169,9 +169,6 @@ function drawCharacterProfile(li_obj, mode, type, params){
 			// 必ずオーバーライドにはならない
 			li_obj.find(".view_mode .character_profile_a").removeClass("override");
 			li_obj.find(".view_mode .character_profile_a").addClass("not_override");
-
-			// 参照部分折り畳みを有効にする
-			li_obj.find(".view_mode .character_profile_a").addClass("clickable");
 		}
 
 		// 参考内容の表示非表示制御
@@ -193,7 +190,6 @@ function drawCharacterProfile(li_obj, mode, type, params){
 			if (aep != undefined && aep.length > 0){sub = aep[aep.length - 1]['answer'];}
 			else if (as != undefined && as != null && as != ""){sub = as;}
 			else if (ab != undefined && ab != null && ab != ""){sub = ab;}
-			else{sub = "（この時点では未設定の項目です）";}
 			li_obj.find(".view_mode .character_profile_a .profile_sub").html(strToText(sub));
 
 			// 参考
@@ -208,21 +204,17 @@ function drawCharacterProfile(li_obj, mode, type, params){
 				li_obj.find(".profile_stage .profile_reference_content.is_empty").addClass("hidden");
 			}
 			if (aep != undefined && aep.length > 0){
-				var tmp_obj = li_obj.find(".profile_episode_prev .profile_reference_content.is_fill li.hidden")[0];
+				var tmp_obj = li_obj.find(".profile_episode_prev .profile_reference_content.is_fill ul");
 				$(aep).each(function(i, e){
-					var ep_obj = $(tmp_obj).clone().insertAfter(tmp_obj);
-					$(ep_obj).html(strToText(e.answer));
-					$(ep_obj).removeClass("hidden");
+					$(tmp_obj).append("<li>" + strToText(e.answer) + "</li>");
 				});
 				li_obj.find(".profile_episode_prev .profile_reference_content.is_fill").removeClass("hidden");
 				li_obj.find(".profile_episode_prev .profile_reference_content.is_empty").addClass("hidden");
 			}
 			if (aen != undefined && aen.length > 0){
-				var tmp_obj = li_obj.find(".profile_episode_next .profile_reference_content.is_fill li.hidden")[0];
+				var tmp_obj = li_obj.find(".profile_episode_next .profile_reference_content.is_fill ul");
 				$(aen).each(function(i, e){
-					var en_obj = $(tmp_obj).clone().insertAfter(tmp_obj);
-					$(en_obj).html(strToText(e.answer));
-					$(en_obj).removeClass("hidden");
+					$(tmp_obj).append("<li>" + strToText(e.answer) + "</li>");
 				});
 				li_obj.find(".profile_episode_next .profile_reference_content.is_fill").removeClass("hidden");
 				li_obj.find(".profile_episode_next .profile_reference_content.is_empty").addClass("hidden");

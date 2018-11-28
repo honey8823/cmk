@@ -8,6 +8,13 @@ $(document).on("click", ".character_list .btn-override", function(){
 	var id = $(this).parents("li").data("id");
 	setOverrideStageModal(id);
 });
+/* 公開用キャラクターページへの移動 */
+$(document).on("click", ".character_list .btn-character_override", function(){
+	var id = $(this).parents("li").data("id");
+	var s = $("#stage_id").val();
+	var user = $("#login_id").val();
+	location.href = "/public/character/override.php?user=" + user + "&id=" + id + "&s=" + s;
+});
 
 /**********************/
 /* ステージ本体の操作 */
@@ -251,14 +258,15 @@ function upsertStageCharacter(){
 		$(result.return_value.add_character_list).each(function(i, e){
 			var obj_base = $(".ul-character > .character_list.template-for-copy")[0];
 			var obj = $(obj_base).clone(true).appendTo($(".ul-character"));
-			//var obj = $(".ul-character").append($(obj_base).clone(true));
 
 			$(obj).data("id", e);
 			$(obj).attr("data-id", e);
-			$(obj).find(".is_private_" + result.return_value.character_list[e].is_private).removeClass("hide");
+			$(obj).find(".is_private_" + result.return_value.character_list[e].is_private).removeClass("hidden");
 			$(obj).find("a.character_id").attr("href", $(obj).find("a.character_id").attr("href") + $.param({id: e}));
 			$(obj).find(".character_name").text(result.return_value.character_list[e].name);
-
+			if (result.return_value.character_list[e].is_private == 1){
+				$(obj).find(".btn-character_override").addClass("hidden");
+			}
 			$(obj).removeClass("template-for-copy");
 		});
 

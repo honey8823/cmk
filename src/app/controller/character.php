@@ -1148,7 +1148,6 @@ class CharacterController extends Common
 			}
 
 			// 引数
-			$character_list = $param_list['character_list'];
 			$episode_id     = trim($param_list['episode_id']);
 
 			$return_list = array();
@@ -1183,20 +1182,37 @@ class CharacterController extends Common
 
 			// 戻り値の形をつくる
 			$return_list['character_list'] = array();
+
+			// 取得（キャラクター）
+			$sql  = "SELECT     `character`.`id` ";
+			$sql .= "          ,`character`.`name` ";
+			$sql .= "          ,`character`.`is_private` ";
+			$sql .= "FROM       `character` ";
+			$sql .= "INNER JOIN `stage_character` ON  `character`.`id` = `stage_character`.`character_id` ";
+			$sql .= "                             AND `stage_character`.`stage_id` = ? ";
+			$sql .= "AND        `character`.`is_delete` <> 1 ";
+			$sql .= "AND        `character`.`user_id` = ? ";
+			$sql .= "ORDER BY   `stage_character`.`sort` = 0 ASC ";
+			$sql .= "          ,`stage_character`.`sort` ASC ";
+			$sql .= "          ,`stage_character`.`character_id` ASC ";
+			$arg_list = array(
+				$stage_id,
+				$user_id,
+			);
+			$character_list = $this->query($sql, $arg_list);
 			if (count($character_list) == 0)
 			{
-				// そもそもキャラクターが0人の場合は空配列を返して終了
+				// キャラクターが0人の場合は空配列を返して終了
 				return $return_list;
 			}
 			foreach ($character_list as $v)
 			{
-				if (!preg_match("/^[0-9]+$/", $v))
-				{
-					continue;
-				}
-				$return_list['character_list'][$v] = array(
-					'id'                   => $v,
+				$return_list['character_list'][$v['id']] = array(
+					'id'                   => $v['id'],
+					'name'                 => $v['name'],
+					'is_private'           => $v['is_private'],
 					'profile_episode_list' => array(),
+
 				);
 			}
 
