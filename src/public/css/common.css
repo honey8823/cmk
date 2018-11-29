@@ -4,6 +4,11 @@
 /* 管理ページ用 */
 /****************/
 
+.timeline-title a{
+	color: #FFFFFF;
+}
+
+
 /* 管理用タイムライン */
 .timeline.timeline-character{
 	margin: 1em 0 30px 1em;

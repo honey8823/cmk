@@ -86,9 +86,11 @@
               {if count($character.stage_list) > 0}
                 <ul class="timeline">
                 {foreach from=$character.stage_list key=k_stage item=v_stage}
-                  <li class="time-label timeline-stage_name clickable" onclick="location.href='/public/stage/detail.php?user={$character.user_login_id}&id={$v_stage.id}';">
+                  <li class="time-label timeline-stage_name clickable">
                     <span class="bg-blue timeline-title">
-                      <span>{$v_stage.name|escape:'html'}</span>
+                      <a href="/public/stage/detail.php?user={$character.user_login_id}&id={$v_stage.id}">
+                        <span>{$v_stage.name|escape:'html'}</span>
+                      </a>
                     </span>
                   </li>
                 {if isset($v_stage.episode_list) && is_array($v_stage.episode_list)}

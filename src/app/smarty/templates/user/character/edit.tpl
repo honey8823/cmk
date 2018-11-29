@@ -207,14 +207,16 @@
               {else}
                 <ul class="timeline timeline-character" id="timeline_for_stage_template">
                 {foreach from=$timeline key=k_tl item=v_tl}
-                  <li class="time-label timeline-stage_name clickable" data-id="{$v_tl.id}" onclick="location.href='/user/stage/edit.php?id={$v_tl.id}';">
+                  <li class="time-label timeline-stage_name clickable" data-id="{$v_tl.id}">
                     <span class="bg-blue timeline-title">
-                    {if $v_tl.is_private == 1}
-                      <span class="is_private_icon is_private_1"><i class="fa fa-lock fa-fw"></i></span>
-                    {else}
-                      <span class="is_private_icon is_private_0"><i class="fa fa-unlock fa-fw"></i></span>
-                    {/if}
-                      <span>{$v_tl.name|escape:'html'}</span>
+                      <a href="/user/stage/edit.php?id={$v_tl.id}">
+                      {if $v_tl.is_private == 1}
+                        <span class="is_private_icon is_private_1"><i class="fa fa-lock fa-fw"></i></span>
+                      {else}
+                        <span class="is_private_icon is_private_0"><i class="fa fa-unlock fa-fw"></i></span>
+                      {/if}
+                        <span>{$v_tl.name|escape:'html'}</span>
+                      </a>
                     </span>
                   </li>
                 {if isset($v_tl.episode_list) && is_array($v_tl.episode_list)}

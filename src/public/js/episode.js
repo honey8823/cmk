@@ -9,6 +9,9 @@ $(document).on("click", ".set_episode-is_private", function(){
 	setEpisodeIsPrivate($(this).parents(".timeline-editable").data("id"), $(this).hasClass("is_private_0") == true ? 1 : 0);
 	javascript_die(); // 強制終了
 });
+$(document).on("click", ".is_private_switch.clickable", function(){
+	$(this).children().toggleClass("hidden");
+});
 
 // カーソル位置に「続きを読む」マーカーを挿入
 $(document).on("click", ".insert-read-more", function(){
@@ -68,7 +71,7 @@ function addEpisodeCommon(){
 	});
 	var params = {
 			'stage_id'       : $("#modal-addEpisode").find(".form-stage_id").val(),
-			'is_private'     : $("#modal-addEpisode .form-is_private:not(.hide)").data("is_private"),
+			'is_private'     : $("#modal-addEpisode .form-is_private:not(.hidden)").data("is_private"),
 			'title'          : $("#add_forms-common .form-title").val(),
 			'url'            : $("#add_forms-common .form-url").val(),
 			'free_text'      : $("#add_forms-common .form-free_text").val(),
@@ -99,7 +102,7 @@ function addEpisodeCommon(){
 function addEpisodeLabel(){
 	var params = {
 			'stage_id'       : $("#modal-addEpisode").find(".form-stage_id").val(),
-			'is_private'     : $("#modal-addEpisode .form-is_private:not(.hide)").data("is_private"),
+			'is_private'     : $("#modal-addEpisode .form-is_private:not(.hidden)").data("is_private"),
 			'title'          : $("#add_forms-label .form-title").val(),
 			'type_key'       : "label",
 		};
@@ -125,7 +128,7 @@ function addEpisodeLabel(){
 function addEpisodeOverride(){
 	var params = {
 			'stage_id'     : $("#modal-addEpisode").find(".form-stage_id").val(),
-			'is_private'   : $("#modal-addEpisode .form-is_private:not(.hide)").data("is_private"),
+			'is_private'   : $("#modal-addEpisode .form-is_private:not(.hidden)").data("is_private"),
 			'title'        : $("#add_forms-override .form-title").val(),
 			'type_key'     : "override",
 		};
@@ -165,7 +168,7 @@ function setEpisodeCommon(){
 	});
 	var params = {
 			'id'             : $("#modal-setEpisode").find(".form-id").val(),
-			'is_private'     : $("#modal-setEpisode").find(".form-is_private:not(.hide)").data("is_private"),
+			'is_private'     : $("#modal-setEpisode").find(".form-is_private:not(.hidden)").data("is_private"),
 			'title'          : $("#set_forms-common").find(".form-title").val(),
 			'url'            : $("#set_forms-common").find(".form-url").val(),
 			'free_text'      : $("#set_forms-common").find(".form-free_text").val(),
@@ -193,7 +196,7 @@ function setEpisodeCommon(){
 function setEpisodeLabel(){
 	var params = {
 			'id'         : $("#modal-setEpisode").find(".form-id").val(),
-			'is_private' : $("#modal-setEpisode").find(".form-is_private:not(.hide)").data("is_private"),
+			'is_private' : $("#modal-setEpisode").find(".form-is_private:not(.hidden)").data("is_private"),
 			'title'      : $("#set_forms-label").find(".form-title").val(),
 		};
 
@@ -217,7 +220,7 @@ function setEpisodeLabel(){
 function setEpisodeOverride(){
 	var params = {
 			'id'         : $("#modal-setEpisode").find(".form-id").val(),
-			'is_private' : $("#modal-setEpisode").find(".form-is_private:not(.hide)").data("is_private"),
+			'is_private' : $("#modal-setEpisode").find(".form-is_private:not(.hidden)").data("is_private"),
 			'title'      : $("#set_forms-override").find(".form-title").val(),
 			'type_key'     : "override",
 		};
