@@ -5,7 +5,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>{$smarty.const.SITE_NAME_FULL}</title>
   {include file='common/adminlte_css.tpl'}
-  {include file='common/common_css.tpl'}
+  {include file='common/common_public_css.tpl'}
 </head>
 
 {include file='common/body.tpl'}
@@ -21,10 +21,9 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>{$character.name|escape:'html'}</h1>
-      <small><a href="/public/user/detail.php?u={$character.user_login_id}">by {$character.user_name|escape:'html'}@{$character.user_login_id}</a></small>
       <ol class="breadcrumb">
         <li><a href="/">トップ</a></li>
-        <li><a href="/public/user/detail.php?u={$character.user_login_id}">{if $character.user_name != ""}{$character.user_name|escape:'html'}{else} - {/if}さん</a></li>
+        <li><a href="/public/user/detail.php?u={$character.user_login_id}">{if $character.user_name != ""}{$character.user_name|escape:'html'} {/if}@{$character.user_login_id}さん</a></li>
         <li><a href="/public/stage/detail.php?user={$character.user_login_id}&id={$stage.id}">「{$stage.name|escape:'html'}」</a></li>
         <li class="active">「{$character.name|escape:'html'}」</li>
       </ol>
@@ -41,7 +40,7 @@
             </div>
 {*
           {if $character.remarks != ""}
-            <div class="box-body public-character-remarks">
+            <div class="box-body remarks-area">
               {$character.remarks|escape:'html'|nl2br}
             </div>
           {/if}
@@ -67,7 +66,7 @@
               <div class="tab-pane active" id="tab-content-profile">
                 <ul class="nav nav-stacked ul-character_profile character_profile">
                 {foreach from=$profile_list key=k item=v_profile}
-                  <li class="li-character_profile public" data-q="{$v_profile.question}">
+                  <li class="li-character_profile" data-q="{$v_profile.question}">
                     <span class="view_mode">
                       <div class="character_profile_q">{$v_profile.question_title}</div>
                       <div class="character_profile_a">{$v_profile.answer|escape:'html'|nl2br}</div>

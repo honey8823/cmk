@@ -5,7 +5,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>{$smarty.const.SITE_NAME_FULL}</title>
   {include file='common/adminlte_css.tpl'}
-  {include file='common/common_css.tpl'}
+  {include file='common/common_private_css.tpl'}
 </head>
 
 {include file='common/body.tpl'}
@@ -96,7 +96,7 @@
             <p class="hint-box">ステージ管理から「ステージ」を追加することで選択できるようになります。<br>のちほど選択することも可能なので、気が向いたらお試しください。</p>
             {else}
             {foreach from=$stage_list key=k item=v_stage}
-              <span class="badge stage stage-notselected stage-selectable clickable" value="{$v_stage.id}">{$v_stage.name}</span>
+              <span class="badge stage notselected selectable clickable" value="{$v_stage.id}">{$v_stage.name}</span>
             {/foreach}
             {/if}
             </div>

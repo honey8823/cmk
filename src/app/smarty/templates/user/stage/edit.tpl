@@ -6,7 +6,7 @@
   <title>{$smarty.const.SITE_NAME_FULL}</title>
   <link rel="stylesheet" href="/js/adminlte_2.4.5/bower_components/select2/dist/css/select2.min.css">
   {include file='common/adminlte_css.tpl'}
-  {include file='common/common_css.tpl'}
+  {include file='common/common_private_css.tpl'}
 </head>
 
 {include file='common/body.tpl'}
@@ -38,7 +38,7 @@
 
         <div class="col-md-12">
         {if $stage.is_private != 1}
-          <div class="private-url">
+          <div class="url-info">
             <small>
               「{$stage.name|escape:'html'}」の公開ページは以下のURLです。<br>
               <a href="/public/stage/detail.php?user={$stage.login_id}&id={$stage.id}">http://{$smarty.server.SERVER_NAME}/public/user/detail.php?user={$stage.login_id}&id={$stage.id}</a>
@@ -62,11 +62,11 @@
               <div class="detail-tag">
                 {if isset($stage.tag_list) && is_array($stage.tag_list)}
                 {foreach from=$stage.tag_list key=k item=v_tag}
-                  <span class="label tag-base tag-{$v_tag.category_key}" value="{$v_tag.id}">{$v_tag.name|escape:'html'}</span>
+                  <span class="label tag tag-{$v_tag.category_key}" value="{$v_tag.id}">{$v_tag.name|escape:'html'}</span>
                 {/foreach}
                 {/if}
               </div>
-              <div class="private-stage-remarks"><small>{if $stage.remarks != ""}{$stage.remarks|escape:'html'|nl2br}{else}（説明文は登録されていません）{/if}</small></div>
+              <div class="remarks-area"><small>{if $stage.remarks != ""}{$stage.remarks|escape:'html'|nl2br}{else}（説明文は登録されていません）{/if}</small></div>
               <div class="box-body text-align-right">
                 <button type="button" class="btn btn-primary" onclick="$('#area-viewStage').hide();$('#area-setStage').show();">内容を編集する</button>
               </div>
@@ -87,9 +87,9 @@
                   <p>{$v_tag_category.name}系</p>
                 {foreach from=$v_tag_category.tag_list key=k item=v_tag}
                 {if isset($stage.tag_list) && is_array($stage.tag_list) && in_array($v_tag.id, array_column($stage.tag_list, 'id'))}
-                  <span class="label tag-base tag-{$category_key} tag-selectable clickable" value="{$v_tag.id}">{$v_tag.name|escape:'html'}</span>
+                  <span class="label tag tag-{$category_key} selectable clickable" value="{$v_tag.id}">{$v_tag.name|escape:'html'}</span>
                 {else}
-                  <span class="label tag-base tag-{$category_key} tag-notselected tag-selectable clickable" value="{$v_tag.id}">{$v_tag.name|escape:'html'}</span>
+                  <span class="label tag tag-{$category_key} notselected selectable clickable" value="{$v_tag.id}">{$v_tag.name|escape:'html'}</span>
                 {/if}
                 {/foreach}
                 </div>
@@ -155,7 +155,7 @@
                   </li>
                 </ul>
                 <ul class="timeline timeline-sort-area timeline-stage" id="timeline_for_stage"></ul>
-                <div class="float-button-area">
+                <div class="timeline-shortcut-area">
                   <p class="clickable" data-toggle="modal" data-target="#modal-addEpisode"><i class="fa fa-fw fa-plus" aria-hidden="true"></i></p>
                   <p class="clickable sort_mode_off" onclick="readyEpisodeSort(1);"><i class="fa fa-fw fa-sort" aria-hidden="true"></i></p>
                   <p class="clickable sort_mode_on" onclick="readyEpisodeSort(0);"><i class="fa fa-fw fa-check" aria-hidden="true"></i></p>
@@ -249,9 +249,9 @@
             <div>
             {foreach from=$character_list key=k item=v_character}
             {if isset($stage.character_list) && is_array($stage.character_list) && in_array($v_character.id, array_column($stage.character_list, 'id'))}
-              <span class="badge character character-selectable clickable" value="{$v_character.id}">{$v_character.name|escape:'html'}</span>
+              <span class="badge character selectable clickable" value="{$v_character.id}">{$v_character.name|escape:'html'}</span>
             {else}
-              <span class="badge character character-selectable character-notselected clickable" value="{$v_character.id}">{$v_character.name|escape:'html'}</span>
+              <span class="badge character selectable notselected clickable" value="{$v_character.id}">{$v_character.name|escape:'html'}</span>
             {/if}
             {/foreach}
             </div>

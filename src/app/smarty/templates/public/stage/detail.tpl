@@ -5,7 +5,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>{$smarty.const.SITE_NAME_FULL}</title>
   {include file='common/adminlte_css.tpl'}
-  {include file='common/common_css.tpl'}
+  {include file='common/common_public_css.tpl'}
 </head>
 
 {include file='common/body.tpl'}
@@ -20,11 +20,17 @@
 
     <!-- Content Header (Page header) -->
     <section class="content-header">
+    {if isset($stage.tag_list) && is_array($stage.tag_list)}
+      <div class="detail-tag">
+      {foreach from=$stage.tag_list key=k item=v_tag}
+        <span class="label tag tag-{$v_tag.category_key}" value="{$v_tag.id}">{$v_tag.name|escape:'html'}</span>
+      {/foreach}
+      </div>
+    {/if}
       <h1>{$stage.name|escape:'html'}</h1>
-      <small><a href="/public/user/detail.php?u={$stage.user_login_id}">by {$stage.user_name|escape:'html'}@{$stage.user_login_id}</a></small>
       <ol class="breadcrumb">
         <li><a href="/">トップ</a></li>
-        <li><a href="/public/user/detail.php?u={$stage.user_login_id}">{if $stage.user_name != ""}{$stage.user_name|escape:'html'}{else} - {/if}さんのステージ</a></li>
+        <li><a href="/public/user/detail.php?u={$stage.user_login_id}">{if $stage.user_name != ""}{$stage.user_name|escape:'html'} {/if}@{$stage.user_login_id}さんのステージ</a></li>
         <li class="active">「{$stage.name|escape:'html'}」</li>
       </ol>
     </section>
@@ -34,37 +40,19 @@
       <div class="row">
 
         <div class="col-md-12">
-        {if $is_login != "1"}
-          <p class="hint-box">ログインするとお気に入り機能がご利用いただけます。</p>
-        {/if}
-          <div class="box">
-            <div class="box-header with-border">
-              <h3 class="box-title">基本情報</h3>
-              <div class="pull-right">
-              {if $is_login == "1"}
+          <div class="box box-no-border">
+            <div class="box-body">
+            {if $stage.remarks != ""}
+              <div>{$stage.remarks|escape:'html'|nl2br}</div>
+            {/if}
+            {if $is_login == "1"}
+              <div class="text-align-right">
                 <i class="fa fa-fw fa-heart-o is_favorite_icon clickable is_favorite_0 {if $is_favorite == "1"}hidden{/if}" aria-hidden="true" data-favorite_type_key="stage" data-id="{$stage.id}"></i>
                 <i class="fa fa-fw fa-heart is_favorite_icon clickable is_favorite_1 {if $is_favorite != "1"}hidden{/if}" aria-hidden="true" data-favorite_type_key="stage" data-id="{$stage.id}"></i>
-              {/if}
               </div>
-            </div>
-          {if isset($stage.tag_list) && is_array($stage.tag_list)}
-            <div class="box-body">
-              <div class="detail-tag">
-              {foreach from=$stage.tag_list key=k item=v_tag}
-                <span class="label tag-base tag-{$v_tag.category_key}" value="{$v_tag.id}">{$v_tag.name|escape:'html'}</span>
-              {/foreach}
-              </div>
-            </div>
-          {/if}
-            <div class="box-body public-stage-remarks">
-            {if $stage.remarks != ""}
-              {$stage.remarks|escape:'html'|nl2br}
             {else}
-              (説明文は登録されていません)
+              <p class="hint-box">ログインするとお気に入り機能がご利用いただけます。</p>
             {/if}
-            </div>
-            <div class="public-info-box text-align-right" style="padding: 1em;">
-              <p>登録日：{strtotime($stage.create_stamp)|date_format:"%Y-%m-%d %H:%M"}</p>
             </div>
           </div>
         </div>

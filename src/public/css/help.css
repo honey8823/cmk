@@ -1,0 +1,11 @@
+/* ************ */
+/* ヘルプページ */
+/* ************ */
+
+/* 更新日時 */
+.help-update_stamp{
+	color: #999;
+	float: right;
+	padding: 10px;
+	font-size: 12px;
+}

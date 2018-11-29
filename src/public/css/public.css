@@ -1,0 +1,31 @@
+/* ************ */
+/* 公開用ページ */
+/* ************ */
+
+/* ユーザーページのアイコン表示 */
+.public-user-panel .img-user{
+	margin: 1em;
+	max-width: 90%;
+	max-height: 150px;
+	min-width: 50px;
+}
+
+/* キャラクタープロフィール */
+.li-character_profile{
+	padding: 0.5em;
+}
+
+/* 説明文（ステージ・キャラクター・アカウント） */
+.remarks-area{
+	margin: 1em 2em;
+	padding: 0.5em;
+	background: #EEEEEE;
+	border-radius: 0.5em;
+}
+
+/* 登録日時＋各種アイコン */
+.info-box{
+	font-size: 0.75em;
+	color: #999999;
+}
+

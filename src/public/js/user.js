@@ -3,7 +3,7 @@
  */
 function setUserProfile(){
 	var genre = [];
-	$("#area-setUserProfile").find(".label.tag-genre.tag-selectable:not(.tag-notselected)").each(function(i, e){
+	$("#area-setUserProfile").find(".label-genre.selectable:not(.notselected)").each(function(i, e){
 		genre.push($(e).attr("value"));
 	});
 	var params = {

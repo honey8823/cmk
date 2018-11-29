@@ -5,7 +5,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>{$smarty.const.SITE_NAME_FULL}</title>
   {include file='common/adminlte_css.tpl'}
-  {include file='common/common_css.tpl'}
+  {include file='common/common_private_css.tpl'}
 </head>
 
 {include file='common/body.tpl'}

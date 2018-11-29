@@ -5,7 +5,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>{$smarty.const.SITE_NAME_FULL}</title>
   {include file='common/adminlte_css.tpl'}
-  {include file='common/common_css.tpl'}
+  {include file='common/common_private_css.tpl'}
 </head>
 
 {include file='common/body.tpl'}
@@ -57,7 +57,7 @@
                     <span class="tag">
                     {if isset($v_stage.tag_list) && is_array($v_stage.tag_list)}
                     {foreach from=$v_stage.tag_list key=k item=v_tag}
-                      <span class="label tag-base tag-{$v_tag.category_key}">{$v_tag.name_short|escape:'html'}</span>
+                      <span class="label tag tag-{$v_tag.category_key}">{$v_tag.name_short|escape:'html'}</span>
                     {/foreach}
                     {/if}
                     </span>
@@ -106,7 +106,7 @@
             <div class="tag_category">
               <p>{$v_tag_category.name}系</p>
             {foreach from=$v_tag_category.tag_list key=k item=v_tag}
-              <span class="label tag-base tag-{$category_key} tag-notselected tag-selectable clickable" value="{$v_tag.id}">{$v_tag.name}</span>
+              <span class="label tag tag-{$category_key} notselected selectable clickable" value="{$v_tag.id}">{$v_tag.name}</span>
             {/foreach}
             </div>
           {/foreach}

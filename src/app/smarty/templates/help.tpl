@@ -6,6 +6,7 @@
   <title>{$smarty.const.SITE_NAME_FULL}</title>
   {include file='common/adminlte_css.tpl'}
   {include file='common/common_css.tpl'}
+  <link rel="stylesheet" href="/css/help.css">
 </head>
 
 {include file='common/body.tpl'}

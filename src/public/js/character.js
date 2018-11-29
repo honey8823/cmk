@@ -4,7 +4,7 @@
 function addCharacter(){
 
 	var stage = [];
-	$("#modal-addCharacter").find(".badge.stage-selectable:not(.stage-notselected)").each(function(i, e){
+	$("#modal-addCharacter").find(".stage.selectable:not(.notselected)").each(function(i, e){
 		stage.push($(e).attr("value"));
 	});
 	var params = {
@@ -19,7 +19,7 @@ function addCharacter(){
 		// 正常な場合
 		$('#modal-addCharacter').modal('hide');
 		$("#modal-addCharacter").find("input").val("");
-		$("#modal-addCharacter").find(".badge.stage-selectable:not(.stage-notselected)").addClass("stage-notselected");
+		$("#modal-addCharacter").find(".stage.selectable:not(.notselected)").addClass("notselected");
 		location.reload();
 
 		return true;
@@ -31,7 +31,7 @@ function addCharacter(){
  */
 function setCharacter(){
 	var stage = [];
-	$("#area-setCharacter").find(".badge.stage-selectable:not(.stage-notselected)").each(function(i, e){
+	$("#area-setCharacter").find(".stage.selectable:not(.notselected)").each(function(i, e){
 		stage.push($(e).attr("value"));
 	});
 	var params = {

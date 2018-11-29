@@ -67,7 +67,7 @@
                 </p>
               {else}
               {foreach from=$stage.character_list key=k item=v_character}
-                <span class="badge character character-selectable character-notselected clickable" value="{$v_character.id}">{$v_character.name|escape:'html'}</span>
+                <span class="badge character selectable notselected clickable" value="{$v_character.id}">{$v_character.name|escape:'html'}</span>
               {/foreach}
               {/if}
               </div>

@@ -1,16 +1,6 @@
-// タグ選択/選択解除
-$(document).on("click", ".label.tag-selectable", function(){
-	$(this).toggleClass("tag-notselected");
-});
-
-// ステージ選択/選択解除
-$(document).on("click", ".badge.stage-selectable", function(){
-	$(this).toggleClass("stage-notselected");
-});
-
-// キャラクター選択/選択解除
-$(document).on("click", ".badge.character-selectable", function(){
-	$(this).toggleClass("character-notselected");
+// 選択/選択解除（ジャンル、タグ、ステージ、キャラクター）
+$(document).on("click", ".selectable", function(){
+	$(this).toggleClass("notselected");
 });
 
 // div開閉

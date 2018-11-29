@@ -1,0 +1,36 @@
+/* ******************** */
+/* チュートリアルページ */
+/* ******************** */
+
+/* タイトル画像 */
+.tutorial-title-img {
+	height: 200px;
+	background-repeat: no-repeat;
+	background-position: bottom 0px right 0px;
+	background-size: contain;
+}
+
+/* フキダシ */
+.tutorial-talk{
+	padding: 8px;
+	font-size: 0.9em;
+}
+.icon-talk{
+	height: 45px;
+	width: 45px;
+	position: absolute;
+}
+.text-talk{
+	left: 50px;
+	position: relative;
+	display: inline-block;
+	background: #DDDDDD;
+	border-radius: 10px;
+	padding: 10px;
+	margin-left: 5px;
+	max-width: calc(100% - 100px);
+}
+.image-talk{
+	max-width: 100%;
+	border-radius: 10px;
+}

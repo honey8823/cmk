@@ -63,7 +63,7 @@ $(document).on("click", ".forms-switch", function(){
  */
 function addEpisodeCommon(){
 	var character = [];
-	$("#add_forms-common").find(".badge.character-selectable:not(.character-notselected)").each(function(i, e){
+	$("#add_forms-common").find(".character.selectable:not(.notselected)").each(function(i, e){
 		character.push($(e).attr("value"));
 	});
 	var params = {
@@ -160,7 +160,7 @@ function addEpisodeOverride(){
  */
 function setEpisodeCommon(){
 	var character = [];
-	$("#set_forms-common").find(".badge.character-selectable:not(.character-notselected)").each(function(i, e){
+	$("#set_forms-common").find(".character.selectable:not(.notselected)").each(function(i, e){
 		character.push($(e).attr("value"));
 	});
 	var params = {
@@ -359,7 +359,7 @@ function initAddEpisodeModal(){
 	$("#modal-addEpisode").find("input[type=text]").val("");
 	$("#modal-addEpisode").find("textarea").val("");
 	$("#modal-addEpisode").find("input[type=checkbox]").prop("checked", false);
-	$("#modal-addEpisode").find(".character-selectable:not(.character-notselected)").addClass("character-notselected");
+	$("#modal-addEpisode").find(".character.selectable:not(.notselected)").addClass("notselected");
 	$("#modal-addEpisode").find(".form-is_private[data-is_private=0]").addClass("hidden");
 	$("#modal-addEpisode").find(".form-is_private[data-is_private=1]").removeClass("hidden");
 }
@@ -378,7 +378,7 @@ function initSetEpisodeModal(){
 	$("#modal-setEpisode").find("input[type=text]").val("");
 	$("#modal-setEpisode").find("textarea").val("");
 	$("#modal-setEpisode").find("input[type=checkbox]").prop("checked", false);
-	$("#modal-setEpisode").find(".character-selectable:not(.character-notselected)").addClass("character-notselected");
+	$("#modal-setEpisode").find(".character.selectable:not(.notselected)").addClass("notselected");
 	$("#modal-setEpisode").find(".form-is_private[data-is_private=0]").addClass("hidden");
 	$("#modal-setEpisode").find(".form-is_private[data-is_private=1]").removeClass("hidden");
 
@@ -437,7 +437,7 @@ function setEpisodeModal(id){
 			$("#set_forms-common").find(".form-free_text").val(result.return_value['episode']['free_text']);
 			$("#set_forms-common").find(".form-is_r18").prop("checked", result.return_value['episode']['is_r18'] == "1" ? true : false);
 			$(result.return_value['episode']['character_list']).each(function(i, e){
-				$("#set_forms-common").find(".character-selectable[value='" + e.id + "']").removeClass("character-notselected");
+				$("#set_forms-common").find(".character.selectable[value='" + e.id + "']").removeClass("notselected");
 			});
 		}
 		else if (result.return_value['episode']['type_key'] == "label"){

@@ -63,7 +63,7 @@
                 </p>
               {else}
               {foreach from=$stage.character_list key=k item=v_character}
-                <span class="badge character character-selectable character-notselected clickable" value="{$v_character.id}">{$v_character.name|escape:'html'}</span>
+                <span class="badge character selectable notselected clickable" value="{$v_character.id}">{$v_character.name|escape:'html'}</span>
               {/foreach}
               {/if}
               </div>
@@ -101,7 +101,7 @@
                     <div class="link-character_override_episode text-align-right clickable hidden">
                       <a><small><i class="fa fa-fw fa-user" aria-hidden="true"></i>オーバーライド後の公開用ページへ移動</small></a>
                     </div>
-                    <ul class="nav nav-stacked ul-character_profile character_profile_episode hidden" style="margin: 1.5em;">
+                    <ul class="nav nav-stacked ul-character_profile character_profile_episode hidden">
                       {include file='common/template-li-profile.tpl'}
                     </ul>
                   </div>

@@ -25,7 +25,7 @@ $(document).on("click", ".character_list .btn-character_override", function(){
  */
 function addStage(){
 	var tag = [];
-	$("#modal-addStage").find(".label.tag-selectable:not(.tag-notselected)").each(function(i, e){
+	$("#modal-addStage").find(".tag.selectable:not(.notselected)").each(function(i, e){
 		tag.push($(e).attr("value"));
 	});
 	var params = {
@@ -42,7 +42,7 @@ function addStage(){
 		$('#modal-addStage').modal('hide');
 		$("#modal-addStage").find("input").val("");
 		$("#modal-addStage").find("textarea").text("");
-		$("#modal-addStage").find(".label.tag-series.tag-selectable:not(.tag-notselected)").addClass("tag-notselected");
+		$("#modal-addStage").find(".tag.selectable:not(.notselected)").addClass("notselected");
 		location.reload();
 		return true;
     });
@@ -53,7 +53,7 @@ function addStage(){
  */
 function setStage(){
 	var tag = [];
-	$("#area-setStage").find(".label.tag-selectable:not(.tag-notselected)").each(function(i, e){
+	$("#area-setStage").find(".tag.selectable:not(.notselected)").each(function(i, e){
 		tag.push($(e).attr("value"));
 	});
 	var params = {
@@ -235,7 +235,7 @@ function sortableStageCharacter(mode) {
  */
 function upsertStageCharacter(){
 	var character = [];
-	$("#modal-upsertStageCharacter").find(".badge.character-selectable:not(.character-notselected)").each(function(i, e){
+	$("#modal-upsertStageCharacter").find(".character.selectable:not(.notselected)").each(function(i, e){
 		character.push($(e).attr("value"));
 	});
 	var params = {

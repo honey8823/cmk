@@ -6,7 +6,7 @@
   <title>{$smarty.const.SITE_NAME_FULL}</title>
   <link rel="stylesheet" href="/js/adminlte_2.4.5/bower_components/select2/dist/css/select2.min.css">
   {include file='common/adminlte_css.tpl'}
-  {include file='common/common_css.tpl'}
+  {include file='common/common_private_css.tpl'}
 </head>
 
 {include file='common/body.tpl'}
@@ -35,7 +35,7 @@
 
         <div class="col-md-12">
         {if $character.is_private != 1}
-          <div class="private-url">
+          <div class="url-info">
             <small>
               「{$character.name|escape:'html'}」の公開ページは以下のURLです。<br>
               <a href="/public/character/detail.php?user={$character.login_id}&id={$character.id}">http://{$smarty.server.SERVER_NAME}/public/character/detail.php?user={$character.login_id}&id={$character.id}</a>
@@ -63,7 +63,7 @@
                 {/if}
                 {/foreach}
               </div>
-              <div class="private-character-remarks"><small>{if $character.remarks != ""}{$character.remarks|escape:'html'|nl2br}{else}（備考は登録されていません）{/if}</small></div>
+              <div class="remarks-area"><small>{if $character.remarks != ""}{$character.remarks|escape:'html'|nl2br}{else}（備考は登録されていません）{/if}</small></div>
               <div class="box-body text-align-right">
                 <button type="button" class="btn btn-primary" onclick="$('#area-viewCharacter').hide();$('#area-setCharacter').show();">内容を編集する</button>
               </div>
@@ -83,9 +83,9 @@
                 <div>
                 {foreach from=$stage_list key=k item=v_stage}
                 {if isset($character.stage_list) && is_array($character.stage_list) && in_array($v_stage.id, array_column($character.stage_list, 'id'))}
-                  <span class="badge stage stage-selectable clickable" value="{$v_stage.id}">{$v_stage.name|escape:'html'}</span>
+                  <span class="badge stage selectable clickable" value="{$v_stage.id}">{$v_stage.name|escape:'html'}</span>
                 {else}
-                  <span class="badge stage stage-notselected stage-selectable clickable" value="{$v_stage.id}">{$v_stage.name|escape:'html'}</span>
+                  <span class="badge stage notselected selectable clickable" value="{$v_stage.id}">{$v_stage.name|escape:'html'}</span>
                 {/if}
                 {/foreach}
                 </div>
