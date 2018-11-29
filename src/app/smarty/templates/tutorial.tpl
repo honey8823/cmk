@@ -574,7 +574,9 @@
             <img class="icon-talk img-circle" src="/img/tutorial/elena_1.png">
             <span class="text-talk">
               あ、一覧に出てきた。<br>
-              ステージと同じく、これを押せば詳しい設定のページに行けそうね。<br><br>
+              ステージと同じく、これを押せば詳しい設定のページに行けそうね。<br>
+              <br>
+              えいっ。<br><br>
               <img class="image-talk" src="/img/tutorial/content_5_3.png">
             </span>
           </div>
@@ -797,18 +799,10 @@
             </span>
           </div>
           <div class="tutorial-talk">
-            <img class="icon-talk img-circle" src="/img/tutorial/yuki_1.png">
-            <span class="text-talk">
-              キャラクターのタイムラインっていうのは、もしかして、<br>
-              キャラクターページにあった「タイムライン」のタブか？
-            </span>
-          </div>
-          <div class="tutorial-talk">
             <img class="icon-talk img-circle" src="/img/tutorial/selena_1.png">
             <span class="text-talk">
-              そうそう。勘がいいじゃないか。<br>
               両方とも話せば長くなるから、後から応用編できちんと見せるよ。<br>
-              まずは関連付ける方法だけ説明するね。<br>
+              まずは関連付ける方法から説明するね。<br>
               <br>
               関連付ける方法は、実は二つあるんだ。<br>
               どちらも同じ状態になるから、使いやすい方を使うといいよ。<br>
