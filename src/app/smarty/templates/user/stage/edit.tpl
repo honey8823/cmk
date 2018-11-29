@@ -185,8 +185,8 @@
                         <a>
                           <div>
                             <span class="is_private">
-                              <span class="is_private_icon is_private_0 hide"><i class="fa fa-unlock fa-fw"></i></span>
-                              <span class="is_private_icon is_private_1 hide"><i class="fa fa-lock fa-fw"></i></span>
+                              <span class="is_private_icon is_private_0 hidden"><i class="fa fa-unlock fa-fw"></i></span>
+                              <span class="is_private_icon is_private_1 hidden"><i class="fa fa-lock fa-fw"></i></span>
                             </span>
                             <span><span class="character_name"></span></span>
                           </div>
