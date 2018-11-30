@@ -44,7 +44,7 @@
         {if count($character_list) > 0}
           <div id="list-character" class="box box-no-border">
             <div class="box-body no-padding">
-              <ul class="nav nav-stacked ul-character character-sort-area">
+              <ul class="nav nav-stacked ul-character ul-list character-sort-area">
               {foreach from=$character_list key=k item=v_character}
                 <li class="character_list" data-id="{$v_character.id}">
                   <a href="/user/character/edit.php?id={$v_character.id}" class="character_id">

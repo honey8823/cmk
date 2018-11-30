@@ -84,7 +84,7 @@
               {/if}
               {foreach from=$tag_category_list key=category_key item=v_tag_category}
                 <div class="tag_category">
-                  <p>{$v_tag_category.name}系</p>
+                  <p class="tag_categoty_title">{$v_tag_category.name}系</p>
                 {foreach from=$v_tag_category.tag_list key=k item=v_tag}
                 {if isset($stage.tag_list) && is_array($stage.tag_list) && in_array($v_tag.id, array_column($stage.tag_list, 'id'))}
                   <span class="label tag tag-{$category_key} selectable clickable" value="{$v_tag.id}">{$v_tag.name|escape:'html'}</span>
@@ -145,7 +145,7 @@
                     <i class="fa fa-user bg-yellow type_icon episode_type_override template-for-copy"></i>
                     <div class="timeline-item">
                       <h3 class="timeline-header timeline-title no-border template-for-copy"></h3>
-                      <div class="timeline-body">
+                      <div class="timeline-body template-for-copy">
                         <small>
                           <p class="timeline-free_text template-for-copy"></p>
                           <p class="timeline-url template-for-copy"><a href="" target="_blank"><i class="fa fa-fw fa-external-link" aria-hidden="true"></i> <span></span></a></p>
@@ -180,7 +180,7 @@
                 </div>
                 <div id="list-character" class="box box-no-border">
                   <div class="box-body no-padding">
-                    <ul class="nav nav-stacked ul-character stage-character-sort-area">
+                    <ul class="nav nav-stacked ul-character ul-list stage-character-sort-area">
                       <li class="character_list clickable foldable template-for-copy" data-id="{$v_character.id}">
                         <a>
                           <div>

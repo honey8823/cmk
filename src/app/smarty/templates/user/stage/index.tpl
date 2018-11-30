@@ -48,9 +48,9 @@
         {if count($stage_list) > 0}
           <div id="list-stage" class="box box-no-border">
             <div class="box-body no-padding">
-              <ul class="nav nav-stacked ul-stage stage-sort-area">
+              <ul class="nav nav-stacked ul-stage ul-list stage-sort-area">
               {foreach from=$stage_list key=k item=v_stage}
-                <li class="stage_list" data-id="{$v_stage.id}">
+                <li data-id="{$v_stage.id}">
                   <a href="/user/stage/edit.php?id={$v_stage.id}" class="stage_id">
                     <span class="is_private"><span class="is_private_icon is_private_{$v_stage.is_private}"><i class="fa {if $v_stage.is_private == 1}fa-lock{else}fa-unlock{/if} fa-fw"></i></span></span>
                     <span class="name"><span class="stage_name">{$v_stage.name|escape:'html'}</span></span>
@@ -104,7 +104,7 @@
           {/if}
           {foreach from=$tag_category_list key=category_key item=v_tag_category}
             <div class="tag_category">
-              <p>{$v_tag_category.name}系</p>
+              <p class="tag_categoty_title">{$v_tag_category.name}系</p>
             {foreach from=$v_tag_category.tag_list key=k item=v_tag}
               <span class="label tag tag-{$category_key} notselected selectable clickable" value="{$v_tag.id}">{$v_tag.name}</span>
             {/foreach}

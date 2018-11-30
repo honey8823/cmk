@@ -1,8 +1,8 @@
-/* ************ */
-/* 管理用ページ */
-/* ************ */
+/* **** */
+/* 共通 */
+/* **** */
 
-/* 各ページ共通：鍵アイコン */
+/* 鍵アイコン */
 .is_private_icon{
 	font-size: 0.9em;
 	opacity: 0.6;
@@ -17,28 +17,10 @@
 .is_private_icon.is_private_1{
 	color: #f39c12;
 }
-.timeline-editable > .is_private_icon{
-	margin-left: -0.5em;
-	margin-top: 0.2em;
-	position: absolute;
-}
 
-/* お気に入り管理ページ */
-.ul-favorite > li.notlink span{
-	color: #999999;
-}
-.ul-favorite > li .author{
-	color: #999999;
-	font-size: 0.7em;
-	margin-left: 0.5em;
-}
-
-/* 通知ページ */
-.notice-icon.unread{
-	color: #dd4b39;
-}
-.notice-icon.read{
-	color: #CCCCCC;
+/* 未選択タグ・ステージ */
+.notselected{
+	background-color: #CCCCCC !important;
 }
 
 /* 説明文（ステージ・キャラクター） */
@@ -57,12 +39,69 @@
 	margin-bottom: 1em;
 }
 
-/* 未選択タグ・ステージ */
-.notselected{
-	background-color: #CCCCCC !important;
+/* ソート関連 */
+.sort_mode_on{
+	display: none;
+}
+.timeline-sort-area.sortable .timeline-free_text{
+	overflow: hidden;
+    height: 1.2em;
 }
 
-/* タイムライン編集 */
+/* タグ選択時のカテゴリタイトル */
+.form-group div.tag_category{
+	margin-left: 1em;
+}
+.form-group p.tag_categoty_title{
+	margin-top: 0.5em;
+	margin-bottom: 0;
+}
+
+/* ************** */
+/* お気に入り管理 */
+/* ************** */
+
+.ul-favorite > li.notlink span{
+	color: #999999;
+}
+.ul-favorite > li .author{
+	color: #999999;
+	font-size: 0.7em;
+	margin-left: 0.5em;
+}
+
+/* **** */
+/* 通知 */
+/* **** */
+
+.notice-icon.unread{
+	color: #dd4b39;
+}
+.notice-icon.read{
+	color: #CCCCCC;
+}
+
+/* ************ */
+/* タイムライン */
+/* ************ */
+
+/* ラベル表示 */
+.timeline-label > span.timeline-label-title{
+	padding-left: 1em;
+	margin-left: -0.7em;
+}
+.timeline-label > span.timeline-label-title > .is_private_icon{
+	margin-left: -0.7em;
+}
+
+/* 通常/オーバーライド表示 */
+.timeline-editable > .is_private_icon{
+	margin-left: -0.5em;
+	margin-top: 0.2em;
+	position: absolute;
+}
+
+/* 編集 */
 .timeline-shortcut-area{
 	position: fixed;
 	bottom: 2em;
@@ -80,12 +119,52 @@
 	line-height: 1.8em;
 }
 
-/* ソート関連 */
-.sort_mode_on{
-	display: none;
-}
-.timeline-sort-area.sortable .timeline-free_text{
-	overflow: hidden;
-    height: 1.2em;
-}
+/* ************************ */
+/* キャラクタープロフィール */
+/* ************************ */
 
+.ul-character_profile > li .view_mode div.character_profile_a {
+	font-size: 0.85em;
+	padding: 0.5em;
+	margin: 0.5em;
+	background: #EEEEEE;
+	border-radius: 0.5em;
+}
+.ul-character_profile > li .view_mode div.override{
+	color: #EEEEEE;
+	background: #666666;
+}
+.ul-character_profile .character_profile_button_area{
+	font-size: 1.2em;
+}
+.ul-character_profile > li textarea{
+	display: inline-block;
+	font-size: 0.85em;
+}
+.character-folder.clickable{
+	color: white;
+	background-color: #4A53B4;
+	margin-top: 1em;
+	margin-bottom: 0;
+	border-radius: 2px;
+	padding: 0.3em;
+}
+.profile_reference{
+	padding: 1em;
+}
+.profile_reference ul > li{
+	margin-left: -2em;
+}
+.profile_reference_title{
+	padding: 2px;
+	border-radius: 5px;
+}
+.not_override .profile_reference_title{
+	background: #CCCCCC;
+}
+.override .profile_reference_title{
+	background: #999999;
+}
+.profile_reference_content{
+	padding: 5px 5px 10px 10px;
+}

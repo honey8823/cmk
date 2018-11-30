@@ -98,6 +98,7 @@ function drawEpisodeList(dat, id){
 			$(obj).find(".timeline-url > a").attr("href", dat.url);
 			$(obj).find(".timeline-url > a > span").text(dat.url_view);
 			$(obj).find(".timeline-url").removeClass("template-for-copy");
+			$(obj).find(".timeline-body").removeClass("template-for-copy");
 		}
 		else{
 			$(obj).find(".timeline-url").text("");
@@ -106,6 +107,7 @@ function drawEpisodeList(dat, id){
 		if (dat.free_text != undefined && dat.free_text != ""){
 			$(obj).find(".timeline-free_text").html(strToText(dat.free_text));
 			$(obj).find(".timeline-free_text").removeClass("template-for-copy");
+			$(obj).find(".timeline-body").removeClass("template-for-copy");
 		}
 		else{
 			$(obj).find(".timeline-free_text").text("");

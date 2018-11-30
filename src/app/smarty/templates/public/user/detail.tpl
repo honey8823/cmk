@@ -93,7 +93,7 @@
               {if count($stage_list) == 0}
                 <p class="hint-box">まだ公開されているステージがありません。</p>
               {else}
-                <ul class="nav nav-stacked stage_list">
+                <ul class="nav nav-stacked ul-list">
                 {foreach from=$stage_list key=k item=v_stage}
                   <li>
                     <a href="/public/stage/detail.php?user={$user.login_id}&id={$v_stage.id}">
@@ -115,7 +115,7 @@
               {if count($stage_list) == 0}
                 <p class="hint-box">まだ公開されているキャラクターがいません。</p>
               {else}
-                <ul class="nav nav-stacked character_list">
+                <ul class="nav nav-stacked character_list ul-list">
                 {foreach from=$character_list key=k item=v_character}
                   <li>
                     <a href="/public/character/detail.php?user={$user.login_id}&id={$v_character.id}">{$v_character.name|escape:'html'}</a>

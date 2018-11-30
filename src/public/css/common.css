@@ -1,173 +1,3 @@
-
-
-/****************/
-/* 管理ページ用 */
-/****************/
-
-.timeline-title a{
-	color: #FFFFFF;
-	display: block;
-}
-
-
-/* 管理用タイムライン */
-.timeline.timeline-character{
-	margin: 1em 0 30px 1em;
-}
-.timeline.timeline-stage{
-	margin: 30px 0 30px 1em;
-}
-.timeline.timeline-stage > li{
-	margin: 0em 1em 0.5em 0;
-}
-
-.timeline-header.timeline-title{
-	padding: 7px !important;
-}
-.timeline-body{
-	padding: 7px !important;
-}
-.timeline-body p{
-	margin: 0;
-}
-.timeline-stage_name{
-	width: 100%;
-	display: grid;
-}
-.timeline-label_title{
-	margin-left: 0.5em;
-}
-.timeline-editable > span.timeline-label-title{
-	padding-left: 1em;
-	margin-left: -0.7em;
-	padding-right: 1em;
-}
-.timeline-editable > .timeline-label-title > .is_private_icon{
-	margin-left: -0.7em;
-}
-
-/* 管理画面ステージ一覧 */
-.ul-stage{
-	list-style: none;
-}
-.ul-stage > li{
-	position: relative;
-	margin: 1em 0 1em 0;
-}
-.ul-stage > li > span{
-	display: inline-block;
-}
-.stage_list > .is_private{
-	margin: -10px;
-	padding: 0px 15px 0 0;
-	width: 2em;
-}
-.stage_list .name{
-	width: 15em;
-	display: inline-block;
-}
-.stage_list > .tag{
-	padding: 0px 15px 0 0;
-}
-
-/* 管理画面キャラクター一覧 */
-.ul-character{
-	list-style: none;
-}
-.ul-character > li{
-	position: relative;
-	margin: 1em 0 1em 0;
-}
-.ul-character > li > span{
-	display: inline-block;
-}
-.ul-character .character_list .folder{
-	margin-top: 0.5em
-}
-.character_list > .is_private{
-	margin: -10px;
-	padding: 0px 15px 0 0;
-	width: 2em;
-}
-.character_list .name{
-	width: 10em;
-	display: inline-block;
-}
-.character_list > .stage{
-	padding: 0px 15px 0 0;
-}
-
-/* 管理用キャラクター：ステージ */
-.private-character-stage{
-	margin: 1em;
-}
-
-/* 管理用キャラクター：詳細プロフィール */
-#set_forms-override .ul-character_profile{
-	margin: 1.5em;
-}
-.ul-character_profile > li .view_mode div.character_profile_a {
-	font-size: 0.85em;
-	padding: 0.5em;
-	margin: 0.5em;
-	background: #EEEEEE;
-	border-radius: 0.5em;
-}
-.ul-character_profile > li .view_mode div.override{
-	color: #EEEEEE;
-	background: #666666;
-}
-.ul-character_profile .character_profile_button_area{
-	font-size: 1.2em;
-}
-.ul-character_profile > li textarea{
-	display: inline-block;
-	font-size: 0.85em;
-}
-
-/* タグ選択エリア */
-.form-group div.tag_category{
-	margin-left: 1em;
-}
-.form-group p{
-	margin-top: 0.5em;
-	margin-bottom: 0;
-}
-
-.character_profile_delete_icon.disabled{
-	color: #CCCCCC;
-}
-
-/* オーバーライド：エピソード */
-#set_forms-override .character-folder.clickable{
-	color: white;
-	background-color: #4A53B4;
-	margin-top: 1em;
-	border-radius: 2px;
-	padding: 0.3em;
-}
-.profile_reference{
-	padding: 1em;
-}
-.not_override .profile_reference .profile_reference_title{
-	background: #CCCCCC;
-}
-.override .profile_reference .profile_reference_title{
-	background: #999999;
-}
-.profile_reference .profile_reference_title{
-	padding: 2px;
-	border-radius: 5px;
-}
-.profile_reference .profile_reference_content{
-	padding: 5px 5px 10px 10px;
-}
-.profile_reference ul > li{
-	margin-left: -2em;
-}
-
-/* ********************************************************************************* */
-
 /*********************/
 /* ラベル/バッジ表示 */
 /*********************/
@@ -225,6 +55,70 @@
 .is_favorite_icon{
 	font-size: 1.2em;
 	color: #fe416b;
+}
+
+/************/
+/* 一覧表示 */
+/************/
+
+.ul-list{
+	list-style: none;
+}
+.ul-list > li{
+	position: relative;
+	margin: 1em 0 1em 0;
+}
+.ul-list > li > span{
+	display: inline-block;
+}
+.ul-list > li > .is_private{
+	margin: -10px;
+	padding: 0px 15px 0 0;
+	width: 2em;
+}
+.ul-list > li .name{
+	width: 15em;
+	display: inline-block;
+}
+.ul-list > li > .tag{
+	padding: 0px 15px 0 0;
+}
+.ul-list > li > .stage{
+	padding: 0px 15px 0 0;
+}
+.ul-list > li .folder{
+	margin-top: 0.5em
+}
+
+.margin1{ margin: 1em; }
+
+/****************/
+/* タイムライン */
+/************++**/
+
+/* タイムライン共通 */
+ul.timeline{
+	margin: 1em;
+}
+.timeline > li{
+	margin-bottom: 0.5em;
+}
+.timeline-title a{
+	color: #FFFFFF;
+	display: block;
+}
+.timeline-title, .timeline-body{
+	padding: 7px !important;
+}
+.timeline-body p{
+	margin: 0;
+}
+
+/* キャラクタータイムライン用 */
+.timeline-stage_name{
+	width: 100%;
+	display: grid;
+	margin-left: -0.5em;
 }
 
 /********/
@@ -305,4 +199,9 @@ p.hint-box {
 }
 .hint-box-toggle {
 	cursor: pointer;
+}
+
+/* 操作無効 */
+.disabled{
+	color: #CCCCCC !important;
 }

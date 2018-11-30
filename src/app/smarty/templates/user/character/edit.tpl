@@ -56,7 +56,7 @@
                 </span>
                 <span><big>{$character.name|escape:'html'}</big></span>
               </div>
-              <div class="private-character-stage">
+              <div class="margin1">
                 {foreach from=$stage_list key=k item=v_stage}
                 {if isset($character.stage_list) && is_array($character.stage_list) && in_array($v_stage.id, array_column($character.stage_list, 'id'))}
                   <span class="badge stage" value="{$v_stage.id}">{$v_stage.name|escape:'html'}</span>
@@ -205,7 +205,7 @@
               {if !isset($timeline) || !is_array($timeline) || count($timeline) == 0}
                 <p class="hint-box">このキャラクターはステージに関連付けられていません。</p>
               {else}
-                <ul class="timeline timeline-character" id="timeline_for_stage_template">
+                <ul class="timeline" id="timeline_for_stage_template">
                 {foreach from=$timeline key=k_tl item=v_tl}
                   <li class="time-label timeline-stage_name clickable" data-id="{$v_tl.id}">
                     <span class="bg-blue timeline-title">

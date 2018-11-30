@@ -133,7 +133,7 @@
                 {if count($stage.character_list) == 0}
                   <p class="hint-box">まだ公開されているキャラクターがいません。</p>
                 {else}
-                  <ul class="nav nav-stacked ul-character">
+                  <ul class="nav nav-stacked ul-character ul-list">
                   {foreach from=$stage.character_list key=k item=v_character}
                     <li class="character_list" data-id="{$v_character.id}">
                       {* <a href="/public/character/detail.php?user={$stage.user_login_id}&id={$v_character.id}" class="character_id"> *}
