@@ -1,6 +1,8 @@
 <?php
 class CharacterController extends Common
 {
+	const IMAGE_SIZE = 200;
+
 	public function table($param_list = array())
 	{
 		try
@@ -17,7 +19,7 @@ class CharacterController extends Common
 
 			// 取得（キャラクター）
 			$arg_list = array();
-			$sql  = "SELECT   `id`, `name`, `is_private` ";
+			$sql  = "SELECT   `id`, `name`, `image`, `is_private` ";
 			$sql .= "FROM     `character` ";
 			$sql .= "WHERE    `user_id` = ? ";
 			$arg_list[] = $user_id;
@@ -97,7 +99,7 @@ class CharacterController extends Common
 
 			// 取得（キャラクター）
 			$arg_list = array();
-			$sql  = "SELECT   `id`, `name`, `remarks`, `is_private` ";
+			$sql  = "SELECT   `id`, `name`, `remarks`, `image`, `is_private` ";
 			$sql .= "FROM     `character` ";
 			$sql .= "WHERE    `id` = ? ";
 			$arg_list[] = $id;
@@ -368,6 +370,90 @@ class CharacterController extends Common
 				'id'         => $id,
 				'name'       => $name,
 				'stage_list' => $stage_list,
+			);
+			return $return_list;
+		}
+		catch (Exception $e)
+		{
+			$this->exception($e);
+		}
+	}
+	public function setImage($param_list = array())
+	{
+		try
+		{
+			// ユーザID
+			$user_id = $this->getLoginId();
+			if ($user_id === false)
+			{
+				return array('error_redirect' => "session");
+			}
+
+			// 引数
+			$id            = trim($param_list['id']);
+			$tmp_file_name = trim($param_list['tmp_file_name']);
+			$tmp_file_type = trim($param_list['tmp_file_type']);
+			$x             = trim($param_list['x']);
+			$y             = trim($param_list['y']);
+			$size          = trim($param_list['size']);
+
+			// 一時ファイルのパス
+			$tmp_filename = PATH_IMAGES . date("YmdHis") . "_" . mt_rand() . ".png";
+
+			// 元ファイルを読み込む
+			if ($tmp_file_type == "image/png")
+			{
+				$base_img = imagecreatefrompng($tmp_file_name);
+			}
+			elseif ($tmp_file_type == "image/jpeg")
+			{
+				$base_img = imagecreatefromjpeg($tmp_file_name);
+			}
+			elseif ($tmp_file_type == "image/gif")
+			{
+				$base_img = imagecreatefromgif($tmp_file_name);
+			}
+			else
+			{
+				// 対応していないフォーマット：無視して終了
+				return array('error_message' => "対応していないファイルタイプです。JPEG, GIF, PNGのいずれかでお試しください。");
+			}
+
+			// 新しいキャンバスを作成する
+			$new_img = imagecreatetruecolor(self::IMAGE_SIZE, self::IMAGE_SIZE);
+
+			// 画像を縮小・トリミングする
+			imagecopyresampled($new_img, $base_img, 0, 0, $x, $y, self::IMAGE_SIZE, self::IMAGE_SIZE, $size, $size);
+
+			// 画像をpng化する
+			imagepng($new_img, $tmp_filename);
+
+			// base64化する
+			$img_base64 = base64_encode(file_get_contents($tmp_filename));
+
+			// 画像を削除する
+			unlink($tmp_filename);
+
+			// base64化に失敗した場合は無視して終了
+			if ($img_base64 === false)
+			{
+				return array('error_message' => "画像の保存に失敗しました。別のファイルでお試しください。");
+			}
+
+			// 更新
+			$arg_list = array();
+			$sql  = "UPDATE `character` ";
+			$sql .= "SET    `image` = ? ";
+			$arg_list[] = $img_base64;
+			$sql .= "WHERE  `id` = ? ";
+			$sql .= "AND    `user_id` = ? ";
+			$arg_list[] = $id;
+			$arg_list[] = $user_id;
+			$this->query($sql, $arg_list);
+
+			// 戻り値
+			$return_list = array(
+// 				'image' => $img_base64,
 			);
 			return $return_list;
 		}
