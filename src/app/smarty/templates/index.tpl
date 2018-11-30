@@ -29,11 +29,7 @@
         <h4>「うちのこタイムライン」とは？</h4>
         <p><small>
           キャラメイクゲーやTRPGで作ったキャラクターやストーリーをまとめるツールです。（β版）<br>
-          一次創作二次創作問わず、ご自由にご利用ください。<br>
-          <br>
-          不具合やご要望は<a href="//twitter.com/smtk_tks/" target="_blank">こちら</a>までリプライorDMください。<br>
-          もしくは、ページ下部のフォームから匿名でお送りいただいてもOKです。<br>
-          ただしあくまで個人の趣味で作っているサイトですので対応しきれない場合はご了承ください。
+          一次創作二次創作問わず、ご自由にご利用ください。
         </small></p>
       </div>
 
@@ -53,14 +49,20 @@
         <div class="callout callout-success">
           <h4><i class="fa fa-fw fa-arrow-right" aria-hidden="true"></i>チュートリアル</h4>
           <p>はじめての方、何をしていいかわからない方はこちらへどうぞ。</p>
+          <p><i class="fa fa-fw fa-lightbulb-o" aria-hidden="true"></i><small>2018-11-29　β版の内容に対応しました！</small></p>
         </div>
       </a>
 
       <div>
         <div class="form-group">
           <label>ご要望・不具合報告・ご質問はこちらへ</label>
-          <textarea id="contact_content" class="form-control" rows="1" placeholder="（匿名なので個別返信はできませんが、内容によってはトップページ等で告知します）"></textarea>
+          <textarea id="contact_content" class="form-control" rows="1"></textarea>
           <button type="button" class="btn btn-primary btn-xs btn-block" onclick="addContact();">送信</button>
+          <p>
+            <small>
+              ※匿名のため個別のお返事はできません。必要な場合は<a href="//twitter.com/smtk_tks/" target="_blank">Twitter@smtk_tks</a>までご連絡ください。
+            </small>
+          </p>
         </div>
       </div>
 
