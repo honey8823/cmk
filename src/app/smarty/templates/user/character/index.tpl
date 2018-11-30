@@ -49,6 +49,13 @@
                 <li class="character_list" data-id="{$v_character.id}">
                   <a href="/user/character/edit.php?id={$v_character.id}" class="character_id">
                     <span class="is_private"><span class="is_private_icon is_private_{$v_character.is_private}"><i class="fa {if $v_character.is_private == 1}fa-lock{else}fa-unlock{/if} fa-fw"></i></span></span>
+                    <span>
+                    {if !isset($v_character.image) || $v_character.image == ""}
+                      <img src="/img/icon_noimage.png" class="img-rounded" alt="Character Image" style="height: 2em; margin: 0.1em;">
+                    {else}
+                      <img src="data:image/png;base64,{$v_character.image}" class="img-rounded" alt="Character Image" style="height: 2em; margin: 0.1em;">
+                    {/if}
+                    </span>
                     <span class="name"><span class="character_name">{$v_character.name|escape:'html'}</span></span>
                     <span class="stage">
                     {if isset($v_character.stage_list) && is_array($v_character.stage_list)}

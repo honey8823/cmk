@@ -103,6 +103,7 @@ class PublicController extends Common
 			$arg_list = array();
 			$sql  = "SELECT     `character`.`id` ";
 			$sql .= "          ,`character`.`name` ";
+			$sql .= "          ,`character`.`image` ";
 			$sql .= "FROM       `stage_character` ";
 			$sql .= "INNER JOIN `character` ";
 			$sql .= "  ON       `stage_character`.`character_id` = `character`.`id` ";
@@ -118,10 +119,7 @@ class PublicController extends Common
 			{
 				foreach ($character_list as $v)
 				{
-					$stage_list[0]['character_list'][] = array(
-						'id'    => $v['id'],
-						'name'  => $v['name'],
-					);
+					$stage_list[0]['character_list'][] = $v;
 				}
 			}
 
@@ -156,6 +154,7 @@ class PublicController extends Common
 			$sql  = "SELECT     `character`.`id` ";
 			$sql .= "          ,`character`.`name` ";
 			$sql .= "          ,`character`.`remarks` ";
+			$sql .= "          ,`character`.`image` ";
 			$sql .= "          ,`character`.`create_stamp` ";
 			$sql .= "          ,`character`.`update_stamp` ";
 			$sql .= "          ,`user`.`id` AS `user_id` ";
@@ -335,6 +334,7 @@ class PublicController extends Common
 			$sql  = "SELECT     `character`.`id` ";
 			$sql .= "          ,`character`.`name` ";
 			$sql .= "          ,`character`.`remarks` ";
+			$sql .= "          ,`character`.`image` ";
 			$sql .= "          ,`character`.`create_stamp` ";
 			$sql .= "          ,`character`.`update_stamp` ";
 			$sql .= "          ,`user`.`id` AS `user_id` ";
@@ -567,6 +567,7 @@ class PublicController extends Common
 			// 取得（キャラクター）・整形
 			$sql  = "SELECT     `character`.`id` ";
 			$sql .= "          ,`character`.`name` ";
+			$sql .= "          ,`character`.`image` ";
 			$sql .= "FROM       `character` ";
 			$sql .= "WHERE      `character`.`user_id` = ? ";
 			$sql .= "AND        `character`.`is_delete` <> 1 ";

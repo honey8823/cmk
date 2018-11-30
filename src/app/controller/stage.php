@@ -130,6 +130,7 @@ class StageController extends Common
 			$arg_list = array();
 			$sql  = "SELECT     `character`.`id` ";
 			$sql .= "          ,`character`.`name` ";
+			$sql .= "          ,`character`.`image` ";
 			$sql .= "          ,`character`.`is_private` ";
 			$sql .= "FROM       `stage_character` ";
 			$sql .= "INNER JOIN `character` ";
@@ -147,11 +148,7 @@ class StageController extends Common
 			{
 				foreach ($character_list as $v)
 				{
-					$stage_list[0]['character_list'][] = array(
-						'id'         => $v['id'],
-						'name'       => $v['name'],
-						'is_private' => $v['is_private'],
-					);
+					$stage_list[0]['character_list'][] = $v;
 				}
 			}
 
