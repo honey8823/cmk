@@ -13,8 +13,19 @@ $(document).on("click", "li.foldable", function(){
 	}
 });
 
+// ヒントボックス
 $(document).on("click", ".hint-box-toggle", function(){
 	$(this).find(".hint-box").toggleClass("hidden");
+});
+
+// デフォルトタブ
+if (location.hash != ""){
+	$(".nav-tabs a[href='#tab-content-" + location.hash.slice(1) + "']").trigger("click");
+}
+
+// タブクリック時にURL書き換え
+$(document).on("click", ".nav-tabs a", function(){
+	history.replaceState("", "", location.pathname + location.search + "#" + $(this).attr("href").slice(13));
 });
 
 /*
