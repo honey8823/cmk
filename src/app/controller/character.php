@@ -462,6 +462,39 @@ class CharacterController extends Common
 			$this->exception($e);
 		}
 	}
+	public function setImageClear($param_list = array())
+	{
+		try
+		{
+			// ユーザID
+			$user_id = $this->getLoginId();
+			if ($user_id === false)
+			{
+				return array('error_redirect' => "session");
+			}
+
+			// 引数
+			$id = trim($param_list['id']);
+
+			// 更新
+			$arg_list = array();
+			$sql  = "UPDATE `character` ";
+			$sql .= "SET    `image` = NULL ";
+			$sql .= "WHERE  `id` = ? ";
+			$sql .= "AND    `user_id` = ? ";
+			$arg_list[] = $id;
+			$arg_list[] = $user_id;
+			$this->query($sql, $arg_list);
+
+			// 戻り値
+			$return_list = array();
+			return $return_list;
+		}
+		catch (Exception $e)
+		{
+			$this->exception($e);
+		}
+	}
 
 	public function setIsPrivate($param_list = array())
 	{

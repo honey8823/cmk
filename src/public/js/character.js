@@ -71,6 +71,27 @@ function setCharacterIsPrivate(is_private){
 }
 
 /*
+ * 更新（キャラクターアイコン画像削除）
+ */
+function setCharacterImageClear(){
+    if (!confirm("本当にアイコン画像を削除してよろしいですか？")){
+        return false;
+    }
+	var params = {
+			'id' : $("#area-setCharacter").find(".form-id").val(),
+		};
+	var result = ajaxPost("character", "setImageClear", params);
+    result.done(function(){
+		if (isAjaxResultErrorRedirect(result.return_value) === true) {return false;}  // 必要ならエラーページへリダイレクト
+		if (isAjaxResultErrorMsg(result.return_value) === true){return false;} // 必要ならエラーメッセージ表示
+
+		// 正常な場合
+		location.reload();
+		return true;
+    });
+}
+
+/*
  * 削除
  */
 function delCharacter(){

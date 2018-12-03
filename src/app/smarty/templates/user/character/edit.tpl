@@ -35,6 +35,12 @@
       <div class="row">
 
         <div class="col-md-12">
+
+        {* post結果のエラーメッセージエリア *}
+        {if isset($error_message) && $error_message != ""}
+          <div class="div-error callout callout-danger">{$error_message}</div>
+        {/if}
+
         {if $character.is_private != 1}
           <div class="url-info">
             <small>
@@ -58,6 +64,9 @@
                 {else}
                   <img src="data:image/png;base64,{$character.image}" class="img-rounded character-image-view">
                 {/if}
+                  <div class="text-align-center clickable" data-toggle="modal" data-target="#modal-setCharacterImage">
+                    <small><a>画像の変更</a></small>
+                  </div>
                 </div>
                 <div class="col-sm-10">
                   <div>
@@ -111,26 +120,6 @@
                 <button type="button" class="btn btn-warning" onclick="delCharacter();">削除する</button>
                 <button type="button" class="btn btn-primary" onclick="setCharacter();">更新する</button>
               </div>
-            </div>
-          </div>
-
-          <div class="box collapsed-box">
-            <div class="box-header with-border clickable" data-widget="collapse">
-              <h3 class="box-title">キャラクターアイコンをアップロードする</h3>
-            </div>
-            <div class="box-body" id="area-setUserProfile">
-              <form method="POST" enctype="multipart/form-data" action="/user/character/edit.php">
-                <div class="form-group">
-                  <input type="file" id="input-character_image" name="image">
-                  <img id="select-image" style="max-width:100%; max-height: 50vh;">
-                  <input type="hidden" id="upload-character_id" name="character_id" value="{$character.id}">
-                  <input type="hidden" id="upload-image-x" name="image_x" value="0">
-                  <input type="hidden" id="upload-image-y" name="image_y" value="0">
-                  <input type="hidden" id="upload-image-w" name="image_w" value="0">
-                  <input type="hidden" id="upload-image-h" name="image_h" value="0">
-                </div>
-                <input type="submit" class="btn btn-primary pull-right" value="更新する">
-              </form>
             </div>
           </div>
         </div>
@@ -307,6 +296,40 @@
     <!-- ///////////////////////////////////////////////////// -->
   </div>
   <!-- Main content end -->
+
+  {* 画像アップロードmodal *}
+  <div class="modal fade" id="modal-setCharacterImage">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">アイコン画像の変更</h4>
+        </div>
+        <div class="modal-body">
+          <div id="area-setCharacterImage">
+            <form method="POST" enctype="multipart/form-data" action="/user/character/edit.php">
+              <div class="form-group">
+                <input type="file" id="input-character_image" name="image">
+                <img id="select-image" style="max-width:100%; max-height: 50vh;">
+                <input type="hidden" id="upload-character_id" name="character_id" value="{$character.id}">
+                <input type="hidden" id="upload-image-x" name="image_x" value="0">
+                <input type="hidden" id="upload-image-y" name="image_y" value="0">
+                <input type="hidden" id="upload-image-w" name="image_w" value="0">
+                <input type="hidden" id="upload-image-h" name="image_h" value="0">
+              </div>
+              <input type="submit" class="btn btn-primary pull-right hidden" value="更新する">
+            </form>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default pull-left" data-dismiss="modal">キャンセル</button>
+          <button type="button" class="btn btn-primary" onclick="setCharacterImageClear();">削除する</button>
+          <button type="button" class="btn btn-primary" onclick="$('#area-setCharacterImage .btn').trigger('click');">更新する</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
   {include file='common/footer.tpl'}
 
