@@ -76,10 +76,6 @@
 	padding: 0px 15px 0 0;
 	width: 2em;
 }
-.ul-list > li .name{
-	width: 15em;
-	display: inline-block;
-}
 .ul-list > li > .tag{
 	padding: 0px 15px 0 0;
 }
@@ -119,6 +115,23 @@ ul.timeline{
 	width: 100%;
 	display: grid;
 	margin-left: -0.5em;
+}
+
+/**********/
+/* 画像系 */
+/**********/
+
+.character-image-view{
+	max-width: 100%;
+	max-height: 200px;
+}
+.character-image-list{
+	height: 2em;
+	margin: 0.1em;
+}
+.user-image-view{
+	max-width: 90%;
+	max-height: 150px;
 }
 
 /********/

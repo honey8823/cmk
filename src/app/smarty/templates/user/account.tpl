@@ -99,9 +99,9 @@
               <form method="POST" enctype="multipart/form-data" action="/user/account.php">
                 <div style="margin: 1em; padding: 1em;">
                 {if !isset($user_session.image) || $user_session.image == ""}
-                  <img src="/img/icon_noimage.png" class="img-circle" alt="User Image" style="max-width: 90%; max-height: 150px;">
+                  <img src="/img/icon_noimage.png" class="img-circle user-image-view">
                 {else}
-                  <img src="data:image/png;base64,{$user_session.image}" class="img-circle" alt="User Image" style="max-width: 90%; max-height: 150px;">
+                  <img src="data:image/png;base64,{$user_session.image}" class="img-circle user-image-view">
                 {/if}
                 </div>
                 <div class="form-group">

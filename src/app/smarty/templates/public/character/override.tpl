@@ -38,16 +38,27 @@
             <div class="box-header with-border">
               <h3 class="box-title">「{$stage.name|escape:'html'}」の「{$character.name|escape:'html'}」</h3>
             </div>
+            <div class="box-body">
+              <div class="row">
+                <div class="col-sm-2">
+                {if !isset($character.image) || $character.image == ""}
+                  <img src="/img/icon_noimage.png" class="img-rounded character-image-view">
+                {else}
+                  <img src="data:image/png;base64,{$character.image}" class="img-rounded character-image-view">
+                {/if}
+                </div>
+                <div class="col-sm-10">
 {*
-          {if $character.remarks != ""}
-            <div class="box-body remarks-area">
-              {$character.remarks|escape:'html'|nl2br}
-            </div>
-          {/if}
+                {if $character.remarks != ""}
+                  <div class="remarks-area">
+                    {$character.remarks|escape:'html'|nl2br}
+                  </div>
+                {/if}
 *}
-            <div class="box-body text-align-right">
-              <p><a href="/public/stage/detail.php?user={$character.user_login_id}&id={$stage.id}">ステージ「{$stage.name|escape:'html'}」のタイムラインを見る</a></p>
-              <p><a href="/public/character/detail.php?user={$character.user_login_id}&id={$character.id}">キャラクター「{$character.name|escape:'html'}」の基本プロフィールを見る</a></p>
+                  <p><a href="/public/stage/detail.php?user={$character.user_login_id}&id={$stage.id}">ステージ「{$stage.name|escape:'html'}」のタイムラインを見る</a></p>
+                  <p><a href="/public/character/detail.php?user={$character.user_login_id}&id={$character.id}">キャラクター「{$character.name|escape:'html'}」の基本プロフィールを見る</a></p>
+                </div>
+              </div>
             </div>
           </div>
         </div>

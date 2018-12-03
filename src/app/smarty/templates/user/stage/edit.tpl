@@ -188,7 +188,7 @@
                               <span class="is_private_icon is_private_0 hidden"><i class="fa fa-unlock fa-fw"></i></span>
                               <span class="is_private_icon is_private_1 hidden"><i class="fa fa-lock fa-fw"></i></span>
                             </span>
-                            <span><img src="" class="img-rounded" alt="Character Image" style="height: 2em; margin: 0.1em;"></span>
+                            <span><img src="/img/icon_noimage.png" class="character_image img-rounded character-image-list"></span>
                             <span><span class="character_name"></span></span>
                           </div>
                           <div class="folder hidden">
@@ -208,9 +208,9 @@
                             <span class="is_private"><span class="is_private_icon is_private_{$v_character.is_private}"><i class="fa {if $v_character.is_private == 1}fa-lock{else}fa-unlock{/if} fa-fw"></i></span></span>
                             <span>
                             {if !isset($v_character.image) || $v_character.image == ""}
-                              <img src="/img/icon_noimage.png" class="img-rounded" alt="Character Image" style="height: 2em; margin: 0.1em;">
+                              <img src="/img/icon_noimage.png" class="img-rounded character-image-list">
                             {else}
-                              <img src="data:image/png;base64,{$v_character.image}" class="img-rounded" alt="Character Image" style="height: 2em; margin: 0.1em;">
+                              <img src="data:image/png;base64,{$v_character.image}" class="img-rounded character-image-list">
                             {/if}
                             </span>
                             <span><span class="character_name">{$v_character.name|escape:'html'}</span></span>

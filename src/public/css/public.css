@@ -14,6 +14,13 @@
 .li-character_profile{
 	padding: 0.5em;
 }
+.character_profile_a {
+	font-size: 0.85em;
+	padding: 0.5em;
+	margin: 0.5em;
+	background: #EEEEEE;
+	border-radius: 0.5em;
+}
 
 /* 説明文（ステージ・キャラクター・アカウント） */
 .remarks-area{

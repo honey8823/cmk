@@ -264,6 +264,9 @@ function upsertStageCharacter(){
 			$(obj).find(".is_private_" + result.return_value.character_list[e].is_private).removeClass("hidden");
 			$(obj).find("a.character_id").attr("href", $(obj).find("a.character_id").attr("href") + $.param({id: e}));
 			$(obj).find(".character_name").text(result.return_value.character_list[e].name);
+			if (result.return_value.character_list[e].image != null && result.return_value.character_list[e].image != ""){
+				$(obj).find(".character_image").attr("src", "data:image/png;base64," + result.return_value.character_list[e].image);
+			}
 			if (result.return_value.character_list[e].is_private == 1){
 				$(obj).find(".btn-character_override").addClass("hidden");
 			}

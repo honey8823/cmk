@@ -42,9 +42,20 @@
         <div class="col-md-12">
           <div class="box box-no-border">
             <div class="box-body">
-            {if $character.remarks != ""}
-              <div>{$character.remarks|escape:'html'|nl2br}</div>
-            {/if}
+            <div class="row">
+              <div class="col-sm-2">
+              {if !isset($character.image) || $character.image == ""}
+                <img src="/img/icon_noimage.png" class="img-rounded character-image-view">
+              {else}
+                <img src="data:image/png;base64,{$character.image}" class="img-rounded character-image-view">
+              {/if}
+              </div>
+              <div class="col-sm-10">
+              {if $character.remarks != ""}
+                <div>{$character.remarks|escape:'html'|nl2br}</div>
+              {/if}
+              </div>
+            </div>
             {if $is_login == "1"}
               <div class="text-align-right">
                 <i class="fa fa-fw fa-heart-o is_favorite_icon clickable is_favorite_0 {if $is_favorite == "1"}hidden{/if}" aria-hidden="true" data-favorite_type_key="character" data-id="{$character.id}"></i>

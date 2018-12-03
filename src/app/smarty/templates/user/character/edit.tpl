@@ -51,22 +51,33 @@
               <h3 class="box-title">基本情報</h3>
             </div>
             <div class="box-body" id="area-viewCharacter">
-              <div>
-                <span class="is_private_icon is_private_{$character.is_private} clickable" onclick="setCharacterIsPrivate({if $character.is_private == 1}0{else}1{/if});">
-                  <i class="fa {if $character.is_private == 1}fa-lock{else}fa-unlock{/if} fa-fw"></i>
-                </span>
-                <span><big>{$character.name|escape:'html'}</big></span>
-              </div>
-              <div class="margin1">
-                {foreach from=$stage_list key=k item=v_stage}
-                {if isset($character.stage_list) && is_array($character.stage_list) && in_array($v_stage.id, array_column($character.stage_list, 'id'))}
-                  <span class="badge stage" value="{$v_stage.id}">{$v_stage.name|escape:'html'}</span>
+             <div class="row">
+                <div class="col-sm-2">
+                {if !isset($character.image) || $character.image == ""}
+                  <img src="/img/icon_noimage.png" class="img-rounded character-image-view">
+                {else}
+                  <img src="data:image/png;base64,{$character.image}" class="img-rounded character-image-view">
                 {/if}
-                {/foreach}
-              </div>
-              <div class="remarks-area"><small>{if $character.remarks != ""}{$character.remarks|escape:'html'|nl2br}{else}（備考は登録されていません）{/if}</small></div>
-              <div class="box-body text-align-right">
-                <button type="button" class="btn btn-primary" onclick="$('#area-viewCharacter').hide();$('#area-setCharacter').show();">内容を編集する</button>
+                </div>
+                <div class="col-sm-10">
+                  <div>
+                    <span class="is_private_icon is_private_{$character.is_private} clickable" onclick="setCharacterIsPrivate({if $character.is_private == 1}0{else}1{/if});">
+                      <i class="fa {if $character.is_private == 1}fa-lock{else}fa-unlock{/if} fa-fw"></i>
+                    </span>
+                   <span><big>{$character.name|escape:'html'}</big></span>
+                  </div>
+                  <div class="margin1">
+                  {foreach from=$stage_list key=k item=v_stage}
+                  {if isset($character.stage_list) && is_array($character.stage_list) && in_array($v_stage.id, array_column($character.stage_list, 'id'))}
+                    <span class="badge stage" value="{$v_stage.id}">{$v_stage.name|escape:'html'}</span>
+                  {/if}
+                  {/foreach}
+                  </div>
+                  <div class="remarks-area"><small>{if $character.remarks != ""}{$character.remarks|escape:'html'|nl2br}{else}（備考は登録されていません）{/if}</small></div>
+                  <div class="box-body text-align-right">
+                    <button type="button" class="btn btn-primary" onclick="$('#area-viewCharacter').hide();$('#area-setCharacter').show();">内容を編集する</button>
+                  </div>
+                </div>
               </div>
             </div>
             <div class="box-body" id="area-setCharacter" style="display:none;">
@@ -109,13 +120,6 @@
             </div>
             <div class="box-body" id="area-setUserProfile">
               <form method="POST" enctype="multipart/form-data" action="/user/character/edit.php">
-                <div style="margin: 0.5em; padding: 0.5em;">
-                {if !isset($character.image) || $character.image == ""}
-                  <img src="/img/icon_noimage.png" class="img-rounded" alt="User Image" style="max-width: 90%; max-height: 100px;">
-                {else}
-                  <img src="data:image/png;base64,{$character.image}" class="img-rounded" alt="Character Image" style="max-width: 90%; max-height: 100px;">
-                {/if}
-                </div>
                 <div class="form-group">
                   <input type="file" id="input-character_image" name="image">
                   <img id="select-image" style="max-width:100%; max-height: 50vh;">

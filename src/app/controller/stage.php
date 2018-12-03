@@ -516,7 +516,11 @@ class StageController extends Common
 			if (count($character_list) > 0)
 			{
 				// 登録できないデータ（削除済み・本人のデータでないもの）を省く
-				$sql  = "SELECT `id`, `name`, `is_private` FROM `character` WHERE `id` IN (" . implode(",", array_fill(0, count($character_list), "?")) . ") AND `user_id` = ? AND `is_delete` <> 1 ";
+				$sql  = "SELECT `id`, `name`, `is_private`, `image` ";
+				$sql .= "FROM   `character` ";
+				$sql .= "WHERE  `id` IN (" . implode(",", array_fill(0, count($character_list), "?")) . ") ";
+				$sql .= "AND    `user_id` = ? ";
+				$sql .= "AND    `is_delete` <> 1 ";
 				$arg_list = $character_list;
 				$arg_list[] = $user_id;
 				$new_character_list = $this->query($sql, $arg_list);

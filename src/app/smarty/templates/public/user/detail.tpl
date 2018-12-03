@@ -118,7 +118,16 @@
                 <ul class="nav nav-stacked character_list ul-list">
                 {foreach from=$character_list key=k item=v_character}
                   <li>
-                    <a href="/public/character/detail.php?user={$user.login_id}&id={$v_character.id}">{$v_character.name|escape:'html'}</a>
+                    <a href="/public/character/detail.php?user={$user.login_id}&id={$v_character.id}">
+                      <span>
+                      {if !isset($v_character.image) || $v_character.image == ""}
+                        <img src="/img/icon_noimage.png" class="img-rounded character-image-list">
+                      {else}
+                        <img src="data:image/png;base64,{$v_character.image}" class="img-rounded character-image-list">
+                      {/if}
+                      </span>
+                      <span>{$v_character.name|escape:'html'}</span>
+                    </a>
                   </li>
                 {/foreach}
                 </ul>
