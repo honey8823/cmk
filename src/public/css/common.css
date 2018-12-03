@@ -88,6 +88,29 @@
 
 .margin1{ margin: 1em; }
 
+.character-list-grid{
+	display: grid;
+	grid-template-rows: 1em 2em;
+	grid-template-columns: 3em 1fr;
+}
+.character-list-grid-image{
+	grid-row: 1 / 3;
+	grid-column: 1 / 2;
+}
+.character-list-grid-name{
+	grid-row: 1 / 2;
+	grid-column: 2 / 3;
+}
+.character-list-grid-remarks{
+	grid-row: 2 / 3;
+	grid-column: 2 / 3;
+	font-size: 0.7em;
+	margin-top: 0.5em;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
 /****************/
 /* タイムライン */
 /************++**/
@@ -126,7 +149,7 @@ ul.timeline{
 	max-height: 200px;
 }
 .character-image-list{
-	height: 2em;
+	height: 2.5em;
 	margin: 0.1em;
 }
 .user-image-view{

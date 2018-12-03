@@ -103,6 +103,7 @@ class PublicController extends Common
 			$arg_list = array();
 			$sql  = "SELECT     `character`.`id` ";
 			$sql .= "          ,`character`.`name` ";
+			$sql .= "          ,`character`.`remarks` ";
 			$sql .= "          ,`character`.`image` ";
 			$sql .= "FROM       `stage_character` ";
 			$sql .= "INNER JOIN `character` ";
@@ -567,6 +568,7 @@ class PublicController extends Common
 			// 取得（キャラクター）・整形
 			$sql  = "SELECT     `character`.`id` ";
 			$sql .= "          ,`character`.`name` ";
+			$sql .= "          ,`character`.`remarks` ";
 			$sql .= "          ,`character`.`image` ";
 			$sql .= "FROM       `character` ";
 			$sql .= "WHERE      `character`.`user_id` = ? ";

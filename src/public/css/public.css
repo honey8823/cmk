@@ -24,7 +24,7 @@
 
 /* 説明文（ステージ・キャラクター・アカウント） */
 .remarks-area{
-	margin: 1em 2em;
+	margin-bottom: 1em;
 	padding: 0.5em;
 	background: #EEEEEE;
 	border-radius: 0.5em;

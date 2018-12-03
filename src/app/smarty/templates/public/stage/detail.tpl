@@ -137,14 +137,17 @@
                   {foreach from=$stage.character_list key=k item=v_character}
                     <li class="character_list" data-id="{$v_character.id}">
                       <a href="/public/character/override.php?user={$stage.user_login_id}&id={$v_character.id}&s={$stage.id}" class="character_id">
-                        <span>
-                        {if !isset($v_character.image) || $v_character.image == ""}
-                          <img src="/img/icon_noimage.png" class="img-rounded character-image-list">
-                        {else}
-                          <img src="data:image/png;base64,{$v_character.image}" class="img-rounded character-image-list">
-                        {/if}
-                        </span>
-                        <span class="character_name">{$v_character.name|escape:'html'}</span>
+                        <div class="character-list-grid">
+                          <p class="character-list-grid-image">
+                          {if !isset($v_character.image) || $v_character.image == ""}
+                            <img src="/img/icon_noimage.png" class="img-rounded character-image-list">
+                          {else}
+                            <img src="data:image/png;base64,{$v_character.image}" class="img-rounded character-image-list">
+                          {/if}
+                          </p>
+                          <p class="character_name character-list-grid-name">{$v_character.name|escape:'html'}</p>
+                          <p class="character-list-grid-remarks">{$v_character.remarks|escape:'html'}</p>
+                        </div>
                       </a>
                     </li>
                   {/foreach}

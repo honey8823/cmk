@@ -48,13 +48,11 @@
                 {/if}
                 </div>
                 <div class="col-sm-10">
-{*
                 {if $character.remarks != ""}
                   <div class="remarks-area">
                     {$character.remarks|escape:'html'|nl2br}
                   </div>
                 {/if}
-*}
                   <p><a href="/public/stage/detail.php?user={$character.user_login_id}&id={$stage.id}">ステージ「{$stage.name|escape:'html'}」のタイムラインを見る</a></p>
                   <p><a href="/public/character/detail.php?user={$character.user_login_id}&id={$character.id}">キャラクター「{$character.name|escape:'html'}」の基本プロフィールを見る</a></p>
                 </div>
