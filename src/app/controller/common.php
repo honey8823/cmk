@@ -13,11 +13,11 @@ class Common
 	public function init()
 	{
 		// db
-		$this->dsn  = config['db']['type'] . ":";
-		$this->dsn .= "host="    . config['db']['server']  . ";";
-		$this->dsn .= "dbname="  . config['db']['dbname']  . ";";
-		$this->dsn .= "charset=" . config['db']['charset'] . ";";
-		$this->pdo = new PDO($this->dsn, config['db']['user'], config['db']['pass']);
+		$this->dsn  = server_config['db']['type'] . ":";
+		$this->dsn .= "host="    . server_config['db']['server']  . ";";
+		$this->dsn .= "dbname="  . server_config['db']['dbname']  . ";";
+		$this->dsn .= "charset=" . server_config['db']['charset'] . ";";
+		$this->pdo = new PDO($this->dsn, server_config['db']['user'], server_config['db']['pass']);
 
 		// ログイン中の場合の処理
 		$user_id = $this->getLoginId();

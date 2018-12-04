@@ -15,16 +15,6 @@ define("DOMAIN", $_SERVER['SERVER_NAME']);
 
 const config = array(
 
-	// database
-	'db' => array(
-		"dbname"  => "drg_dev",
-		"server"  => "localhost",
-		"user"    => "app",
-		"pass"    => "kakukorokorokoro",
-		"charset" => "utf8mb4",
-		"type"    => "mysql",
-	),
-
 	// タグカテゴリ
 	'tag_category' => array(
 		array('value' => 1, 'key' => "series"  , 'name' => "シリーズ"),

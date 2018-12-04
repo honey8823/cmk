@@ -1,5 +1,6 @@
 <?php
 // config
+require_once(dirname(__FILE__) . "/../config/server.ini.php");
 require_once(dirname(__FILE__) . "/../config/application.ini.php");
 
 // libs
