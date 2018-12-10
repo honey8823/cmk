@@ -46,6 +46,14 @@ const config = array(
 		'episode_character' => "選択すると、そのキャラクターの<br>タイムラインにも表示されるようになります。",
 	),
 
+	// 相関図タイプ
+	'relation_type' => array(
+		array('value' => 1, 'key' => "none" , 'name' => "指定なし"),
+		array('value' => 2, 'key' => "like" , 'name' => "好感"),
+		array('value' => 3, 'key' => "hate" , 'name' => "反感"),
+		array('value' => 4, 'key' => "love" , 'name' => "恋愛"),
+	),
+
 	// 詳細プロフィール項目
 	// 1**：生まれについて
 	// 2**：名前、呼び方、所属、肩書きなど
@@ -60,6 +68,7 @@ const config = array(
 		array('value' =>  105, 'title' => "出身地"),
 		array('value' =>  106, 'title' => "種族"),
 		array('value' =>  107, 'title' => "血液型"),
+		// 108～199
 
 		array('value' =>  301, 'title' => "外見"),
 		array('value' =>  302, 'title' => "体格"),
@@ -71,6 +80,9 @@ const config = array(
 		array('value' =>  308, 'title' => "体質"),
 		array('value' =>  309, 'title' => "病気"),
 		array('value' =>  310, 'title' => "怪我"),
+		array('value' =>  311, 'title' => "運動神経"),
+		array('value' =>  312, 'title' => "体力"),
+		// 313～399
 
 		array('value' =>  201, 'title' => "通称・ニックネーム"),
 		array('value' =>  202, 'title' => "称号・二つ名"),
@@ -79,11 +91,13 @@ const config = array(
 		array('value' =>  205, 'title' => "二人称"),
 		array('value' =>  206, 'title' => "三人称"),
 		array('value' =>  207, 'title' => "他人の呼び方"),
+		// 208～250
 
 		array('value' =>  251, 'title' => "職業"),
 		array('value' =>  252, 'title' => "所属組織"),
 		array('value' =>  253, 'title' => "階級・地位・肩書き"),
 		array('value' =>  254, 'title' => "経歴"),
+		// 255～299
 
 		array('value' =>  400, 'title' => "性格"),
 		array('value' =>  401, 'title' => "趣味"),
@@ -96,27 +110,37 @@ const config = array(
 		array('value' =>  408, 'title' => "寝つき・寝起き"),
 		array('value' =>  409, 'title' => "飲酒"),
 		array('value' =>  410, 'title' => "煙草"),
+		array('value' =>  415, 'title' => "自己評価"),
+		array('value' =>  416, 'title' => "他人との接し方"),
 		array('value' =>  411, 'title' => "人あたりのよさ"),
 		array('value' =>  412, 'title' => "苦手なもの"),
 		array('value' =>  413, 'title' => "トラウマ"),
 		array('value' =>  414, 'title' => "悩み"),
+		array('value' =>  415, 'title' => "頭の良さ"),
+		// 416～430
 
 		array('value' =>  431, 'title' => "戦い方"),
 		array('value' =>  432, 'title' => "武器"),
+		// 433～450
 
 		array('value' =>  451, 'title' => "目的・目標"),
 		array('value' =>  452, 'title' => "戦う理由"),
+		array('value' =>  453, 'title' => "座右の銘"),
+		// 454～499
 
 		array('value' =>  901, 'title' => "[メタ]外見"),
 		array('value' =>  902, 'title' => "[メタ]クラス・職業"),
 		array('value' =>  903, 'title' => "[メタ]CV・脳内CV"),
+		// 904～910
 
 		array('value' =>  911, 'title' => "[メタ]スキル構成"),
 		array('value' =>  912, 'title' => "[メタ]属性"),
 		array('value' =>  913, 'title' => "[メタ]パラメータ"),
 		array('value' =>  914, 'title' => "[メタ]武器"),
+		// 915～950
 
 		array('value' =>  951, 'title' => "[メタ]名前の由来"),
 		array('value' =>  952, 'title' => "[メタ]イメージソング"),
+		// 953～
 	),
 );
