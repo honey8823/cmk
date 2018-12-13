@@ -56,6 +56,7 @@
       <div>
         <div class="form-group">
           <label>ご要望・不具合報告・ご質問はこちらへ</label>
+          <small><a href="/public/stage/detail.php?user=sample_account&id=11">【現在の対応リストはこちら】</a></small>
           <textarea id="contact_content" class="form-control" rows="1"></textarea>
           <button type="button" class="btn btn-primary btn-xs btn-block" onclick="addContact();">送信</button>
           <p>

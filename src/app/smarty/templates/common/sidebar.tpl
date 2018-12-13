@@ -51,6 +51,13 @@
         </li>
 
         <li class="header">その他</li>
+      {if isset($user_session.is_admin) && $user_session.is_admin == 1}
+        <li>
+          <a href="/admin/">
+            <i class="fa fa-fw fa-cog" aria-hidden="true"></i><span>管理ページ</span>
+          </a>
+        </li>
+      {/if}
         <li>
           <a href="/information.php">
             <i class="fa fa-fw fa-exclamation-circle" aria-hidden="true"></i><span>お知らせ</span>
