@@ -164,6 +164,12 @@ class Common
 		}
 	}
 
+	public function isAdmin()
+	{
+		$session_list = $this->getSession(array("user"));
+		return isset($session_list['user']['is_admin']) ? $session_list['user']['is_admin'] : 0;
+	}
+
 	public function setSessionNoticeUnread($user_id)
 	{
 		$sql  = "SELECT COUNT(*) AS `unread_count` FROM `notice` WHERE `user_id` = ? AND `read_stamp` IS NULL ";

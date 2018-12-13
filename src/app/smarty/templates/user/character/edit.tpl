@@ -259,10 +259,10 @@
                         <div class="character_relation-free_text_b character_relation_free_text"><span class="{if $v_relation.free_text_b == ""}hidden{/if}">{$v_relation.free_text_b|escape:'html'|nl2br}</span></div>
                         <div class="character_relation-another character_relation_character">
                           <p>
-                          {if !isset($v_relation.image) || $v_relation.image == ""}
+                          {if !isset($v_relation.character_image) || $v_relation.character_image == ""}
                             <img src="/img/icon_noimage.png" class="img-rounded character-image-relation">
                           {else}
-                            <img src="data:image/png;base64,{$v_relation.image}" class="img-rounded character-image-relation">
+                            <img src="data:image/png;base64,{$v_relation.character_image}" class="img-rounded character-image-relation">
                           {/if}
                           </p>
                           <p>{$v_relation.character_name|escape:'html'}</p>

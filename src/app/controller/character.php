@@ -181,6 +181,7 @@ class CharacterController extends Common
 			// 取得（相関図：他キャラクター）・整形
 			$sql  = "SELECT     `character`.`id` AS `character_id` ";
 			$sql .= "          ,`character`.`name` AS `character_name` ";
+			$sql .= "          ,`character`.`image` AS `character_image` ";
 			$sql .= "FROM       `character` ";
 			$sql .= "WHERE      `character`.`user_id` = ? ";
 			$sql .= "AND        `character`.`is_delete` <> 1 ";
