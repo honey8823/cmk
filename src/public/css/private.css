@@ -141,7 +141,7 @@
 	display: inline-block;
 	font-size: 0.85em;
 }
-.character-folder.clickable{
+.character_profile-folder.clickable{
 	color: white;
 	background-color: #4A53B4;
 	margin-top: 1em;
@@ -167,4 +167,19 @@
 }
 .profile_reference_content{
 	padding: 5px 5px 10px 10px;
+}
+
+/* ****************** */
+/* キャラクター相関図 */
+/* ****************** */
+
+.character_relation-title{
+	background: #FF851B;
+	color: #FFFFFF;
+	padding: 0.5em;
+	border-radius: 0.2em;
+	margin-top: 1.5em;
+}
+.character_relation-form {
+	margin: 1em;
 }

@@ -22,6 +22,18 @@
 	border-radius: 0.5em;
 }
 
+/* キャラクター相関図 */
+.li-character_relation{
+	padding: 0.5em;
+}
+.character_relation_free_text {
+	font-size: 0.85em;
+	padding: 0.5em;
+	margin: 0.5em;
+	background: #EEEEEE;
+	border-radius: 0.5em;
+}
+
 /* 説明文（ステージ・キャラクター・アカウント） */
 .remarks-area{
 	margin-bottom: 1em;

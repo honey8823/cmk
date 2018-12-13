@@ -37,14 +37,14 @@ $(document).on("click", "li.timeline-editable", function(){
 });
 
 // オーバーライド(エピソード)部分のキャラクター折り畳み
-$(document).on("click", "#set_forms-override .character-folder.clickable", function(){
+$(document).on("click", "#set_forms-override .character_profile-folder.clickable", function(){
 	$(this).parents(".character_block").find(".ul-character_profile").toggleClass("hidden");
 	$(this).find(".folder-close-icon").toggleClass("hidden");
 	$(this).find(".folder-open-icon").toggleClass("hidden");
 });
 
 // 登録フォームの切り替え
-$(document).on("click", ".forms-switch", function(){
+$(document).on("click", "#modal-addEpisode .forms-switch", function(){
 	$("#add_forms-common").addClass("hidden");
 	$("#add_forms-label").addClass("hidden");
 	$("#add_forms-override").addClass("hidden");

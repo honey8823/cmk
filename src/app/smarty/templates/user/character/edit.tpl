@@ -128,6 +128,7 @@
           <div class="nav-tabs-custom">
             <ul class="nav nav-tabs">
               <li class="active"><a href="#tab-content-profile" data-toggle="tab" aria-expanded="false">詳細プロフィール</a></li>
+              <li class=""><a href="#tab-content-relation" data-toggle="tab" aria-expanded="true">相関図</a></li>
               <li class=""><a href="#tab-content-timeline" data-toggle="tab" aria-expanded="true">タイムライン</a></li>
             </ul>
 
@@ -220,6 +221,57 @@
                     <small><i class="fa fa-fw fa-arrow-circle-right" aria-hidden="true"></i>欲しい項目がない！</small>
                   </a>
                 </div>
+              </div>
+
+              <div class="tab-pane" id="tab-content-relation">
+{*
+                <p class="hint-box">ステージごとや時間の経過で変わる内容は<br>「ステージ」内で別途設定することができます。</p>
+*}
+                <ul class="nav nav-stacked ul-character_relation character_relation" id="character_relation">
+                {foreach from=$character.relation_list key=k item=v_relation}
+                  <li class="li-character_relation" data-character_id_to="{$v_relation.character_id}">
+                    <a href="#" data-toggle="modal" data-target="#modal-upsertCharacterRelation" onclick="setRelationModal({$v_relation.character_id});">
+                    {* 表示モード *}
+                      <div class="view_mode relation_view_panel">
+                        <div class="character_relation-self character_relation_character">
+                          <p>
+                          {if !isset($character.image) || $character.image == ""}
+                            <img src="/img/icon_noimage.png" class="img-rounded character-image-relation">
+                          {else}
+                            <img src="data:image/png;base64,{$character.image}" class="img-rounded character-image-relation">
+                          {/if}
+                          </p>
+                          <p>{$character.name|escape:'html'}</p>
+                        </div>
+                        <div class="character_relation-free_text_a character_relation_free_text"><span class="{if $v_relation.free_text_a == ""}hidden{/if}">{$v_relation.free_text_a|escape:'html'|nl2br}</span></div>
+                        <div class="character_relation-arrow">
+                          <div class="relation-arrow_bar relation-arrow_right{if $v_relation.is_arrow_a != "1" || $v_relation.is_arrow_c == "1"} hidden{/if}">
+                            <span>{$v_relation.title_a|escape:'html'}</span>
+                          </div>
+                          <div class="relation-arrow_bar relation-arrow_left{if $v_relation.is_arrow_b != "1" || $v_relation.is_arrow_c == "1"} hidden{/if}">
+                            <span>{$v_relation.title_b|escape:'html'}</span>
+                          </div>
+                          <div class="relation-arrow_bar relation-arrow_right relation-arrow_left{if $v_relation.is_arrow_c != "1"} hidden{/if}">
+                            <span>{$v_relation.title_c|escape:'html'}</span>
+                          </div>
+                          <div class="undefined{if $v_relation.is_arrow_a == "1" || $v_relation.is_arrow_b == "1" || $v_relation.is_arrow_c == "1"} hidden{/if}">（未設定）</div>
+                        </div>
+                        <div class="character_relation-free_text_b character_relation_free_text"><span class="{if $v_relation.free_text_b == ""}hidden{/if}">{$v_relation.free_text_b|escape:'html'|nl2br}</span></div>
+                        <div class="character_relation-another character_relation_character">
+                          <p>
+                          {if !isset($v_relation.image) || $v_relation.image == ""}
+                            <img src="/img/icon_noimage.png" class="img-rounded character-image-relation">
+                          {else}
+                            <img src="data:image/png;base64,{$v_relation.image}" class="img-rounded character-image-relation">
+                          {/if}
+                          </p>
+                          <p>{$v_relation.character_name|escape:'html'}</p>
+                        </div>
+                      </div>
+                    </a>
+                  </li>
+                {/foreach}
+                </ul>
               </div>
 
               <div class="tab-pane" id="tab-content-timeline">
@@ -331,6 +383,73 @@
     </div>
   </div>
 
+  {* 相関図編集modal *}
+  <div class="modal fade" id="modal-upsertCharacterRelation">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">相関図の編集</h4>
+        </div>
+        <div class="modal-body">
+          <div id="area-upsertCharacterRelation">
+            <input type="hidden" class="form-id" value="{$character.id}">
+            <input type="hidden" class="form-another_id" value="">
+
+            <div id="upsert_forms-oneway">
+              <div class="form-group">
+                <button type="button" class="forms-switch btn btn-lg btn-block btn-success btn-form_both" data-target_forms_id="both"><i class="fa fa-fw fa-arrows-h" aria-hidden="true"></i>矢印を双方向にする</button>
+              </div>
+              <div class="character_relation-title"><span>{$character.name}</span><i class="fa fa-fw fa-arrow-right" aria-hidden="true"></i><span class="character_name"></span></div>
+              <div class="character_relation-form form-group">
+                <label>タイトル（矢印に重ねて表示されます）</label>
+                <input class="form-control character_relation-title_a" type="text">
+              </div>
+              <div class="character_relation-form form-group">
+                <label>フリーテキスト</label>
+                <textarea class="form-control character_relation-free_text_a" rows="3" placeholder=""></textarea>
+              </div>
+
+              <div class="character_relation-title"><span class="character_name"></span><i class="fa fa-fw fa-arrow-right" aria-hidden="true"></i><span>{$character.name}</span></div>
+              <div class="character_relation-form form-group">
+                <label>タイトル（矢印に重ねて表示されます）</label>
+                <input class="form-control character_relation-title_b" type="text">
+              </div>
+              <div class="character_relation-form form-group">
+                <label>フリーテキスト</label>
+                <textarea class="form-control character_relation-free_text_b" rows="3" placeholder=""></textarea>
+              </div>
+            </div>
+
+            <div id="upsert_forms-both" class="hidden">
+              <div class="form-group">
+                <button type="button" class="forms-switch btn btn-lg btn-block btn-success btn-form_oneway" data-target_forms_id="oneway"><span class="fa-stack fa-fw" style="margin: -0.5em 0;"><i class="fa fa-long-arrow-right fa-stack-1x" style="top:-0.2em;"></i><i class="fa fa-long-arrow-left fa-stack-1x" style="top:0.2em;"></i></span>矢印を片方ずつにする</button>
+              </div>
+              <div class="character_relation-form form-group">
+                <label>タイトル（矢印に重ねて表示されます）</label>
+                <input class="form-control character_relation-title_a" type="text">
+              </div>
+              <div class="character_relation-form form-group">
+                <label>フリーテキスト（<span>{$character.name}</span><i class="fa fa-fw fa-arrow-right" aria-hidden="true"></i><span class="character_name"></span>）</label>
+                <textarea class="form-control character_relation-free_text_a" rows="3" placeholder=""></textarea>
+              </div>
+              <div class="character_relation-form form-group">
+                <label>フリーテキスト（<span class="character_name"></span><i class="fa fa-fw fa-arrow-right" aria-hidden="true"></i><span>{$character.name}</span>）</label>
+                <textarea class="form-control character_relation-free_text_b" rows="3" placeholder=""></textarea>
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default pull-left" data-dismiss="modal">キャンセル</button>
+          <button type="button" class="btn btn-primary" onclick="upsertCharacterRelation();">更新する</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   {include file='common/footer.tpl'}
 
 </div>
@@ -342,6 +461,7 @@
 {include file='common/common_js.tpl'}
 <script src="/js/character.js"></script>
 <script src="/js/character-profile.js"></script>
+<script src="/js/character-relation.js"></script>
 <script src="/js/timeline.js"></script>
 <script src="/js/episode.js"></script>
 <script src="/js/lib/cropper.js"></script>

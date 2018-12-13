@@ -15,21 +15,31 @@ class CharacterController extends Common
 				return array('error_redirect' => "session");
 			}
 
+			// 引数
+			$mode_simple = trim(isset($param_list['mode_simple']) ? $param_list['mode_simple'] : "");
+
 			$return_list = array();
 
 			// 取得（キャラクター）
 			$arg_list = array();
-			$sql  = "SELECT   `id`, `name`, `image`, `is_private` ";
+			$sql  = "SELECT   `id` ";
+			$sql .= "        ,`name` ";
+			if ($mode_simple != 1)
+			{
+				$sql .= "    ,`image` ";
+			}
+			$sql .= "        ,`is_private` ";
 			$sql .= "FROM     `character` ";
 			$sql .= "WHERE    `user_id` = ? ";
 			$arg_list[] = $user_id;
 			$sql .= "AND      `is_delete` <> 1 ";
 			$sql .= "ORDER BY `sort` = 0 ASC ";
 			$sql .= "        ,`sort` ASC ";
+			$sql .= "        ,`id` ASC ";
 			$character_list = $this->query($sql, $arg_list);
 
 			// 取得（ステージ）・整形
-			if (count($character_list) > 0)
+			if ($mode_simple != 1 && count($character_list) > 0)
 			{
 				$character_list = $this->setArrayKey($character_list, "id");
 
@@ -165,6 +175,80 @@ class CharacterController extends Common
 						'question_title' => $q_list[$v['question']]['title'],
 						'answer'         => $v['answer'],
 					);
+				}
+			}
+
+			// 取得（相関図：他キャラクター）・整形
+			$sql  = "SELECT     `character`.`id` AS `character_id` ";
+			$sql .= "          ,`character`.`name` AS `character_name` ";
+			$sql .= "FROM       `character` ";
+			$sql .= "WHERE      `character`.`user_id` = ? ";
+			$sql .= "AND        `character`.`is_delete` <> 1 ";
+			$sql .= "AND        `character`.`id` <> ? ";
+			$sql .= "ORDER BY   `character`.`sort` = 0 ASC ";
+			$sql .= "          ,`character`.`sort` ASC ";
+			$sql .= "          ,`character`.`id` ASC ";
+			$arg_list = array($user_id, $id);
+			$character_list[0]['relation_list'] = $this->setArrayKey($this->query($sql, $arg_list), "character_id");
+			foreach ($character_list[0]['relation_list'] as $k => $v)
+			{
+				$character_list[0]['relation_list'][$k]['title_a']     = "";
+				$character_list[0]['relation_list'][$k]['free_text_a'] = "";
+				$character_list[0]['relation_list'][$k]['is_arrow_a']  = "0";
+				$character_list[0]['relation_list'][$k]['title_b']     = "";
+				$character_list[0]['relation_list'][$k]['free_text_b'] = "";
+				$character_list[0]['relation_list'][$k]['is_arrow_b']  = "0";
+				$character_list[0]['relation_list'][$k]['title_c']     = "";
+				$character_list[0]['relation_list'][$k]['free_text_c'] = "";
+				$character_list[0]['relation_list'][$k]['is_arrow_c']  = "0";
+			}
+
+			// 取得（相関図：内容）・整形
+			if (count($character_list[0]['relation_list']) > 0)
+			{
+				$sql  = "SELECT     `character_relation`.`character_id_from` ";
+				$sql .= "          ,`character_relation`.`character_id_to` ";
+				$sql .= "          ,`character_relation`.`is_both` ";
+				$sql .= "          ,`character_relation`.`title` ";
+				$sql .= "          ,`character_relation`.`free_text` ";
+				$sql .= "FROM       `character_relation` ";
+				$sql .= "WHERE      `character_relation`.`character_id_from` = ? ";
+				$sql .= "OR         `character_relation`.`character_id_to`   = ? ";
+				$arg_list = array(
+					$id,
+					$id,
+				);
+				$tmp_relation_list = $this->query($sql, $arg_list);
+				foreach ($tmp_relation_list as $v)
+				{
+					if ($v['character_id_from'] == $id)
+					{
+						$character_list[0]['relation_list'][$v['character_id_to']]['title_a']        = $v['title'];
+						$character_list[0]['relation_list'][$v['character_id_to']]['free_text_a']    = $v['free_text'];
+						$character_list[0]['relation_list'][$v['character_id_to']]['is_arrow_c']    |= $v['is_both'];
+						if ($v['title'] != "" || $v['free_text'] != "")
+						{
+							$character_list[0]['relation_list'][$v['character_id_to']]['is_arrow_a'] = "1";
+						}
+						if ($character_list[0]['relation_list'][$v['character_id_to']]['title_c'] == "")
+						{
+							$character_list[0]['relation_list'][$v['character_id_to']]['title_c'] = $v['title'];
+						}
+					}
+					else
+					{
+						$character_list[0]['relation_list'][$v['character_id_from']]['title_b']      = $v['title'];
+						$character_list[0]['relation_list'][$v['character_id_from']]['free_text_b']  = $v['free_text'];
+						$character_list[0]['relation_list'][$v['character_id_from']]['is_arrow_c']  |= $v['is_both'];
+						if ($v['title'] != "" || $v['free_text'] != "")
+						{
+							$character_list[0]['relation_list'][$v['character_id_from']]['is_arrow_b'] = "1";
+						}
+						if ($character_list[0]['relation_list'][$v['character_id_from']]['title_c'] == "")
+						{
+							$character_list[0]['relation_list'][$v['character_id_from']]['title_c'] = $v['title'];
+						}
+					}
 				}
 			}
 
@@ -1802,4 +1886,225 @@ class CharacterController extends Common
 		}
 	}
 
+	public function getRelation($param_list = array())
+	{
+		try
+		{
+			// ユーザID
+			// ログイン状態でない場合はエラー
+			$user_id = $this->getLoginId();
+			if ($user_id === false)
+			{
+				return array('error_redirect' => "session");
+			}
+
+			// 引数
+			$id         = trim($param_list['id']);
+			$another_id = trim($param_list['another_id']);
+
+			$return_list = array();
+
+			if (!preg_match("/^[0-9]+$/", $id) || !preg_match("/^[0-9]+$/", $another_id))
+			{
+				return array('error_message_list' => array("エラーが発生しました。一旦画面をリロードしてやり直してください。"));
+			}
+
+			// キャラクター情報取得
+			// （本人の有効なキャラクターのみ抽出）
+			$sql  = "SELECT `id`, `name` FROM `character` WHERE `id` IN (?, ?) AND `user_id` = ? AND `is_delete` <> 1 ";
+			$arg_list = array($id, $another_id, $user_id);
+			$character_list = $this->query($sql, $arg_list);
+			if (count($character_list) != 2)
+			{
+				return array('error_message_list' => array("エラーが発生しました。一旦画面をリロードしてやり直してください。"));
+			}
+			$character_list = $this->setArrayKey($character_list, "id");
+
+			// 取得（相関図：本人の有効なキャラクターに紐づいている場合のみ）
+			$sql  = "SELECT     `character_relation`.`character_id_from` ";
+			$sql .= "          ,`character_relation`.`character_id_to` ";
+			$sql .= "          ,`character_relation`.`is_both` ";
+			$sql .= "          ,`character_relation`.`title` ";
+			$sql .= "          ,`character_relation`.`free_text` ";
+			$sql .= "FROM       `character_relation` ";
+			$sql .= "WHERE      (`character_relation`.`character_id_from` = ? AND `character_relation`.`character_id_to` = ?) ";
+			$sql .= "OR         (`character_relation`.`character_id_from` = ? AND `character_relation`.`character_id_to` = ?) ";
+			$arg_list = array(
+				$id,
+				$another_id,
+				$another_id,
+				$id,
+			);
+			$relation_list = $this->query($sql, $arg_list);
+
+			// 戻り値の形をつくる
+			$return_list['character_id']   = $another_id;
+			$return_list['character_name'] = $character_list[$another_id]['name'];
+			$return_list['is_both']        = 0;
+			$return_list['title_a']        = "";
+			$return_list['free_text_a']    = "";
+			$return_list['title_b']        = "";
+			$return_list['free_text_b']    = "";
+			foreach ($relation_list as $v)
+			{
+				$return_list['is_both'] = $return_list['is_both'] || $v['is_both'];
+				if ($v['character_id_from'] == $id)
+				{
+					$return_list['title_a']     = $v['title'];
+					$return_list['free_text_a'] = $v['free_text'];
+				}
+				else
+				{
+					$return_list['title_b']     = $v['title'];
+					$return_list['free_text_b'] = $v['free_text'];
+				}
+			}
+
+			// 戻り値
+			return $return_list;
+		}
+		catch (Exception $e)
+		{
+			$this->exception($e);
+		}
+	}
+
+	public function upsertRelation($param_list = array())
+	{
+		try
+		{
+			// ユーザID
+			$user_id    = $this->getLoginId();
+			if ($user_id === false)
+			{
+				return array('error_redirect' => "session");
+			}
+
+			// 引数
+			$character_id_from = trim($param_list['character_id']);
+			$character_id_to   = trim($param_list['character_another_id']);
+			$is_both           = trim($param_list['is_both']) == "1" ? "1" : "0";
+			$title_a           = trim($param_list['title_a']);
+			$title_b           = trim($param_list['title_b']);
+			$free_text_a       = trim($param_list['free_text_a']);
+			$free_text_b       = trim($param_list['free_text_b']);
+
+			// バリデート
+			$err_list = array();
+			if (!preg_match("/^[0-9]+$/", $character_id_from) || !preg_match("/^[0-9]+$/", $character_id_to))
+			{
+				$err_list[] = "エラーが発生しました。一旦画面をリロードしてやり直してください。";
+				return array('error_message_list' => $err_list);
+			}
+			else
+			{
+				$sql = "SELECT `id`, `name` FROM `character` WHERE `id` IN (?, ?) AND `user_id` = ? AND `is_delete` <> 1 ";
+				$arg_list = array($character_id_from, $character_id_to, $user_id);
+				$character_list = $this->setArrayKey($this->query($sql, $arg_list), "id");
+				if (count($character_list) != 2)
+				{
+					$err_list[] = "エラーが発生しました。一旦画面をリロードしてやり直してください。";
+					return array('error_message_list' => $err_list);
+				}
+			}
+			if ($is_both == "1" && mb_strlen($title_a) > 32)
+			{
+				$err_list[] = "タイトルは32文字以内で入力してください。";
+			}
+			elseif (mb_strlen($title_a) > 32)
+			{
+				$err_list[] = "タイトル（" . $character_list[$character_id_from]['name'] . "→" . $character_list[$character_id_to]['name'] . "）は32文字以内で入力してください。";
+			}
+			if (mb_strlen($title_b) > 32)
+			{
+				$err_list[] = "タイトル（" . $character_list[$character_id_to]['name'] . "→" . $character_list[$character_id_from]['name'] . "）は32文字以内で入力してください。";
+			}
+			if (mb_strlen($free_text_a) > 1000)
+			{
+				$err_list[] = "フリーテキスト（" . $character_list[$character_id_from]['name'] . "→" . $character_list[$character_id_to]['name'] . "）は1000文字以内で入力してください。";
+			}
+			if (mb_strlen($free_text_b) > 1000)
+			{
+				$err_list[] = "フリーテキスト（" . $character_list[$character_id_to]['name'] . "→" . $character_list[$character_id_from]['name'] . "）は1000文字以内で入力してください。";
+			}
+			if (count($err_list) > 0)
+			{
+				return array('error_message_list' => $err_list);
+			}
+
+			// 既存データを一旦削除
+			$arg_list = array();
+			$sql  = "DELETE FROM `character_relation` ";
+			$sql .= "WHERE       (`character_id_from` = ? AND `character_id_to` = ?) ";
+			$sql .= "OR          (`character_id_from` = ? AND `character_id_to` = ?) ";
+			$arg_list[] = $character_id_from;
+			$arg_list[] = $character_id_to;
+			$arg_list[] = $character_id_to;
+			$arg_list[] = $character_id_from;
+			$this->query($sql, $arg_list);
+
+			// 登録
+			if ($is_both == 1)
+			{
+				if ($title_a != "" || $free_text_a != "" || $free_text_b != "")
+				{
+					$arg_list = array();
+					$sql  = "INSERT INTO `character_relation` (`character_id_from`, `character_id_to`, `is_both`, `title`, `free_text`) ";
+					$sql .= "VALUES                           (?                  , ?                , ?        , ?      , ?          ) ";
+					$sql .= "                                ,(?                  , ?                , ?        , ?      , ?          ) ";
+					$arg_list[] = $character_id_from;
+					$arg_list[] = $character_id_to;
+					$arg_list[] = $is_both;
+					$arg_list[] = $title_a     == "" ? null : $title_a;
+					$arg_list[] = $free_text_a == "" ? null : $free_text_a;
+					$arg_list[] = $character_id_to;
+					$arg_list[] = $character_id_from;
+					$arg_list[] = $is_both;
+					$arg_list[] = $title_b     == "" ? null : $title_b;
+					$arg_list[] = $free_text_b == "" ? null : $free_text_b;
+					$this->query($sql, $arg_list);
+				}
+			}
+			else
+			{
+				if ($title_a != "" || $free_text_a != "")
+				{
+					$arg_list = array();
+					$sql  = "INSERT INTO `character_relation` (`character_id_from`, `character_id_to`, `is_both`, `title`, `free_text`) ";
+					$sql .= "VALUES                           (?                  , ?                , ?        , ?      , ?          ) ";
+					$arg_list[] = $character_id_from;
+					$arg_list[] = $character_id_to;
+					$arg_list[] = $is_both;
+					$arg_list[] = $title_a     == "" ? null : $title_a;
+					$arg_list[] = $free_text_a == "" ? null : $free_text_a;
+					$this->query($sql, $arg_list);
+				}
+				if ($title_b != "" || $free_text_b != "")
+				{
+					$arg_list = array();
+					$sql  = "INSERT INTO `character_relation` (`character_id_from`, `character_id_to`, `is_both`, `title`, `free_text`) ";
+					$sql .= "VALUES                           (?                  , ?                , ?        , ?      , ?          ) ";
+					$arg_list[] = $character_id_to;
+					$arg_list[] = $character_id_from;
+					$arg_list[] = $is_both;
+					$arg_list[] = $title_b     == "" ? null : $title_b;
+					$arg_list[] = $free_text_b == "" ? null : $free_text_b;
+					$this->query($sql, $arg_list);
+				}
+			}
+
+			// 戻り値
+			return array(
+				'is_both'     => $is_both,
+				'title_a'     => $title_a,
+				'title_b'     => $title_b,
+				'free_text_a' => $free_text_a,
+				'free_text_b' => $free_text_b,
+			);
+		}
+		catch (Exception $e)
+		{
+			$this->exception($e);
+		}
+	}
 }

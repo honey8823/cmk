@@ -32,7 +32,7 @@ $(document).on("click", ".nav-tabs a", function(){
  * メッセージのアラート
  */
 function alertMsg(msg_list){
-	alert(msg_list.join("\nまた、"));
+	alert(msg_list.join("\n"));
 }
 
 /*

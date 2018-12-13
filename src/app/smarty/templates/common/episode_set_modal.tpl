@@ -93,7 +93,7 @@
                 </p>
                 <div class="character_block_group">
                   <div class="character_block template-for-copy" data-id="">
-                    <p class="character-folder clickable">
+                    <p class="character_profile-folder clickable">
                       <big><i class="fa fa-fw fa-caret-right folder-close-icon" aria-hidden="true"></i></big>
                       <big><i class="fa fa-fw fa-caret-down folder-open-icon hidden" aria-hidden="true"></i></big>
                       <span class="character_name"></span>
