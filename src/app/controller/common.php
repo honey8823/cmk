@@ -150,12 +150,21 @@ class Common
 		session_destroy();
 	}
 
-	public function getLoginId()
+	public function getLoginId($is_update_login_stamp = true)
 	{
 		// ユーザIDをセッションから取得
 		$session_list = $this->getSession(array("user"));
 		if (isset($session_list['user']['id']) && preg_match("/^[0-9]+$/", $session_list['user']['id']))
 		{
+			// ログイン日時更新
+			if ($is_update_login_stamp == true)
+			{
+				$sql  = "UPDATE `user` SET `login_stamp` = NOW() WHERE `id` = ? ";
+				$arg_list = array(
+					$session_list['user']['id'],
+				);
+				$this->query($sql, $arg_list);
+			}
 			return $session_list['user']['id'];
 		}
 		else
