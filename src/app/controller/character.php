@@ -893,6 +893,50 @@ class CharacterController extends Common
 		}
 	}
 
+	public function setSortProfile($param_list = array())
+	{
+		try
+		{
+			// ユーザID
+			$user_id = $this->getLoginId();
+			if ($user_id === false)
+			{
+				return array('error_redirect' => "session");
+			}
+
+			// 引数
+			$character_id = $param_list['character_id'];
+			$q_list       = isset($param_list['q_list']) && is_array($param_list['q_list']) ? $param_list['q_list'] : array();
+
+			// 更新
+			$sql  = "UPDATE `character_profile` ";
+			$sql .= "SET    `sort` = ? ";
+			$sql .= "WHERE  `character_id` = ? ";
+			$sql .= "AND    `question` = ? ";
+			foreach ($q_list as $sort => $q)
+			{
+				if ($q == "" || $q == "0")
+				{
+					continue;
+				}
+				$arg_list = array(
+					$sort + 1,
+					$character_id,
+					$q,
+				);
+				$this->query($sql, $arg_list);
+			}
+
+			// 戻り値
+			$return_list = array($id_list);
+			return $return_list;
+		}
+		catch (Exception $e)
+		{
+			$this->exception($e);
+		}
+	}
+
 	public function delProfile($param_list = array())
 	{
 		try

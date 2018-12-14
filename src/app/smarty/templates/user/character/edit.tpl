@@ -134,36 +134,40 @@
 
             <div class="tab-content">
               <div class="tab-pane active" id="tab-content-profile">
+                <button type="button" class="btn btn-block btn-primary sort_mode_off" onclick="readyCharacterProfileSort(1);">並べ替えモードにする</button>
+                <button type="button" class="btn btn-block btn-warning sort_mode_on" onclick="readyCharacterProfileSort(0);">並べ替えモードを終了</button>
+                <p class="hint-box sort_mode_on">並べ替えモード中：ドラッグ＆ドロップで並べ替えができます。</p>
+
                 <p class="hint-box">ステージごとに異なる項目や時間の経過で変わる項目は<br>「ステージ」内で別途設定することができます。</p>
-                <ul class="nav nav-stacked ul-character_profile character_profile" id="character_profile">
+                <ul class="nav nav-stacked ul-character_profile character_profile character-profile-sort-area" id="character_profile">
                 {foreach from=$character.profile_list key=k item=v_profile}
                   <li class="li-character_profile" data-q="{$v_profile.question}">
                     <a>
                     {* 表示モード *}
                       <span class="view_mode">
                       {* 右上アイコン *}
-                        <div class="character_profile_button_area pull-right">
+                        <div class="character_profile_button_area sort_mode_off pull-right">
                           <i class="fa fa-fw fa-pencil-square-o clickable character_profile_edit_icon" aria-hidden="true"></i>
                           <i class="fa fa-fw fa-trash-o clickable character_profile_delete_icon" aria-hidden="true"></i>
                         </div>
                       {* 項目名 *}
                         <div class="character_profile_q">{$v_profile.question_title}</div>
                       {* 内容 *}
-                        <div class="character_profile_a not_override">
+                        <div class="character_profile_a sort_mode_off not_override">
                           <div class="profile_main">{$v_profile.answer|escape:'html'|nl2br}</div>
                         </div>
                       </span>
                     {* 編集モード *}
                       <span class="edit_mode hidden">
                       {* 右上アイコン *}
-                        <div class="character_profile_button_area pull-right">
+                        <div class="character_profile_button_area sort_mode_off pull-right">
                           <i class="fa fa-fw fa-floppy-o clickable character_profile_save_icon" aria-hidden="true"></i>
                           <i class="fa fa-fw fa-times clickable character_profile_clear_icon" aria-hidden="true"></i>
                         </div>
                       {* 項目名 *}
                         <div class="character_profile_q set_mode">{$v_profile.question_title}</div>
                       {* 内容 *}
-                        <div class="character_profile_a">
+                        <div class="character_profile_a sort_mode_off">
                           <textarea class="form-control" rows="3">{$v_profile.answer}</textarea>
                         </div>
                       </span>
@@ -220,7 +224,7 @@
                   <small>
                     <p>
                       <a href="#" data-toggle="modal" data-target="#modal-profile_import">
-                        <i class="fa fa-fw fa-arrow-circle-right" aria-hidden="true"></i>他キャラクターから項目をインポートする
+                        <i class="fa fa-fw fa-arrow-circle-right" aria-hidden="true"></i>他キャラクターから項目をインポートする（α版）
                       </a>
                     </p>
                     <p>

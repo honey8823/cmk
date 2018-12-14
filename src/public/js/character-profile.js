@@ -259,6 +259,63 @@ function drawCharacterProfile(li_obj, mode, type, params){
 	}
 }
 
+
+/*
+ * ソートモード切替
+ */
+function readyCharacterProfileSort(mode){
+	if (mode == 1){
+		// ONにする場合
+		$(".sort_mode_off").hide();
+		$(".sort_mode_on").show();
+		$(".character-profile-sort-area").addClass("sortable");
+		$(".character-profile-sort-area > li").addClass("clickable");
+		sortableCharacterProfile(mode);
+	}
+	else{
+		// OFFにする場合
+		$(".sort_mode_on").hide();
+		$(".sort_mode_off").show();
+		sortableCharacterProfile(mode);
+		$(".character-profile-sort-area").removeClass("sortable");
+		$(".character-profile-sort-area > li").removeClass("clickable");
+	}
+	return;
+}
+
+/*
+ * local::ドラッグ＆ドロップでソート可能にする
+ */
+function sortableCharacterProfile(mode) {
+	if (mode != 1){
+		$(".character-profile-sort-area.sortable").sortable("destroy");
+		return true;
+	}
+
+	$(".character-profile-sort-area.sortable").sortable({
+		update: function(){
+			var qs = [];
+			$(".ul-character_profile > li:not(.template-for-copy)").each(function(i, e){
+				qs.push($(e).data("q"));
+			});
+			var params = {
+				character_id : $(".hidden-character_id").val(),
+				q_list : qs,
+			};
+			var result = ajaxPost("character", "setSortProfile", params);
+			result.done(function(){
+				if (isAjaxResultErrorRedirect(result.return_value) === true) {return false;}  // 必要ならエラーページへリダイレクト
+				if (isAjaxResultErrorMsg(result.return_value) === true){return false;} // 必要ならエラーメッセージ表示
+
+				// 正常な場合
+				// 何もしない
+				return true;
+			});
+		}
+	});
+	return true;
+}
+
 /********/
 /* 通常 */
 /********/
