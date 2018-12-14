@@ -180,14 +180,14 @@
                     {* 表示モード *}
                       <span class="view_mode hidden">
                       {* 右上アイコン *}
-                        <div class="character_profile_button_area pull-right">
+                        <div class="character_profile_button_area sort_mode_off pull-right">
                           <i class="fa fa-fw fa-pencil-square-o clickable character_profile_edit_icon" aria-hidden="true"></i>
                           <i class="fa fa-fw fa-trash-o clickable character_profile_delete_icon" aria-hidden="true"></i>
                         </div>
                       {* 項目名 *}
                         <div class="character_profile_q"></div>
                       {* 内容 *}
-                        <div class="character_profile_a not_override">
+                        <div class="character_profile_a sort_mode_off not_override">
                           <div class="profile_main"></div>
                         </div>
                       </span>
@@ -195,7 +195,7 @@
                     {* 編集モード *}
                       <span class="edit_mode">
                       {* 右上アイコン *}
-                        <div class="character_profile_button_area pull-right">
+                        <div class="character_profile_button_area sort_mode_off pull-right">
                           <i class="fa fa-fw fa-floppy-o clickable character_profile_save_icon" aria-hidden="true"></i>
                           <i class="fa fa-fw fa-times clickable character_profile_clear_icon" aria-hidden="true"></i>
                         </div>
@@ -212,7 +212,7 @@
                         </div>
                         <div class="character_profile_q set_mode hidden"></div>
                       {* 内容 *}
-                        <div class="character_profile_a">
+                        <div class="character_profile_a sort_mode_off">
                           <textarea class="form-control" rows="3"></textarea>
                         </div>
                       </span>
