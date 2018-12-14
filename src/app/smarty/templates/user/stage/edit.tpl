@@ -117,6 +117,7 @@
             <ul class="nav nav-tabs">
               <li class="active"><a href="#tab-content-timeline" data-toggle="tab" aria-expanded="true">タイムライン</a></li>
               <li class=""><a href="#tab-content-character" data-toggle="tab" aria-expanded="false">キャラクター</a></li>
+              <li class=""><a href="#tab-content-character_relation" data-toggle="tab" aria-expanded="false">相関図</a></li>
             </ul>
             <div class="tab-content">
 
@@ -207,6 +208,26 @@
                       </li>
                     {/foreach}
                     {/if}
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              <div class="tab-pane" id="tab-content-character_relation">
+                <div class="box-body">
+                {if count($character_list) == 0}
+                  <p class="hint-box">
+                    キャラクターが登録されていません。<br>
+                    「キャラクター管理」から登録したキャラクターが選択できるようになります。
+                  </p>
+                {/if}
+                </div>
+                <div id="list-character_relation" class="box box-no-border">
+                  <div class="box-body no-padding">
+                    <ul class="nav nav-stacked ul-character_relation ul-list stage-character_relation-sort-area">
+
+<li><a>test</a></li>
+
                     </ul>
                   </div>
                 </div>
