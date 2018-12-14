@@ -52,15 +52,20 @@
               {foreach from=$stage_list key=k item=v_stage}
                 <li data-id="{$v_stage.id}">
                   <a href="/user/stage/edit.php?id={$v_stage.id}" class="stage_id">
-                    <span class="is_private"><span class="is_private_icon is_private_{$v_stage.is_private}"><i class="fa {if $v_stage.is_private == 1}fa-lock{else}fa-unlock{/if} fa-fw"></i></span></span>
-                    <span class="name"><span class="stage_name">{$v_stage.name|escape:'html'}</span></span>
-                    <span class="tag">
-                    {if isset($v_stage.tag_list) && is_array($v_stage.tag_list)}
-                    {foreach from=$v_stage.tag_list key=k item=v_tag}
-                      <span class="label tag tag-{$v_tag.category_key}">{$v_tag.name_short|escape:'html'}</span>
-                    {/foreach}
-                    {/if}
-                    </span>
+                    <div class="row">
+                      <div class="col-sm-5">
+                        <span class="is_private"><span class="is_private_icon is_private_{$v_stage.is_private}"><i class="fa {if $v_stage.is_private == 1}fa-lock{else}fa-unlock{/if} fa-fw"></i></span></span>
+                        <span class="name"><span class="stage_name">{$v_stage.name|escape:'html'}</span></span>
+                      </div>
+                      <div class="col-sm-7">
+                        <span class="tag">
+                        {if isset($v_stage.tag_list) && is_array($v_stage.tag_list)}
+                        {foreach from=$v_stage.tag_list key=k item=v_tag}
+                          <span class="label tag tag-{$v_tag.category_key}">{$v_tag.name_short|escape:'html'}</span>
+                        {/foreach}
+                        {/if}
+                      </div>
+                    </div>
                   </a>
                 </li>
               {/foreach}

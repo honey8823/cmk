@@ -49,7 +49,7 @@
                 <li class="character_list" data-id="{$v_character.id}">
                   <a href="/user/character/edit.php?id={$v_character.id}" class="character_id">
                     <div class="row">
-                      <div class="col-sm-6">
+                      <div class="col-sm-5">
                         <span class="is_private"><span class="is_private_icon is_private_{$v_character.is_private}"><i class="fa {if $v_character.is_private == 1}fa-lock{else}fa-unlock{/if} fa-fw"></i></span></span>
                         <span>
                         {if !isset($v_character.image) || $v_character.image == ""}
@@ -60,7 +60,7 @@
                         </span>
                         <span class="name"><span class="character_name">{$v_character.name|escape:'html'}</span></span>
                       </div>
-                      <div class="col-sm-6">
+                      <div class="col-sm-7">
                         <span class="stage">
                         {if isset($v_character.stage_list) && is_array($v_character.stage_list)}
                         {foreach from=$v_character.stage_list key=k item=v_stage}
