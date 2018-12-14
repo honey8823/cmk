@@ -249,31 +249,8 @@ function upsertStageCharacter(){
 
 		// 正常な場合
 
-		// 削除
-		$(result.return_value.del_character_list).each(function(i, e){
-			$(".ul-character > .character_list[data-id=" + e + "]").remove();
-		});
+		location.reload();
 
-		// 追加
-		$(result.return_value.add_character_list).each(function(i, e){
-			var obj_base = $(".ul-character > .character_list.template-for-copy")[0];
-			var obj = $(obj_base).clone(true).appendTo($(".ul-character"));
-
-			$(obj).data("id", e);
-			$(obj).attr("data-id", e);
-			$(obj).find(".is_private_" + result.return_value.character_list[e].is_private).removeClass("hidden");
-			$(obj).find("a.character_id").attr("href", $(obj).find("a.character_id").attr("href") + $.param({id: e}));
-			$(obj).find(".character_name").text(result.return_value.character_list[e].name);
-			if (result.return_value.character_list[e].image != null && result.return_value.character_list[e].image != ""){
-				$(obj).find(".character_image").attr("src", "data:image/png;base64," + result.return_value.character_list[e].image);
-			}
-			if (result.return_value.character_list[e].is_private == 1){
-				$(obj).find(".btn-character_override").addClass("hidden");
-			}
-			$(obj).removeClass("template-for-copy");
-		});
-
-		$('#modal-upsertStageCharacter').modal('hide');
 		return;
 	});
 }
