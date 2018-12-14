@@ -217,9 +217,18 @@
 
                 </ul>
                 <div class="text-align-right">
-                  <a href="#" data-toggle="modal" data-target="#modal-request" onclick="setRequestCategory('character_profile');">
-                    <small><i class="fa fa-fw fa-arrow-circle-right" aria-hidden="true"></i>欲しい項目がない！</small>
-                  </a>
+                  <small>
+                    <p>
+                      <a href="#" data-toggle="modal" data-target="#modal-profile_import">
+                        <i class="fa fa-fw fa-arrow-circle-right" aria-hidden="true"></i>他キャラクターから項目をインポートする
+                      </a>
+                    </p>
+                    <p>
+                      <a href="#" data-toggle="modal" data-target="#modal-request" onclick="setRequestCategory('character_profile');">
+                        <i class="fa fa-fw fa-arrow-circle-right" aria-hidden="true"></i>欲しい項目がない！
+                      </a>
+                    </p>
+                  </small>
                 </div>
               </div>
 
@@ -378,6 +387,50 @@
           <button type="button" class="btn btn-default pull-left" data-dismiss="modal">キャンセル</button>
           <button type="button" class="btn btn-primary" onclick="setCharacterImageClear();">削除する</button>
           <button type="button" class="btn btn-primary" onclick="$('#area-setCharacterImage .btn').trigger('click');">更新する</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {* プロフィール項目インポートmodal *}
+  <div class="modal fade" id="modal-profile_import">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">他キャラクターから項目をコピーする</h4>
+        </div>
+        <div class="modal-body">
+          <div class="callout callout-success">
+            <small>
+              プロフィール項目を、他キャラクターからこのキャラクターへコピーする機能です。<br>
+              以下のような挙動となりますので、充分ご注意の上ご利用ください。<br>
+              ・コピー元のキャラクターに存在し、このキャラクターに存在しない項目<br>
+              　　→追加される<br>
+              ・コピー元のキャラクターに存在せず、このキャラクターに存在する項目<br>
+              　　→削除されず残る<br>
+              ・コピー元のキャラクターにもこのキャラクターにも存在する項目の内容<br>
+              　　→「内容もコピーする」を選択した場合は上書きされる<br>
+              　　　「内容もコピーする」を選択していない場合は上書きされない
+            </small>
+          </div>
+          <div class="form-group">
+            <label>コピー元キャラクター</label>
+            <select class="form-control character_id">
+              <option value="">-- 選択してください --</option>
+            {foreach from=$character.relation_list key=k item=v_relation}
+              <option value="{$v_relation.character_id}">{$v_relation.character_name}</option>
+            {/foreach}
+            </select>
+          </div>
+          <div class="checkbox">
+            <label><input type="checkbox" class="is_copy_answer"> 内容もコピーする</label>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default pull-left" data-dismiss="modal">キャンセル</button>
+          <button type="button" class="btn btn-primary" onclick="copyCharacterProfile();">コピーする</button>
         </div>
       </div>
     </div>

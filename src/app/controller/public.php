@@ -178,6 +178,31 @@ class PublicController extends Common
 				return array('error_redirect' => "notfound");
 			}
 
+			// 取得（プロフィール）
+			$q_list = $this->getConfig("character_profile_q", "value");
+			$sql  = "SELECT     `character_profile`.`question` ";
+			$sql .= "          ,`character_profile`.`answer` ";
+			$sql .= "FROM       `character_profile` ";
+			$sql .= "WHERE      `character_profile`.`character_id` = ? ";
+			$sql .= "AND        `character_profile`.`answer` <> '' ";
+			$sql .= "ORDER BY   `character_profile`.`sort` = 0 ASC ";
+			$sql .= "          ,`character_profile`.`sort` ASC ";
+			$sql .= "          ,`character_profile`.`create_stamp` ASC ";
+			$arg_list = array($id);
+			$profile_list = $this->query($sql, $arg_list);
+			$character_list[0]['profile_list'] = array();
+			if (count($profile_list) > 0)
+			{
+				foreach ($profile_list as $v)
+				{
+					$character_list[0]['profile_list'][] = array(
+						'question'       => $v['question'],
+						'question_title' => $q_list[$v['question']]['title'],
+						'answer'         => $v['answer'],
+					);
+				}
+			}
+
 			// 取得（ステージ）
 			$sql  = "SELECT     `stage`.`id` ";
 			$sql .= "          ,`stage`.`name` ";
@@ -266,30 +291,6 @@ class PublicController extends Common
 				$sql .= "        ,`episode`.`sort` ASC ";
 				$sql .= "        ,`episode`.`id` ASC ";
 				$episode_list = $this->query($sql, $arg_list);
-
-				// 取得（プロフィール）
-				$q_list = $this->getConfig("character_profile_q", "value");
-				$sql  = "SELECT     `character_profile`.`question` ";
-				$sql .= "          ,`character_profile`.`answer` ";
-				$sql .= "FROM       `character_profile` ";
-				$sql .= "WHERE      `character_profile`.`character_id` = ? ";
-				$sql .= "ORDER BY   `character_profile`.`sort` = 0 ASC ";
-				$sql .= "          ,`character_profile`.`sort` ASC ";
-				$sql .= "          ,`character_profile`.`create_stamp` ASC ";
-				$arg_list = array($id);
-				$profile_list = $this->query($sql, $arg_list);
-				$character_list[0]['profile_list'] = array();
-				if (count($profile_list) > 0)
-				{
-					foreach ($profile_list as $v)
-					{
-						$character_list[0]['profile_list'][] = array(
-							'question'       => $v['question'],
-							'question_title' => $q_list[$v['question']]['title'],
-							'answer'         => $v['answer'],
-						);
-					}
-				}
 
 				// 整形
 				$category_list = $this->getConfig("episode_type", "value");

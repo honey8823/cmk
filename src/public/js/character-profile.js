@@ -335,6 +335,35 @@ function delCharacterProfile(q){
     });
 }
 
+/*
+ * コピー
+ */
+function copyCharacterProfile(){
+	var character_id_copy = $("#modal-profile_import .character_id").val();
+	if (character_id_copy == ""){
+		alert("コピー元のキャラクターを選択してください。");
+		return false;
+	}
+	if (!confirm("本当に項目のコピーを行ってよろしいですか？")){
+		return false;
+	}
+	var params = {
+			'character_id'      : $(".hidden-character_id").val(),
+			'character_id_copy' : character_id_copy,
+			'is_copy_answer'    : $("#modal-profile_import .is_copy_answer").prop("checked") == true ? "1" : "0",
+		};
+	var result = ajaxPost("character", "copyProfile", params);
+    result.done(function(){
+		if (isAjaxResultErrorRedirect(result.return_value) === true) {return false;}  // 必要ならエラーページへリダイレクト
+		if (isAjaxResultErrorMsg(result.return_value) === true){return false;} // 必要ならエラーメッセージ表示
+
+		// 正常な場合はリロード
+		location.reload();
+
+		return true;
+    });
+}
+
 /****************************/
 /* オーバーライド：ステージ */
 /****************************/

@@ -958,6 +958,76 @@ class CharacterController extends Common
 		}
 	}
 
+	public function copyProfile($param_list = array())
+	{
+		try
+		{
+			// ユーザID
+			$user_id    = $this->getLoginId();
+			if ($user_id === false)
+			{
+				return array('error_redirect' => "session");
+			}
+
+			// 引数
+			$character_id      = trim($param_list['character_id']);
+			$character_id_copy = trim($param_list['character_id_copy']);
+			$is_copy_answer    = trim($param_list['is_copy_answer']);
+
+			// キャラクタープロフィール項目
+			$q_list = $this->getConfig("character_profile_q", "value");
+
+			// バリデート
+			if (!preg_match("/^[0-9]+$/", $character_id) || !preg_match("/^[0-9]+$/", $character_id_copy))
+			{
+				$err_list[] = "エラーが発生しました。一旦画面をリロードしてやり直してください。";
+				return array('error_message_list' => $err_list);
+			}
+			else
+			{
+				$sql  = "SELECT `id` FROM `character` WHERE `id` IN (?, ?) AND `user_id` = ? AND `is_delete` <> 1 ";
+				$arg_list = array($character_id, $character_id_copy, $user_id);
+				$r = $this->query($sql, $arg_list);
+				if (count($r) != 2)
+				{
+					$err_list[] = "エラーが発生しました。一旦画面をリロードしてやり直してください。";
+					return array('error_message_list' => $err_list);
+				}
+			}
+
+			// 登録
+			if ($is_copy_answer == "1")
+			{
+				$sql  = "INSERT INTO `character_profile` (`character_id`, `question`, `answer`, `sort`) ";
+				$sql .= "SELECT ?, `copyfrom`.`question`, `copyfrom`.`answer`, 0 ";
+				$sql .= "FROM   `character_profile` AS `copyfrom` ";
+				$sql .= "WHERE  `copyfrom`.`character_id` = ? ";
+				$sql .= "ON DUPLICATE KEY UPDATE `character_profile`.`answer` = `copyfrom`.`answer` ";
+				$arg_list = array($character_id, $character_id_copy);
+				$this->query($sql, $arg_list);
+			}
+			else
+			{
+				$sql  = "INSERT INTO `character_profile` (`character_id`, `question`, `sort`) ";
+				$sql .= "SELECT ?, `copyfrom`.`question`, 0 ";
+				$sql .= "FROM   `character_profile` AS `copyfrom` ";
+				$sql .= "WHERE  `copyfrom`.`character_id` = ? ";
+				$sql .= "ON DUPLICATE KEY UPDATE `character_profile`.`character_id` = `character_profile`.`character_id` ";
+				$arg_list = array($character_id, $character_id_copy);
+				$this->query($sql, $arg_list);
+			}
+
+			// 戻り値
+			$return_list = array();
+			return $return_list;
+		}
+		catch (Exception $e)
+		{
+			$this->exception($e);
+		}
+	}
+
+
 	public function getProfileStage($param_list = array())
 	{
 		try

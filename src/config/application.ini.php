@@ -62,13 +62,15 @@ const config = array(
 	// 9**：メタ的な情報
 	'character_profile_q' => array(
 		array('value' =>  101, 'title' => "本名・フルネーム"),
+		array('value' =>  108, 'title' => "本名（読み方）"),
 		array('value' =>  102, 'title' => "性別"),
 		array('value' =>  103, 'title' => "誕生日"),
 		array('value' =>  104, 'title' => "年齢"),
 		array('value' =>  105, 'title' => "出身地"),
 		array('value' =>  106, 'title' => "種族"),
 		array('value' =>  107, 'title' => "血液型"),
-		// 108～199
+		array('value' =>  109, 'title' => "血縁関係"),
+		// 110～199
 
 		array('value' =>  301, 'title' => "外見"),
 		array('value' =>  302, 'title' => "体格"),
@@ -93,11 +95,12 @@ const config = array(
 		array('value' =>  207, 'title' => "他人の呼び方"),
 		// 208～250
 
+		array('value' =>  255, 'title' => "家族構成"),
 		array('value' =>  251, 'title' => "職業"),
 		array('value' =>  252, 'title' => "所属組織"),
 		array('value' =>  253, 'title' => "階級・地位・肩書き"),
 		array('value' =>  254, 'title' => "経歴"),
-		// 255～299
+		// 256～299
 
 		array('value' =>  400, 'title' => "性格"),
 		array('value' =>  401, 'title' => "趣味"),
@@ -117,7 +120,8 @@ const config = array(
 		array('value' =>  413, 'title' => "トラウマ"),
 		array('value' =>  414, 'title' => "悩み"),
 		array('value' =>  415, 'title' => "頭の良さ"),
-		// 416～430
+		array('value' =>  416, 'title' => "金銭感覚"),
+		// 417～430
 
 		array('value' =>  431, 'title' => "戦い方"),
 		array('value' =>  432, 'title' => "武器"),
@@ -140,7 +144,8 @@ const config = array(
 		// 915～950
 
 		array('value' =>  951, 'title' => "[メタ]名前の由来"),
+		array('value' =>  953, 'title' => "[メタ]元ネタ・オマージュ元"),
 		array('value' =>  952, 'title' => "[メタ]イメージソング"),
-		// 953～
+		// 954～
 	),
 );
