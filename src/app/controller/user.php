@@ -627,6 +627,7 @@ class UserController extends Common
 
 	public function logout($param_list = array())
 	{
+		setCookie("token", "", -1, "/");
 		$this->delSession();
 	}
 
