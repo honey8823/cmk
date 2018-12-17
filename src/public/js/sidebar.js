@@ -21,6 +21,7 @@ function login(){
 	var params = {
 			'login_id' : $("#modal-login").find(".form-login_id").val(),
 			'password' : $("#modal-login").find(".form-password").val(),
+			'cookie'   : $("#modal-login").find(".form-cookie").prop("checked") == true ? "1" : "0",
 		};
 	var result = ajaxPost("user", "login", params);
     result.done(function(){

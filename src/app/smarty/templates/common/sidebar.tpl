@@ -152,6 +152,11 @@
             <label>パスワード</label>
             <input type="password" name="password" class="form-control form-password">
           </div>
+          <div class="checkbox">
+            <label>
+              <input type="checkbox" class="form-cookie"> 自動ログインを有効にする（α版）
+            </label>
+          </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default pull-left" data-dismiss="modal">キャンセル</button>
@@ -166,8 +171,7 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span></button>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
           <h4 class="modal-title">リクエストボックス</h4>
         </div>
         <div class="modal-body">

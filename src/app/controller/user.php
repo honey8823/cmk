@@ -497,6 +497,7 @@ class UserController extends Common
 		{
 			$login_id = $param_list['login_id'];
 			$password = $param_list['password'];
+			$cookie   = $param_list['cookie'];
 
 			// バリデート
 			$err_list = array();
@@ -537,9 +538,22 @@ class UserController extends Common
 			// セッションにセット
 			$this->setSession("user", $user_list[0]);
 
+			// 自動ログイン用
+			$token = "";
+			if ($cookie == "1")
+			{
+				$token = $this->makeLoginToken();
+				setCookie("token", $token, 0, "/");
+			}
+			else
+			{
+				setCookie("token", "", -1, "/");
+			}
+
 			// 最終ログイン日時更新
-			$sql  = "UPDATE `user` SET `login_stamp` = NOW() WHERE `id` = ? ";
+			$sql  = "UPDATE `user` SET `token` = ?, `login_stamp` = NOW() WHERE `id` = ? ";
 			$arg_list = array(
+				$token == "" ? null : $token,
 				$user_list[0]['id'],
 			);
 			$this->query($sql, $arg_list);
@@ -550,6 +564,65 @@ class UserController extends Common
 		{
 			$this->exception($e);
 		}
+	}
+	public function loginAuto($param_list = array())
+	{
+		try
+		{
+			$token = $param_list['token'];
+
+			// バリデート
+			if (strlen(trim($token)) == 0)
+			{
+				setCookie("token", "", -1, "/");
+				return array('error_redirect' => "session");
+			}
+			else
+			{
+				// 既に存在するIDでないかチェック＆ユーザ情報取得
+				$sql  = "SELECT    `user`.`id`, `user`.`name`, `user`.`login_id`, `user`.`image`, `user`.`is_admin`, `notice`.`unread_count` ";
+				$sql .= "FROM      `user` ";
+				$sql .= "LEFT JOIN ( SELECT   `user_id`, COUNT(*) AS `unread_count` ";
+				$sql .= "            FROM     `notice` ";
+				$sql .= "            WHERE    `read_stamp` IS NULL ";
+				$sql .= "            GROUP BY `user_id` ";
+				$sql .= "          ) AS `notice` ON `user`.`id` = `notice`.`user_id` ";
+				$sql .= "WHERE     `user`.`token` = ? AND `user`.`is_delete` <> 1 ";
+				$arg_list = array(
+					$token,
+				);
+				$user_list = $this->query($sql, $arg_list);
+				if (count($user_list) != 1)
+				{
+					setCookie("token", "", -1, "/");
+					return array('error_redirect' => "session");
+				}
+			}
+
+			// セッションにセット
+			$this->setSession("user", $user_list[0]);
+
+			// 自動ログイン用
+			$token = $this->makeLoginToken();
+			setCookie("token", $token, 0, "/");
+
+			// 最終ログイン日時更新
+			$sql  = "UPDATE `user` SET `token` = ?, `login_stamp` = NOW() WHERE `id` = ? ";
+			$arg_list = array(
+				$token == "" ? null : $token,
+				$user_list[0]['id'],
+			);
+			$this->query($sql, $arg_list);
+
+			return $user_list[0];
+		}
+		catch (Exception $e)
+		{
+			$this->exception($e);
+		}
+	}
+	private function makeLoginToken() {
+		return bin2hex(openssl_random_pseudo_bytes(16));
 	}
 
 	public function logout($param_list = array())

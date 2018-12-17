@@ -31,8 +31,20 @@ $smarty_param = array();
 $user_id = $uc->getLoginId();
 if ($user_id === false)
 {
-	header("Location: /err/session.php");
-	exit();
+	if (isset($_COOKIE['token']))
+	{
+		// 自動ログイン
+		$r = $uc->loginAuto(array('token' => $_COOKIE['token']));
+	}
+	if (isset($r['id']))
+	{
+		$user_id = $r['id'];
+	}
+	else
+	{
+		header("Location: /err/session.php");
+		exit();
+	}
 }
 
 // タグ一覧
