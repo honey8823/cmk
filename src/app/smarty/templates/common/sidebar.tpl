@@ -171,7 +171,10 @@
           <h4 class="modal-title">リクエストボックス</h4>
         </div>
         <div class="modal-body">
-          <p class="hint-box">欲しいものをお気軽にリクエストしていってください。</p>
+          <p class="hint-box">
+            欲しいものをお気軽にリクエストしていってください。<br>
+            ジャンルのご要望については対応するタグを、タグのご要望については属するジャンルをついでにご指定いただけますと助かります。
+          </p>
           <div class="form-group">
             <label>カテゴリ</label>
             <select class="form-control form-category" name="category">
@@ -186,6 +189,7 @@
             <label>ほしいもの</label>
             <textarea class="form-control form-free_text" rows="3" name="form-control free_text"></textarea>
           </div>
+          <div class="text-align-right"><small><a href="/public/stage/detail.php?user=sample_account&id=185#timeline">※ご要望への回答はこちら</a></small></div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default pull-left" data-dismiss="modal">キャンセル</button>
