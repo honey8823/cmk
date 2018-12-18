@@ -226,56 +226,47 @@
                   <div class="box-body no-padding">
                     <ul class="nav nav-stacked ul-character_relation ul-list stage-character_relation-sort-area">
                     {foreach from=$stage.relation_list key=k item=v_relation}
-
-
-                  <li class="li-character_relation" data-character_id_from="{$v_relation.character_id_a}" data-character_id_to="{$v_relation.character_id_b}">
-                    <a{* href="#" data-toggle="modal" data-target="#modal-upsertCharacterRelation" onclick="setRelationModal({$v_relation.character_id_a},{$v_relation.character_id_b});"*}>
-                    {* 表示モード *}
-                      <div class="view_mode relation_view_panel">
-                        <div class="character_relation-self character_relation_character">
-                          <p>
-                          {if !isset($v_relation.character_image_a) || $v_relation.character_image_a == ""}
-                            <img src="/img/icon_noimage.png" class="img-rounded character-image-relation">
-                          {else}
-                            <img src="data:image/png;base64,{$v_relation.character_image_a}" class="img-rounded character-image-relation">
-                          {/if}
-                          </p>
-                          <p>{$v_relation.character_name_a|escape:'html'}</p>
-                        </div>
-                        <div class="character_relation-free_text_a character_relation_free_text"><span class="{if $v_relation.free_text_a == ""}hidden{/if}">{$v_relation.free_text_a|escape:'html'|nl2br}</span></div>
-                        <div class="character_relation-arrow">
-                          <div class="relation-arrow_bar relation-arrow_right{if $v_relation.is_arrow_a != "1" || $v_relation.is_arrow_c == "1"} hidden{/if}">
-                            <span>{$v_relation.title_a|escape:'html'}</span>
+                      <li class="li-character_relation" data-character_id_from="{$v_relation.character_id_a}" data-character_id_to="{$v_relation.character_id_b}">
+                        <a{* href="#" data-toggle="modal" data-target="#modal-upsertCharacterRelation" onclick="setRelationModal({$v_relation.character_id_a},{$v_relation.character_id_b});"*}>
+                        {* 表示モード *}
+                          <div class="view_mode relation_view_panel">
+                            <div class="character_relation-self character_relation_character">
+                              <p>
+                              {if !isset($v_relation.character_image_a) || $v_relation.character_image_a == ""}
+                                <img src="/img/icon_noimage.png" class="img-rounded character-image-relation">
+                              {else}
+                                <img src="data:image/png;base64,{$v_relation.character_image_a}" class="img-rounded character-image-relation">
+                              {/if}
+                              </p>
+                              <p>{$v_relation.character_name_a|escape:'html'}</p>
+                            </div>
+                            <div class="character_relation-free_text_a character_relation_free_text"><span class="{if $v_relation.free_text_a == ""}hidden{/if}">{$v_relation.free_text_a|escape:'html'|nl2br}</span></div>
+                            <div class="character_relation-arrow">
+                              <div class="relation-arrow_bar relation-arrow_right{if $v_relation.is_arrow_a != "1" || $v_relation.is_arrow_c == "1"} hidden{/if}">
+                                <span>{$v_relation.title_a|escape:'html'}</span>
+                              </div>
+                              <div class="relation-arrow_bar relation-arrow_left{if $v_relation.is_arrow_b != "1" || $v_relation.is_arrow_c == "1"} hidden{/if}">
+                                <span>{$v_relation.title_b|escape:'html'}</span>
+                              </div>
+                              <div class="relation-arrow_bar relation-arrow_right relation-arrow_left{if $v_relation.is_arrow_c != "1"} hidden{/if}">
+                                <span>{$v_relation.title_c|escape:'html'}</span>
+                              </div>
+                              <div class="undefined{if $v_relation.is_arrow_a == "1" || $v_relation.is_arrow_b == "1" || $v_relation.is_arrow_c == "1"} hidden{/if}">（未設定）</div>
+                            </div>
+                            <div class="character_relation-free_text_b character_relation_free_text"><span class="{if $v_relation.free_text_b == ""}hidden{/if}">{$v_relation.free_text_b|escape:'html'|nl2br}</span></div>
+                            <div class="character_relation-another character_relation_character">
+                              <p>
+                              {if !isset($v_relation.character_image_b) || $v_relation.character_image_b == ""}
+                                <img src="/img/icon_noimage.png" class="img-rounded character-image-relation">
+                              {else}
+                                <img src="data:image/png;base64,{$v_relation.character_image_b}" class="img-rounded character-image-relation">
+                              {/if}
+                              </p>
+                              <p>{$v_relation.character_name_b|escape:'html'}</p>
+                            </div>
                           </div>
-                          <div class="relation-arrow_bar relation-arrow_left{if $v_relation.is_arrow_b != "1" || $v_relation.is_arrow_c == "1"} hidden{/if}">
-                            <span>{$v_relation.title_b|escape:'html'}</span>
-                          </div>
-                          <div class="relation-arrow_bar relation-arrow_right relation-arrow_left{if $v_relation.is_arrow_c != "1"} hidden{/if}">
-                            <span>{$v_relation.title_c|escape:'html'}</span>
-                          </div>
-                          <div class="undefined{if $v_relation.is_arrow_a == "1" || $v_relation.is_arrow_b == "1" || $v_relation.is_arrow_c == "1"} hidden{/if}">（未設定）</div>
-                        </div>
-                        <div class="character_relation-free_text_b character_relation_free_text"><span class="{if $v_relation.free_text_b == ""}hidden{/if}">{$v_relation.free_text_b|escape:'html'|nl2br}</span></div>
-                        <div class="character_relation-another character_relation_character">
-                          <p>
-                          {if !isset($v_relation.character_image_b) || $v_relation.character_image_b == ""}
-                            <img src="/img/icon_noimage.png" class="img-rounded character-image-relation">
-                          {else}
-                            <img src="data:image/png;base64,{$v_relation.character_image_b}" class="img-rounded character-image-relation">
-                          {/if}
-                          </p>
-                          <p>{$v_relation.character_name_b|escape:'html'}</p>
-                        </div>
-                      </div>
-                    </a>
-                  </li>
-
-
-
-
-
-
-
+                        </a>
+                      </li>
                     {/foreach}
                     </ul>
                   </div>

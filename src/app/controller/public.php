@@ -124,6 +124,96 @@ class PublicController extends Common
 				}
 			}
 
+			// 取得（相関図）・整形
+			$relation_list = array();
+			$stage_list[0]['relation_list'] = array();
+			if (count($character_list) > 0)
+			{
+				// 相関図の全体を生成
+				foreach ($character_list as $k1 => $v1)
+				{
+					foreach ($character_list as $k2 => $v2)
+					{
+						if ($k1 < $k2)
+						{
+							$relation_list[$v1['id']][$v2['id']] = array(
+								'character_id_a'    => $v1['id'],
+								'character_name_a'  => $v1['name'],
+								'character_image_a' => $v1['image'],
+								'character_id_b'    => $v2['id'],
+								'character_name_b'  => $v2['name'],
+								'character_image_b' => $v2['image'],
+								'title_a'     => "",
+								'free_text_a' => "",
+								'is_arrow_a'  => "0",
+								'title_b'     => "",
+								'free_text_b' => "",
+								'is_arrow_b'  => "0",
+								'title_c'     => "",
+								'free_text_c' => "",
+								'is_arrow_c'  => "0",
+							);
+						}
+					}
+				}
+
+				// 取得（基本）
+				$arg_list = array();
+				$sql  = "SELECT `character_relation`.`character_id_from` ";
+				$sql .= "      ,`character_relation`.`character_id_to` ";
+				$sql .= "      ,`character_relation`.`is_both` ";
+				$sql .= "      ,`character_relation`.`title` ";
+				$sql .= "      ,`character_relation`.`free_text` ";
+				$sql .= "FROM   `character_relation` ";
+				$sql .= "WHERE  `character_relation`.`character_id_from` IN (" . implode(",", array_fill(0, count($character_list), "?")) . ") ";
+				$sql .= "AND    `character_relation`.`character_id_to`   IN (" . implode(",", array_fill(0, count($character_list), "?")) . ") ";
+				$arg_list = array_merge($arg_list, array_column($character_list, "id"));
+				$arg_list = array_merge($arg_list, array_column($character_list, "id"));
+				$tmp_relation_list = $this->query($sql, $arg_list);
+
+				foreach ($tmp_relation_list as $v)
+				{
+					if (isset($relation_list[$v['character_id_from']][$v['character_id_to']]))
+					{
+						$relation_list[$v['character_id_from']][$v['character_id_to']]['title_a']     = $v['title'];
+						$relation_list[$v['character_id_from']][$v['character_id_to']]['free_text_a'] = $v['free_text'];
+						$relation_list[$v['character_id_from']][$v['character_id_to']]['is_arrow_c'] |= $v['is_both'];
+						if ($v['title'] != "" || $v['free_text'] != "")
+						{
+							$relation_list[$v['character_id_from']][$v['character_id_to']]['is_arrow_a'] = "1";
+						}
+						if ($relation_list[$v['character_id_from']][$v['character_id_to']]['title_c'] == "")
+						{
+							$relation_list[$v['character_id_from']][$v['character_id_to']]['title_c'] = $v['title'];
+						}
+					}
+					elseif (isset($relation_list[$v['character_id_to']][$v['character_id_from']]))
+					{
+						$relation_list[$v['character_id_to']][$v['character_id_from']]['title_b']     = $v['title'];
+						$relation_list[$v['character_id_to']][$v['character_id_from']]['free_text_b'] = $v['free_text'];
+						$relation_list[$v['character_id_to']][$v['character_id_from']]['is_arrow_c'] |= $v['is_both'];
+						if ($v['title'] != "" || $v['free_text'] != "")
+						{
+							$relation_list[$v['character_id_to']][$v['character_id_from']]['is_arrow_b'] = "1";
+						}
+						if ($relation_list[$v['character_id_to']][$v['character_id_from']]['title_c'] == "")
+						{
+							$relation_list[$v['character_id_to']][$v['character_id_from']]['title_c'] = $v['title'];
+						}
+					}
+				}
+				foreach ($relation_list as $k1 => $v1)
+				{
+					foreach ($v1 as $k2 => $v2)
+					{
+						if ($v2['is_arrow_a'] == "1" || $v2['is_arrow_b'] == "1" || $v2['is_arrow_c'] == "1")
+						{
+							$stage_list[0]['relation_list'][] = $v2;
+						}
+					}
+				}
+			}
+
 			// 戻り値
 			$return_list['stage'] = $stage_list[0];
 			$return_list['is_login']    = $login_user_list['is_login'];
@@ -151,7 +241,7 @@ class PublicController extends Common
 			// （R18の許可情報・お気に入りの取得用）
 			$login_user_list = $this->getLoginUser("character", $id);
 
-			// 取得（キャラクター）
+			// 取得（キャラクターとユーザーID）
 			$sql  = "SELECT     `character`.`id` ";
 			$sql .= "          ,`character`.`name` ";
 			$sql .= "          ,`character`.`remarks` ";
@@ -299,6 +389,98 @@ class PublicController extends Common
 					$v['url_view'] = $this->omitUrl($v['url']);
 					$v['type_key'] = $category_list[$v['type']]['key'];
 					$character_list[0]['stage_list'][$v['stage_id']]['episode_list'][] = $v;
+				}
+			}
+
+			// 取得（相関図：他キャラクター）・整形
+			$sql  = "SELECT     `character`.`id` AS `character_id` ";
+			$sql .= "          ,`character`.`name` AS `character_name` ";
+			$sql .= "          ,`character`.`image` AS `character_image` ";
+			$sql .= "FROM       `character` ";
+			$sql .= "WHERE      `character`.`user_id` = ? ";
+			$sql .= "AND        `character`.`is_delete` <> 1 ";
+			$sql .= "AND        `character`.`is_private` <> 1 ";
+			$sql .= "AND        `character`.`id` <> ? ";
+			$sql .= "ORDER BY   `character`.`sort` = 0 ASC ";
+			$sql .= "          ,`character`.`sort` ASC ";
+			$sql .= "          ,`character`.`id` ASC ";
+			$arg_list = array($character_list[0]['user_id'], $id);
+			$character_list[0]['relation_list'] = $this->setArrayKey($this->query($sql, $arg_list), "character_id");
+			foreach ($character_list[0]['relation_list'] as $k => $v)
+			{
+				$character_list[0]['relation_list'][$k]['title_a']     = "";
+				$character_list[0]['relation_list'][$k]['free_text_a'] = "";
+				$character_list[0]['relation_list'][$k]['is_arrow_a']  = "0";
+				$character_list[0]['relation_list'][$k]['title_b']     = "";
+				$character_list[0]['relation_list'][$k]['free_text_b'] = "";
+				$character_list[0]['relation_list'][$k]['is_arrow_b']  = "0";
+				$character_list[0]['relation_list'][$k]['title_c']     = "";
+				$character_list[0]['relation_list'][$k]['free_text_c'] = "";
+				$character_list[0]['relation_list'][$k]['is_arrow_c']  = "0";
+			}
+
+			// 取得（相関図：内容）・整形
+			if (count($character_list[0]['relation_list']) > 0)
+			{
+				$sql  = "SELECT     `character_relation`.`character_id_from` ";
+				$sql .= "          ,`character_relation`.`character_id_to` ";
+				$sql .= "          ,`character_relation`.`is_both` ";
+				$sql .= "          ,`character_relation`.`title` ";
+				$sql .= "          ,`character_relation`.`free_text` ";
+				$sql .= "FROM       `character_relation` ";
+				$sql .= "WHERE      `character_relation`.`character_id_from` = ? ";
+				$sql .= "OR         `character_relation`.`character_id_to`   = ? ";
+				$arg_list = array(
+					$id,
+					$id,
+				);
+				$tmp_relation_list = $this->query($sql, $arg_list);
+				foreach ($tmp_relation_list as $v)
+				{
+					if ($v['character_id_from'] == $id)
+					{
+						if (!isset($character_list[0]['relation_list'][$v['character_id_to']]))
+						{
+							continue;
+						}
+						$character_list[0]['relation_list'][$v['character_id_to']]['title_a']        = $v['title'];
+						$character_list[0]['relation_list'][$v['character_id_to']]['free_text_a']    = $v['free_text'];
+						$character_list[0]['relation_list'][$v['character_id_to']]['is_arrow_c']    |= $v['is_both'];
+						if ($v['title'] != "" || $v['free_text'] != "")
+						{
+							$character_list[0]['relation_list'][$v['character_id_to']]['is_arrow_a'] = "1";
+						}
+						if ($character_list[0]['relation_list'][$v['character_id_to']]['title_c'] == "")
+						{
+							$character_list[0]['relation_list'][$v['character_id_to']]['title_c'] = $v['title'];
+						}
+					}
+					else
+					{
+						if (!isset($character_list[0]['relation_list'][$v['character_id_from']]))
+						{
+							continue;
+						}
+						$character_list[0]['relation_list'][$v['character_id_from']]['title_b']      = $v['title'];
+						$character_list[0]['relation_list'][$v['character_id_from']]['free_text_b']  = $v['free_text'];
+						$character_list[0]['relation_list'][$v['character_id_from']]['is_arrow_c']  |= $v['is_both'];
+						if ($v['title'] != "" || $v['free_text'] != "")
+						{
+							$character_list[0]['relation_list'][$v['character_id_from']]['is_arrow_b'] = "1";
+						}
+						if ($character_list[0]['relation_list'][$v['character_id_from']]['title_c'] == "")
+						{
+							$character_list[0]['relation_list'][$v['character_id_from']]['title_c'] = $v['title'];
+						}
+					}
+				}
+				// 未設定のキャラクターは省く
+				foreach ($character_list[0]['relation_list'] as $k => $v)
+				{
+					if ($v['is_arrow_a'] != "1" && $v['is_arrow_b'] != "1" && $v['is_arrow_c'] != "1")
+					{
+						unset($character_list[0]['relation_list'][$k]);
+					}
 				}
 			}
 

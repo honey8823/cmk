@@ -72,6 +72,7 @@
           <div class="nav-tabs-custom">
             <ul class="nav nav-tabs">
               <li class="active"><a href="#tab-content-profile" data-toggle="tab" aria-expanded="false">プロフィール</a></li>
+              <li class=""><a href="#tab-content-relation" data-toggle="tab" aria-expanded="true">相関図</a></li>
               <li class=""><a href="#tab-content-timeline" data-toggle="tab" aria-expanded="true">タイムライン</a></li>
             </ul>
             <div class="tab-content">
@@ -91,6 +92,54 @@
               {else}
                 <p class="hint-box">まだ公開されているプロフィールがありません。</p>
               {/if}
+              </div>
+
+              <div class="tab-pane" id="tab-content-relation">
+                <ul class="nav nav-stacked ul-character_relation character_relation" id="character_relation">
+                {foreach from=$character.relation_list key=k item=v_relation}
+                  <li class="li-character_relation">
+                    <a href="/public/character/detail.php?user={$character.user_login_id}&id={$v_relation.character_id}">
+                    {* 表示モード *}
+                      <div class="view_mode relation_view_panel">
+                        <div class="character_relation-self character_relation_character">
+                          <p>
+                          {if !isset($character.image) || $character.image == ""}
+                            <img src="/img/icon_noimage.png" class="img-rounded character-image-relation">
+                          {else}
+                            <img src="data:image/png;base64,{$character.image}" class="img-rounded character-image-relation">
+                          {/if}
+                          </p>
+                          <p>{$character.name|escape:'html'}</p>
+                        </div>
+                        <div class="character_relation-free_text_a character_relation_free_text"><span class="{if $v_relation.free_text_a == ""}hidden{/if}">{$v_relation.free_text_a|escape:'html'|nl2br}</span></div>
+                        <div class="character_relation-arrow">
+                          <div class="relation-arrow_bar relation-arrow_right{if $v_relation.is_arrow_a != "1" || $v_relation.is_arrow_c == "1"} hidden{/if}">
+                            <span>{$v_relation.title_a|escape:'html'}</span>
+                          </div>
+                          <div class="relation-arrow_bar relation-arrow_left{if $v_relation.is_arrow_b != "1" || $v_relation.is_arrow_c == "1"} hidden{/if}">
+                            <span>{$v_relation.title_b|escape:'html'}</span>
+                          </div>
+                          <div class="relation-arrow_bar relation-arrow_right relation-arrow_left{if $v_relation.is_arrow_c != "1"} hidden{/if}">
+                            <span>{$v_relation.title_c|escape:'html'}</span>
+                          </div>
+                          <div class="undefined{if $v_relation.is_arrow_a == "1" || $v_relation.is_arrow_b == "1" || $v_relation.is_arrow_c == "1"} hidden{/if}">（未設定）</div>
+                        </div>
+                        <div class="character_relation-free_text_b character_relation_free_text"><span class="{if $v_relation.free_text_b == ""}hidden{/if}">{$v_relation.free_text_b|escape:'html'|nl2br}</span></div>
+                        <div class="character_relation-another character_relation_character">
+                          <p>
+                          {if !isset($v_relation.character_image) || $v_relation.character_image == ""}
+                            <img src="/img/icon_noimage.png" class="img-rounded character-image-relation">
+                          {else}
+                            <img src="data:image/png;base64,{$v_relation.character_image}" class="img-rounded character-image-relation">
+                          {/if}
+                          </p>
+                          <p>{$v_relation.character_name|escape:'html'}</p>
+                        </div>
+                      </div>
+                    </a>
+                  </li>
+                {/foreach}
+                </ul>
               </div>
 
               <div class="tab-pane" id="tab-content-timeline">

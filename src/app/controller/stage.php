@@ -154,6 +154,7 @@ class StageController extends Common
 
 			// 取得（相関図）・整形
 			$relation_list = array();
+			$stage_list[0]['relation_list'] = array();
 			if (count($character_list) > 0)
 			{
 				// 相関図の全体を生成
