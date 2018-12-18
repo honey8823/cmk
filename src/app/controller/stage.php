@@ -152,6 +152,92 @@ class StageController extends Common
 				}
 			}
 
+			// 取得（相関図）・整形
+			$relation_list = array();
+			if (count($character_list) > 0)
+			{
+				// 相関図の全体を生成
+				foreach ($character_list as $k1 => $v1)
+				{
+					foreach ($character_list as $k2 => $v2)
+					{
+						if ($k1 < $k2)
+						{
+							$relation_list[$v1['id']][$v2['id']] = array(
+								'character_id_a'    => $v1['id'],
+								'character_name_a'  => $v1['name'],
+								'character_image_a' => $v1['image'],
+								'character_id_b'    => $v2['id'],
+								'character_name_b'  => $v2['name'],
+								'character_image_b' => $v2['image'],
+								'title_a'     => "",
+								'free_text_a' => "",
+								'is_arrow_a'  => "0",
+								'title_b'     => "",
+								'free_text_b' => "",
+								'is_arrow_b'  => "0",
+								'title_c'     => "",
+								'free_text_c' => "",
+								'is_arrow_c'  => "0",
+							);
+						}
+					}
+				}
+
+				// 取得（基本）
+				$arg_list = array();
+				$sql  = "SELECT `character_relation`.`character_id_from` ";
+				$sql .= "      ,`character_relation`.`character_id_to` ";
+				$sql .= "      ,`character_relation`.`is_both` ";
+				$sql .= "      ,`character_relation`.`title` ";
+				$sql .= "      ,`character_relation`.`free_text` ";
+				$sql .= "FROM   `character_relation` ";
+				$sql .= "WHERE  `character_relation`.`character_id_from` IN (" . implode(",", array_fill(0, count($character_list), "?")) . ") ";
+				$sql .= "AND    `character_relation`.`character_id_to`   IN (" . implode(",", array_fill(0, count($character_list), "?")) . ") ";
+				$arg_list = array_merge($arg_list, array_column($character_list, "id"));
+				$arg_list = array_merge($arg_list, array_column($character_list, "id"));
+				$tmp_relation_list = $this->query($sql, $arg_list);
+
+				foreach ($tmp_relation_list as $v)
+				{
+					if (isset($relation_list[$v['character_id_from']][$v['character_id_to']]))
+					{
+						$relation_list[$v['character_id_from']][$v['character_id_to']]['title_a']     = $v['title'];
+						$relation_list[$v['character_id_from']][$v['character_id_to']]['free_text_a'] = $v['free_text'];
+						$relation_list[$v['character_id_from']][$v['character_id_to']]['is_arrow_c'] |= $v['is_both'];
+						if ($v['title'] != "" || $v['free_text'] != "")
+						{
+							$relation_list[$v['character_id_from']][$v['character_id_to']]['is_arrow_a'] = "1";
+						}
+						if ($relation_list[$v['character_id_from']][$v['character_id_to']]['title_c'] == "")
+						{
+							$relation_list[$v['character_id_from']][$v['character_id_to']]['title_c'] = $v['title'];
+						}
+					}
+					elseif (isset($relation_list[$v['character_id_to']][$v['character_id_from']]))
+					{
+						$relation_list[$v['character_id_to']][$v['character_id_from']]['title_b']     = $v['title'];
+						$relation_list[$v['character_id_to']][$v['character_id_from']]['free_text_b'] = $v['free_text'];
+						$relation_list[$v['character_id_to']][$v['character_id_from']]['is_arrow_c'] |= $v['is_both'];
+						if ($v['title'] != "" || $v['free_text'] != "")
+						{
+							$relation_list[$v['character_id_to']][$v['character_id_from']]['is_arrow_b'] = "1";
+						}
+						if ($relation_list[$v['character_id_to']][$v['character_id_from']]['title_c'] == "")
+						{
+							$relation_list[$v['character_id_to']][$v['character_id_from']]['title_c'] = $v['title'];
+						}
+					}
+				}
+				foreach ($relation_list as $k1 => $v1)
+				{
+					foreach ($v1 as $k2 => $v2)
+					{
+						$stage_list[0]['relation_list'][] = $v2;
+					}
+				}
+			}
+
 			// 戻り値
 			$return_list['stage'] = $stage_list[0];
 			return $return_list;
