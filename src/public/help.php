@@ -15,16 +15,24 @@ $template_name = "help";
 $hc = new HelpController();
 $hc->init();
 
+$uc = new UserController();
+$uc->init();
+
 // ----------------------------------
 // テンプレートに表示するデータの取得
 // その他必要な処理
 // ----------------------------------
 $smarty_param = array();
 
-// ステージ
+// ヘルプ
 $help_list = $hc->table();
-
 $smarty_param['help_list'] = $help_list['help_list'];
+
+// 自動ログイン
+if ($uc->getLoginId() === false && isset($_COOKIE['token']))
+{
+	$r = $uc->loginAuto(array('token' => $_COOKIE['token']));
+}
 
 // 必ず指定 //////////////////////////////
 // Smartyデバッグ用

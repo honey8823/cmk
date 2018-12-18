@@ -15,6 +15,9 @@ $template_name = "index";
 $ic = new InformationController();
 $ic->init();
 
+$uc = new UserController();
+$uc->init();
+
 // ----------------------------------
 // テンプレートに表示するデータの取得
 // その他必要な処理
@@ -23,6 +26,12 @@ $smarty_param = array();
 
 // 最新お知らせ1件
 $smarty_param['information_list'] = $ic->table()['information_list'];
+
+// 自動ログイン
+if ($uc->getLoginId() === false && isset($_COOKIE['token']))
+{
+	$r = $uc->loginAuto(array('token' => $_COOKIE['token']));
+}
 
 // 必ず指定 //////////////////////////////
 // Smartyデバッグ用

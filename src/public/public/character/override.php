@@ -41,6 +41,12 @@ $smarty_param['character']    = $character['character'];
 $smarty_param['stage']        = $character['stage'];
 $smarty_param['profile_list'] = $character['profile_list'];
 
+// 自動ログイン
+if ($uc->getLoginId() === false && isset($_COOKIE['token']))
+{
+	$r = $uc->loginAuto(array('token' => $_COOKIE['token']));
+}
+
 // 必ず指定 //////////////////////////////
 // Smartyデバッグ用
 // $smarty->debugging = true;

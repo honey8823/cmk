@@ -24,6 +24,26 @@ $ac->init();
 // ----------------------------------
 $smarty_param = array();
 
+// 未ログインの場合はエラー
+$user_id = $uc->getLoginId();
+if ($user_id === false)
+{
+	if (isset($_COOKIE['token']))
+	{
+		// 自動ログイン
+		$r = $uc->loginAuto(array('token' => $_COOKIE['token']));
+	}
+	if (isset($r['id']))
+	{
+		$user_id = $r['id'];
+	}
+	else
+	{
+		header("Location: /err/session.php");
+		exit();
+	}
+}
+
 // 管理者でない場合はトップページへリダイレクト
 if ($uc->isAdmin() != 1)
 {

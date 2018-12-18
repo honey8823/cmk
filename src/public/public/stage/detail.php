@@ -42,6 +42,12 @@ $smarty_param['stage']       = $stage['stage'];
 $smarty_param['is_login']    = $stage['is_login'];
 $smarty_param['is_favorite'] = $stage['is_favorite'];
 
+// 自動ログイン
+if ($uc->getLoginId() === false && isset($_COOKIE['token']))
+{
+	$r = $uc->loginAuto(array('token' => $_COOKIE['token']));
+}
+
 // 必ず指定 //////////////////////////////
 // Smartyデバッグ用
 // $smarty->debugging = true;

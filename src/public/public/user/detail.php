@@ -41,6 +41,12 @@ $smarty_param['character_list'] = $user['character_list'];
 $smarty_param['is_login']       = $user['is_login'];
 $smarty_param['is_favorite']    = $user['is_favorite'];
 
+// 自動ログイン
+if ($uc->getLoginId() === false && isset($_COOKIE['token']))
+{
+	$r = $uc->loginAuto(array('token' => $_COOKIE['token']));
+}
+
 // 必ず指定 //////////////////////////////
 // Smartyデバッグ用
 // $smarty->debugging = true;
