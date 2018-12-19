@@ -30,7 +30,7 @@ $smarty_param['information_list'] = $ic->table()['information_list'];
 // 自動ログイン
 if ($uc->getLoginId() === false && isset($_COOKIE['token']))
 {
-	$r = $uc->loginAuto(array('token' => $_COOKIE['token']));
+	$user_session = $uc->loginAuto(array('token' => $_COOKIE['token']));
 }
 
 // 必ず指定 //////////////////////////////

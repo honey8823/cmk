@@ -37,11 +37,11 @@ if ($user_id === false)
 	if (isset($_COOKIE['token']))
 	{
 		// 自動ログイン
-		$r = $uc->loginAuto(array('token' => $_COOKIE['token']));
+		$user_session = $uc->loginAuto(array('token' => $_COOKIE['token']));
 	}
-	if (isset($r['id']))
+	if (isset($user_session['id']))
 	{
-		$user_id = $r['id'];
+		$user_id = $user_session['id'];
 	}
 	else
 	{
