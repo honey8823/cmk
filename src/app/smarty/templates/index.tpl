@@ -18,38 +18,27 @@
   <div class="content-wrapper">
     <!-- ///////////////////////////////////////////////////// -->
 
-    <!-- Content Header (Page header) -->
-    <section class="content-header">
-      <!-- <h1>sandbox</h1> -->
-    </section>
-
     <!-- Main content -->
     <section class="content container-fluid">
-      <div class="callout callout-info">
-        <h4>「うちのこタイムライン」とは？</h4>
-        <p><small>
-          キャラメイクゲーやTRPGで作ったキャラクターやストーリーをまとめるツールです。（β版）<br>
-          一次創作二次創作問わず、ご自由にご利用ください。
-        </small></p>
-      </div>
-
-      <div class="callout callout-info">
-        <h4>最新のお知らせ</h4>
-      {foreach from=$information_list key=k item=v_inforamtion}
-        <p>
-          {$v_inforamtion.create_stamp|date_format:"%Y-%m-%d"}<br>
-          <small>
-            {$v_inforamtion.content|nl2br}
-          </small>
-        </p>
-      {/foreach}
-      </div>
 
       <a href="/tutorial.php">
         <div class="callout callout-success">
           <h4><i class="fa fa-fw fa-arrow-right" aria-hidden="true"></i>チュートリアル</h4>
           <p>はじめての方、何をしていいかわからない方はこちらへどうぞ。</p>
-          <p><i class="fa fa-fw fa-lightbulb-o" aria-hidden="true"></i><small>2018-11-29　β版の内容に対応しました！</small></p>
+        </div>
+      </a>
+
+      <a href="/information.php">
+        <div class="callout callout-info">
+          <h4>最新のお知らせ</h4>
+        {foreach from=$information_list key=k item=v_inforamtion}
+          <p>
+            {$v_inforamtion.create_stamp|date_format:"%Y-%m-%d"}<br>
+            <small>
+              {$v_inforamtion.content|nl2br}
+            </small>
+          </p>
+        {/foreach}
         </div>
       </a>
 

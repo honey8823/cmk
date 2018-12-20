@@ -3,8 +3,8 @@
 
     <!-- Logo -->
     <a href="/" class="logo">
-      <span class="logo-mini">{$smarty.const.SITE_NAME_SHORT}</span>
-      <span class="logo-lg">{$smarty.const.SITE_NAME_FULL}</span>
+      <span class="logo-mini"><small>{$smarty.const.SITE_NAME_SHORT}β</small></span>
+      <span class="logo-lg">{$smarty.const.SITE_NAME_FULL}<small>　β版</small></span>
     </a>
 
     <!-- Header Navbar -->

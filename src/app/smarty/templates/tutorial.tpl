@@ -27,6 +27,14 @@
     <!-- Main content -->
     <section class="content container-fluid">
 
+      <div class="callout callout-info">
+        <h4>「うちのこタイムライン」とは？</h4>
+        <p><small>
+          キャラメイクゲーやTRPGで作ったキャラクターやストーリーをまとめるツールです。<br>
+          一次創作二次創作問わず、ご自由にご利用ください。
+        </small></p>
+      </div>
+
       <div class="box box-primary collapsed-box">
         <div class="box-header with-border tutorial-title-img clickable" data-widget="collapse" style="background-image: url(/img/tutorial/title_1.png);">
           <h3 class="box-title">
