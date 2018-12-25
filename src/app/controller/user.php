@@ -2,6 +2,7 @@
 class UserController extends Common
 {
 	const IMAGE_SIZE = 200;
+	const COOKIE_AVAILABLE = 31536000; // 1年間（60 * 60 * 60 * 24 * 365）
 
 	public function get($param_list = array())
 	{
@@ -543,7 +544,7 @@ class UserController extends Common
 			if ($cookie == "1")
 			{
 				$token = $this->makeLoginToken();
-				setCookie("token", $token, 0, "/");
+				setCookie("token", $token, time() + self::COOKIE_AVAILABLE, "/");
 			}
 			else
 			{
@@ -604,7 +605,7 @@ class UserController extends Common
 
 			// 自動ログイン用
 			$token = $this->makeLoginToken();
-			setCookie("token", $token, 0, "/");
+			setCookie("token", $token, time() + self::COOKIE_AVAILABLE, "/");
 
 			// 最終ログイン日時更新
 			$sql  = "UPDATE `user` SET `token` = ?, `login_stamp` = NOW() WHERE `id` = ? ";
