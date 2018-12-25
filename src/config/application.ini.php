@@ -46,14 +46,6 @@ const config = array(
 		'episode_character' => "選択すると、そのキャラクターの<br>タイムラインにも表示されるようになります。",
 	),
 
-	// 相関図タイプ
-	'relation_type' => array(
-		array('value' => 1, 'key' => "none" , 'name' => "指定なし"),
-		array('value' => 2, 'key' => "like" , 'name' => "好感"),
-		array('value' => 3, 'key' => "hate" , 'name' => "反感"),
-		array('value' => 4, 'key' => "love" , 'name' => "恋愛"),
-	),
-
 	// 詳細プロフィール項目
 	// 1**：生まれについて
 	// 2**：名前、呼び方、所属、肩書きなど
@@ -121,7 +113,8 @@ const config = array(
 		array('value' =>  414, 'title' => "悩み"),
 		array('value' =>  415, 'title' => "頭の良さ"),
 		array('value' =>  416, 'title' => "金銭感覚"),
-		// 417～430
+		array('value' =>  417, 'title' => "日課"),
+		// 418～430
 
 		array('value' =>  431, 'title' => "戦い方"),
 		array('value' =>  432, 'title' => "武器"),
