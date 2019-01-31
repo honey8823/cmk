@@ -76,7 +76,8 @@ const config = array(
 		array('value' =>  310, 'title' => "怪我"),
 		array('value' =>  311, 'title' => "運動神経"),
 		array('value' =>  312, 'title' => "体力"),
-		// 313～399
+		array('value' =>  313, 'title' => "特殊能力"),
+		// 314～399
 
 		array('value' =>  201, 'title' => "通称・ニックネーム"),
 		array('value' =>  202, 'title' => "称号・二つ名"),
@@ -92,7 +93,13 @@ const config = array(
 		array('value' =>  252, 'title' => "所属組織"),
 		array('value' =>  253, 'title' => "階級・地位・肩書き"),
 		array('value' =>  254, 'title' => "経歴"),
-		// 256～299
+		array('value' =>  256, 'title' => "過去について"),
+		array('value' =>  257, 'title' => "未来について"),
+		array('value' =>  258, 'title' => "仮の姿"),
+		array('value' =>  259, 'title' => "正体"),
+		array('value' =>  260, 'title' => "前世"),
+		array('value' =>  261, 'title' => "来世"),
+		// 262～299
 
 		array('value' =>  400, 'title' => "性格"),
 		array('value' =>  401, 'title' => "趣味"),
@@ -108,13 +115,16 @@ const config = array(
 		array('value' =>  415, 'title' => "自己評価"),
 		array('value' =>  416, 'title' => "他人との接し方"),
 		array('value' =>  411, 'title' => "人あたりのよさ"),
+		array('value' =>  418, 'title' => "得意"),
+		array('value' =>  419, 'title' => "不得意"),
+		array('value' =>  420, 'title' => "コンプレックス"),
 		array('value' =>  412, 'title' => "苦手なもの"),
 		array('value' =>  413, 'title' => "トラウマ"),
 		array('value' =>  414, 'title' => "悩み"),
 		array('value' =>  415, 'title' => "頭の良さ"),
 		array('value' =>  416, 'title' => "金銭感覚"),
 		array('value' =>  417, 'title' => "日課"),
-		// 418～430
+		// 421～430
 
 		array('value' =>  431, 'title' => "戦い方"),
 		array('value' =>  432, 'title' => "武器"),
@@ -123,12 +133,14 @@ const config = array(
 		array('value' =>  451, 'title' => "目的・目標"),
 		array('value' =>  452, 'title' => "戦う理由"),
 		array('value' =>  453, 'title' => "座右の銘"),
-		// 454～499
+		array('value' =>  454, 'title' => "最も大切にしているもの"),
+		// 455～499
 
+		array('value' =>  904, 'title' => "[メタ]登場タイトル"),
 		array('value' =>  901, 'title' => "[メタ]外見"),
 		array('value' =>  902, 'title' => "[メタ]クラス・職業"),
 		array('value' =>  903, 'title' => "[メタ]CV・脳内CV"),
-		// 904～910
+		// 905～910
 
 		array('value' =>  911, 'title' => "[メタ]スキル構成"),
 		array('value' =>  912, 'title' => "[メタ]属性"),
