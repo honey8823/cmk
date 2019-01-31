@@ -226,7 +226,7 @@
                   <div class="box-body no-padding">
                     <ul class="nav nav-stacked ul-character_relation ul-list stage-character_relation-sort-area">
                     {foreach from=$stage.relation_list key=k item=v_relation}
-                      <li class="li-character_relation" data-character_id_from="{$v_relation.character_id_a}" data-character_id_to="{$v_relation.character_id_b}">
+                      <li class="li-character_relation clickable foldable" data-character_id_from="{$v_relation.character_id_a}" data-character_id_to="{$v_relation.character_id_b}">
                         <a{* href="#" data-toggle="modal" data-target="#modal-upsertCharacterRelation" onclick="setRelationModal({$v_relation.character_id_a},{$v_relation.character_id_b});"*}>
                         {* 表示モード *}
                           <div class="view_mode relation_view_panel">
@@ -265,6 +265,13 @@
                               <p>{$v_relation.character_name_b|escape:'html'}</p>
                             </div>
                           </div>
+
+                          <div class="folder hidden">
+                            <button type="button" class="btn btn-xs btn-block btn-default btn-character_edit">「{$v_relation.character_name_a|escape:'html'}」のキャラクターページへ移動</button>
+                            <button type="button" class="btn btn-xs btn-block btn-default btn-character_edit">「{$v_relation.character_name_b|escape:'html'}」のキャラクターページへ移動</button>
+                            <button type="button" class="btn btn-xs btn-block btn-default btn-override" data-id="{$v_character.id}" data-toggle="modal" data-target="#modal-overrideStage">相関図をオーバーライドする</button>
+                          </div>
+
                         </a>
                       </li>
                     {/foreach}
@@ -351,6 +358,73 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-primary" data-dismiss="modal">完了</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {* 相関図編集modal *}
+  <div class="modal fade" id="modal-upsertCharacterRelation">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">相関図のオーバーライド</h4>
+        </div>
+        <div class="modal-body">
+          <div id="area-upsertCharacterRelation">
+            <input type="hidden" class="form-id" value="{$character.id}">
+            <input type="hidden" class="form-another_id" value="">
+
+            <div id="upsert_forms-oneway">
+              <div class="form-group">
+                <button type="button" class="forms-switch btn btn-lg btn-block btn-success btn-form_both" data-target_forms_id="both"><i class="fa fa-fw fa-arrows-h" aria-hidden="true"></i>矢印を双方向にする</button>
+              </div>
+              <div class="character_relation-title"><span>{$character.name}</span><i class="fa fa-fw fa-arrow-right" aria-hidden="true"></i><span class="character_name"></span></div>
+              <div class="character_relation-form form-group">
+                <label>タイトル（矢印に重ねて表示されます）</label>
+                <input class="form-control character_relation-title_a" type="text">
+              </div>
+              <div class="character_relation-form form-group">
+                <label>フリーテキスト</label>
+                <textarea class="form-control character_relation-free_text_a" rows="3" placeholder=""></textarea>
+              </div>
+
+              <div class="character_relation-title"><span class="character_name"></span><i class="fa fa-fw fa-arrow-right" aria-hidden="true"></i><span>{$character.name}</span></div>
+              <div class="character_relation-form form-group">
+                <label>タイトル（矢印に重ねて表示されます）</label>
+                <input class="form-control character_relation-title_b" type="text">
+              </div>
+              <div class="character_relation-form form-group">
+                <label>フリーテキスト</label>
+                <textarea class="form-control character_relation-free_text_b" rows="3" placeholder=""></textarea>
+              </div>
+            </div>
+
+            <div id="upsert_forms-both" class="hidden">
+              <div class="form-group">
+                <button type="button" class="forms-switch btn btn-lg btn-block btn-success btn-form_oneway" data-target_forms_id="oneway"><span class="fa-stack fa-fw" style="margin: -0.5em 0;"><i class="fa fa-long-arrow-right fa-stack-1x" style="top:-0.2em;"></i><i class="fa fa-long-arrow-left fa-stack-1x" style="top:0.2em;"></i></span>矢印を片方ずつにする</button>
+              </div>
+              <div class="character_relation-form form-group">
+                <label>タイトル（矢印に重ねて表示されます）</label>
+                <input class="form-control character_relation-title_a" type="text">
+              </div>
+              <div class="character_relation-form form-group">
+                <label>フリーテキスト（<span>{$character.name}</span><i class="fa fa-fw fa-arrow-right" aria-hidden="true"></i><span class="character_name"></span>）</label>
+                <textarea class="form-control character_relation-free_text_a" rows="3" placeholder=""></textarea>
+              </div>
+              <div class="character_relation-form form-group">
+                <label>フリーテキスト（<span class="character_name"></span><i class="fa fa-fw fa-arrow-right" aria-hidden="true"></i><span>{$character.name}</span>）</label>
+                <textarea class="form-control character_relation-free_text_b" rows="3" placeholder=""></textarea>
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default pull-left" data-dismiss="modal">キャンセル</button>
+          <button type="button" class="btn btn-primary" onclick="upsertCharacterRelation();">更新する</button>
         </div>
       </div>
     </div>

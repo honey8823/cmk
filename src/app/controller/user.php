@@ -232,7 +232,6 @@ class UserController extends Common
 
 			// 引数
 			$tmp_file_name = trim($param_list['tmp_file_name']);
-			$tmp_file_type = trim($param_list['tmp_file_type']);
 			$x             = trim($param_list['x']);
 			$y             = trim($param_list['y']);
 			$size          = trim($param_list['size']);
@@ -241,15 +240,15 @@ class UserController extends Common
 			$tmp_filename = PATH_IMAGES . date("YmdHis") . "_" . mt_rand() . ".png";
 
 			// 元ファイルを読み込む
-			if ($tmp_file_type == "image/png")
+			if (exif_imagetype($tmp_file_name) == IMAGETYPE_PNG)
 			{
 				$base_img = imagecreatefrompng($tmp_file_name);
 			}
-			elseif ($tmp_file_type == "image/jpeg")
+			elseif (exif_imagetype($tmp_file_name) == IMAGETYPE_JPEG)
 			{
 				$base_img = imagecreatefromjpeg($tmp_file_name);
 			}
-			elseif ($tmp_file_type == "image/gif")
+			elseif (exif_imagetype($tmp_file_name) == IMAGETYPE_GIF)
 			{
 				$base_img = imagecreatefromgif($tmp_file_name);
 			}
