@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>{$smarty.const.SITE_NAME_FULL}</title>
-  <link rel="stylesheet" href="/js/adminlte_2.4.5/bower_components/select2/dist/css/select2.min.css">
+  <link rel="stylesheet" href="{$path_adminlte}bower_components/select2/dist/css/select2.min.css">
   {include file='common/adminlte_css.tpl'}
   {include file='common/common_private_css.tpl'}
 </head>
@@ -373,7 +373,7 @@
 
 <!-- JS start -->
 {include file='common/adminlte_js.tpl'}
-<script src="/js/adminlte_2.4.5/bower_components/select2/dist/js/select2.full.min.js"></script>
+<script src="{$path_adminlte}bower_components/select2/dist/js/select2.full.min.js"></script>
 <script src="/js/lib/jquery.ui.touch-punch.min.js"></script>
 {include file='common/common_js.tpl'}
 <script src="/js/stage.js"></script>

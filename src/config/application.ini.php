@@ -1,12 +1,17 @@
 <?php
 
-define("PATH_ROOT"      , realpath(dirname(__FILE__) . "/../")   . "/");
-define("PATH_CONTROLLER", realpath(PATH_ROOT . "/app/controller") . "/");
+define("PATH_ROOT"      , realpath(dirname(__FILE__) . "/../")    . "/");
+define("PATH_APP"       , realpath(PATH_ROOT . "/app")            . "/");
 define("PATH_PUBLIC"    , realpath(PATH_ROOT . "/public")         . "/");
-define("PATH_TEMPLATE"  , realpath(PATH_ROOT . "/app/smarty")     . "/");
-define("PATH_LIBS"      , realpath(PATH_ROOT . "/app/libs")       . "/");
-define("PATH_LOGS"      , realpath(PATH_ROOT . "/app/logs")       . "/");
-define("PATH_IMAGES"    , realpath(PATH_ROOT . "/public/img")     . "/");
+
+define("PATH_CONTROLLER", realpath(PATH_APP    . "/controller") . "/");
+define("PATH_TEMPLATE"  , realpath(PATH_APP    . "/smarty")     . "/");
+define("PATH_LIBS"      , realpath(PATH_APP    . "/libs")       . "/");
+define("PATH_LOGS"      , realpath(PATH_APP    . "/logs")       . "/");
+define("PATH_IMAGES"    , realpath(PATH_PUBLIC . "/img")        . "/");
+
+define("PATH_SMARTY"    , realpath(PATH_APP    . "/libs/smarty-3.1.33")     . "/");
+define("PUBLIC_PATH_ADMINLTE"  , "/libs/adminlte-2.4.5/");
 
 define("SITE_NAME_FULL" , "うちのこタイムライン");
 define("SITE_NAME_SHORT", "UTL");

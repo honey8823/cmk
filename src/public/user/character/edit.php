@@ -1,20 +1,12 @@
 <?php
 // 必ず指定 //////////////////////////
 require_once("../../../app/initialize.php");
+$user_session = getUserSession();
 //////////////////////////////////////
-
-// --------------
-// テンプレート名
-// --------------
-$template_name = "user/character/edit";
 
 // --------------------
 // コントローラ読み込み
 // --------------------
-
-$uc = new UserController();
-$uc->init();
-
 $sc = new StageController();
 $sc->init();
 
@@ -31,23 +23,10 @@ $ec->init();
 $smarty_param = array();
 
 // 未ログインの場合はエラー
-$user_id = $uc->getLoginId();
-if ($user_id === false)
+if (!isset($user_session['id']))
 {
-	if (isset($_COOKIE['token']))
-	{
-		// 自動ログイン
-		$user_session = $uc->loginAuto(array('token' => $_COOKIE['token']));
-	}
-	if (isset($user_session['id']))
-	{
-		$user_id = $user_session['id'];
-	}
-	else
-	{
-		header("Location: /err/session.php");
-		exit();
-	}
+	header("Location: /err/session.php");
+	exit();
 }
 
 // ファイルがアップロードされている場合は更新を行う
@@ -94,20 +73,7 @@ $smarty_param['stage_list'] = $sc->table()['stage_list'];
 // キャラクタータイムライン
 $smarty_param['timeline'] = $ec->timelineCharacter(array('character_id' => $id))['stage_list'];
 
-// 必ず指定 //////////////////////////////
-// Smartyデバッグ用
-//$smarty->debugging = true;
-
-// config
-$smarty_param['config'] = config;
-
-// ユーザーセッション情報
-$smarty_param['user_session'] = $user_session;
-
-// Smartyテンプレート呼び出し
-foreach ($smarty_param as $key => $val)
-{
-	$smarty->assign($key, $val);
-}
-$smarty->display($template_name . ".tpl");
-//////////////////////////////////////////
+// --------------------
+// テンプレート読み込み
+// --------------------
+display("user/character/edit", $smarty_param);

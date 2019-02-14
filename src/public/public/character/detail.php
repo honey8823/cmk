@@ -1,20 +1,12 @@
 <?php
 // 必ず指定 //////////////////////////
 require_once("../../../app/initialize.php");
+getUserSession();
 //////////////////////////////////////
-
-// --------------
-// テンプレート名
-// --------------
-$template_name = "public/character/detail";
 
 // --------------------
 // コントローラ読み込み
 // --------------------
-
-$uc = new UserController();
-$uc->init();
-
 $pc = new PublicController();
 $pc->init();
 
@@ -39,26 +31,7 @@ $smarty_param['character']   = $character['character'];
 $smarty_param['is_login']    = $character['is_login'];
 $smarty_param['is_favorite'] = $character['is_favorite'];
 
-// 自動ログイン
-if ($uc->getLoginId() === false && isset($_COOKIE['token']))
-{
-	$user_session = $uc->loginAuto(array('token' => $_COOKIE['token']));
-}
-
-// 必ず指定 //////////////////////////////
-// Smartyデバッグ用
-// $smarty->debugging = true;
-
-// config
-$smarty_param['config'] = config;
-
-// ユーザーセッション情報
-$smarty_param['user_session'] = $user_session;
-
-// Smartyテンプレート呼び出し
-foreach ($smarty_param as $key => $val)
-{
-	$smarty->assign($key, $val);
-}
-$smarty->display($template_name . ".tpl");
-//////////////////////////////////////////
+// --------------------
+// テンプレート読み込み
+// --------------------
+display("public/character/detail", $smarty_param);

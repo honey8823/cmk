@@ -520,7 +520,7 @@ class UserController extends Common
 				$sql .= "            WHERE    `read_stamp` IS NULL ";
 				$sql .= "            GROUP BY `user_id` ";
 				$sql .= "          ) AS `notice` ON `user`.`id` = `notice`.`user_id` ";
-				$sql .= "WHERE     `login_id` = ? AND `password` = ? AND `is_delete` <> 1 ";
+				$sql .= "WHERE     `user`.`login_id` = ? AND `user`.`password` = ? AND `user`.`is_delete` <> 1 ";
 				$arg_list = array(
 					$login_id,
 					$password,

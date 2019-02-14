@@ -1,3 +1,3 @@
-* Smarty,AdminLTE‚É‚Â‚¢‚Ä‚ÍˆÈ‰ºƒfƒBƒŒƒNƒgƒŠ\‘¢‚É‚Äg—p‚µ‚Ä‚¢‚Ü‚·‚ªAƒŠƒ|ƒWƒgƒŠ‚É‚ÍŠÜ‚ñ‚Å‚¢‚Ü‚¹‚ñB
-    * src/app/libs/smarty-3.1.32/
-    * src/public/js/adminlte_2.4.5/
+* Smarty,AdminLTEã«ã¤ã„ã¦ã¯ä»¥ä¸‹ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªæ§‹é€ ã«ã¦ä½¿ç”¨ã—ã¦ã„ã¾ã™ãŒã€ãƒªãƒã‚¸ãƒˆãƒªã«ã¯å«ã‚“ã§ã„ã¾ã›ã‚“ã€‚
+	* src/app/libs/smarty-3.1.33/
+	* src/public/libs/adminlte-2.4.5/
