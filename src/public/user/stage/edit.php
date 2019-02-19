@@ -1,33 +1,19 @@
 <?php
 // 必ず指定 //////////////////////////
 require_once("../../../app/initialize.php");
-$user_session = getUserSession();
 //////////////////////////////////////
-
-// --------------------
-// コントローラ読み込み
-// --------------------
-$tc = new TagController();
-$tc->init();
-
-$sc = new StageController();
-$sc->init();
-
-$cc = new CharacterController();
-$cc->init();
 
 // ----------------------------------
 // テンプレートに表示するデータの取得
 // その他必要な処理
 // ----------------------------------
+$user_session = getUserSession(true);
 $smarty_param = array();
 
-// 未ログインの場合はエラー
-if (!isset($user_session['id']))
-{
-	header("Location: /err/session.php");
-	exit();
-}
+// コントローラ読み込み
+$tc = new TagController();
+$sc = new StageController();
+$cc = new CharacterController();
 
 // ステージ
 $id = isset($_GET['id']) ? $_GET['id'] : "";

@@ -1,42 +1,25 @@
 <?php
 // 必ず指定 //////////////////////////
 require_once("../../app/initialize.php");
-$user_session = getUserSession();
 //////////////////////////////////////
-
-// --------------------
-// コントローラ読み込み
-// --------------------
-$uc = new UserController();
-$uc->init();
-
-$tc = new TagController();
-$tc->init();
 
 // ----------------------------------
 // テンプレートに表示するデータの取得
 // その他必要な処理
 // ----------------------------------
+getUserSession(true);
 $smarty_param = array();
 
-// 未ログインの場合はエラー
-if (!isset($user_session['id']))
-{
-	header("Location: /err/session.php");
-	exit();
-}
+// コントローラ読み込み
+$uc = new UserController();
+$tc = new TagController();
 
 // ファイルがアップロードされている場合は更新を行う
-if (isset($_FILES['image']['error']) && $_FILES['image']['error'] === UPLOAD_ERR_OK)
+$image_info = $uc->getImageInfo($_FILES, $_POST, true, 200);
+if (is_array($image_info))
 {
-	$param_list = array(
-		'tmp_file_name' => $_FILES['image']['tmp_name'],
-		'tmp_file_type' => $_FILES['image']['type'],
-		'x'    => isset($_POST['image_x']) ? $_POST['image_x'] : 0,
-		'y'    => isset($_POST['image_y']) ? $_POST['image_y'] : 0,
-		'size' => isset($_POST['image_w']) ? $_POST['image_w'] : 200,
-	);
-	$r = $uc->setImage($param_list);
+	// 正常にアップロードされている
+	$r = $uc->setImage($image_info);
 	if (isset($r['error_message']) && $r['error_message'] != "")
 	{
 		$smarty_param['error_message'] = $r['error_message'];
@@ -47,8 +30,9 @@ if (isset($_FILES['image']['error']) && $_FILES['image']['error'] === UPLOAD_ERR
 		exit();
 	}
 }
-elseif (isset($_FILES['image']['error']))
+elseif ($image_info !== null)
 {
+	// アップロードに失敗している
 	$smarty_param['error_message'] = "画像のアップロードに失敗しました。ファイルサイズが大きすぎるかもしれません。";
 }
 

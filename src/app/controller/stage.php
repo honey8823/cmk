@@ -123,7 +123,6 @@ class StageController extends Common
 
 			// 取得（タグ）・整形
 			$tc = new TagController();
-			$tc->init();
 			$stage_list[0]['tag_list'] = $tc->table(array('stage_id' => $id));
 
 			// 取得（キャラクター）・整形

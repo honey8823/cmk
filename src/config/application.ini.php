@@ -1,23 +1,25 @@
 <?php
 
+// path : local
 define("PATH_ROOT"      , realpath(dirname(__FILE__) . "/../")    . "/");
-define("PATH_APP"       , realpath(PATH_ROOT . "/app")            . "/");
-define("PATH_PUBLIC"    , realpath(PATH_ROOT . "/public")         . "/");
+define("PATH_APP"       , realpath(PATH_ROOT   . "app")           . "/");
+define("PATH_PUBLIC"    , realpath(PATH_ROOT   . "public")        . "/");
+define("PATH_CONTROLLER", realpath(PATH_APP    . "controller")    . "/");
+define("PATH_TEMPLATE"  , realpath(PATH_APP    . "smarty")        . "/");
+define("PATH_LIBS"      , realpath(PATH_APP    . "libs")          . "/");
+define("PATH_LOGS"      , realpath(PATH_APP    . "logs")          . "/");
+define("PATH_IMAGES"    , realpath(PATH_PUBLIC . "img")           . "/");
+define("PATH_SMARTY"    , realpath(PATH_LIBS   . "smarty-3.1.33") . "/");
 
-define("PATH_CONTROLLER", realpath(PATH_APP    . "/controller") . "/");
-define("PATH_TEMPLATE"  , realpath(PATH_APP    . "/smarty")     . "/");
-define("PATH_LIBS"      , realpath(PATH_APP    . "/libs")       . "/");
-define("PATH_LOGS"      , realpath(PATH_APP    . "/logs")       . "/");
-define("PATH_IMAGES"    , realpath(PATH_PUBLIC . "/img")        . "/");
-
-define("PATH_SMARTY"    , realpath(PATH_APP    . "/libs/smarty-3.1.33")     . "/");
+// path : public
 define("PUBLIC_PATH_ADMINLTE"  , "/libs/adminlte-2.4.5/");
 
+// site information
 define("SITE_NAME_FULL" , "うちのこタイムライン");
 define("SITE_NAME_SHORT", "UTL");
-
 define("DOMAIN", $_SERVER['SERVER_NAME']);
 
+// configs
 const config = array(
 
 	// タグカテゴリ

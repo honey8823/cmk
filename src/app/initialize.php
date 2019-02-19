@@ -14,11 +14,14 @@ foreach (glob(PATH_CONTROLLER . "*.php", GLOB_BRACE) as $file)
 	}
 }
 
-
-function getUserSession($is_auto_login = true)
+/**
+ * getUserSession
+ * @param bool is_require_login ログイン状態である必要があるかどうか
+ * @param bool is_auto_login セッションが切れているとき、cookieを利用した自動ログインを行うかどうか
+ */
+function getUserSession($is_require_login = false, $is_auto_login = true)
 {
 	$uc = new UserController();
-	$uc->init();
 	@session_start();
 	header('Expires:-1');
 	header('Cache-Control:');
@@ -36,9 +39,30 @@ function getUserSession($is_auto_login = true)
 		$user_session = $uc->loginAuto(array('token' => $_COOKIE['token']));
 	}
 
+	if ($is_require_login == true && (!isset($user_session['id']) || !preg_match("/^[0-9]+$/", $user_session['id'])))
+	{
+		// ログインが必要だがログインできていない場合
+		header("Location: /err/session.php");
+		exit();
+	}
+
+	if (isset($user_session['id']) && preg_match("/^[0-9]+$/", $user_session['id']))
+	{
+		// ログイン済みの場合、通知の未読数を更新
+		$nc = new NoticeController();
+		$notice_unread_count = $nc->getUnreadCount($user_session['id']);
+		$user_session['unread_count'] = $notice_unread_count;
+		$uc->setSession("user", $user_session);
+	}
+
 	return $user_session;
 }
 
+/**
+ * display
+ * @param string template_name テンプレート名
+ * @param array  smarty_param  テンプレートに渡す値の配列
+ */
 function display($template_name, $smarty_param)
 {
 	// smarty
@@ -67,4 +91,6 @@ function display($template_name, $smarty_param)
 		$smarty->assign($key, $val);
 	}
 	$smarty->display($template_name . ".tpl");
+
+	return true;
 }

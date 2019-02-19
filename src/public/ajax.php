@@ -20,5 +20,4 @@ if (!is_callable(array($c, $actionname)))
 }
 
 // 実行し、結果をjson化して表示
-$c->init();
 echo json_encode($c->$actionname(isset($_POST['params']) ? $_POST['params'] : null));

@@ -60,7 +60,9 @@ class NoticeController extends Common
 			$this->query($sql, $arg_list);
 
 			// 現在の未読件数をセッションにセット
-			$this->setSessionNoticeUnread($user_id);
+			$user_session = $this->getSession(array("user"));
+			$user_session['user']['unread_count'] = $this->getUnreadCount($user_id);
+			$this->setSession("user", $user_session['user']);
 
 			// 戻り値
 			$return_list['notice_list'] = $notice_list;
@@ -70,5 +72,12 @@ class NoticeController extends Common
 		{
 			$this->exception($e);
 		}
+	}
+
+	public function getUnreadCount($user_id)
+	{
+		$sql = "SELECT COUNT(*) AS `unread_count` FROM `notice` WHERE `user_id` = ? AND `read_stamp` IS NULL ";
+		$r = $this->query($sql, array($user_id));
+		return isset($r[0]['unread_count']) ? $r[0]['unread_count'] : null;
 	}
 }

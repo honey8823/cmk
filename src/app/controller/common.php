@@ -12,20 +12,6 @@ class Common
 
 	public function init()
 	{
-		// db
-		$this->dsn  = server_config['db']['type'] . ":";
-		$this->dsn .= "host="    . server_config['db']['server']  . ";";
-		$this->dsn .= "dbname="  . server_config['db']['dbname']  . ";";
-		$this->dsn .= "charset=" . server_config['db']['charset'] . ";";
-		$this->pdo = new PDO($this->dsn, server_config['db']['user'], server_config['db']['pass']);
-
-		// ログイン中の場合の処理
-		$user_id = $this->getLoginId();
-		if ($user_id !== false)
-		{
-			// 通知の未読数を更新
-			$this->setSessionNoticeUnread($user_id);
-		}
 	}
 
 	// ----------------
@@ -34,6 +20,15 @@ class Common
 
 	public function query($sql, $arg_list = array())
 	{
+		if ($this->dsn == null)
+		{
+			$this->dsn  = server_config['db']['type'] . ":";
+			$this->dsn .= "host="    . server_config['db']['server']  . ";";
+			$this->dsn .= "dbname="  . server_config['db']['dbname']  . ";";
+			$this->dsn .= "charset=" . server_config['db']['charset'] . ";";
+			$this->pdo = new PDO($this->dsn, server_config['db']['user'], server_config['db']['pass']);
+		}
+
 		// クエリ実行
 		$sth = $this->pdo->prepare($sql);
 		$sth->execute($arg_list);
@@ -179,14 +174,44 @@ class Common
 		return isset($session_list['user']['is_admin']) ? $session_list['user']['is_admin'] : 0;
 	}
 
-	public function setSessionNoticeUnread($user_id)
+	// ----------------
+	// アップロード関連
+	// ----------------
+
+	public function getImageInfo($files, $post, $is_square, $default_h = 200, $default_w = 200)
 	{
-		$sql  = "SELECT COUNT(*) AS `unread_count` FROM `notice` WHERE `user_id` = ? AND `read_stamp` IS NULL ";
-		$r = $this->query($sql, array($user_id));
-		$user_session = $this->getSession(array("user"));
-		$user_session['user']['unread_count'] = $r[0]['unread_count'];
-		$this->setSession("user", $user_session['user']);
+		if (isset($files['image']['error']) && $files['image']['error'] === UPLOAD_ERR_OK)
+		{
+			// アップロードできている
+			$image_info_list = array();
+			$image_info_list['tmp_file_name'] = $files['image']['tmp_name'];
+			$image_info_list['tmp_file_type'] = $files['image']['type'];
+			$image_info_list['x'] = isset($post['image_x']) ? $post['image_x'] : 0;
+			$image_info_list['y'] = isset($post['image_y']) ? $post['image_y'] : 0;
+			if ($is_square)
+			{
+				$image_info_list['size'] = isset($post['image_h']) ? $post['image_h'] : $default_h;
+			}
+			else
+			{
+				$image_info_list['h'] = isset($post['image_h']) ? $post['image_h'] : $default_h;
+				$image_info_list['w'] = isset($post['image_w']) ? $post['image_w'] : $default_w;
+			}
+
+			return $image_info_list;
+		}
+		elseif (isset($files['image']['error']))
+		{
+			// アップロードに失敗している
+			return $files['image']['error'];
+		}
+		else
+		{
+			// アップロードされていない
+			return null;
+		}
 	}
+
 
 	// --------------
 	// その他汎用関数
