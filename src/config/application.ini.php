@@ -18,6 +18,7 @@ define("PUBLIC_PATH_ADMINLTE"  , "/libs/adminlte-2.4.5/");
 define("SITE_NAME_FULL" , "うちのこタイムライン");
 define("SITE_NAME_SHORT", "UTL");
 define("DOMAIN", $_SERVER['SERVER_NAME']);
+define("WEBAPI_URL", DOMAIN . "/api/v0/?");
 
 // configs
 const config = array(

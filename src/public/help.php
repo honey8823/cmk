@@ -10,7 +10,7 @@ require_once("../app/initialize.php");
 getUserSession();
 $smarty_param = array();
 
-$help_list = callWebAPI(DOMAIN . "/api/v0/?c=help&a=table");
+$help_list = callWebAPI(WEBAPI_URL . "c=help&a=table");
 $smarty_param['help_list'] = isset($help_list['help_list']) ? $help_list['help_list'] : array();
 // --------------------
 // テンプレート読み込み
