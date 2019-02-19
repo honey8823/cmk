@@ -20,6 +20,7 @@ class HelpController extends Common
 		catch (Exception $e)
 		{
 			$this->exception($e);
+			return false;
 		}
 	}
 }

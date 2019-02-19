@@ -20,42 +20,49 @@ class Common
 
 	public function query($sql, $arg_list = array())
 	{
-		if ($this->dsn == null)
+		try
 		{
-			$this->dsn  = server_config['db']['type'] . ":";
-			$this->dsn .= "host="    . server_config['db']['server']  . ";";
-			$this->dsn .= "dbname="  . server_config['db']['dbname']  . ";";
-			$this->dsn .= "charset=" . server_config['db']['charset'] . ";";
-			$this->pdo = new PDO($this->dsn, server_config['db']['user'], server_config['db']['pass']);
-		}
-
-		// クエリ実行
-		$sth = $this->pdo->prepare($sql);
-		$sth->execute($arg_list);
-		if ($sth->errorInfo()[2] != "")
-		{
-			// エラーがあった場合はthrow
-			throw new Exception(var_export($sth->errorInfo(), true));
-		}
-		$ret = $sth->fetchAll();
-		if (!is_array($ret))
-		{
-			// エラーではないが取得できなかった場合はfalseを返す
-			return false;
-		}
-
-		// 不要データの削除（キーが数字のみのカラム）
-		foreach ($ret as $rk => $rv)
-		{
-			foreach ($rv as $ck => $cv)
+			if ($this->dsn == null)
 			{
-				if (preg_match("/^[0-9]+$/", $ck))
+				$this->dsn  = server_config['db']['type'] . ":";
+				$this->dsn .= "host="    . server_config['db']['server']  . ";";
+				$this->dsn .= "dbname="  . server_config['db']['dbname']  . ";";
+				$this->dsn .= "charset=" . server_config['db']['charset'] . ";";
+				$this->pdo = new PDO($this->dsn, server_config['db']['user'], server_config['db']['pass']);
+			}
+
+			// クエリ実行
+			$sth = $this->pdo->prepare($sql);
+			$sth->execute($arg_list);
+			if ($sth->errorInfo()[2] != "")
+			{
+				// エラーがあった場合はthrow
+				throw new Exception(var_export($sth->errorInfo(), true));
+			}
+			$ret = $sth->fetchAll();
+			if (!is_array($ret))
+			{
+				// エラーではないが取得できなかった場合はfalseを返す
+				return false;
+			}
+
+			// 不要データの削除（キーが数字のみのカラム）
+			foreach ($ret as $rk => $rv)
+			{
+				foreach ($rv as $ck => $cv)
 				{
-					unset ($ret[$rk][$ck]);
+					if (preg_match("/^[0-9]+$/", $ck))
+					{
+						unset ($ret[$rk][$ck]);
+					}
 				}
 			}
+			return $ret;
 		}
-		return $ret;
+		catch (Exception $e)
+		{
+			throw $e;
+		}
 	}
 
 	public function getLastInsertId()
