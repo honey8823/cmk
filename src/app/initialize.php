@@ -1,18 +1,18 @@
 <?php
-$app_path = dirname(__FILE__);
+$root_path = dirname(__FILE__) . "/../";
 
 // maintenance
-if (false)
-// if ($_SERVER['REMOTE_ADDR'] != "127.0.0.1")
+if (false) // こちらが有効な場合、メンテナンス画面にならない
+// if ($_SERVER['REMOTE_ADDR'] != "127.0.0.1") // こちらが有効な場合、指定IP以外はメンテナンス画面になる
+// if ($_SERVER['REMOTE_ADDR'] == "127.0.0.1") // こちらが有効な場合、指定IPのみメンテナンス画面になる
 {
-	echo(file_get_contents($app_path . "/../public/err/maintenance.html"));
+	echo(file_get_contents($root_path . "public/err/maintenance.html"));
 	exit();
 }
 
 // config
-
-require_once($app_path . "/../config/server.ini.php");
-require_once($app_path . "/../config/application.ini.php");
+require_once($root_path . "config/server.ini.php");
+require_once($root_path . "config/application.ini.php");
 
 // controller
 require_once(PATH_CONTROLLER . "common.php");

@@ -79,6 +79,18 @@ function isAjaxResultErrorRedirect(res){
 
 /*
  * ajaxのエラー処理
+ * falseの場合はメッセージのアラート
+ */
+function isSystemError(res){
+	if (res === false){
+		alertMsg(["エラーが発生したか、メンテナンス中の可能性があります。\nしばらく待っても同様のエラーが発生する場合はご連絡ください。"]);
+		return true;
+	}
+	return false;
+}
+
+/*
+ * ajaxのエラー処理
  * error_message_list が定義されている場合はメッセージのアラート
  */
 function isAjaxResultErrorMsg(res){

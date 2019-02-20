@@ -16,6 +16,7 @@ function setUserProfile(){
 
 	var result = ajaxPost("user", "setProfile", params);
     result.done(function(){
+		if (isSystemError(result.return_value) === true) {return false;} // システムエラー（メッセージ表示して終了）
 		if (isAjaxResultErrorRedirect(result.return_value) === true) {return false;};  // 必要ならエラーページへリダイレクト
 		if (isAjaxResultErrorMsg(result.return_value) === true){return false;} // 必要ならエラーメッセージ表示
 
@@ -33,6 +34,7 @@ function setUserAccount(){
 
 	var result = ajaxPost("user", "setAccount", params);
     result.done(function(){
+		if (isSystemError(result.return_value) === true) {return false;} // システムエラー（メッセージ表示して終了）
 		if (isAjaxResultErrorRedirect(result.return_value) === true) {return false;};  // 必要ならエラーページへリダイレクト
 		if (isAjaxResultErrorMsg(result.return_value) === true){return false;} // 必要ならエラーメッセージ表示
 
@@ -50,6 +52,7 @@ function setUserPassword(){
 
 	var result = ajaxPost("user", "setPassword", params);
     result.done(function(){
+		if (isSystemError(result.return_value) === true) {return false;} // システムエラー（メッセージ表示して終了）
 		if (isAjaxResultErrorRedirect(result.return_value) === true) {return false;};  // 必要ならエラーページへリダイレクト
 		if (isAjaxResultErrorMsg(result.return_value) === true){return false;} // 必要ならエラーメッセージ表示
 
@@ -72,6 +75,7 @@ function delUser(){
 
 	var result = ajaxPost("user", "del", []);
     result.done(function(){
+		if (isSystemError(result.return_value) === true) {return false;} // システムエラー（メッセージ表示して終了）
 		if (isAjaxResultErrorRedirect(result.return_value) === true) {return false;};  // 必要ならエラーページへリダイレクト
 		if (isAjaxResultErrorMsg(result.return_value) === true){return false;} // 必要ならエラーメッセージ表示
 

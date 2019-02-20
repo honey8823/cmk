@@ -35,6 +35,7 @@ function addStage(){
 		};
 	var result = ajaxPost("stage", "add", params);
     result.done(function(){
+		if (isSystemError(result.return_value) === true) {return false;} // システムエラー（メッセージ表示して終了）
 		if (isAjaxResultErrorRedirect(result.return_value) === true) {return false;}  // 必要ならエラーページへリダイレクト
 		if (isAjaxResultErrorMsg(result.return_value) === true){return false;} // 必要ならエラーメッセージ表示
 
@@ -64,6 +65,7 @@ function setStage(){
 		};
 	var result = ajaxPost("stage", "set", params);
     result.done(function(){
+		if (isSystemError(result.return_value) === true) {return false;} // システムエラー（メッセージ表示して終了）
 		if (isAjaxResultErrorRedirect(result.return_value) === true) {return false;}  // 必要ならエラーページへリダイレクト
 		if (isAjaxResultErrorMsg(result.return_value) === true){return false;} // 必要ならエラーメッセージ表示
 
@@ -83,6 +85,7 @@ function setStageIsPrivate(is_private){
 		};
 	var result = ajaxPost("stage", "setIsPrivate", params);
     result.done(function(){
+		if (isSystemError(result.return_value) === true) {return false;} // システムエラー（メッセージ表示して終了）
 		if (isAjaxResultErrorRedirect(result.return_value) === true) {return false;}  // 必要ならエラーページへリダイレクト
 		if (isAjaxResultErrorMsg(result.return_value) === true){return false;} // 必要ならエラーメッセージ表示
 
@@ -104,6 +107,7 @@ function delStage(){
 		};
 	var result = ajaxPost("stage", "del", params);
     result.done(function(){
+		if (isSystemError(result.return_value) === true) {return false;} // システムエラー（メッセージ表示して終了）
 		if (isAjaxResultErrorRedirect(result.return_value) === true) {return false;}  // 必要ならエラーページへリダイレクト
 		if (isAjaxResultErrorMsg(result.return_value) === true){return false;} // 必要ならエラーメッセージ表示
 
@@ -157,6 +161,7 @@ function sortableStage(mode) {
 
 			var result = ajaxPost("stage", "setSort", params);
 			result.done(function(){
+				if (isSystemError(result.return_value) === true) {return false;} // システムエラー（メッセージ表示して終了）
 				if (isAjaxResultErrorRedirect(result.return_value) === true) {return false;}  // 必要ならエラーページへリダイレクト
 				if (isAjaxResultErrorMsg(result.return_value) === true){return false;} // 必要ならエラーメッセージ表示
 
@@ -218,6 +223,7 @@ function sortableStageCharacter(mode) {
 
 			var result = ajaxPost("stage", "setCharacterSort", params);
 			result.done(function(){
+				if (isSystemError(result.return_value) === true) {return false;} // システムエラー（メッセージ表示して終了）
 				if (isAjaxResultErrorRedirect(result.return_value) === true) {return false;}  // 必要ならエラーページへリダイレクト
 				if (isAjaxResultErrorMsg(result.return_value) === true){return false;} // 必要ならエラーメッセージ表示
 
@@ -244,6 +250,7 @@ function upsertStageCharacter(){
 		};
 	var result = ajaxPost("stage", "upsertCharacter", params);
 	result.done(function(){
+		if (isSystemError(result.return_value) === true) {return false;} // システムエラー（メッセージ表示して終了）
 		if (isAjaxResultErrorRedirect(result.return_value) === true) {return false;}  // 必要ならエラーページへリダイレクト
 		if (isAjaxResultErrorMsg(result.return_value) === true){return false;} // 必要ならエラーメッセージ表示
 
@@ -272,7 +279,7 @@ function setOverrideStageModal(id){
 		};
 	var result = ajaxPost("character", "getProfileStage", params);
 	result.done(function(){
-
+		if (isSystemError(result.return_value) === true) {return false;} // システムエラー（メッセージ表示して終了）
 		if (isAjaxResultErrorRedirect(result.return_value) === true) {return false;}  // 必要ならエラーページへリダイレクト
 		if (isAjaxResultErrorMsg(result.return_value) === true){return false;} // 必要ならエラーメッセージ表示
 

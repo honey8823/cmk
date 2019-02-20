@@ -12,6 +12,7 @@ function addContact(){
 		};
 	var result = ajaxPost("contact", "add", params);
     result.done(function(){
+		if (isSystemError(result.return_value) === true) {return false;} // システムエラー（メッセージ表示して終了）
 		if (isAjaxResultErrorRedirect(result.return_value) === true) {return false;}  // 必要ならエラーページへリダイレクト
 		if (isAjaxResultErrorMsg(result.return_value) === true){return false;} // 必要ならエラーメッセージ表示
 

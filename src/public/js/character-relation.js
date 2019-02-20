@@ -92,6 +92,7 @@ function drawCharacterRelation(li_obj, type, params){
 function setRelationModal(another_id){
 	var result = ajaxPost("character", "getRelation", {'id': $("#area-upsertCharacterRelation .form-id").val(), 'another_id': another_id});
     result.done(function(){
+		if (isSystemError(result.return_value) === true) {return false;} // システムエラー（メッセージ表示して終了）
 		if (isAjaxResultErrorRedirect(result.return_value) === true) {return false;}  // 必要ならエラーページへリダイレクト
 		if (isAjaxResultErrorMsg(result.return_value) === true){return false;} // 必要ならエラーメッセージ表示
 
@@ -157,6 +158,7 @@ function upsertCharacterRelation(q, a){
 
 	var result = ajaxPost("character", "upsertRelation", params);
     result.done(function(){
+		if (isSystemError(result.return_value) === true) {return false;} // システムエラー（メッセージ表示して終了）
 		if (isAjaxResultErrorRedirect(result.return_value) === true) {return false;}  // 必要ならエラーページへリダイレクト
 		if (isAjaxResultErrorMsg(result.return_value) === true){return false;} // 必要ならエラーメッセージ表示
 
@@ -187,6 +189,7 @@ function setCharacterRelationStage(q, a){
 		};
 	var result = ajaxPost("character", "setRelationStage", params);
 	result.done(function(){
+		if (isSystemError(result.return_value) === true) {return false;} // システムエラー（メッセージ表示して終了）
 		if (isAjaxResultErrorRedirect(result.return_value) === true) {return false;}  // 必要ならエラーページへリダイレクト
 		if (isAjaxResultErrorMsg(result.return_value) === true){return false;} // 必要ならエラーメッセージ表示
 
@@ -213,6 +216,7 @@ function setCharacterRelationEpisode(q, a, character_id){
 		};
 	var result = ajaxPost("character", "setRelationEpisode", params);
 	result.done(function(){
+		if (isSystemError(result.return_value) === true) {return false;} // システムエラー（メッセージ表示して終了）
 		if (isAjaxResultErrorRedirect(result.return_value) === true) {return false;}  // 必要ならエラーページへリダイレクト
 		if (isAjaxResultErrorMsg(result.return_value) === true){return false;} // 必要ならエラーメッセージ表示
 

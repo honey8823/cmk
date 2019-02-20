@@ -25,6 +25,7 @@ function login(){
 		};
 	var result = ajaxPost("user", "login", params);
     result.done(function(){
+		if (isSystemError(result.return_value) === true) {return false;} // システムエラー（メッセージ表示して終了）
 		if (isAjaxResultErrorMsg(result.return_value) === true){return false;} // 必要ならエラーメッセージ表示
 
 		// 正常な場合
@@ -50,6 +51,7 @@ function logout(){
 	if (confirm("ログアウトしてトップページへ戻ります。よろしいですか？")){
 		var result = ajaxPost("user", "logout", []);
 		result.done(function(){
+			if (isSystemError(result.return_value) === true) {return false;} // システムエラー（メッセージ表示して終了）
 			location.href = "/";
 			return true;
 	    });
@@ -67,6 +69,7 @@ function addUser(){
 		};
 	var result = ajaxPost("user", "add", params);
     result.done(function(){
+		if (isSystemError(result.return_value) === true) {return false;} // システムエラー（メッセージ表示して終了）
 		if (isAjaxResultErrorMsg(result.return_value) === true){return false;} // 必要ならエラーメッセージ表示
 
 		// 正常な場合
@@ -93,6 +96,7 @@ function addContactRequest(){
 		};
 	var result = ajaxPost("contact", "add", params);
     result.done(function(){
+		if (isSystemError(result.return_value) === true) {return false;} // システムエラー（メッセージ表示して終了）
 		if (isAjaxResultErrorRedirect(result.return_value) === true) {return false;}  // 必要ならエラーページへリダイレクト
 		if (isAjaxResultErrorMsg(result.return_value) === true){return false;} // 必要ならエラーメッセージ表示
 

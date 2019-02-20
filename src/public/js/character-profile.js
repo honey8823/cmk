@@ -304,6 +304,7 @@ function sortableCharacterProfile(mode) {
 			};
 			var result = ajaxPost("character", "setSortProfile", params);
 			result.done(function(){
+				if (isSystemError(result.return_value) === true) {return false;} // システムエラー（メッセージ表示して終了）
 				if (isAjaxResultErrorRedirect(result.return_value) === true) {return false;}  // 必要ならエラーページへリダイレクト
 				if (isAjaxResultErrorMsg(result.return_value) === true){return false;} // 必要ならエラーメッセージ表示
 
@@ -331,6 +332,7 @@ function addCharacterProfile(q, a){
 		};
 	var result = ajaxPost("character", "addProfile", params);
     result.done(function(){
+		if (isSystemError(result.return_value) === true) {return false;} // システムエラー（メッセージ表示して終了）
 		if (isAjaxResultErrorRedirect(result.return_value) === true) {return false;}  // 必要ならエラーページへリダイレクト
 		if (isAjaxResultErrorMsg(result.return_value) === true){return false;} // 必要ならエラーメッセージ表示
 
@@ -354,6 +356,7 @@ function setCharacterProfile(q, a){
 		};
 	var result = ajaxPost("character", "setProfile", params);
     result.done(function(){
+		if (isSystemError(result.return_value) === true) {return false;} // システムエラー（メッセージ表示して終了）
 		if (isAjaxResultErrorRedirect(result.return_value) === true) {return false;}  // 必要ならエラーページへリダイレクト
 		if (isAjaxResultErrorMsg(result.return_value) === true){return false;} // 必要ならエラーメッセージ表示
 
@@ -380,6 +383,7 @@ function delCharacterProfile(q){
 		};
 	var result = ajaxPost("character", "delProfile", params);
     result.done(function(){
+		if (isSystemError(result.return_value) === true) {return false;} // システムエラー（メッセージ表示して終了）
 		if (isAjaxResultErrorRedirect(result.return_value) === true) {return false;}  // 必要ならエラーページへリダイレクト
 		if (isAjaxResultErrorMsg(result.return_value) === true){return false;} // 必要ならエラーメッセージ表示
 
@@ -411,6 +415,7 @@ function copyCharacterProfile(){
 		};
 	var result = ajaxPost("character", "copyProfile", params);
     result.done(function(){
+		if (isSystemError(result.return_value) === true) {return false;} // システムエラー（メッセージ表示して終了）
 		if (isAjaxResultErrorRedirect(result.return_value) === true) {return false;}  // 必要ならエラーページへリダイレクト
 		if (isAjaxResultErrorMsg(result.return_value) === true){return false;} // 必要ならエラーメッセージ表示
 
@@ -437,6 +442,7 @@ function addCharacterProfileStage(q, a){
 		};
 	var result = ajaxPost("character", "addProfileStage", params);
 	result.done(function(){
+		if (isSystemError(result.return_value) === true) {return false;} // システムエラー（メッセージ表示して終了）
 		if (isAjaxResultErrorRedirect(result.return_value) === true) {return false;}  // 必要ならエラーページへリダイレクト
 		if (isAjaxResultErrorMsg(result.return_value) === true){return false;} // 必要ならエラーメッセージ表示
 
@@ -464,6 +470,7 @@ function setCharacterProfileStage(q, a){
 		};
 	var result = ajaxPost("character", "setProfileStage", params);
 	result.done(function(){
+		if (isSystemError(result.return_value) === true) {return false;} // システムエラー（メッセージ表示して終了）
 		if (isAjaxResultErrorRedirect(result.return_value) === true) {return false;}  // 必要ならエラーページへリダイレクト
 		if (isAjaxResultErrorMsg(result.return_value) === true){return false;} // 必要ならエラーメッセージ表示
 
@@ -489,6 +496,7 @@ function delCharacterProfileStage(q){
 		};
 	var result = ajaxPost("character", "delProfileStage", params);
 	result.done(function(){
+		if (isSystemError(result.return_value) === true) {return false;} // システムエラー（メッセージ表示して終了）
 		if (isAjaxResultErrorRedirect(result.return_value) === true) {return false;}  // 必要ならエラーページへリダイレクト
 		if (isAjaxResultErrorMsg(result.return_value) === true){return false;} // 必要ならエラーメッセージ表示
 
@@ -515,6 +523,7 @@ function addCharacterProfileEpisode(q, a, character_id){
 		};
 	var result = ajaxPost("character", "addProfileEpisode", params);
 	result.done(function(){
+		if (isSystemError(result.return_value) === true) {return false;} // システムエラー（メッセージ表示して終了）
 		if (isAjaxResultErrorRedirect(result.return_value) === true) {return false;}  // 必要ならエラーページへリダイレクト
 		if (isAjaxResultErrorMsg(result.return_value) === true){return false;} // 必要ならエラーメッセージ表示
 
@@ -542,6 +551,7 @@ function setCharacterProfileEpisode(q, a, character_id){
 		};
 	var result = ajaxPost("character", "setProfileEpisode", params);
 	result.done(function(){
+		if (isSystemError(result.return_value) === true) {return false;} // システムエラー（メッセージ表示して終了）
 		if (isAjaxResultErrorRedirect(result.return_value) === true) {return false;}  // 必要ならエラーページへリダイレクト
 		if (isAjaxResultErrorMsg(result.return_value) === true){return false;} // 必要ならエラーメッセージ表示
 
@@ -566,6 +576,7 @@ function delCharacterProfileEpisode(q, character_id){
 		};
 	var result = ajaxPost("character", "delProfileEpisode", params);
 	result.done(function(){
+		if (isSystemError(result.return_value) === true) {return false;} // システムエラー（メッセージ表示して終了）
 		if (isAjaxResultErrorRedirect(result.return_value) === true) {return false;}  // 必要ならエラーページへリダイレクト
 		if (isAjaxResultErrorMsg(result.return_value) === true){return false;} // 必要ならエラーメッセージ表示
 

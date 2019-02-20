@@ -13,6 +13,8 @@ $(document).on("click", ".is_favorite_icon.clickable", function(event){
 			};
 		var result = ajaxPost("favorite", "del", params);
 	    result.done(function(){
+			if (isSystemError(result.return_value) === true) {return false;} // システムエラー（メッセージ表示して終了）
+
 			// 正常な場合
 			return true;
 	    });
@@ -28,6 +30,8 @@ $(document).on("click", ".is_favorite_icon.clickable", function(event){
 			};
 		var result = ajaxPost("favorite", "add", params);
 	    result.done(function(){
+			if (isSystemError(result.return_value) === true) {return false;} // システムエラー（メッセージ表示して終了）
+
 			// 正常な場合
 			return true;
 	    });

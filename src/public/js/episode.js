@@ -81,6 +81,7 @@ function addEpisodeCommon(){
 		};
 	var result = ajaxPost("episode", "addCommon", params);
 	result.done(function(){
+		if (isSystemError(result.return_value) === true) {return false;} // システムエラー（メッセージ表示して終了）
 		if (isAjaxResultErrorRedirect(result.return_value) === true) {return false;}  // 必要ならエラーページへリダイレクト
 		if (isAjaxResultErrorMsg(result.return_value) === true){return false;} // 必要ならエラーメッセージ表示
 
@@ -108,6 +109,7 @@ function addEpisodeLabel(){
 		};
 	var result = ajaxPost("episode", "addLabel", params);
 	result.done(function(){
+		if (isSystemError(result.return_value) === true) {return false;} // システムエラー（メッセージ表示して終了）
 		if (isAjaxResultErrorRedirect(result.return_value) === true) {return false;}  // 必要ならエラーページへリダイレクト
 		if (isAjaxResultErrorMsg(result.return_value) === true){return false;} // 必要ならエラーメッセージ表示
 
@@ -134,6 +136,7 @@ function addEpisodeOverride(){
 		};
 	var result = ajaxPost("episode", "addOverride", params);
 	result.done(function(){
+		if (isSystemError(result.return_value) === true) {return false;} // システムエラー（メッセージ表示して終了）
 		if (isAjaxResultErrorRedirect(result.return_value) === true) {return false;}  // 必要ならエラーページへリダイレクト
 		if (isAjaxResultErrorMsg(result.return_value) === true){return false;} // 必要ならエラーメッセージ表示
 
@@ -178,6 +181,7 @@ function setEpisodeCommon(){
 
 	var result = ajaxPost("episode", "setCommon", params);
 	result.done(function(){
+		if (isSystemError(result.return_value) === true) {return false;} // システムエラー（メッセージ表示して終了）
 		if (isAjaxResultErrorRedirect(result.return_value) === true) {return false;}  // 必要ならエラーページへリダイレクト
 		if (isAjaxResultErrorMsg(result.return_value) === true){return false;} // 必要ならエラーメッセージ表示
 
@@ -202,6 +206,7 @@ function setEpisodeLabel(){
 
 	var result = ajaxPost("episode", "setLabel", params);
 	result.done(function(){
+		if (isSystemError(result.return_value) === true) {return false;} // システムエラー（メッセージ表示して終了）
 		if (isAjaxResultErrorRedirect(result.return_value) === true) {return false;}  // 必要ならエラーページへリダイレクト
 		if (isAjaxResultErrorMsg(result.return_value) === true){return false;} // 必要ならエラーメッセージ表示
 
@@ -227,6 +232,7 @@ function setEpisodeOverride(){
 
 	var result = ajaxPost("episode", "setOverride", params);
 	result.done(function(){
+		if (isSystemError(result.return_value) === true) {return false;} // システムエラー（メッセージ表示して終了）
 		if (isAjaxResultErrorRedirect(result.return_value) === true) {return false;}  // 必要ならエラーページへリダイレクト
 		if (isAjaxResultErrorMsg(result.return_value) === true){return false;} // 必要ならエラーメッセージ表示
 
@@ -253,6 +259,7 @@ function setEpisodeIsPrivate(id, is_private){
 		};
 	var result = ajaxPost("episode", "setIsPrivate", params);
     result.done(function(){
+		if (isSystemError(result.return_value) === true) {return false;} // システムエラー（メッセージ表示して終了）
 		if (isAjaxResultErrorRedirect(result.return_value) === true) {return false;}  // 必要ならエラーページへリダイレクト
 		if (isAjaxResultErrorMsg(result.return_value) === true){return false;} // 必要ならエラーメッセージ表示
 
@@ -276,6 +283,7 @@ function delEpisode(){
 		};
 	var result = ajaxPost("episode", "del", params);
     result.done(function(){
+		if (isSystemError(result.return_value) === true) {return false;} // システムエラー（メッセージ表示して終了）
 		if (isAjaxResultErrorRedirect(result.return_value) === true) {return false;}  // 必要ならエラーページへリダイレクト
 		if (isAjaxResultErrorMsg(result.return_value) === true){return false;} // 必要ならエラーメッセージ表示
 
@@ -328,6 +336,7 @@ function sortableTimeline(mode) {
 
 			var result = ajaxPost("episode", "setSort", params);
 			result.done(function(){
+				if (isSystemError(result.return_value) === true) {return false;} // システムエラー（メッセージ表示して終了）
 				if (isAjaxResultErrorRedirect(result.return_value) === true) {return false;}  // 必要ならエラーページへリダイレクト
 				if (isAjaxResultErrorMsg(result.return_value) === true){return false;} // 必要ならエラーメッセージ表示
 
@@ -395,6 +404,7 @@ function initSetEpisodeModal(){
 function setEpisodeModal(id){
 	var result = ajaxPost("episode", "get", {id: id});
     result.done(function(){
+		if (isSystemError(result.return_value) === true) {return false;} // システムエラー（メッセージ表示して終了）
 		if (isAjaxResultErrorRedirect(result.return_value) === true) {return false;}  // 必要ならエラーページへリダイレクト
 		if (isAjaxResultErrorMsg(result.return_value) === true){return false;} // 必要ならエラーメッセージ表示
 		if (isAjaxResultNoData(result.return_value['episode']['id']) === true){return false;} // データがない場合はエラー表示
@@ -461,7 +471,7 @@ function setEpisodeModalOverride(id){
 	};
 	var result = ajaxPost("character", "getProfileEpisode", params);
 	result.done(function(){
-
+		if (isSystemError(result.return_value) === true) {return false;} // システムエラー（メッセージ表示して終了）
 		if (isAjaxResultErrorRedirect(result.return_value) === true) {return false;}  // 必要ならエラーページへリダイレクト
 		if (isAjaxResultErrorMsg(result.return_value) === true){return false;} // 必要ならエラーメッセージ表示
 
