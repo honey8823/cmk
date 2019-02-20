@@ -50,7 +50,7 @@
           <button type="button" class="btn btn-primary btn-xs btn-block" onclick="addContact();">送信</button>
           <p>
             <small>
-              ※匿名のため個別のお返事はできません。必要な場合は<a href="//twitter.com/smtk_tks/" target="_blank">Twitter@smtk_tks</a>までご連絡ください。
+              ※匿名のため個別のお返事はできません。必要な場合は<a href="//twitter.com/uchinoko_tl/" target="_blank">Twitter@uchinoko_tl</a>までご連絡ください。
             </small>
           </p>
         </div>

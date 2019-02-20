@@ -1259,10 +1259,10 @@
             <img class="icon-talk img-circle" src="/img/tutorial/selena_1.png">
             <span class="text-talk">
               ということで、チュートリアルはここまでだよ。<br>
-              全部の機能を説明したわけじゃないから、もし分からないことがあれば、気軽に作者に聞いちゃってね。
+              全部の機能を説明したわけじゃないから、もし分からないことがあれば、気軽に質問してね。
               <p style="background: #999999; border-radius: 5px; padding: 10px; margin: 5px;">
                 ◆個別にお返事が必要な場合<br>
-                <small>　　Twitter <a href="http://twitter.com/smtk_tks/">@smtk_tks</a></small><br>
+                <small>　　Twitter <a href="http://twitter.com/uchinoko_tl/">@uchinoko_tl</a></small><br>
                 ◆お返事が不要な場合・匿名にしたい場合<br>
                 <small>　　トップページにあるフォーム または メニュー内の「リクエストボックス」</small><br>
                 <br>
