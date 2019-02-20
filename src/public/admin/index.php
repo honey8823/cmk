@@ -33,6 +33,9 @@ $smarty_param['stage_list'] = $ac->tableStage()['stage_list'];
 // キャラクター
 $smarty_param['character_list'] = $ac->tableCharacter()['character_list'];
 
+// IPアドレス
+$smarty_param['ip_address'] = $_SERVER['REMOTE_ADDR'];
+
 // --------------------
 // テンプレート読み込み
 // --------------------

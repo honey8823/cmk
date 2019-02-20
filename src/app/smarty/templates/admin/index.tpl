@@ -27,9 +27,7 @@
     <section class="content container-fluid">
       <div class="callout callout-info">
         <h4>管理用ページ</h4>
-        <p><small>
-          testtest
-        </small></p>
+        <p><small>IPアドレス：{$ip_address}</small></p>
       </div>
 
         <div class="col-md-12">

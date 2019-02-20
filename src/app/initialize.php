@@ -1,6 +1,16 @@
 <?php
-// config
 $app_path = dirname(__FILE__);
+
+// maintenance
+if (false)
+// if ($_SERVER['REMOTE_ADDR'] != "127.0.0.1")
+{
+	echo(file_get_contents($app_path . "/../public/err/maintenance.html"));
+	exit();
+}
+
+// config
+
 require_once($app_path . "/../config/server.ini.php");
 require_once($app_path . "/../config/application.ini.php");
 
