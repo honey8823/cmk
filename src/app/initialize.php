@@ -6,7 +6,7 @@ if (false) // こちらが有効な場合、メンテナンス画面にならな
 // if ($_SERVER['REMOTE_ADDR'] != "127.0.0.1") // こちらが有効な場合、指定IP以外はメンテナンス画面になる
 // if ($_SERVER['REMOTE_ADDR'] == "127.0.0.1") // こちらが有効な場合、指定IPのみメンテナンス画面になる
 {
-	echo(file_get_contents($root_path . "public/err/maintenance.html"));
+	echo(file_get_contents($root_path . "www/err/maintenance.html"));
 	exit();
 }
 

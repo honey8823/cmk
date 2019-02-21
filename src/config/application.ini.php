@@ -3,7 +3,7 @@
 // path : local
 define("PATH_ROOT"      , realpath(dirname(__FILE__) . "/../")    . "/");
 define("PATH_APP"       , realpath(PATH_ROOT   . "app")           . "/");
-define("PATH_PUBLIC"    , realpath(PATH_ROOT   . "public")        . "/");
+define("PATH_PUBLIC"    , realpath(PATH_ROOT   . "www")           . "/");
 define("PATH_CONTROLLER", realpath(PATH_APP    . "controller")    . "/");
 define("PATH_TEMPLATE"  , realpath(PATH_APP    . "smarty")        . "/");
 define("PATH_LIBS"      , realpath(PATH_APP    . "libs")          . "/");
