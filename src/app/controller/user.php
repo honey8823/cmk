@@ -658,4 +658,30 @@ class UserController extends Common
 
 		return true;
 	}
+
+	public function setLoginStamp($param_list = array())
+	{
+		try
+		{
+			$id = isset($param_list['id']) ? $param_list['id'] : null;
+			if (!preg_match("/^[0-9]+$/", $id))
+			{
+				return false;
+			}
+
+			// 最終ログイン日時更新
+			$sql  = "UPDATE `user` SET `login_stamp` = NOW() WHERE `id` = ? ";
+			$arg_list = array(
+				$id,
+			);
+			$this->query($sql, $arg_list);
+
+			return true;
+		}
+		catch (Exception $e)
+		{
+			$this->exception($e);
+			return false;
+		}
+	}
 }

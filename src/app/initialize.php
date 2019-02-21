@@ -58,7 +58,9 @@ function getUserSession($is_require_login = false, $is_auto_login = true)
 
 	if (isset($user_session['id']) && preg_match("/^[0-9]+$/", $user_session['id']))
 	{
-		// ログイン済みの場合、通知の未読数を更新
+		// ログイン済みの場合、ログイン日時を更新・通知の未読数を更新
+		$uc->setLoginStamp(array('id' => $user_session['id']));
+
 		$nc = new NoticeController();
 		$notice_unread_count = $nc->getUnreadCount($user_session['id']);
 		$user_session['unread_count'] = $notice_unread_count;
