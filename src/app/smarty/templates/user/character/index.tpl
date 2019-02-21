@@ -96,14 +96,11 @@
         <div class="modal-body">
           <div class="form-group">
             <label>キャラクター名</label>
-            <span class="hint-box-toggle">
-              <i class="fa fa-question-circle fa-fw" aria-hidden="true"></i>
-              <p class="hint-box hidden">一覧などで表示します。普段の呼び名などでの登録をおすすめします。</p>
-            </span>
+            <p class="hint-box">一覧などで表示します。普段の呼び名などでの登録をおすすめします。</p>
             <input type="text" name="name" class="form-control form-name">
           </div>
           <div class="form-group">
-            <label>属するステージ（複数選択可）</label>
+            <label>属するステージ</label>
             <div>
             {if !isset($stage_list) || !is_array($stage_list) || count($stage_list) == 0}
             <p class="hint-box">ステージ管理から「ステージ」を追加することで選択できるようになります。<br>のちほど選択することも可能なので、気が向いたらお試しください。</p>

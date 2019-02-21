@@ -23,6 +23,7 @@ class UserController extends Common
 			$sql .= "      ,`remarks` ";
 			$sql .= "      ,`mail_address` ";
 			$sql .= "      ,`is_r18` ";
+			$sql .= "      ,`is_hint_hidden` ";
 			$sql .= "FROM   `user` ";
 			$sql .= "WHERE  `id` = ? ";
 			$sql .= "AND    `is_delete` <> 1 ";
@@ -310,9 +311,10 @@ class UserController extends Common
 		try
 		{
 			// 引数
-			$login_id     = trim($param_list['login_id']);
-			$is_r18       = trim($param_list['is_r18']);
-			$mail_address = trim($param_list['mail_address']);
+			$login_id       = trim($param_list['login_id']);
+			$is_r18         = trim($param_list['is_r18']);
+			$is_hint_hidden = trim($param_list['is_hint_hidden']);
+			$mail_address   = trim($param_list['mail_address']);
 
 			// ユーザID
 			$id = $this->getLoginId();
@@ -366,6 +368,8 @@ class UserController extends Common
 			$arg_list[] = $login_id;
 			$sql .= " ,`is_r18` = ? ";
 			$arg_list[] = $is_r18 == "1" ? "1" : "0";
+			$sql .= " ,`is_hint_hidden` = ? ";
+			$arg_list[] = $is_hint_hidden == "1" ? "1" : "0";
 			$sql .= " ,`mail_address` = ? ";
 			$arg_list[] = $mail_address == "" ? null : $mail_address;
 			$sql .= "WHERE ";
@@ -375,9 +379,10 @@ class UserController extends Common
 
 			// セッションにセット
 			$user = $this->getSession(array("user"))['user'];
-			$user['login_id']     = $login_id;
-			$user['is_r18']       = $is_r18;
-			$user['mail_address'] = $mail_address;
+			$user['login_id']       = $login_id;
+			$user['is_r18']         = $is_r18;
+			$user['is_hint_hidden'] = $is_hint_hidden;
+			$user['mail_address']   = $mail_address;
 			$this->setSession("user", $user);
 
 			// 戻り値
@@ -512,8 +517,8 @@ class UserController extends Common
 			}
 			else
 			{
-				// 既に存在するIDでないかチェック＆ユーザ情報取得
-				$sql  = "SELECT    `user`.`id`, `user`.`name`, `user`.`login_id`, `user`.`image`, `user`.`is_admin`, `notice`.`unread_count` ";
+				// ユーザ情報取得
+				$sql  = "SELECT    `user`.`id`, `user`.`name`, `user`.`login_id`, `user`.`image`, `user`.`is_r18`, `user`.`is_hint_hidden`, `user`.`is_admin`, `notice`.`unread_count` ";
 				$sql .= "FROM      `user` ";
 				$sql .= "LEFT JOIN ( SELECT   `user_id`, COUNT(*) AS `unread_count` ";
 				$sql .= "            FROM     `notice` ";
@@ -580,8 +585,8 @@ class UserController extends Common
 			}
 			else
 			{
-				// 既に存在するIDでないかチェック＆ユーザ情報取得
-				$sql  = "SELECT    `user`.`id`, `user`.`name`, `user`.`login_id`, `user`.`image`, `user`.`is_admin`, `notice`.`unread_count` ";
+				// ユーザ情報取得
+				$sql  = "SELECT    `user`.`id`, `user`.`name`, `user`.`login_id`, `user`.`image`, `user`.`is_r18`, `user`.`is_hint_hidden`, `user`.`is_admin`, `notice`.`unread_count` ";
 				$sql .= "FROM      `user` ";
 				$sql .= "LEFT JOIN ( SELECT   `user_id`, COUNT(*) AS `unread_count` ";
 				$sql .= "            FROM     `notice` ";

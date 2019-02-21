@@ -176,15 +176,14 @@
         </div>
         <div class="modal-body">
           <p class="hint-box">
-            欲しいものをお気軽にリクエストしていってください。<br>
-            ジャンルのご要望については対応するタグを、タグのご要望については属するジャンルをついでにご指定いただけますと助かります。
+            欲しいものをお気軽にリクエストしていってください。
           </p>
           <div class="form-group">
             <label>カテゴリ</label>
             <select class="form-control form-category" name="category">
               <option value="none">未選択（下記に記載ください）</option>
-              <option value="genre">ジャンル</option>
-              <option value="tag-series">作品タグ</option>
+              <option value="genre">ジャンル（対応するタグも併せてご指定いただけると助かります）</option>
+              <option value="tag-series">作品タグ（属するジャンルも併せてご指定いただけると助かります）</option>
               <option value="character_profile">プロフィール項目</option>
               <option value="system">機能・バグ修正</option>
             </select>

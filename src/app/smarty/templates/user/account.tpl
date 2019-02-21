@@ -128,10 +128,7 @@
               </div>
               <div class="form-group">
                 <label>メールアドレス（他のユーザーには公開されません）</label>
-                <span class="hint-box-toggle">
-                  <i class="fa fa-question-circle fa-fw" aria-hidden="true"></i>
-                  <p class="hint-box hidden">メールアドレスを入力いただいた場合、ログイン情報をお忘れの場合などに対応が可能となります。<br>詳しくはヘルプをご覧ください。</p>
-                </span>
+                <p class="hint-box">メールアドレスを入力いただいた場合、ログイン情報をお忘れの場合などに対応が可能となります。</p>
                 <input type="text" name="mail_address" class="form-control form-mail_address" value="{$user.mail_address}">
               </div>
               <div class="form-group">
@@ -141,10 +138,14 @@
                     <input type="checkbox" name="is_r18" class="form-is_r18"{if $user.is_r18 == "1"} checked{/if}>
                     R18設定のコンテンツ表示を許可する
                   </label>
-                  <span class="hint-box-toggle">
-                    <i class="fa fa-question-circle fa-fw" aria-hidden="true"></i>
-                    <p class="hint-box hidden">ここにチェックが入っている場合のみ、R18設定されたコンテンツが表示されます。<br>18歳未満の方はチェックされないようご協力をお願いいたします。</p>
-                  </span>
+                  <p class="hint-box">ここにチェックが入っている場合のみ、R18設定されたコンテンツが表示されます。<br>18歳未満の方はチェックされないようご協力をお願いいたします。</p>
+                </div>
+                <div class="checkbox">
+                  <label>
+                    <input type="checkbox" name="is_hint_hidden" class="form-is_hint_hidden"{if $user.is_hint_hidden == "1"} checked{/if}>
+                    ヒントコメントを表示しない
+                  </label>
+                  <p class="hint-box">これをオンにすると、このようなコメントが表示されなくなります。</p>
                 </div>
               </div>
             </div>

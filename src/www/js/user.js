@@ -27,9 +27,10 @@ function setUserProfile(){
 }
 function setUserAccount(){
 	var params = {
-			'login_id'     : $("#area-setUserAccount").find(".form-login_id").val(),
-			'is_r18'       : $("#area-setUserAccount").find(".form-is_r18").prop("checked") ? "1" : "0",
-			'mail_address' : $("#area-setUserAccount").find(".form-mail_address").val(),
+			'login_id'       : $("#area-setUserAccount").find(".form-login_id").val(),
+			'is_r18'         : $("#area-setUserAccount").find(".form-is_r18").prop("checked") ? "1" : "0",
+			'is_hint_hidden' : $("#area-setUserAccount").find(".form-is_hint_hidden").prop("checked") ? "1" : "0",
+			'mail_address'   : $("#area-setUserAccount").find(".form-mail_address").val(),
 		};
 
 	var result = ajaxPost("user", "setAccount", params);

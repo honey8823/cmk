@@ -96,10 +96,7 @@
           </div>
           <div class="form-group">
             <label>説明文</label>
-            <span class="hint-box-toggle">
-              <i class="fa fa-question-circle fa-fw" aria-hidden="true"></i>
-              <p class="hint-box hidden">このステージの簡単な説明です。具体的な内容は「エピソード」機能での追加をおすすめします。</p>
-            </span>
+            <p class="hint-box">このステージの簡単な説明です。具体的な内容は「エピソード」機能での追加をおすすめします。</p>
             <textarea class="form-control form-remarks" rows="3" name="remarks"></textarea>
           </div>
           <div class="form-group">

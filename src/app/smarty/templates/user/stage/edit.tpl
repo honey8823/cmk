@@ -97,10 +97,7 @@
               </div>
               <div class="form-group">
                 <label>説明文</label>
-                <span class="menu-tooltip">
-                  <i class="fa fa-question-circle fa-fw" aria-hidden="true"></i>
-                  <span class="menu-tooltiptext">{$config.tooltip.stage_remarks}</span>
-                </span>
+                <p class="hint-box">このステージの簡単な説明です。具体的な内容は「エピソード」機能での追加をおすすめします。</p>
                 <textarea class="form-control form-remarks" rows="3" name="remarks">{$stage.remarks}</textarea>
               </div>
               <div class="box-body text-align-right">
@@ -219,6 +216,10 @@
                   <p class="hint-box">
                     キャラクターが登録されていません。<br>
                     「キャラクター管理」から登録したキャラクターが選択できるようになります。
+                  </p>
+                {elseif count($stage.relation_list) == 0}
+                  <p class="hint-box">
+                    キャラクターを二人以上登録すると、このステージでの相関図を見ることができます。
                   </p>
                 {/if}
                 </div>

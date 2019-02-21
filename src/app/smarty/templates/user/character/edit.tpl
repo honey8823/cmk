@@ -93,10 +93,7 @@
               <input type="hidden" class="form-id hidden-character_id" value="{$character.id}">
               <div class="form-group">
                 <label>キャラクター名</label>
-                <span class="menu-tooltip">
-                  <i class="fa fa-question-circle fa-fw" aria-hidden="true"></i>
-                  <span class="menu-tooltiptext">{$config.tooltip.character_name}</span>
-                </span>
+                <p class="hint-box">一覧などで表示します。普段の呼び名などでの登録をおすすめします。</p>
                 <input type="text" name="name" class="form-control form-name" value="{$character.name}">
               </div>
               <div class="form-group">
