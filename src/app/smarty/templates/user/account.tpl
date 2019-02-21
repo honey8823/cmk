@@ -179,7 +179,7 @@
 
           <div class="box box-primary collapsed-box"">
             <div class="box-header with-border clickable" data-widget="collapse">
-              <h3 class="box-title">このアカウントに対する操作</h3>
+              <h3 class="box-title">退会する</h3>
             </div>
             <div class="box-body">
               <button type="button" class="btn btn-warning btn-block" onclick="delUser();">退会する</button>
