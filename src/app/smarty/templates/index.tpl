@@ -97,7 +97,7 @@
         <div class="col-md-3">
           <p class="pull-left"><label>公式Twitter</label></p>
           <p class="pull-right"><a href="https://twitter.com/uchinoko_tl?ref_src=twsrc%5Etfw" class="twitter-follow-button" data-show-screen-name="false" data-show-count="false">Follow @uchinoko_tl</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script></p>
-          <a class="twitter-timeline" data-width="100%" data-height="85vh" data-theme="dark" data-link-color="#2B7BB9" href="https://twitter.com/uchinoko_tl?ref_src=twsrc%5Etfw">Tweets by uchinoko_tl</a>
+          <a class="twitter-timeline" data-width="100%" data-height="83vh" data-theme="dark" data-link-color="#2B7BB9" href="https://twitter.com/uchinoko_tl?ref_src=twsrc%5Etfw">Tweets by uchinoko_tl</a>
           <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
         </div>
 
