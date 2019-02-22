@@ -18,6 +18,10 @@
   <div class="content-wrapper">
     <!-- ///////////////////////////////////////////////////// -->
 
+    {if isset($user_session.login_id) && $user_session.login_id == $character.user_login_id}
+      <a href="/user/stage/edit.php?id={$stage.id}{if !isset($stage.episode_id)}#character{/if}"><div class="induction-box"></div></a>
+    {/if}
+
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>{$character.name|escape:'html'}</h1>
@@ -36,7 +40,7 @@
         <div class="col-md-12">
           <div class="box">
             <div class="box-header with-border">
-              <h3 class="box-title">「{$stage.name|escape:'html'}」の「{$character.name|escape:'html'}」</h3>
+              <h3 class="box-title">「{$stage.name|escape:'html'}」{if isset($stage.episode_id)}内エピソード{if isset($stage.episode_title)}「{$stage.episode_title}」{/if}{/if}の「{$character.name|escape:'html'}」</h3>
             </div>
             <div class="box-body">
               <div class="row">

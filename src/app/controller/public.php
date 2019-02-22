@@ -594,6 +594,7 @@ class PublicController extends Common
 			{
 				$sql  = "SELECT   `episode`.`id` ";
 				$sql .= "        ,`episode`.`type` ";
+				$sql .= "        ,`episode`.`title` ";
 				$sql .= "FROM     `episode` ";
 				$sql .= "WHERE    `episode`.`stage_id` = ? ";
 				$sql .= "AND      `episode`.`is_delete` <> 1 ";
@@ -619,6 +620,8 @@ class PublicController extends Common
 					if ($v['id'] == $episode_id)
 					{
 						$is_found = true;
+						$stage_list[0]['episode_id']    = $episode_id;
+						$stage_list[0]['episode_title'] = $v['title'];
 					}
 				}
 

@@ -18,6 +18,10 @@
   <div class="content-wrapper">
     <!-- ///////////////////////////////////////////////////// -->
 
+  {if isset($user_session.login_id) && $user_session.login_id == $user.login_id}
+    <a href="/user/account.php"><div class="induction-box"></div></a>
+  {/if}
+
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <div class="detail-genre">
@@ -34,6 +38,7 @@
 
     <!-- Main content -->
     <section class="content">
+
       <div class="row">
 
         <div class="col-md-12">

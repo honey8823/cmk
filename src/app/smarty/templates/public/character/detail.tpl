@@ -18,6 +18,10 @@
   <div class="content-wrapper">
     <!-- ///////////////////////////////////////////////////// -->
 
+  {if isset($user_session.login_id) && $user_session.login_id == $character.user_login_id}
+    <a href="/user/character/edit.php?id={$character.id}"><div class="induction-box"></div></a>
+  {/if}
+
     <!-- Content Header (Page header) -->
     <section class="content-header">
     {if isset($character.tag_list) && is_array($character.tag_list)}

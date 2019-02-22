@@ -36,3 +36,14 @@
 	color: #999999;
 }
 
+/* 誘導メッセージ */
+.induction-box{
+	padding: 0.5em;
+	background: #39CCCC;
+	margin-bottom: 1em;
+	text-align: center;
+	color: #FFFFFF
+}
+.induction-box::before{
+	content: "他のユーザーからは以下のように見えています。編集したい場合はここをクリックしてください。";
+}
