@@ -226,7 +226,10 @@
                   <div class="box-body no-padding">
                     <ul class="nav nav-stacked ul-character_relation ul-list stage-character_relation-sort-area">
                     {foreach from=$stage.relation_list key=k item=v_relation}
+                      <li class="li-character_relation" data-character_id_from="{$v_relation.character_id_a}" data-character_id_to="{$v_relation.character_id_b}">
+{*
                       <li class="li-character_relation clickable foldable" data-character_id_from="{$v_relation.character_id_a}" data-character_id_to="{$v_relation.character_id_b}">
+*}
                         <a{* href="#" data-toggle="modal" data-target="#modal-upsertCharacterRelation" onclick="setRelationModal({$v_relation.character_id_a},{$v_relation.character_id_b});"*}>
                         {* 表示モード *}
                           <div class="view_mode relation_view_panel">
@@ -265,13 +268,13 @@
                               <p>{$v_relation.character_name_b|escape:'html'}</p>
                             </div>
                           </div>
-
+{*
                           <div class="folder hidden">
                             <button type="button" class="btn btn-xs btn-block btn-default btn-character_edit">「{$v_relation.character_name_a|escape:'html'}」のキャラクターページへ移動</button>
                             <button type="button" class="btn btn-xs btn-block btn-default btn-character_edit">「{$v_relation.character_name_b|escape:'html'}」のキャラクターページへ移動</button>
                             <button type="button" class="btn btn-xs btn-block btn-default btn-override" data-id="{$v_character.id}" data-toggle="modal" data-target="#modal-overrideStage">相関図をオーバーライドする</button>
                           </div>
-
+*}
                         </a>
                       </li>
                     {/foreach}
@@ -364,6 +367,7 @@
   </div>
 
   {* 相関図編集modal *}
+{*
   <div class="modal fade" id="modal-upsertCharacterRelation">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -429,7 +433,7 @@
       </div>
     </div>
   </div>
-
+*}
 {*** 試作メモ
   <!-- エピソード登録modal -->
   <div class="modal fade" id="modal-menuEdit">
