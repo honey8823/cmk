@@ -192,7 +192,6 @@ class Common
 			// アップロードできている
 			$image_info_list = array();
 			$image_info_list['tmp_file_name'] = $files['image']['tmp_name'];
-			$image_info_list['tmp_file_type'] = $files['image']['type'];
 			$image_info_list['x'] = isset($post['image_x']) ? $post['image_x'] : 0;
 			$image_info_list['y'] = isset($post['image_y']) ? $post['image_y'] : 0;
 			if ($is_square)
