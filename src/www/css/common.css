@@ -293,6 +293,10 @@ ul.timeline{
 	max-width: 90%;
 	max-height: 150px;
 }
+.user-image-list{
+	height: 2.5em;
+	margin: 0.1em;
+}
 
 /********/
 /* 全般 */

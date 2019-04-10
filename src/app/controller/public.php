@@ -691,6 +691,57 @@ class PublicController extends Common
 		}
 	}
 
+	public function tableUser($param_list = array())
+	{
+		try
+		{
+			$return_list = array();
+
+			// 取得（ユーザー）
+			$sql  = "SELECT   `user`.`id`  ";
+			$sql .= "        ,`user`.`name` ";
+			$sql .= "        ,`user`.`login_id` ";
+			$sql .= "        ,`user`.`twitter_id` ";
+			$sql .= "        ,`user`.`pixiv_id` ";
+			$sql .= "        ,`user`.`remarks` ";
+			$sql .= "        ,`user`.`image` ";
+			$sql .= "        ,`user`.`login_stamp` ";
+			$sql .= "FROM     `user` ";
+			$sql .= "WHERE    `user`.`is_delete` <> 1 ";
+			$sql .= "ORDER BY `user`.`login_stamp` DESC ";
+			$user_list = common::setArrayKey($this->query($sql), "id");
+
+			// 取得（ジャンル）
+			if (count($user_list) > 0)
+			{
+				$sql  = "SELECT     `user_genre`.`user_id` ";
+				$sql .= "          ,`genre`.`id` ";
+				$sql .= "          ,`genre`.`title` ";
+				$sql .= "FROM       `user_genre` ";
+				$sql .= "INNER JOIN `genre` ON `user_genre`.`genre_id` = `genre`.`id` ";
+				$sql .= "WHERE      `user_genre`.`user_id` IN (" . implode(",", array_fill(0, count($user_list), "?")) . ") ";
+				$sql .= "ORDER BY   `genre`.`sort` ASC ";
+				$arg_list = array_column($user_list, "id");
+				$genre_list = $this->query($sql, $arg_list);
+				foreach ($genre_list as $v)
+				{
+					$user_list[$v['user_id']]['genre_list'][] = array(
+						'id'    => $v['id'],
+						'title' => $v['title'],
+					);
+				}
+			}
+
+			$return_list['user_list'] = $user_list;
+
+			return $return_list;
+		}
+		catch (Exception $e)
+		{
+			$this->exception($e);
+		}
+	}
+
 	public function getUser($param_list = array())
 	{
 		try

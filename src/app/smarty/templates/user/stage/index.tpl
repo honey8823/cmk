@@ -64,6 +64,7 @@
                           <span class="label tag tag-{$v_tag.category_key}">{$v_tag.name_short|escape:'html'}</span>
                         {/foreach}
                         {/if}
+                        </span>
                       </div>
                     </div>
                   </a>
